@@ -38,8 +38,21 @@
 		84C0089016C67E5A00B4F2FD /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C0088316C67E5A00B4F2FD /* SBJsonUTF8Stream.m */; };
 		84C0089116C67E5A00B4F2FD /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C0088516C67E5A00B4F2FD /* SBJsonWriter.m */; };
 		84C008A216C7D92200B4F2FD /* AllStoriesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C008A016C7D92200B4F2FD /* AllStoriesView.m */; };
-		84C008A316C7D92200B4F2FD /* AllStoriesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C008A116C7D92200B4F2FD /* AllStoriesView.xib */; };
 		84C919A816C696DB0024E503 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C919A716C696DB0024E503 /* Request.m */; };
+		84F182AA16CB7BEF00E83957 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182A916CB7BEF00E83957 /* AsyncImageView.m */; };
+		84F182AB16CB7BEF00E83957 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182A916CB7BEF00E83957 /* AsyncImageView.m */; };
+		84F182AE16CB7C0900E83957 /* CloseupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182AD16CB7C0900E83957 /* CloseupViewController.m */; };
+		84F182AF16CB7C0900E83957 /* CloseupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182AD16CB7C0900E83957 /* CloseupViewController.m */; };
+		84F182B416CB7C3B00E83957 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F182B316CB7C3B00E83957 /* MainWindow.xib */; };
+		84F182B516CB7C3B00E83957 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F182B316CB7C3B00E83957 /* MainWindow.xib */; };
+		84F182B716CB7C4C00E83957 /* CloseupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F182B616CB7C4C00E83957 /* CloseupViewController.xib */; };
+		84F182B816CB7C4C00E83957 /* CloseupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F182B616CB7C4C00E83957 /* CloseupViewController.xib */; };
+		84F182BE16CB7C9300E83957 /* ImageCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182BD16CB7C9300E83957 /* ImageCacheObject.m */; };
+		84F182BF16CB7C9300E83957 /* ImageCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182BD16CB7C9300E83957 /* ImageCacheObject.m */; };
+		84F182C216CB7CAA00E83957 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182C116CB7CAA00E83957 /* ImageCache.m */; };
+		84F182C316CB7CAA00E83957 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F182C116CB7CAA00E83957 /* ImageCache.m */; };
+		84F182CA16CB877300E83957 /* AllStoriesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F182C916CB877300E83957 /* AllStoriesView.xib */; };
+		84F182CB16CB877300E83957 /* AllStoriesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F182C916CB877300E83957 /* AllStoriesView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,9 +118,19 @@
 		84C0088516C67E5A00B4F2FD /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		84C0089F16C7D92200B4F2FD /* AllStoriesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllStoriesView.h; sourceTree = "<group>"; };
 		84C008A016C7D92200B4F2FD /* AllStoriesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllStoriesView.m; sourceTree = "<group>"; };
-		84C008A116C7D92200B4F2FD /* AllStoriesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllStoriesView.xib; sourceTree = "<group>"; };
 		84C919A616C696DB0024E503 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
 		84C919A716C696DB0024E503 /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
+		84F182A716CB7BC800E83957 /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
+		84F182A916CB7BEF00E83957 /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
+		84F182AC16CB7BFC00E83957 /* CloseupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloseupViewController.h; sourceTree = "<group>"; };
+		84F182AD16CB7C0900E83957 /* CloseupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloseupViewController.m; sourceTree = "<group>"; };
+		84F182B316CB7C3B00E83957 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		84F182B616CB7C4C00E83957 /* CloseupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CloseupViewController.xib; sourceTree = "<group>"; };
+		84F182BC16CB7C7200E83957 /* ImageCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCacheObject.h; sourceTree = "<group>"; };
+		84F182BD16CB7C9300E83957 /* ImageCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCacheObject.m; sourceTree = "<group>"; };
+		84F182C016CB7CA000E83957 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
+		84F182C116CB7CAA00E83957 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		84F182C916CB877300E83957 /* AllStoriesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllStoriesView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +190,8 @@
 		84C0083116C67C3A00B4F2FD /* OneMyDayIPhone */ = {
 			isa = PBXGroup;
 			children = (
+				84F182CC16CB8DC700E83957 /* Utils */,
+				84F182C416CB7E5800E83957 /* Resources */,
 				84C919A516C696670024E503 /* Model */,
 				84C0089216C7D67F00B4F2FD /* GUI */,
 				84C0086C16C67E3A00B4F2FD /* json */,
@@ -243,15 +268,16 @@
 		84C0089216C7D67F00B4F2FD /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				84F182AD16CB7C0900E83957 /* CloseupViewController.m */,
+				84F182AC16CB7BFC00E83957 /* CloseupViewController.h */,
+				84F182A916CB7BEF00E83957 /* AsyncImageView.m */,
+				84F182A716CB7BC800E83957 /* AsyncImageView.h */,
 				84C0083B16C67C3A00B4F2FD /* AppDelegate.m */,
 				84C0083A16C67C3A00B4F2FD /* AppDelegate.h */,
 				84C0084A16C67C3A00B4F2FD /* ViewController.m */,
 				84C0084916C67C3A00B4F2FD /* ViewController.h */,
-				84C0084616C67C3A00B4F2FD /* MainStoryboard_iPad.storyboard */,
-				84C0084316C67C3A00B4F2FD /* MainStoryboard_iPhone.storyboard */,
 				84C0089F16C7D92200B4F2FD /* AllStoriesView.h */,
 				84C008A016C7D92200B4F2FD /* AllStoriesView.m */,
-				84C008A116C7D92200B4F2FD /* AllStoriesView.xib */,
 			);
 			name = GUI;
 			sourceTree = "<group>";
@@ -265,6 +291,29 @@
 				84BFC93A16C80CAE000B0FD3 /* Story.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		84F182C416CB7E5800E83957 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				84C0084316C67C3A00B4F2FD /* MainStoryboard_iPhone.storyboard */,
+				84C0084616C67C3A00B4F2FD /* MainStoryboard_iPad.storyboard */,
+				84F182B316CB7C3B00E83957 /* MainWindow.xib */,
+				84F182B616CB7C4C00E83957 /* CloseupViewController.xib */,
+				84F182C916CB877300E83957 /* AllStoriesView.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		84F182CC16CB8DC700E83957 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				84F182BC16CB7C7200E83957 /* ImageCacheObject.h */,
+				84F182BD16CB7C9300E83957 /* ImageCacheObject.m */,
+				84F182C016CB7CA000E83957 /* ImageCache.h */,
+				84F182C116CB7CAA00E83957 /* ImageCache.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,7 +393,9 @@
 				84C0084216C67C3A00B4F2FD /* Default-568h@2x.png in Resources */,
 				84C0084516C67C3A00B4F2FD /* MainStoryboard_iPhone.storyboard in Resources */,
 				84C0084816C67C3A00B4F2FD /* MainStoryboard_iPad.storyboard in Resources */,
-				84C008A316C7D92200B4F2FD /* AllStoriesView.xib in Resources */,
+				84F182B416CB7C3B00E83957 /* MainWindow.xib in Resources */,
+				84F182B716CB7C4C00E83957 /* CloseupViewController.xib in Resources */,
+				84F182CA16CB877300E83957 /* AllStoriesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +404,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C0085D16C67C3B00B4F2FD /* InfoPlist.strings in Resources */,
+				84F182B516CB7C3B00E83957 /* MainWindow.xib in Resources */,
+				84F182B816CB7C4C00E83957 /* CloseupViewController.xib in Resources */,
+				84F182CB16CB877300E83957 /* AllStoriesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +451,10 @@
 				84C008A216C7D92200B4F2FD /* AllStoriesView.m in Sources */,
 				84C919A816C696DB0024E503 /* Request.m in Sources */,
 				84BFC93B16C80CAE000B0FD3 /* Story.m in Sources */,
+				84F182AA16CB7BEF00E83957 /* AsyncImageView.m in Sources */,
+				84F182AE16CB7C0900E83957 /* CloseupViewController.m in Sources */,
+				84F182BE16CB7C9300E83957 /* ImageCacheObject.m in Sources */,
+				84F182C216CB7CAA00E83957 /* ImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +463,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C0086016C67C3B00B4F2FD /* OneMyDayIPhoneTests.m in Sources */,
+				84F182AB16CB7BEF00E83957 /* AsyncImageView.m in Sources */,
+				84F182AF16CB7C0900E83957 /* CloseupViewController.m in Sources */,
+				84F182BF16CB7C9300E83957 /* ImageCacheObject.m in Sources */,
+				84F182C316CB7CAA00E83957 /* ImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

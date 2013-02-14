@@ -12,13 +12,13 @@
 
 @implementation Story
 
-@synthesize text = _text;
-@synthesize image = _image;
+@synthesize title = _title;
+@synthesize thumbImageUrl = _thumbImageUrl;
 
-- (id)initWithText:(NSString*)text {
+- (id)initWithTitle:(NSString*)title andImageUrl: (NSString*)thumbImageUrl{
     if ((self = [super init])) {
-        self.text = text;
-        //self.image = image;
+        self.title = title;
+        self.thumbImageUrl = thumbImageUrl;
     }
     return self;
 }

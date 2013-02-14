@@ -10,6 +10,4 @@
 
 @interface AllStoriesView : UITableViewController
 
-@property (strong) NSMutableArray *allStories;
-
 @end

@@ -7,13 +7,13 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "OneMyDayIPhone/AllStoriesView.m"
-         timestampString = "382135969.567119"
+         filePath = "OneMyDayIPhone/Story.m"
+         timestampString = "382456828.425782"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "77"
-         endingLineNumber = "77"
-         landmarkName = "-tableView:cellForRowAtIndexPath:"
+         startingLineNumber = "21"
+         endingLineNumber = "21"
+         landmarkName = "-initWithTitle:andImageUrl:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

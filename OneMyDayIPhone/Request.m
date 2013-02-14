@@ -18,11 +18,14 @@
 
 @implementation Request
 
+NSString *mainUrl = @"http://onemyday.co/";
+
+
 - (id)sendRequest:(NSString*)path data: (NSString*)post{
     
     NSLog(@"PostData: %@",post);
     
-    NSString *urlTxt = [@"http://onemyday.co/"stringByAppendingString: path];
+    NSString *urlTxt = [mainUrl stringByAppendingString: path];
     
     NSURL *url=[NSURL URLWithString: urlTxt];
     
@@ -65,7 +68,7 @@
 
 - (id) getDataFrom:(NSString *)path{
     
-    NSString *url = [@"http://onemyday.co/"stringByAppendingString: path];
+    NSString *url = [mainUrl stringByAppendingString: path];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setHTTPMethod:@"GET"];
     [request setURL:[NSURL URLWithString:url]];
@@ -111,10 +114,25 @@
     
     NSDictionary *jsonData = [self getDataFrom: path];
     NSMutableArray *allStories = [NSMutableArray array];
+    
     for (NSDictionary *story in jsonData) {
+        
         NSString *title = (NSString *) [story objectForKey:@"title"];
-        [allStories addObject:[[Story alloc] initWithText:title ]];
+        NSLog(@"title %@",title);
+        NSDictionary *images = (NSDictionary*) [story objectForKey:@"story_photos"];
+        
+        for (NSDictionary *photo  in images) {
+            NSDictionary *photo_urls = (NSDictionary *) [photo objectForKey:@"photo_urls"];
+            //NSLog(@"photo_urls %@",photo_urls);
+            NSString *image = (NSString*) [photo_urls objectForKey:@"thumb_url"];
+            NSLog(@"image %@",image);
+            [allStories addObject:[[Story alloc] initWithTitle:title andImageUrl: image]];
+            break;
+            
+        }
     }
+    
+    
      
     //AllStoriesView *controller = [[AllStoriesView alloc] init];
     //controller.allStories = allStories;

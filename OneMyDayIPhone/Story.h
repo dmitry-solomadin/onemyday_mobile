@@ -10,9 +10,9 @@
 
 @interface Story : NSObject
 
-@property (strong) NSString *text;
-@property (strong) UIImage *image;
+@property (strong) NSString *title;
+@property (strong) NSString *thumbImageUrl;
 
-- (id)initWithText:(NSString*)text;
+- (id)initWithTitle:(NSString*)title andImageUrl: (NSString*)thumbImageUrl;
 
 @end

@@ -1,0 +1,642 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		844DFA5E16CFB66F00884637 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5D16CFB66F00884637 /* UIKit.framework */; };
+		844DFA6016CFB66F00884637 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5F16CFB66F00884637 /* Foundation.framework */; };
+		844DFA6216CFB66F00884637 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA6116CFB66F00884637 /* CoreGraphics.framework */; };
+		844DFA6816CFB66F00884637 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA6616CFB66F00884637 /* InfoPlist.strings */; };
+		844DFA6A16CFB66F00884637 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA6916CFB66F00884637 /* main.m */; };
+		844DFA6E16CFB66F00884637 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA6D16CFB66F00884637 /* AppDelegate.m */; };
+		844DFA7016CFB66F00884637 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA6F16CFB66F00884637 /* Default.png */; };
+		844DFA7216CFB66F00884637 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7116CFB66F00884637 /* Default@2x.png */; };
+		844DFA7416CFB66F00884637 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7316CFB66F00884637 /* Default-568h@2x.png */; };
+		844DFA7716CFB66F00884637 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7516CFB66F00884637 /* MainStoryboard_iPhone.storyboard */; };
+		844DFA7A16CFB66F00884637 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7816CFB66F00884637 /* MainStoryboard_iPad.storyboard */; };
+		844DFA7D16CFB66F00884637 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA7C16CFB66F00884637 /* MasterViewController.m */; };
+		844DFA8016CFB66F00884637 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA7F16CFB66F00884637 /* DetailViewController.m */; };
+		844DFA8816CFB67000884637 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA8716CFB67000884637 /* SenTestingKit.framework */; };
+		844DFA8916CFB67000884637 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5D16CFB66F00884637 /* UIKit.framework */; };
+		844DFA8A16CFB67000884637 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5F16CFB66F00884637 /* Foundation.framework */; };
+		844DFA9216CFB67000884637 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA9016CFB67000884637 /* InfoPlist.strings */; };
+		844DFA9516CFB67000884637 /* OneMyDayIPhoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */; };
+		84DD61D916D019ED0049B78B /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginView.xib */; };
+		84DD61DA16D019ED0049B78B /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginView.xib */; };
+		84E701A216D76D5100979856 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701A116D76D5100979856 /* LoginViewController.m */; };
+		84E701A916D76EEB00979856 /* ImageCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701A816D76EEB00979856 /* ImageCacheObject.m */; };
+		84E701AA16D76EEB00979856 /* ImageCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701A816D76EEB00979856 /* ImageCacheObject.m */; };
+		84E701AD16D76EF800979856 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701AC16D76EF800979856 /* ImageCache.m */; };
+		84E701B116D76F2100979856 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701B016D76F2100979856 /* Request.m */; };
+		84E701B416D76F3600979856 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701B316D76F3600979856 /* Story.m */; };
+		84E701B616D76F5F00979856 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701B516D76F5F00979856 /* AsyncImageView.m */; };
+		84E701D516D7701200979856 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701BD16D7701200979856 /* NSObject+SBJson.m */; };
+		84E701D616D7701200979856 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701C016D7701200979856 /* SBJsonParser.m */; };
+		84E701D716D7701200979856 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701C216D7701200979856 /* SBJsonStreamParser.m */; };
+		84E701D816D7701200979856 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701C416D7701200979856 /* SBJsonStreamParserAccumulator.m */; };
+		84E701D916D7701200979856 /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701C616D7701200979856 /* SBJsonStreamParserAdapter.m */; };
+		84E701DA16D7701200979856 /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701C816D7701200979856 /* SBJsonStreamParserState.m */; };
+		84E701DB16D7701200979856 /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701CA16D7701200979856 /* SBJsonStreamWriter.m */; };
+		84E701DC16D7701200979856 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701CC16D7701200979856 /* SBJsonStreamWriterAccumulator.m */; };
+		84E701DD16D7701200979856 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701CE16D7701200979856 /* SBJsonStreamWriterState.m */; };
+		84E701DE16D7701200979856 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701D016D7701200979856 /* SBJsonTokeniser.m */; };
+		84E701DF16D7701200979856 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701D216D7701200979856 /* SBJsonUTF8Stream.m */; };
+		84E701E016D7701200979856 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701D416D7701200979856 /* SBJsonWriter.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		844DFA8B16CFB67000884637 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 844DFA5016CFB66F00884637 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 844DFA5816CFB66F00884637;
+			remoteInfo = OneMyDayIPhone;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		844DFA5916CFB66F00884637 /* OneMyDayIPhone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneMyDayIPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		844DFA5D16CFB66F00884637 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		844DFA5F16CFB66F00884637 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		844DFA6116CFB66F00884637 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneMyDayIPhone-Info.plist"; sourceTree = "<group>"; };
+		844DFA6716CFB66F00884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		844DFA6916CFB66F00884637 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneMyDayIPhone-Prefix.pch"; sourceTree = "<group>"; };
+		844DFA6C16CFB66F00884637 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		844DFA6D16CFB66F00884637 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		844DFA6F16CFB66F00884637 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		844DFA7116CFB66F00884637 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		844DFA7316CFB66F00884637 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		844DFA7616CFB66F00884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		844DFA7916CFB66F00884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		844DFA7B16CFB66F00884637 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		844DFA7C16CFB66F00884637 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		844DFA7E16CFB66F00884637 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		844DFA7F16CFB66F00884637 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		844DFA8616CFB67000884637 /* OneMyDayIPhoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneMyDayIPhoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		844DFA8716CFB67000884637 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		844DFA8F16CFB67000884637 /* OneMyDayIPhoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneMyDayIPhoneTests-Info.plist"; sourceTree = "<group>"; };
+		844DFA9116CFB67000884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		844DFA9316CFB67000884637 /* OneMyDayIPhoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneMyDayIPhoneTests.h; sourceTree = "<group>"; };
+		844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneMyDayIPhoneTests.m; sourceTree = "<group>"; };
+		84DD61D816D019ED0049B78B /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		84E701A016D76D5100979856 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		84E701A116D76D5100979856 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		84E701A716D76EE200979856 /* ImageCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCacheObject.h; sourceTree = "<group>"; };
+		84E701A816D76EEB00979856 /* ImageCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCacheObject.m; sourceTree = "<group>"; };
+		84E701AB16D76EF200979856 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
+		84E701AC16D76EF800979856 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		84E701AF16D76F1900979856 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
+		84E701B016D76F2100979856 /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
+		84E701B216D76F2C00979856 /* Story.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
+		84E701B316D76F3600979856 /* Story.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
+		84E701B516D76F5F00979856 /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
+		84E701B716D76F6B00979856 /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
+		84E701BC16D7701200979856 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
+		84E701BD16D7701200979856 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
+		84E701BE16D7701200979856 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
+		84E701BF16D7701200979856 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		84E701C016D7701200979856 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		84E701C116D7701200979856 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		84E701C216D7701200979856 /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParser.m; sourceTree = "<group>"; };
+		84E701C316D7701200979856 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		84E701C416D7701200979856 /* SBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
+		84E701C516D7701200979856 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		84E701C616D7701200979856 /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
+		84E701C716D7701200979856 /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserState.h; sourceTree = "<group>"; };
+		84E701C816D7701200979856 /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserState.m; sourceTree = "<group>"; };
+		84E701C916D7701200979856 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		84E701CA16D7701200979856 /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriter.m; sourceTree = "<group>"; };
+		84E701CB16D7701200979856 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		84E701CC16D7701200979856 /* SBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
+		84E701CD16D7701200979856 /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterState.h; sourceTree = "<group>"; };
+		84E701CE16D7701200979856 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
+		84E701CF16D7701200979856 /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonTokeniser.h; sourceTree = "<group>"; };
+		84E701D016D7701200979856 /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonTokeniser.m; sourceTree = "<group>"; };
+		84E701D116D7701200979856 /* SBJsonUTF8Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonUTF8Stream.h; sourceTree = "<group>"; };
+		84E701D216D7701200979856 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
+		84E701D316D7701200979856 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		84E701D416D7701200979856 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		844DFA5616CFB66F00884637 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844DFA5E16CFB66F00884637 /* UIKit.framework in Frameworks */,
+				844DFA6016CFB66F00884637 /* Foundation.framework in Frameworks */,
+				844DFA6216CFB66F00884637 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844DFA8216CFB67000884637 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844DFA8816CFB67000884637 /* SenTestingKit.framework in Frameworks */,
+				844DFA8916CFB67000884637 /* UIKit.framework in Frameworks */,
+				844DFA8A16CFB67000884637 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		844DFA4E16CFB66F00884637 = {
+			isa = PBXGroup;
+			children = (
+				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
+				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
+				844DFA5C16CFB66F00884637 /* Frameworks */,
+				844DFA5A16CFB66F00884637 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		844DFA5A16CFB66F00884637 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				844DFA5916CFB66F00884637 /* OneMyDayIPhone.app */,
+				844DFA8616CFB67000884637 /* OneMyDayIPhoneTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		844DFA5C16CFB66F00884637 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				844DFA5D16CFB66F00884637 /* UIKit.framework */,
+				844DFA5F16CFB66F00884637 /* Foundation.framework */,
+				844DFA6116CFB66F00884637 /* CoreGraphics.framework */,
+				844DFA8716CFB67000884637 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		844DFA6316CFB66F00884637 /* OneMyDayIPhone */ = {
+			isa = PBXGroup;
+			children = (
+				84E701BB16D76FEC00979856 /* json */,
+				84E701AE16D76F0000979856 /* Model */,
+				84E701A616D76EB900979856 /* Utils */,
+				84E701A416D76E3500979856 /* GUI */,
+				844DFA6C16CFB66F00884637 /* AppDelegate.h */,
+				844DFA6D16CFB66F00884637 /* AppDelegate.m */,
+				844DFA6416CFB66F00884637 /* Supporting Files */,
+			);
+			path = OneMyDayIPhone;
+			sourceTree = "<group>";
+		};
+		844DFA6416CFB66F00884637 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */,
+				844DFA6616CFB66F00884637 /* InfoPlist.strings */,
+				844DFA6916CFB66F00884637 /* main.m */,
+				844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */,
+				844DFA6F16CFB66F00884637 /* Default.png */,
+				844DFA7116CFB66F00884637 /* Default@2x.png */,
+				844DFA7316CFB66F00884637 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */ = {
+			isa = PBXGroup;
+			children = (
+				844DFA9316CFB67000884637 /* OneMyDayIPhoneTests.h */,
+				844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */,
+				844DFA8E16CFB67000884637 /* Supporting Files */,
+			);
+			path = OneMyDayIPhoneTests;
+			sourceTree = "<group>";
+		};
+		844DFA8E16CFB67000884637 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				844DFA8F16CFB67000884637 /* OneMyDayIPhoneTests-Info.plist */,
+				844DFA9016CFB67000884637 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84E701A416D76E3500979856 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				84E701B716D76F6B00979856 /* AsyncImageView.h */,
+				84E701B516D76F5F00979856 /* AsyncImageView.m */,
+				84E701A516D76E8A00979856 /* Resources */,
+				84E701A116D76D5100979856 /* LoginViewController.m */,
+				84E701A016D76D5100979856 /* LoginViewController.h */,
+				844DFA7E16CFB66F00884637 /* DetailViewController.h */,
+				844DFA7C16CFB66F00884637 /* MasterViewController.m */,
+				844DFA7B16CFB66F00884637 /* MasterViewController.h */,
+				844DFA7F16CFB66F00884637 /* DetailViewController.m */,
+			);
+			name = GUI;
+			sourceTree = "<group>";
+		};
+		84E701A516D76E8A00979856 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				844DFA7516CFB66F00884637 /* MainStoryboard_iPhone.storyboard */,
+				844DFA7816CFB66F00884637 /* MainStoryboard_iPad.storyboard */,
+				84DD61D816D019ED0049B78B /* LoginView.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		84E701A616D76EB900979856 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				84E701AC16D76EF800979856 /* ImageCache.m */,
+				84E701AB16D76EF200979856 /* ImageCache.h */,
+				84E701A816D76EEB00979856 /* ImageCacheObject.m */,
+				84E701A716D76EE200979856 /* ImageCacheObject.h */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		84E701AE16D76F0000979856 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84E701B316D76F3600979856 /* Story.m */,
+				84E701B216D76F2C00979856 /* Story.h */,
+				84E701B016D76F2100979856 /* Request.m */,
+				84E701AF16D76F1900979856 /* Request.h */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		84E701BB16D76FEC00979856 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				84E701BC16D7701200979856 /* NSObject+SBJson.h */,
+				84E701BD16D7701200979856 /* NSObject+SBJson.m */,
+				84E701BE16D7701200979856 /* SBJson.h */,
+				84E701BF16D7701200979856 /* SBJsonParser.h */,
+				84E701C016D7701200979856 /* SBJsonParser.m */,
+				84E701C116D7701200979856 /* SBJsonStreamParser.h */,
+				84E701C216D7701200979856 /* SBJsonStreamParser.m */,
+				84E701C316D7701200979856 /* SBJsonStreamParserAccumulator.h */,
+				84E701C416D7701200979856 /* SBJsonStreamParserAccumulator.m */,
+				84E701C516D7701200979856 /* SBJsonStreamParserAdapter.h */,
+				84E701C616D7701200979856 /* SBJsonStreamParserAdapter.m */,
+				84E701C716D7701200979856 /* SBJsonStreamParserState.h */,
+				84E701C816D7701200979856 /* SBJsonStreamParserState.m */,
+				84E701C916D7701200979856 /* SBJsonStreamWriter.h */,
+				84E701CA16D7701200979856 /* SBJsonStreamWriter.m */,
+				84E701CB16D7701200979856 /* SBJsonStreamWriterAccumulator.h */,
+				84E701CC16D7701200979856 /* SBJsonStreamWriterAccumulator.m */,
+				84E701CD16D7701200979856 /* SBJsonStreamWriterState.h */,
+				84E701CE16D7701200979856 /* SBJsonStreamWriterState.m */,
+				84E701CF16D7701200979856 /* SBJsonTokeniser.h */,
+				84E701D016D7701200979856 /* SBJsonTokeniser.m */,
+				84E701D116D7701200979856 /* SBJsonUTF8Stream.h */,
+				84E701D216D7701200979856 /* SBJsonUTF8Stream.m */,
+				84E701D316D7701200979856 /* SBJsonWriter.h */,
+				84E701D416D7701200979856 /* SBJsonWriter.m */,
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		844DFA5816CFB66F00884637 /* OneMyDayIPhone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 844DFA9816CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhone" */;
+			buildPhases = (
+				844DFA5516CFB66F00884637 /* Sources */,
+				844DFA5616CFB66F00884637 /* Frameworks */,
+				844DFA5716CFB66F00884637 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneMyDayIPhone;
+			productName = OneMyDayIPhone;
+			productReference = 844DFA5916CFB66F00884637 /* OneMyDayIPhone.app */;
+			productType = "com.apple.product-type.application";
+		};
+		844DFA8516CFB67000884637 /* OneMyDayIPhoneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 844DFA9B16CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhoneTests" */;
+			buildPhases = (
+				844DFA8116CFB67000884637 /* Sources */,
+				844DFA8216CFB67000884637 /* Frameworks */,
+				844DFA8316CFB67000884637 /* Resources */,
+				844DFA8416CFB67000884637 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				844DFA8C16CFB67000884637 /* PBXTargetDependency */,
+			);
+			name = OneMyDayIPhoneTests;
+			productName = OneMyDayIPhoneTests;
+			productReference = 844DFA8616CFB67000884637 /* OneMyDayIPhoneTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		844DFA5016CFB66F00884637 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = Admin;
+			};
+			buildConfigurationList = 844DFA5316CFB66F00884637 /* Build configuration list for PBXProject "OneMyDayIPhone" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 844DFA4E16CFB66F00884637;
+			productRefGroup = 844DFA5A16CFB66F00884637 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				844DFA5816CFB66F00884637 /* OneMyDayIPhone */,
+				844DFA8516CFB67000884637 /* OneMyDayIPhoneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		844DFA5716CFB66F00884637 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844DFA6816CFB66F00884637 /* InfoPlist.strings in Resources */,
+				844DFA7016CFB66F00884637 /* Default.png in Resources */,
+				844DFA7216CFB66F00884637 /* Default@2x.png in Resources */,
+				844DFA7416CFB66F00884637 /* Default-568h@2x.png in Resources */,
+				844DFA7716CFB66F00884637 /* MainStoryboard_iPhone.storyboard in Resources */,
+				844DFA7A16CFB66F00884637 /* MainStoryboard_iPad.storyboard in Resources */,
+				84DD61D916D019ED0049B78B /* LoginView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844DFA8316CFB67000884637 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844DFA9216CFB67000884637 /* InfoPlist.strings in Resources */,
+				84DD61DA16D019ED0049B78B /* LoginView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		844DFA8416CFB67000884637 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		844DFA5516CFB66F00884637 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844DFA6A16CFB66F00884637 /* main.m in Sources */,
+				844DFA6E16CFB66F00884637 /* AppDelegate.m in Sources */,
+				844DFA7D16CFB66F00884637 /* MasterViewController.m in Sources */,
+				844DFA8016CFB66F00884637 /* DetailViewController.m in Sources */,
+				84E701A216D76D5100979856 /* LoginViewController.m in Sources */,
+				84E701A916D76EEB00979856 /* ImageCacheObject.m in Sources */,
+				84E701AD16D76EF800979856 /* ImageCache.m in Sources */,
+				84E701B116D76F2100979856 /* Request.m in Sources */,
+				84E701B416D76F3600979856 /* Story.m in Sources */,
+				84E701B616D76F5F00979856 /* AsyncImageView.m in Sources */,
+				84E701D516D7701200979856 /* NSObject+SBJson.m in Sources */,
+				84E701D616D7701200979856 /* SBJsonParser.m in Sources */,
+				84E701D716D7701200979856 /* SBJsonStreamParser.m in Sources */,
+				84E701D816D7701200979856 /* SBJsonStreamParserAccumulator.m in Sources */,
+				84E701D916D7701200979856 /* SBJsonStreamParserAdapter.m in Sources */,
+				84E701DA16D7701200979856 /* SBJsonStreamParserState.m in Sources */,
+				84E701DB16D7701200979856 /* SBJsonStreamWriter.m in Sources */,
+				84E701DC16D7701200979856 /* SBJsonStreamWriterAccumulator.m in Sources */,
+				84E701DD16D7701200979856 /* SBJsonStreamWriterState.m in Sources */,
+				84E701DE16D7701200979856 /* SBJsonTokeniser.m in Sources */,
+				84E701DF16D7701200979856 /* SBJsonUTF8Stream.m in Sources */,
+				84E701E016D7701200979856 /* SBJsonWriter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844DFA8116CFB67000884637 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844DFA9516CFB67000884637 /* OneMyDayIPhoneTests.m in Sources */,
+				84E701AA16D76EEB00979856 /* ImageCacheObject.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		844DFA8C16CFB67000884637 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 844DFA5816CFB66F00884637 /* OneMyDayIPhone */;
+			targetProxy = 844DFA8B16CFB67000884637 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		844DFA6616CFB66F00884637 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				844DFA6716CFB66F00884637 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		844DFA7516CFB66F00884637 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				844DFA7616CFB66F00884637 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		844DFA7816CFB66F00884637 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				844DFA7916CFB66F00884637 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		844DFA9016CFB67000884637 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				844DFA9116CFB67000884637 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		844DFA9616CFB67000884637 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		844DFA9716CFB67000884637 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		844DFA9916CFB67000884637 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
+				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		844DFA9A16CFB67000884637 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
+				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		844DFA9C16CFB67000884637 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OneMyDayIPhone.app/OneMyDayIPhone";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
+				INFOPLIST_FILE = "OneMyDayIPhoneTests/OneMyDayIPhoneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		844DFA9D16CFB67000884637 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OneMyDayIPhone.app/OneMyDayIPhone";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
+				INFOPLIST_FILE = "OneMyDayIPhoneTests/OneMyDayIPhoneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		844DFA5316CFB66F00884637 /* Build configuration list for PBXProject "OneMyDayIPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844DFA9616CFB67000884637 /* Debug */,
+				844DFA9716CFB67000884637 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		844DFA9816CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844DFA9916CFB67000884637 /* Debug */,
+				844DFA9A16CFB67000884637 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		844DFA9B16CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhoneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844DFA9C16CFB67000884637 /* Debug */,
+				844DFA9D16CFB67000884637 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 844DFA5016CFB66F00884637 /* Project object */;
+}

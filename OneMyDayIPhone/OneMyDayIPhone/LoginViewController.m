@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-#import "MasterViewController.h"
+#import "NewMasterViewController.h"
 #import "Request.h"
 
 @interface LoginViewController ()
@@ -16,52 +16,29 @@
 
 @implementation LoginViewController
 
-@synthesize txtEmail;
-@synthesize txtPassword;
-
-MasterViewController *allStoriesView;
-
-/*- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}*/
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	self.navigationItem.hidesBackButton = YES;
-    self.title = @"Authorization";
-}
-
+@synthesize txtEmail, txtPassword;
 
 - (void) alertStatus:(NSString *)msg :(NSString *) title
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:msg
+                                                       delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
 }
 
 - (IBAction)loginClick:(id)sender {
     @try {
-        
         if([[txtEmail text] isEqualToString:@""] || [[txtPassword text] isEqualToString:@""] ) {
             [self alertStatus:@"Please enter both Email and Password" :@"Login Failed!"];
         } else {
-            
             NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
             NSString *userId = [[Request alloc] loginRequest: postString];
             
             NSLog(@"userId = %@", userId);
             
-            /*allStoriesView = [[AllStoriesView alloc]
-                              initWithNibName:@"AllStoriesView"
-                              bundle:nil];
-            [self.view addSubview:allStoriesView.view];*/
-            
-            [self.navigationController popToRootViewControllerAnimated:NO];
+            NewMasterViewController *mvc = [[NewMasterViewController alloc] init];
+            [self presentViewController:mvc animated:YES completion:nil];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            //[self.navigationController popToRootViewControllerAnimated:NO];
         }
     }
     @catch (NSException * e) {
@@ -70,33 +47,7 @@ MasterViewController *allStoriesView;
     }
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
+// TODO. Not sure we need this
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -107,5 +58,16 @@ MasterViewController *allStoriesView;
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [super viewWillDisappear:animated];
+}
 
 @end

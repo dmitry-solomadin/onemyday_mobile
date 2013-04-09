@@ -19,8 +19,6 @@
 
 @synthesize detailView = _detailView;
 
-#pragma mark - Managing the detail item
-
 - (void)setDetailItem:(id)newDetailItem
 {
     if (_story != newDetailItem) {

@@ -14,5 +14,6 @@
 @property (strong) NSArray *photos;
 
 - (id)initWithTitle:(NSString*)title andPhotos: (NSArray*)photos;
+- (id)extractPhotoUrlType:(NSString*)type atIndex:(int)index;
 
 @end

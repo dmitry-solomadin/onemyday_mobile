@@ -124,11 +124,8 @@ NSString *mainUrl = @"http://onemyday.co/";
         
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
-        for (NSDictionary *photo in photos)
-        {
-            
+        for (NSDictionary *photo in photos) {
             [photoArray addObject:photo];
-            
         }
         //NSArray * photoArray = [photos allValues];
         [allStories addObject:[[Story alloc] initWithTitle:title andPhotos: (NSArray*)photos]];
@@ -144,17 +141,12 @@ NSString *mainUrl = @"http://onemyday.co/";
             
         }*/
     }
-    
-    
-     
     //AllStoriesView *controller = [[AllStoriesView alloc] init];
     //controller.allStories = allStories;
-    
+
     //NSString *error_msg = (NSString *) [jsonData objectForKey:@"error_message"];
     //NSLog(@"Get stories Failed! %@",error_msg);
     return allStories;
-    
 }
-
 
 @end

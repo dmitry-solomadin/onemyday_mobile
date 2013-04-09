@@ -48,7 +48,6 @@
 		844DFA7416CFB66F00884637 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7316CFB66F00884637 /* Default-568h@2x.png */; };
 		844DFA7716CFB66F00884637 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7516CFB66F00884637 /* MainStoryboard_iPhone.storyboard */; };
 		844DFA7A16CFB66F00884637 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7816CFB66F00884637 /* MainStoryboard_iPad.storyboard */; };
-		844DFA7D16CFB66F00884637 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA7C16CFB66F00884637 /* MasterViewController.m */; };
 		844DFA8016CFB66F00884637 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA7F16CFB66F00884637 /* DetailViewController.m */; };
 		844DFA8816CFB67000884637 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA8716CFB67000884637 /* SenTestingKit.framework */; };
 		844DFA8916CFB67000884637 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5D16CFB66F00884637 /* UIKit.framework */; };
@@ -122,8 +121,6 @@
 		844DFA7316CFB66F00884637 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		844DFA7616CFB66F00884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		844DFA7916CFB66F00884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		844DFA7B16CFB66F00884637 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		844DFA7C16CFB66F00884637 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		844DFA7E16CFB66F00884637 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		844DFA7F16CFB66F00884637 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		844DFA8616CFB67000884637 /* OneMyDayIPhoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneMyDayIPhoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,8 +173,6 @@
 			children = (
 				84E701A116D76D5100979856 /* LoginViewController.m */,
 				84E701A016D76D5100979856 /* LoginViewController.h */,
-				844DFA7C16CFB66F00884637 /* MasterViewController.m */,
-				844DFA7B16CFB66F00884637 /* MasterViewController.h */,
 				844DFA7E16CFB66F00884637 /* DetailViewController.h */,
 				844DFA7F16CFB66F00884637 /* DetailViewController.m */,
 				18F98FEF17137A1A00D8F7A3 /* NewMasterViewController.h */,
@@ -450,7 +445,6 @@
 			files = (
 				844DFA6A16CFB66F00884637 /* main.m in Sources */,
 				844DFA6E16CFB66F00884637 /* AppDelegate.m in Sources */,
-				844DFA7D16CFB66F00884637 /* MasterViewController.m in Sources */,
 				844DFA8016CFB66F00884637 /* DetailViewController.m in Sources */,
 				84E701A216D76D5100979856 /* LoginViewController.m in Sources */,
 				84E701A916D76EEB00979856 /* ImageCacheObject.m in Sources */,

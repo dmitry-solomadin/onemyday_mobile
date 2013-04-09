@@ -21,6 +21,9 @@
         
         NSURL *url = [[self story] extractPhotoUrlType:@"thumb_url" atIndex:0];
         [asyncImageView loadImageFromURL:url];
+        asyncImageView.loaded = ^void(UIImageView *imageView) {
+            [imageView setBackgroundColor: [UIColor grayColor]];
+        };
         
         [self addSubview:asyncImageView];
     }

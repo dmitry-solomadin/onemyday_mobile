@@ -10,6 +10,7 @@
 #import "NewMasterViewController.h"
 #import "Request.h"
 
+
 @interface LoginViewController ()
 
 @end
@@ -46,6 +47,8 @@
         [self alertStatus:@"Login Failed." :@"Login Failed!"];
     }
 }
+
+
 
 // TODO. Not sure we need this
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

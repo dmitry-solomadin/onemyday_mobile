@@ -9,7 +9,6 @@
 #import "Request.h"
 #import "SBJson.h"
 #import "Story.h"
-#import "MasterViewController.h"
 
 @interface NSURLRequest (DummyInterface)
 + (BOOL)allowsAnyHTTPSCertificateForHost:(NSString*)host;

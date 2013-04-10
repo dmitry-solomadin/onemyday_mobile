@@ -51,6 +51,14 @@
 		844DFA8A16CFB67000884637 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5F16CFB66F00884637 /* Foundation.framework */; };
 		844DFA9216CFB67000884637 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA9016CFB67000884637 /* InfoPlist.strings */; };
 		844DFA9516CFB67000884637 /* OneMyDayIPhoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */; };
+		84A031D217158EFD0098B201 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031D117158EFD0098B201 /* FacebookSDK.framework */; };
+		84A031E3171599A50098B201 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E2171599A50098B201 /* AdSupport.framework */; };
+		84A031E5171599AB0098B201 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E4171599AB0098B201 /* Accounts.framework */; };
+		84A031E7171599BB0098B201 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E6171599BB0098B201 /* Social.framework */; };
+		84A031E917159B000098B201 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E817159B000098B201 /* libsqlite3.dylib */; };
+		84A031ED1715A5F50098B201 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A031EB1715A5F30098B201 /* StartViewController.m */; };
+		84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84A031EC1715A5F40098B201 /* StartViewController.xib */; };
+		84A031F01715A7040098B201 /* onemyday.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A031EF1715A7040098B201 /* onemyday.png */; };
 		84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
 		84DD61DA16D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
 		84E701A216D76D5100979856 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701A116D76D5100979856 /* LoginViewController.m */; };
@@ -125,6 +133,15 @@
 		844DFA9116CFB67000884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		844DFA9316CFB67000884637 /* OneMyDayIPhoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneMyDayIPhoneTests.h; sourceTree = "<group>"; };
 		844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneMyDayIPhoneTests.m; sourceTree = "<group>"; };
+		84A031D117158EFD0098B201 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		84A031E2171599A50098B201 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		84A031E4171599AB0098B201 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		84A031E6171599BB0098B201 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		84A031E817159B000098B201 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		84A031EA1715A5F20098B201 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
+		84A031EB1715A5F30098B201 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		84A031EC1715A5F40098B201 /* StartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartViewController.xib; sourceTree = "<group>"; };
+		84A031EF1715A7040098B201 /* onemyday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemyday.png; sourceTree = "<group>"; };
 		84DD61D816D019ED0049B78B /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		84E701A016D76D5100979856 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		84E701A116D76D5100979856 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -145,9 +162,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84A031E917159B000098B201 /* libsqlite3.dylib in Frameworks */,
+				84A031E7171599BB0098B201 /* Social.framework in Frameworks */,
+				84A031E5171599AB0098B201 /* Accounts.framework in Frameworks */,
+				84A031E3171599A50098B201 /* AdSupport.framework in Frameworks */,
 				844DFA5E16CFB66F00884637 /* UIKit.framework in Frameworks */,
 				844DFA6016CFB66F00884637 /* Foundation.framework in Frameworks */,
 				844DFA6216CFB66F00884637 /* CoreGraphics.framework in Frameworks */,
+				84A031D217158EFD0098B201 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +197,8 @@
 				18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */,
 				18E24211171578B000435FBE /* ShowStoryViewController.h */,
 				18E24212171578B000435FBE /* ShowStoryViewController.m */,
+				84A031EA1715A5F20098B201 /* StartViewController.h */,
+				84A031EB1715A5F30098B201 /* StartViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -214,6 +238,10 @@
 		844DFA4E16CFB66F00884637 = {
 			isa = PBXGroup;
 			children = (
+				84A031E817159B000098B201 /* libsqlite3.dylib */,
+				84A031E6171599BB0098B201 /* Social.framework */,
+				84A031E4171599AB0098B201 /* Accounts.framework */,
+				84A031E2171599A50098B201 /* AdSupport.framework */,
 				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
 				844DFA5C16CFB66F00884637 /* Frameworks */,
@@ -233,6 +261,7 @@
 		844DFA5C16CFB66F00884637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84A031D117158EFD0098B201 /* FacebookSDK.framework */,
 				844DFA5D16CFB66F00884637 /* UIKit.framework */,
 				844DFA5F16CFB66F00884637 /* Foundation.framework */,
 				844DFA6116CFB66F00884637 /* CoreGraphics.framework */,
@@ -262,6 +291,7 @@
 				844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */,
 				844DFA6616CFB66F00884637 /* InfoPlist.strings */,
 				844DFA6916CFB66F00884637 /* main.m */,
+				84A031EF1715A7040098B201 /* onemyday.png */,
 				844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */,
 				844DFA6F16CFB66F00884637 /* Default.png */,
 				844DFA7116CFB66F00884637 /* Default@2x.png */,
@@ -292,7 +322,8 @@
 		84E701A416D76E3500979856 /* GUI */ = {
 			isa = PBXGroup;
 			children = (
-				84DD61D816D019ED0049B78B /* LoginViewController.xib */,
+				84A031EC1715A5F40098B201 /* StartViewController.xib */,
+			    84DD61D816D019ED0049B78B /* LoginViewController.xib */,
 			);
 			name = GUI;
 			sourceTree = "<group>";
@@ -399,6 +430,8 @@
 				844DFA7216CFB66F00884637 /* Default@2x.png in Resources */,
 				844DFA7416CFB66F00884637 /* Default-568h@2x.png in Resources */,
 				84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */,
+				84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */,
+				84A031F01715A7040098B201 /* onemyday.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +491,7 @@
 				18F98FFB1713865D00D8F7A3 /* ThumbStoryView.m in Sources */,
 				18E24213171578B000435FBE /* ShowStoryViewController.m in Sources */,
 				18E24216171583F100435FBE /* StoryStore.m in Sources */,
+				84A031ED1715A5F50098B201 /* StartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +603,10 @@
 		844DFA9916CFB67000884637 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
 				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";
@@ -580,6 +618,10 @@
 		844DFA9A16CFB67000884637 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
 				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";

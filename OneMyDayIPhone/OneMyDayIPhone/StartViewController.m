@@ -9,7 +9,6 @@
 #import "StartViewController.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
-#import "NewMasterViewController.h"
 #import "Request.h"
 
 @interface StartViewController ()
@@ -49,8 +48,6 @@
             }];
         }
     }
-    
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,13 +103,10 @@
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (appDelegate.session.isOpen) {
         // valid account UI is shown whenever the session is open
-              
-        NewMasterViewController *mvc = [[NewMasterViewController alloc] init];
-        [self presentViewController:mvc animated:YES completion:nil];
+        
+        UIViewController *masterController = [AppDelegate initMasterController];
+        [self presentViewController:masterController animated:YES completion:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
-        
-        
-        
     } 
 }
 @end

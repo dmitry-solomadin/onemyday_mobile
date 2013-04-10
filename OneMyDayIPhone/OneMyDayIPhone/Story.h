@@ -10,10 +10,11 @@
 
 @interface Story : NSObject
 
-@property (strong) NSString *title;
-@property (strong) NSArray *photos;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSArray *photos;
+@property int storyId;
 
-- (id)initWithTitle:(NSString*)title andPhotos: (NSArray*)photos;
+- (id)initWithId:(int)storyId andTitle:(NSString*)title andPhotos: (NSArray*)photos;
 - (id)extractPhotoUrlType:(NSString*)type atIndex:(int)index;
 
 @end

@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewMasterViewController : UIViewController
+@interface HomeViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
 

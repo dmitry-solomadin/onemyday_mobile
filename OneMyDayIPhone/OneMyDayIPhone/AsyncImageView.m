@@ -109,7 +109,9 @@ static ImageCache *imageCache = nil;
     //[data release];
     data = nil;
     
-    loaded(imageView);
+    if (loaded) {
+        loaded(imageView);
+    }
 }
 
 @end

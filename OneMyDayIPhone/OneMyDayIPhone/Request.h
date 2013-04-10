@@ -10,8 +10,7 @@
 
 @interface Request : NSObject
 
-- (id)loginRequest:(NSString*)post;
-
-- (id)storiesRequest:(NSString*)post;
+- (id)requestLoginWithPath:(NSString*)path;
+- (id)requestStoriesWithPath:(NSString*)path;
 
 @end

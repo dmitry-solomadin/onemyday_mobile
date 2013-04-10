@@ -8,15 +8,30 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "HomeViewController.h"
 
 @implementation AppDelegate
+
++ (UIViewController *)initMasterController
+{
+
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+
+    HomeViewController *hvc = [[HomeViewController alloc] init];
+    UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:hvc];
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:nil tag:0];
+    homeNav.tabBarItem = tabBarItem;
+
+    NSArray* controllers = [NSArray arrayWithObjects:homeNav, nil];
+    tabBarController.viewControllers = controllers;
+    return tabBarController;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     LoginViewController *lvc = [[LoginViewController alloc] init];
-    //UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:lvc];
     
     [[self window] setRootViewController:navController];

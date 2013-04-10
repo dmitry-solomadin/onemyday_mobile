@@ -12,6 +12,7 @@
 
 @interface ThumbStoryView : UIView
 @property (nonatomic, strong) Story *story;
+@property (nonatomic, weak) id controller;
 
 - (id)initWithFrame:(CGRect)frame story:(Story *)_story;
 - (void)setStory:(Story *)_story;

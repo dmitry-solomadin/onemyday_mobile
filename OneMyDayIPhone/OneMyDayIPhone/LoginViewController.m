@@ -7,8 +7,9 @@
 //
 
 #import "LoginViewController.h"
-#import "NewMasterViewController.h"
+#import "HomeViewController.h"
 #import "Request.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController ()
 
@@ -31,12 +32,12 @@
             [self alertStatus:@"Please enter both Email and Password" :@"Login Failed!"];
         } else {
             NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
-            NSString *userId = [[Request alloc] loginRequest: postString];
+            NSString *userId = [[Request alloc] requestLoginWithPath: postString];
             
             NSLog(@"userId = %@", userId);
             
-            NewMasterViewController *mvc = [[NewMasterViewController alloc] init];
-            [self presentViewController:mvc animated:YES completion:nil];
+            UITabBarController *masterController = [AppDelegate initMasterController];
+            [self presentViewController:masterController animated:YES completion:nil];
             [self dismissViewControllerAnimated:YES completion:nil];
             //[self.navigationController popToRootViewControllerAnimated:NO];
         }

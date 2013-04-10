@@ -9,7 +9,7 @@
 #import "Request.h"
 #import "SBJson.h"
 #import "Story.h"
-#import "MasterViewController.h"
+#import "StoryStore.h"
 
 @interface NSURLRequest (DummyInterface)
 + (BOOL)allowsAnyHTTPSCertificateForHost:(NSString*)host;
@@ -20,14 +20,13 @@
 
 NSString *mainUrl = @"http://onemyday.co/";
 
-
-- (id)sendRequest:(NSString*)path data: (NSString*)post{
-    
-    NSLog(@"PostData: %@",post);
+- (id)sendRequest:(NSString*)path data: (NSString*)post
+{
+    NSLog(@"PostData: %@", post);
     
     NSString *urlTxt = [mainUrl stringByAppendingString: path];
     
-    NSURL *url=[NSURL URLWithString: urlTxt];
+    NSURL *url = [NSURL URLWithString: urlTxt];
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
@@ -66,8 +65,8 @@ NSString *mainUrl = @"http://onemyday.co/";
     return @"Error";
 }
 
-- (id) getDataFrom:(NSString *)path{
-    
+- (id) getDataFrom:(NSString *)path
+{    
     NSString *url = [mainUrl stringByAppendingString: path];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setHTTPMethod:@"GET"];
@@ -92,9 +91,9 @@ NSString *mainUrl = @"http://onemyday.co/";
     return [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
 }
 
-- (id)loginRequest:(NSString*)post {
-    
-    NSDictionary *jsonData = [self sendRequest: @"auth/regular.json" data: post];
+- (id)requestLoginWithPath:(NSString*)path
+{    
+    NSDictionary *jsonData = [self sendRequest: @"auth/regular.json" data: path];
     NSString *status = (NSString *) [jsonData objectForKey:@"status"];
     NSLog(@"%@",status);
     
@@ -110,42 +109,31 @@ NSString *mainUrl = @"http://onemyday.co/";
     }    
 }
 
-- (id)storiesRequest:(NSString*)path {
-    
+// TODO maybe move this to StoryStore?
+- (id)requestStoriesWithPath:(NSString*)path
+{
+    if (!path) {
+        path =[[NSString alloc] initWithFormat:@"/stories.json?p=true"];
+    }
     NSDictionary *jsonData = [self getDataFrom: path];
     NSMutableArray *allStories = [NSMutableArray array];
     
     for (NSDictionary *story in jsonData) {
-        NSLog(@"story %@",story);
+        int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
         NSString *title = (NSString *) [story objectForKey:@"title"];
-        NSLog(@"title %@",title);
         NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
-        
         
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
         for (NSDictionary *photo in photos) {
             [photoArray addObject:photo];
         }
-        //NSArray * photoArray = [photos allValues];
-        [allStories addObject:[[Story alloc] initWithTitle:title andPhotos: (NSArray*)photos]];
-        
-        
-        /*for (NSDictionary *photo  in storyPhotos) {
-            NSDictionary *photo_urls = (NSDictionary *) [photo objectForKey:@"photo_urls"];
-            //NSLog(@"photo_urls %@",photo_urls);
-            NSString *image = (NSString*) [photo_urls objectForKey:@"thumb_url"];
-            NSLog(@"image %@",image);
-            [allStories addObject:[[Story alloc] initWithTitle:title andImageUrl: image]];
-            break;
-            
-        }*/
-    }
-    //AllStoriesView *controller = [[AllStoriesView alloc] init];
-    //controller.allStories = allStories;
 
-    //NSString *error_msg = (NSString *) [jsonData objectForKey:@"error_message"];
-    //NSLog(@"Get stories Failed! %@",error_msg);
+        [allStories addObject:[[Story alloc] initWithId: storyId andTitle:title andPhotos: (NSArray*)photos]];
+    }
+    
+    [[StoryStore get] initWithStories:allStories];
+
     return allStories;
 }
 

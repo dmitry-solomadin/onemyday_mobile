@@ -23,7 +23,8 @@
         NSURL *url = [[self story] extractPhotoUrlType:@"thumb_url" atIndex:0];
         [asyncImageView loadImageFromURL:url];
         asyncImageView.loaded = ^void(UIImageView *imageView) {
-            [imageView setBackgroundColor: [UIColor grayColor]];
+            UIColor *color = [[UIColor alloc] initWithRed:0.85 green:0.85 blue:0.85 alpha:1];
+            [imageView setBackgroundColor: color];
         };
         
         UIButton *imageBtn = [[UIButton alloc] initWithFrame:

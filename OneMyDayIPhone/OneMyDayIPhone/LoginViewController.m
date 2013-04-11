@@ -49,29 +49,4 @@
     }
 }
 
-
-
-// TODO. Not sure we need this
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [super viewWillDisappear:animated];
-}
-
 @end

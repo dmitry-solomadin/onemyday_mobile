@@ -48,6 +48,7 @@
             if (caption != ( NSString *) [ NSNull null ]) {
                 UITextView *textView = [[UITextView alloc] init];
                 textView.text = caption;
+                [textView setEditable:NO];
                 [scrollView addSubview:textView];
 
                 textView.frame = CGRectMake(10, currentStoryHeight, 300, textView.contentSize.height);
@@ -55,12 +56,7 @@
             }
         }
         
-        CGFloat scrollViewHeight = 0.0f;
-        for (UIView* view in [self scrollView].subviews) {
-            scrollViewHeight += view.frame.size.height + 20;
-        }
-        
-        [scrollView setContentSize:(CGSizeMake(320, scrollViewHeight))];
+        [scrollView setContentSize:(CGSizeMake(320, currentStoryHeight))];
     }
     return self;
 }

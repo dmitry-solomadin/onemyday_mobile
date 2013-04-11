@@ -10,14 +10,16 @@
 
 @implementation Story
 
-@synthesize storyId, title, photos;
+@synthesize storyId, authorId, title, photos;
 
-- (id)initWithId:(int)_storyId andTitle:(NSString*)_title andPhotos: (NSArray*)_photos
+- (id)initWithId:(int)_storyId andTitle:(NSString*)_title
+       andAuthor:(int)_author_id andPhotos: (NSArray*)_photos
 {
     self = [super init];
     if (self) {
         self.storyId = _storyId;
         self.title = _title;
+        self.authorId = _author_id;
         self.photos = _photos;
     }
     return self;

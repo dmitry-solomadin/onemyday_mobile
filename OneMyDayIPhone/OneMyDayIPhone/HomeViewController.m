@@ -12,6 +12,7 @@
 #import "ThumbStoryView.h"
 #import "ShowStoryViewController.h"
 #import "StoryStore.h"
+#import "UserStore.h"
 
 @interface HomeViewController ()
 {
@@ -26,28 +27,26 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        stories = [[Request alloc] requestStoriesWithPath:nil];
+        stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES];
+        NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
 
         [[self view] setFrame: self.view.window.bounds];
         
         scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
         [[self view] addSubview:scrollView];
         
+        CGFloat currentFeedHeight = 10.0;
         for (int i = 0; i < [stories count]; i++) {
             Story *story = [stories objectAtIndex:i];
-            CGRect frame = CGRectMake(10, i == 0 ? 10 : i * 320, 300, 300);
+            CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
             ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
             thumbStoryView.controller = self;
             
             [scrollView addSubview:thumbStoryView];
+            currentFeedHeight += 355;
         }
         
-        CGFloat scrollViewHeight = 0.0f;
-        for (UIView* view in [self scrollView].subviews) {
-            scrollViewHeight += view.frame.size.height + 20;
-        }
-        
-        [scrollView setContentSize:(CGSizeMake(320, scrollViewHeight))];
+        [scrollView setContentSize:(CGSizeMake(320, currentFeedHeight))];
     }
     return self;
 }

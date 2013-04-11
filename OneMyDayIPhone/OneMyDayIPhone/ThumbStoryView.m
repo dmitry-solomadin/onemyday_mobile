@@ -9,6 +9,8 @@
 #import "ThumbStoryView.h"
 #import "AsyncImageView.h"
 #import "Story.h"
+#import "User.h"
+#import "UserStore.h"
 
 @implementation ThumbStoryView
 @synthesize story, controller;
@@ -17,24 +19,32 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setStory:_story];
-        AsyncImageView *asyncImageView = [[AsyncImageView alloc] initWithFrame:
-                                          CGRectMake(0, 0, frame.size.width, frame.size.height)];
         
+        // Photo
+        AsyncImageView *photoView = [[AsyncImageView alloc] initWithFrame:
+                                          CGRectMake(0, 45, 300, 300)];
         NSURL *url = [[self story] extractPhotoUrlType:@"thumb_url" atIndex:0];
-        [asyncImageView loadImageFromURL:url];
-        asyncImageView.loaded = ^void(UIImageView *imageView) {
+        [photoView loadImageFromURL:url];
+        photoView.loaded = ^void(UIImageView *imageView) {
             UIColor *color = [[UIColor alloc] initWithRed:0.85 green:0.85 blue:0.85 alpha:1];
             [imageView setBackgroundColor: color];
         };
+        [self addSubview:photoView];
         
+        // Photo hidden button
         UIButton *imageBtn = [[UIButton alloc] initWithFrame:
-                              CGRectMake(0, 0, frame.size.width, frame.size.height)];
+                              CGRectMake(0, 45, 300, 300)];
         imageBtn.tag = story.storyId;
         [imageBtn addTarget:self action:@selector(imageTap:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:imageBtn];
-        
-        [self addSubview:asyncImageView];
         [self bringSubviewToFront:imageBtn];
+        
+        // Author avatar
+        User *author = [[UserStore get] findById:[story authorId]];
+        AsyncImageView *avatarView = [[AsyncImageView alloc] initWithFrame: CGRectMake(0, 0, 35, 35)];
+        NSURL *avatarUrl = [author extractAvatarUrlType:@"small_url"];
+        [avatarView loadImageFromURL:avatarUrl];
+        [self addSubview:avatarView];
     }
     return self;
 }

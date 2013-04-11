@@ -10,7 +10,10 @@
 
 @interface Request : NSObject
 
++ (NSString *)insertParametersIntoUrl:(NSMutableString *)url parameters:(NSArray *)parameters;
+
+- (id)sendRequest:(NSString *)path data:(NSString *)post;
+- (id)getDataFrom:(NSString *)path;
 - (id)requestLoginWithPath:(NSString*)path;
-- (id)requestStoriesWithPath:(NSString*)path;
 
 @end

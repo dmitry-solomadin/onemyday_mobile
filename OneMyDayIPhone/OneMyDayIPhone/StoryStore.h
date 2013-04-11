@@ -17,8 +17,9 @@
 
 + (StoryStore *)get;
 
-- (id)initWithStories:(NSMutableArray *)_stories;
+- (void)setStories:(NSMutableArray *)_stories;
 - (NSArray *)getStories;
 - (Story *)findById:(int)storyId;
+- (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser;
 
 @end

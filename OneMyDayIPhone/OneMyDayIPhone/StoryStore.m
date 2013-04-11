@@ -7,7 +7,9 @@
 //
 
 #import "StoryStore.h"
+#import "UserStore.h"
 #import "Story.h"
+#import "Request.h"
 
 @implementation StoryStore
 
@@ -26,31 +28,65 @@
     return [self get];
 }
 
-- (id)initWithStories:(NSMutableArray *)_stories
-{
-    self = [super init];
-    if (self) {
-        stories = _stories;
-    }
-    
-    return self;
-}
-
 - (NSArray *)getStories;
 {
     return stories;
 }
 
+- (void)setStories:(NSMutableArray *)_stories
+{
+    stories = _stories;
+}
+
 - (Story *)findById:(int)storyId
 {
-    NSLog(@"storyId is %d", storyId);
     for (Story *story in stories) {
-        NSLog(@"storyId inner is %d", story.storyId);
         if (story.storyId == storyId) {
             return story;
         }
     }
     return nil;
+}
+
+- (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser
+{
+    NSMutableString *path = [[NSMutableString alloc] initWithString:@"/stories.json"];
+    NSMutableArray *parameters = [[NSMutableArray alloc] init];
+    if (includePhotos) {
+        [parameters addObject:@"p=true"];
+    }
+    if (includeUser) {
+        [parameters addObject:@"u=true"];
+    }
+    [Request insertParametersIntoUrl:path parameters:parameters];
+
+    Request *request = [[Request alloc] init];
+    NSDictionary *jsonData = [request getDataFrom: path];
+    NSMutableArray *allStories = [NSMutableArray array];
+    
+    for (NSDictionary *story in jsonData) {
+        int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
+        int authorId = [(NSString *) [story objectForKey:@"user_id"] intValue];
+        NSString *title = (NSString *) [story objectForKey:@"title"];
+        NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
+        
+        NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *photo in photos) {
+            [photoArray addObject:photo];
+        }
+        
+        [allStories addObject:[[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos]];
+        
+        if (includeUser) {
+            User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey:@"user"]];
+            [[UserStore get] addUser:user];
+        }
+    }
+    
+    [[StoryStore get] setStories:allStories];
+    
+    return allStories;
 }
 
 @end

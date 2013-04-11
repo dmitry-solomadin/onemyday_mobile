@@ -27,7 +27,7 @@
         scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
         [[self view] addSubview:scrollView];
         
-        CGFloat currentStoryHeight = 0.0f;
+        CGFloat currentStoryHeight = 10.0f;
         for (int i = 0; i < [[story photos] count]; i++) {
             // Add photo
             NSDictionary *photo = [[story photos] objectAtIndex:i];

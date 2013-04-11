@@ -25,6 +25,9 @@
 		18E242391716DDFD00435FBE /* globe.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E242311716DDFD00435FBE /* globe.png */; };
 		18E2423C1716E26900435FBE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2423B1716E26900435FBE /* User.m */; };
 		18E2423F1717127800435FBE /* UserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2423E1717127800435FBE /* UserStore.m */; };
+		18E24242171739D700435FBE /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E24240171739D500435FBE /* gear@2x.png */; };
+		18E24243171739D700435FBE /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E24241171739D600435FBE /* gear.png */; };
+		18E2424617173A1100435FBE /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2424517173A1000435FBE /* SettingsViewController.m */; };
 		18F98FD7171378C600D8F7A3 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */; };
 		18F98FD8171378C600D8F7A3 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */; };
 		18F98FD9171378C600D8F7A3 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FC2171378C600D8F7A3 /* SBJsonParser.m */; };
@@ -123,6 +126,10 @@
 		18E2423B1716E26900435FBE /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		18E2423D1717127700435FBE /* UserStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStore.h; sourceTree = "<group>"; };
 		18E2423E1717127800435FBE /* UserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStore.m; sourceTree = "<group>"; };
+		18E24240171739D500435FBE /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gear@2x.png"; path = "assets/gear@2x.png"; sourceTree = "<group>"; };
+		18E24241171739D600435FBE /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = assets/gear.png; sourceTree = "<group>"; };
+		18E2424417173A1000435FBE /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		18E2424517173A1000435FBE /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		18F98FBE171378C600D8F7A3 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "vendor/NSObject+SBJson.h"; sourceTree = "<group>"; };
 		18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJson.m"; path = "vendor/NSObject+SBJson.m"; sourceTree = "<group>"; };
 		18F98FC0171378C600D8F7A3 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJson.h; path = vendor/SBJson.h; sourceTree = "<group>"; };
@@ -227,6 +234,8 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18E24240171739D500435FBE /* gear@2x.png */,
+				18E24241171739D600435FBE /* gear.png */,
 				18E2422A1716DDFB00435FBE /* photo@2x.png */,
 				18E2422B1716DDFC00435FBE /* photo.png */,
 				18E2422C1716DDFC00435FBE /* man@2x.png */,
@@ -263,6 +272,8 @@
 				18E2421E1716CA7800435FBE /* ActivityViewController.m */,
 				18E242201716CA8400435FBE /* ProfileViewController.h */,
 				18E242211716CA8400435FBE /* ProfileViewController.m */,
+				18E2424417173A1000435FBE /* SettingsViewController.h */,
+				18E2424517173A1000435FBE /* SettingsViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -484,6 +495,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18E24242171739D700435FBE /* gear@2x.png in Resources */,
+				18E24243171739D700435FBE /* gear.png in Resources */,
 				18E242321716DDFD00435FBE /* photo@2x.png in Resources */,
 				18E242331716DDFD00435FBE /* photo.png in Resources */,
 				18E242341716DDFD00435FBE /* man@2x.png in Resources */,
@@ -567,6 +580,7 @@
 				18E242221716CA8400435FBE /* ProfileViewController.m in Sources */,
 				18E2423C1716E26900435FBE /* User.m in Sources */,
 				18E2423F1717127800435FBE /* UserStore.m in Sources */,
+				18E2424617173A1100435FBE /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.h
+//  SettingsViewController.h
 //  OneMyDayIPhone
 //
 //  Created by dmitry.solomadin on 11.04.13.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ProfileViewController : UIViewController
-
-- (void)showSettings:(UIBarButtonItem *)sender;
+@interface SettingsViewController : UIViewController
 
 @end

@@ -7,6 +7,10 @@
 //
 
 #import "SettingsViewController.h"
+#import "AppDelegate.h"
+#import "StartViewController.h"
+
+#import "DMTwitterCore.h"
 
 @interface SettingsViewController ()
 
@@ -31,6 +35,16 @@
 - (void)logOut:(id)sender
 {
     NSLog(@"Logging out...");
+    // get the app delegate so that we can access the session property
+    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    
+    if (appDelegate.session.isOpen)[appDelegate.session closeAndClearTokenInformation];
+    
+    else if ([DMTwitter shared].oauth_token_authorized)[[DMTwitter shared] logout];
+    
+    StartViewController  *startViewController = [[StartViewController alloc] initWithNibName:@"StartViewController" bundle:nil];
+    
+    [[self navigationController] pushViewController:startViewController animated:YES];
 }
 
 - (void)viewDidLoad

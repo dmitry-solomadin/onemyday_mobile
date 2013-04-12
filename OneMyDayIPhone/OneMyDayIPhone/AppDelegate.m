@@ -15,12 +15,14 @@
 #import "ActivityViewController.h"
 #import "ProfileViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "DMTwitterCore.h"
 
 @class ExploreViewController;
 
 @implementation AppDelegate
 
 @synthesize session = _session;
+
 
 + (UIViewController *)initMasterController
 {
@@ -77,13 +79,14 @@
 // state, as well as its arguments passed to the state completion handler indicate whether the login
 // was successful; note that if the session is nil or closed when handleOpenURL is called, the expression
 // will be boolean NO, meaning the URL was not handled by the authenticating application
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *) url sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
     // attempt to extract a token from the url
-    return [self.session handleOpenURL:url];
+    //return [self.session handleOpenURL:url];
+    return [[DMTwitter shared].currentLoginController handleTokenRequestResponseURL:url];
 }
+
+
 
 // FBSample logic
 // Whether it is in applicationWillTerminate, in applicationDidEnterBackground, or in some other part

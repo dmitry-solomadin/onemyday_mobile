@@ -22,6 +22,7 @@
 // as access to the object by the rest of the application
 @property (strong, nonatomic) FBSession *session;
 
+
 + (UIViewController *) initMasterController;
 
 @end

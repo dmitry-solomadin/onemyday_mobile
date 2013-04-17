@@ -23,6 +23,6 @@
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) void (^loaded)(UIImageView *imageView);
-- (void)loadImageFromURL:(NSURL*)url;
+- (void)loadImageFromURL:(NSURL *)url;
 
 @end

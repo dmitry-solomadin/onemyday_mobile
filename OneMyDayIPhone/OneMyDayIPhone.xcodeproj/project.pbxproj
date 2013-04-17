@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		180D979D171F0FD90034A9C2 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D979C171F0FD90034A9C2 /* MasterViewController.m */; };
+		180D97A0171F248B0034A9C2 /* capture-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 180D979E171F248B0034A9C2 /* capture-button@2x.png */; };
+		180D97A1171F248B0034A9C2 /* capture-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 180D979F171F248B0034A9C2 /* capture-button.png */; };
+		180D97A4171F27200034A9C2 /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D97A3171F27200034A9C2 /* EditorViewController.m */; };
 		18E24213171578B000435FBE /* ShowStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24212171578B000435FBE /* ShowStoryViewController.m */; };
 		18E24216171583F100435FBE /* StoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24215171583F100435FBE /* StoryStore.m */; };
 		18E242191716CA5800435FBE /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E242181716CA5800435FBE /* ExploreViewController.m */; };
-		18E2421C1716CA6A00435FBE /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2421B1716CA6A00435FBE /* PhotoViewController.m */; };
 		18E2421F1716CA7900435FBE /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2421E1716CA7800435FBE /* ActivityViewController.m */; };
 		18E242221716CA8400435FBE /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E242211716CA8400435FBE /* ProfileViewController.m */; };
 		18E242281716DB8200435FBE /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E242261716DB8200435FBE /* home@2x.png */; };
@@ -111,14 +114,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		180D979B171F0FD90034A9C2 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		180D979C171F0FD90034A9C2 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		180D979E171F248B0034A9C2 /* capture-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "capture-button@2x.png"; path = "assets/capture-button@2x.png"; sourceTree = "<group>"; };
+		180D979F171F248B0034A9C2 /* capture-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "capture-button.png"; path = "assets/capture-button.png"; sourceTree = "<group>"; };
+		180D97A2171F27200034A9C2 /* EditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorViewController.h; sourceTree = "<group>"; };
+		180D97A3171F27200034A9C2 /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorViewController.m; sourceTree = "<group>"; };
 		18E24211171578B000435FBE /* ShowStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowStoryViewController.h; sourceTree = "<group>"; };
 		18E24212171578B000435FBE /* ShowStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowStoryViewController.m; sourceTree = "<group>"; };
 		18E24214171583F000435FBE /* StoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryStore.h; sourceTree = "<group>"; };
 		18E24215171583F100435FBE /* StoryStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryStore.m; sourceTree = "<group>"; };
 		18E242171716CA5800435FBE /* ExploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreViewController.h; sourceTree = "<group>"; };
 		18E242181716CA5800435FBE /* ExploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreViewController.m; sourceTree = "<group>"; };
-		18E2421A1716CA6A00435FBE /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
-		18E2421B1716CA6A00435FBE /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		18E2421D1716CA7800435FBE /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		18E2421E1716CA7800435FBE /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		18E242201716CA8400435FBE /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
@@ -265,6 +272,8 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				180D979E171F248B0034A9C2 /* capture-button@2x.png */,
+				180D979F171F248B0034A9C2 /* capture-button.png */,
 				18E24240171739D500435FBE /* gear@2x.png */,
 				18E24241171739D600435FBE /* gear.png */,
 				18E2422A1716DDFB00435FBE /* photo@2x.png */,
@@ -285,6 +294,8 @@
 		18F98F44171370C700D8F7A3 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				180D979B171F0FD90034A9C2 /* MasterViewController.h */,
+				180D979C171F0FD90034A9C2 /* MasterViewController.m */,
 				84E701A116D76D5100979856 /* LoginViewController.m */,
 				84E701A016D76D5100979856 /* LoginViewController.h */,
 				18F98FEF17137A1A00D8F7A3 /* HomeViewController.h */,
@@ -297,14 +308,14 @@
 				84A031EB1715A5F30098B201 /* StartViewController.m */,
 				18E242171716CA5800435FBE /* ExploreViewController.h */,
 				18E242181716CA5800435FBE /* ExploreViewController.m */,
-				18E2421A1716CA6A00435FBE /* PhotoViewController.h */,
-				18E2421B1716CA6A00435FBE /* PhotoViewController.m */,
 				18E2421D1716CA7800435FBE /* ActivityViewController.h */,
 				18E2421E1716CA7800435FBE /* ActivityViewController.m */,
 				18E242201716CA8400435FBE /* ProfileViewController.h */,
 				18E242211716CA8400435FBE /* ProfileViewController.m */,
 				18E2424417173A1000435FBE /* SettingsViewController.h */,
 				18E2424517173A1000435FBE /* SettingsViewController.m */,
+				180D97A2171F27200034A9C2 /* EditorViewController.h */,
+				180D97A3171F27200034A9C2 /* EditorViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -588,6 +599,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				180D97A0171F248B0034A9C2 /* capture-button@2x.png in Resources */,
+				180D97A1171F248B0034A9C2 /* capture-button.png in Resources */,
 				18E24242171739D700435FBE /* gear@2x.png in Resources */,
 				18E24243171739D700435FBE /* gear.png in Resources */,
 				18E242321716DDFD00435FBE /* photo@2x.png in Resources */,
@@ -669,7 +682,6 @@
 				18E24216171583F100435FBE /* StoryStore.m in Sources */,
 				84A031ED1715A5F50098B201 /* StartViewController.m in Sources */,
 				18E242191716CA5800435FBE /* ExploreViewController.m in Sources */,
-				18E2421C1716CA6A00435FBE /* PhotoViewController.m in Sources */,
 				18E2421F1716CA7900435FBE /* ActivityViewController.m in Sources */,
 				18E242221716CA8400435FBE /* ProfileViewController.m in Sources */,
 				18E2423C1716E26900435FBE /* User.m in Sources */,
@@ -684,6 +696,8 @@
 				849C6E44171840CE006C5766 /* Base64Transcoder.c in Sources */,
 				849C6E47171840DA006C5766 /* hmac.c in Sources */,
 				849C6E4A171840E9006C5766 /* sha1.c in Sources */,
+				180D979D171F0FD90034A9C2 /* MasterViewController.m in Sources */,
+				180D97A4171F27200034A9C2 /* EditorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

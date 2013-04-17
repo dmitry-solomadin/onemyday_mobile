@@ -8,14 +8,11 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-#import "HomeViewController.h"
 #import "StartViewController.h"
-#import "ExploreViewController.h"
-#import "PhotoViewController.h"
-#import "ActivityViewController.h"
-#import "ProfileViewController.h"
+
 #import <FacebookSDK/FacebookSDK.h>
 #import "DMTwitterCore.h"
+#import "MasterViewController.h"
 
 @class ExploreViewController;
 
@@ -26,32 +23,8 @@
 
 + (UIViewController *)initMasterController
 {
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-
-    HomeViewController *hvc = [[HomeViewController alloc] init];
-    UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:hvc];
-    homeNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"home.png"] tag:0];
-    
-    ExploreViewController *evc = [[ExploreViewController alloc] init];
-    UINavigationController *exploreNav = [[UINavigationController alloc] initWithRootViewController:evc];
-    exploreNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Explore" image:[UIImage imageNamed:@"globe.png"] tag:0];
-    [exploreNav.tabBarItem setEnabled:NO];
-    
-    PhotoViewController *photoVC = [[PhotoViewController alloc] init];
-    UINavigationController *photoNav = [[UINavigationController alloc] initWithRootViewController:photoVC];
-    photoNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Photo" image:[UIImage imageNamed:@"photo.png"] tag:0];
-    
-    ActivityViewController *avc = [[ActivityViewController alloc] init];
-    UINavigationController *activityNav = [[UINavigationController alloc] initWithRootViewController:avc];
-    activityNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Activity" image:[UIImage imageNamed:@"heart.png"] tag:0];
-    
-    ProfileViewController *profileVC = [[ProfileViewController alloc] init];
-    UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:profileVC];
-    profileNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"man.png"] tag:0];
-
-    NSArray* controllers = [NSArray arrayWithObjects:homeNav, exploreNav, photoNav, activityNav, profileNav, nil];
-    tabBarController.viewControllers = controllers;
-    return tabBarController;
+    MasterViewController *mvc = [[MasterViewController alloc] init];
+    return mvc;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

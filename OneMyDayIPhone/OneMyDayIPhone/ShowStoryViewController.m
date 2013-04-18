@@ -36,7 +36,7 @@
             if (image) {
                 AsyncImageView *asyncImageView = [[AsyncImageView alloc] init];
                 NSURL *url = [NSURL URLWithString:image];
-                [asyncImageView loadImageFromURL:url];
+                asyncImageView.imageURL = url;
                 
                 [scrollView addSubview:asyncImageView];
                 asyncImageView.frame = CGRectMake(10, currentStoryHeight, 300, 300);

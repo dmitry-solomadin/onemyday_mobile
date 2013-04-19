@@ -22,6 +22,8 @@
 // as access to the object by the rest of the application
 @property (strong, nonatomic) FBSession *session;
 
+//0 - unauthorized user; 1 - authorized by facebook; 2 - twitter; 3 - email
+@property (strong, nonatomic) NSNumber *loggedInFlag;
 
 + (UIViewController *) initMasterController;
 

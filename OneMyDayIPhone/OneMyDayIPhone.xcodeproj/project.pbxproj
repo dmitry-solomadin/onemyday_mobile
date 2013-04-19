@@ -93,7 +93,7 @@
 		84A031E917159B000098B201 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E817159B000098B201 /* libsqlite3.dylib */; };
 		84A031ED1715A5F50098B201 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A031EB1715A5F30098B201 /* StartViewController.m */; };
 		84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84A031EC1715A5F40098B201 /* StartViewController.xib */; };
-		84A031F01715A7040098B201 /* onemyday.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A031EF1715A7040098B201 /* onemyday.png */; };
+		84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AEC1B117213FD1005CCD58 /* onemydayLogo.png */; };
 		84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
 		84DD61DA16D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
 		84E701A216D76D5100979856 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701A116D76D5100979856 /* LoginViewController.m */; };
@@ -228,7 +228,7 @@
 		84A031EA1715A5F20098B201 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		84A031EB1715A5F30098B201 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		84A031EC1715A5F40098B201 /* StartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartViewController.xib; sourceTree = "<group>"; };
-		84A031EF1715A7040098B201 /* onemyday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemyday.png; sourceTree = "<group>"; };
+		84AEC1B117213FD1005CCD58 /* onemydayLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemydayLogo.png; sourceTree = "<group>"; };
 		84DD61D816D019ED0049B78B /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		84E701A016D76D5100979856 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		84E701A116D76D5100979856 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -276,6 +276,7 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84AEC1B117213FD1005CCD58 /* onemydayLogo.png */,
 				1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */,
 				1889A2BA1720AC6900F3E2CD /* furley_bg.png */,
 				180D979E171F248B0034A9C2 /* capture-button@2x.png */,
@@ -408,7 +409,6 @@
 				844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */,
 				844DFA6616CFB66F00884637 /* InfoPlist.strings */,
 				844DFA6916CFB66F00884637 /* main.m */,
-				84A031EF1715A7040098B201 /* onemyday.png */,
 				844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */,
 				844DFA6F16CFB66F00884637 /* Default.png */,
 				844DFA7116CFB66F00884637 /* Default@2x.png */,
@@ -627,8 +627,8 @@
 				844DFA7416CFB66F00884637 /* Default-568h@2x.png in Resources */,
 				84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */,
 				84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */,
-				84A031F01715A7040098B201 /* onemyday.png in Resources */,
 				849C6E2E17183FB0006C5766 /* DMTwitterLoginViewController.xib in Resources */,
+				84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

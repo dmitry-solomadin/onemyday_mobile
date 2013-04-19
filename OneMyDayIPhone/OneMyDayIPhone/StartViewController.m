@@ -11,12 +11,15 @@
 #import "AppDelegate.h"
 #import "DMOAuthTwitter.h"
 #import "DMTwitterCore.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface StartViewController ()
 
 @end
 
 @implementation StartViewController
+
+@synthesize facebookButton, twitterButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,6 +33,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    facebookButton.layer.cornerRadius = 3;
+    facebookButton.clipsToBounds = YES;
+    
+    twitterButton.layer.cornerRadius = 3;
+    twitterButton.clipsToBounds = YES;
+    
     self.navigationItem.title = @"Authorization";
     [self updateView];
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];

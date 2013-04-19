@@ -158,11 +158,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StartViewController.m"
-         timestampString = "387468739.788827"
+         timestampString = "388056695.898782"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "104"
-         endingLineNumber = "104"
+         startingLineNumber = "114"
+         endingLineNumber = "114"
          landmarkName = "-loginTwitter:"
          landmarkType = "5">
       </FileBreakpoint>

@@ -15,5 +15,7 @@
 - (IBAction)loginFacebook:(id)sender;
 
 - (IBAction)loginTwitter:(id)sender;
+@property (strong, nonatomic) IBOutlet UIButton *facebookButton;
+@property (strong, nonatomic) IBOutlet UIButton *twitterButton;
 
 @end

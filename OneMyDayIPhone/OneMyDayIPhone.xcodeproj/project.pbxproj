@@ -14,6 +14,8 @@
 		1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BA1720AC6900F3E2CD /* furley_bg.png */; };
 		1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */; };
 		1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */; };
+		18BFB75917242A0200930B97 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB75717242A0200930B97 /* Default@2x.png */; };
+		18BFB75A17242A0200930B97 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB75817242A0200930B97 /* Default.png */; };
 		18E24213171578B000435FBE /* ShowStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24212171578B000435FBE /* ShowStoryViewController.m */; };
 		18E24216171583F100435FBE /* StoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24215171583F100435FBE /* StoryStore.m */; };
 		18E242191716CA5800435FBE /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E242181716CA5800435FBE /* ExploreViewController.m */; };
@@ -68,9 +70,6 @@
 		844DFA6816CFB66F00884637 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA6616CFB66F00884637 /* InfoPlist.strings */; };
 		844DFA6A16CFB66F00884637 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA6916CFB66F00884637 /* main.m */; };
 		844DFA6E16CFB66F00884637 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA6D16CFB66F00884637 /* AppDelegate.m */; };
-		844DFA7016CFB66F00884637 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA6F16CFB66F00884637 /* Default.png */; };
-		844DFA7216CFB66F00884637 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7116CFB66F00884637 /* Default@2x.png */; };
-		844DFA7416CFB66F00884637 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA7316CFB66F00884637 /* Default-568h@2x.png */; };
 		844DFA8816CFB67000884637 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA8716CFB67000884637 /* SenTestingKit.framework */; };
 		844DFA8916CFB67000884637 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5D16CFB66F00884637 /* UIKit.framework */; };
 		844DFA8A16CFB67000884637 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5F16CFB66F00884637 /* Foundation.framework */; };
@@ -127,6 +126,8 @@
 		1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "furley_bg@2x.png"; path = "assets/furley_bg@2x.png"; sourceTree = "<group>"; };
 		1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryShadowWrapView.h; sourceTree = "<group>"; };
 		1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryShadowWrapView.m; sourceTree = "<group>"; };
+		18BFB75717242A0200930B97 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		18BFB75817242A0200930B97 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		18E24211171578B000435FBE /* ShowStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowStoryViewController.h; sourceTree = "<group>"; };
 		18E24212171578B000435FBE /* ShowStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowStoryViewController.m; sourceTree = "<group>"; };
 		18E24214171583F000435FBE /* StoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryStore.h; sourceTree = "<group>"; };
@@ -193,9 +194,6 @@
 		844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneMyDayIPhone-Prefix.pch"; sourceTree = "<group>"; };
 		844DFA6C16CFB66F00884637 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		844DFA6D16CFB66F00884637 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		844DFA6F16CFB66F00884637 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		844DFA7116CFB66F00884637 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		844DFA7316CFB66F00884637 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		844DFA8716CFB67000884637 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		844DFA8F16CFB67000884637 /* OneMyDayIPhoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneMyDayIPhoneTests-Info.plist"; sourceTree = "<group>"; };
 		844DFA9116CFB67000884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -409,13 +407,12 @@
 		844DFA6416CFB66F00884637 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				18BFB75717242A0200930B97 /* Default@2x.png */,
+				18BFB75817242A0200930B97 /* Default.png */,
 				844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */,
 				844DFA6616CFB66F00884637 /* InfoPlist.strings */,
 				844DFA6916CFB66F00884637 /* main.m */,
 				844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */,
-				844DFA6F16CFB66F00884637 /* Default.png */,
-				844DFA7116CFB66F00884637 /* Default@2x.png */,
-				844DFA7316CFB66F00884637 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -610,6 +607,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18BFB75917242A0200930B97 /* Default@2x.png in Resources */,
+				18BFB75A17242A0200930B97 /* Default.png in Resources */,
 				1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */,
 				1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */,
 				180D97A0171F248B0034A9C2 /* capture-button@2x.png in Resources */,
@@ -627,9 +626,6 @@
 				18E242281716DB8200435FBE /* home@2x.png in Resources */,
 				18E242291716DB8200435FBE /* home.png in Resources */,
 				844DFA6816CFB66F00884637 /* InfoPlist.strings in Resources */,
-				844DFA7016CFB66F00884637 /* Default.png in Resources */,
-				844DFA7216CFB66F00884637 /* Default@2x.png in Resources */,
-				844DFA7416CFB66F00884637 /* Default-568h@2x.png in Resources */,
 				84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */,
 				84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */,
 				849C6E2E17183FB0006C5766 /* DMTwitterLoginViewController.xib in Resources */,
@@ -832,6 +828,7 @@
 				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
 				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -847,6 +844,7 @@
 				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
 				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -32,6 +32,8 @@
 {    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    [[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+    
     StartViewController *svc = [[StartViewController alloc] init];
     //UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:svc];

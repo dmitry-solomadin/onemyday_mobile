@@ -51,16 +51,15 @@
     }
 }
 
-
-
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [txtEmail becomeFirstResponder];
+}
 
 - (void) saveCredentials: userId {
-    
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:userId]
                                               forKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
 
 @end

@@ -150,6 +150,11 @@
                                                // store our auth data so we can use later in other sessions
                                                [[DMTwitter shared] saveCredentials];
                                                
+                                               [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:
+                                                ^(){
+                                                    
+                                                }];
+                                               
                                               
                                              
                                                

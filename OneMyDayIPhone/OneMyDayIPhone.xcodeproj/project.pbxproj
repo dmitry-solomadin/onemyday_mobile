@@ -13,6 +13,7 @@
 		180D97A4171F27200034A9C2 /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D97A3171F27200034A9C2 /* EditorViewController.m */; };
 		1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BA1720AC6900F3E2CD /* furley_bg.png */; };
 		1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */; };
+		1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */; };
 		18E24213171578B000435FBE /* ShowStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24212171578B000435FBE /* ShowStoryViewController.m */; };
 		18E24216171583F100435FBE /* StoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24215171583F100435FBE /* StoryStore.m */; };
 		18E242191716CA5800435FBE /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E242181716CA5800435FBE /* ExploreViewController.m */; };
@@ -124,6 +125,8 @@
 		180D97A3171F27200034A9C2 /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorViewController.m; sourceTree = "<group>"; };
 		1889A2BA1720AC6900F3E2CD /* furley_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = furley_bg.png; path = assets/furley_bg.png; sourceTree = "<group>"; };
 		1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "furley_bg@2x.png"; path = "assets/furley_bg@2x.png"; sourceTree = "<group>"; };
+		1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryShadowWrapView.h; sourceTree = "<group>"; };
+		1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryShadowWrapView.m; sourceTree = "<group>"; };
 		18E24211171578B000435FBE /* ShowStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowStoryViewController.h; sourceTree = "<group>"; };
 		18E24212171578B000435FBE /* ShowStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowStoryViewController.m; sourceTree = "<group>"; };
 		18E24214171583F000435FBE /* StoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryStore.h; sourceTree = "<group>"; };
@@ -513,6 +516,8 @@
 				84E701AB16D76EF200979856 /* ImageCache.h */,
 				84E701A816D76EEB00979856 /* ImageCacheObject.m */,
 				84E701A716D76EE200979856 /* ImageCacheObject.h */,
+				1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */,
+				1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -706,6 +711,7 @@
 				849C6E4A171840E9006C5766 /* sha1.c in Sources */,
 				180D979D171F0FD90034A9C2 /* MasterViewController.m in Sources */,
 				180D97A4171F27200034A9C2 /* EditorViewController.m in Sources */,
+				1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

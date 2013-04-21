@@ -9,6 +9,7 @@
 #import "ShowStoryViewController.h"
 #import "Story.h"
 #import "AsyncImageView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ShowStoryViewController ()
 
@@ -34,12 +35,27 @@
             NSDictionary *photo_urls = (NSDictionary *) [photo objectForKey:@"photo_urls"];
             NSString *image = (NSString*) [photo_urls objectForKey:@"thumb_url"];
             if (image) {
-                AsyncImageView *asyncImageView = [[AsyncImageView alloc] init];
+                AsyncImageView *asyncImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(10, currentStoryHeight, 300, 300)];
+                asyncImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+                asyncImageView.contentMode = UIViewContentModeScaleAspectFit;
+                asyncImageView.layer.cornerRadius = 5.0;
+                asyncImageView.layer.masksToBounds = YES;
+                
+                /*[[NSNotificationCenter defaultCenter] addObserverForName:@"AsyncImageLoadDidFinish" object:asyncImageView
+                                                                   queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif)
+                {
+                    UIImage *image = [notif.userInfo objectForKey:@"image"];
+                    CGRect frame = asyncImageView.frame;
+                    
+                    frame.size.width = image.size.width;
+                    frame.size.height = image.size.height;
+                    asyncImageView.frame = frame;
+                }];*/
+                
                 NSURL *url = [NSURL URLWithString:image];
                 asyncImageView.imageURL = url;
                 
                 [scrollView addSubview:asyncImageView];
-                asyncImageView.frame = CGRectMake(10, currentStoryHeight, 300, 300);
                 currentStoryHeight += 300;
             }
             
@@ -56,7 +72,8 @@
             }
         }
         
-        [scrollView setContentSize:(CGSizeMake(320, currentStoryHeight))];
+        [scrollView setContentSize:(CGSizeMake(10, currentStoryHeight))];
+        [scrollView setAutoresizesSubviews:NO];
     }
     return self;
 }

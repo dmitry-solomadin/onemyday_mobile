@@ -38,13 +38,19 @@
     // get the app delegate so that we can access the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     
-    if (appDelegate.session.isOpen)[appDelegate.session closeAndClearTokenInformation];
+    if([appDelegate.loggedInFlag intValue]==1)[appDelegate.session closeAndClearTokenInformation];
     
-    else if ([DMTwitter shared].oauth_token_authorized)[[DMTwitter shared] logout];
+    else if ([appDelegate.loggedInFlag intValue]==2)[[DMTwitter shared] logout];
+    
+    else if ([appDelegate.loggedInFlag intValue]==3)
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_id"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     StartViewController  *startViewController = [[StartViewController alloc] initWithNibName:@"StartViewController" bundle:nil];
-    
-    [[self navigationController] pushViewController:startViewController animated:YES];
+    [[self navigationController] pushViewController:startViewController animated:YES];    
+   
 }
 
 - (void)viewDidLoad

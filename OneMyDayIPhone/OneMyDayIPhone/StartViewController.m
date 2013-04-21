@@ -8,15 +8,20 @@
 
 #import "StartViewController.h"
 #import "LoginViewController.h"
-#import "AppDelegate.h"
+
 #import "DMOAuthTwitter.h"
 #import "DMTwitterCore.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface StartViewController ()
 
 @end
 
 @implementation StartViewController
+
+@synthesize facebookButton, twitterButton;
+
+//@synthesize appDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,8 +35,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    facebookButton.layer.cornerRadius = 3;
+    facebookButton.clipsToBounds = YES;
+    
+    twitterButton.layer.cornerRadius = 3;
+    twitterButton.clipsToBounds = YES;
+    
     self.navigationItem.title = @"Authorization";
+    
     [self updateView];
+    
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
         // create a fresh session object
@@ -50,6 +64,10 @@
             }];
         }
     }
+    
+    
+   
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,31 +88,32 @@
 // handler for button click, logs sessions in or out
 - (IBAction)loginFacebook:(id)sender {
     
-    // get the app delegate so that we can access the session property
+    NSLog(@"loginFacebook");
+    
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
     
     // this button's job is to flip-flop the session from open to closed
-    if (appDelegate.session.isOpen) {
-        // if a user logs out explicitly, we delete any cached token information, and next
-        // time they run the applicaiton they will be presented with log in UX again; most
-        // users will simply close the app or switch away, without logging out; this will
-        // cause the implicit cached-token login to occur on next launch of the application
-        [appDelegate.session closeAndClearTokenInformation];
+    //if (!appDelegate.session.isOpen) {
         
-    } else {
+   
         if (appDelegate.session.state != FBSessionStateCreated) {
             // Create a new, logged out session.
             appDelegate.session = [[FBSession alloc] init];
         }
+    
+        //NSLog(@"appDelegate.session.isOpen: %c", appDelegate.session.isOpen);
         
         // if the session isn't open, let's open it now and present the login UX to the user
         [appDelegate.session openWithCompletionHandler:^(FBSession *session,
                                                          FBSessionState status,
                                                          NSError *error) {
             // and here we make sure to update our UX according to the new session state
+            //NSLog(@"error: %@", error);
+            
             [self updateView];
         }];
-    }
+    //}
 
 }
 
@@ -109,6 +128,11 @@
         //tw_userData.text = @"";
     } else {*/
         // prompt login
+    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
+    
+    
+    
         [[DMTwitter shared] newLoginSessionFrom:self.navigationController
                                        progress:^(DMOTwitterLoginStatus currentStatus) {
                                            NSLog(@"current status = %@",[StartViewController readableCurrentLoginStatus:currentStatus]);
@@ -126,7 +150,8 @@
                                                // store our auth data so we can use later in other sessions
                                                [[DMTwitter shared] saveCredentials];
                                                
-                                               
+                                              
+                                             
                                                
                                                /*NSLog(@"Now getting more data...");
                                                // you can use this call in order to validate your credentials
@@ -139,6 +164,7 @@
                                                }];*/
                                            }
                                        }];
+   
     
     //}
     
@@ -167,14 +193,40 @@
 // FBSample logic
 // main helper method to update the UI to reflect the current state of the session.
 - (void)updateView {
+    NSLog(@"updateView !");
     // get the app delegate, so that we can reference the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-    if (appDelegate.session.isOpen||[DMTwitter shared].oauth_token_authorized) {
-        // valid account UI is shown whenever the session is open        
-        UIViewController *masterController = [AppDelegate initMasterController];
-        [self presentViewController:masterController animated:YES completion:nil];
-        [self dismissViewControllerAnimated:YES completion:nil];
-        //[appDelegate.session closeAndClearTokenInformation];
-    } 
+    if (appDelegate.session.isOpen) {
+        NSLog(@"Welcome to facebook session!");
+        appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
+        [self goToMasterView];
+        
+    }
+    else if ([DMTwitter shared].oauth_token_authorized) {
+        NSLog(@"Welcome to twitter session!");
+        appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
+        [self goToMasterView];
+        
+    }
+    else if ([self checkEmail]) {
+        NSLog(@"Welcome to email session!");
+        appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
+        [self goToMasterView];
+        
+    }
+
+}
+
+- (void)goToMasterView
+{
+    UIViewController *masterController = [AppDelegate initMasterController];
+    [self presentViewController:masterController animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(bool)checkEmail{
+    NSData *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];    
+    if (saved_credentials != nil)return true;
+    else return false;
 }
 @end

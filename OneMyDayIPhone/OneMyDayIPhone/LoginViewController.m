@@ -37,6 +37,8 @@
             
             NSLog(@"userId = %@", userId);
             
+            [self saveCredentials:userId];
+            
             UIViewController *masterController = [AppDelegate initMasterController];
             [self presentViewController:masterController animated:YES completion:nil];
             [self dismissViewControllerAnimated:YES completion:nil];
@@ -47,6 +49,18 @@
         NSLog(@"Exception: %@", e);
         [self alertStatus:@"Login Failed." :@"Login Failed!"];
     }
+}
+
+
+
+
+
+- (void) saveCredentials: userId {
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:userId]
+                                              forKey:@"user_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 @end

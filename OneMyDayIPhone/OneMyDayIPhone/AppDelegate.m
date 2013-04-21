@@ -19,6 +19,7 @@
 @implementation AppDelegate
 
 @synthesize session = _session;
+@synthesize loggedInFlag;
 
 
 + (UIViewController *)initMasterController
@@ -55,8 +56,9 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *) url sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
     // attempt to extract a token from the url
-    //return [self.session handleOpenURL:url];
-    return [[DMTwitter shared].currentLoginController handleTokenRequestResponseURL:url];
+    if([loggedInFlag intValue]==1)return [self.session handleOpenURL:url];
+    else if([loggedInFlag intValue]==2)return [[DMTwitter shared].currentLoginController handleTokenRequestResponseURL:url];
+    else return [self.session handleOpenURL:url];
 }
 
 

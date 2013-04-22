@@ -42,9 +42,9 @@
     twitterButton.layer.cornerRadius = 3;
     twitterButton.clipsToBounds = YES;
     
-    self.navigationItem.title = @"Authorization";
-    
     [self updateView];
+    
+    [[self navigationController] setNavigationBarHidden:YES animated:NO];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
@@ -64,10 +64,6 @@
             }];
         }
     }
-    
-    
-   
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,8 +72,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)loginOnemday:(id)sender {
-    
+- (IBAction)loginOnemday:(id)sender
+{
     LoginViewController  *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     
     [[self navigationController] pushViewController:loginViewController animated:YES];
@@ -86,8 +82,8 @@
 
 // FBSample logic
 // handler for button click, logs sessions in or out
-- (IBAction)loginFacebook:(id)sender {
-    
+- (IBAction)loginFacebook:(id)sender
+{    
     NSLog(@"loginFacebook");
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
@@ -117,9 +113,8 @@
 
 }
 
-- (IBAction)loginTwitter:(id)sender {
-    
-   
+- (IBAction)loginTwitter:(id)sender
+{
     /*if ([DMTwitter shared].oauth_token_authorized) {
         // already logged, execute logout
         //[[DMTwitter shared] logout];
@@ -197,7 +192,8 @@
 
 // FBSample logic
 // main helper method to update the UI to reflect the current state of the session.
-- (void)updateView {
+- (void)updateView
+{
     NSLog(@"updateView !");
     // get the app delegate, so that we can reference the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
@@ -229,7 +225,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(bool)checkEmail{
+- (bool)checkEmail
+{
     NSData *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];    
     if (saved_credentials != nil)return true;
     else return false;

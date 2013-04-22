@@ -16,6 +16,13 @@
 		1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */; };
 		18BFB75917242A0200930B97 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB75717242A0200930B97 /* Default@2x.png */; };
 		18BFB75A17242A0200930B97 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB75817242A0200930B97 /* Default.png */; };
+		18BFB75D17249AC100930B97 /* twitter_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB75B17249AC100930B97 /* twitter_login@2x.png */; };
+		18BFB75E17249AC100930B97 /* twitter_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB75C17249AC100930B97 /* twitter_login.png */; };
+		18BFB76017249FE500930B97 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB75F17249FE500930B97 /* Default-568h@2x.png */; };
+		18BFB7651724A36100930B97 /* facebook_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7611724A36100930B97 /* facebook_login@2x.png */; };
+		18BFB7661724A36100930B97 /* facebook_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7621724A36100930B97 /* facebook_login.png */; };
+		18BFB7671724A36100930B97 /* email_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7631724A36100930B97 /* email_login@2x.png */; };
+		18BFB7681724A36100930B97 /* email_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7641724A36100930B97 /* email_login.png */; };
 		18E24213171578B000435FBE /* ShowStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24212171578B000435FBE /* ShowStoryViewController.m */; };
 		18E24216171583F100435FBE /* StoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24215171583F100435FBE /* StoryStore.m */; };
 		18E242191716CA5800435FBE /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E242181716CA5800435FBE /* ExploreViewController.m */; };
@@ -128,6 +135,13 @@
 		1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryShadowWrapView.m; sourceTree = "<group>"; };
 		18BFB75717242A0200930B97 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		18BFB75817242A0200930B97 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		18BFB75B17249AC100930B97 /* twitter_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "twitter_login@2x.png"; path = "assets/twitter_login@2x.png"; sourceTree = "<group>"; };
+		18BFB75C17249AC100930B97 /* twitter_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitter_login.png; path = assets/twitter_login.png; sourceTree = "<group>"; };
+		18BFB75F17249FE500930B97 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		18BFB7611724A36100930B97 /* facebook_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "facebook_login@2x.png"; path = "assets/facebook_login@2x.png"; sourceTree = "<group>"; };
+		18BFB7621724A36100930B97 /* facebook_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facebook_login.png; path = assets/facebook_login.png; sourceTree = "<group>"; };
+		18BFB7631724A36100930B97 /* email_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "email_login@2x.png"; path = "assets/email_login@2x.png"; sourceTree = "<group>"; };
+		18BFB7641724A36100930B97 /* email_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = email_login.png; path = assets/email_login.png; sourceTree = "<group>"; };
 		18E24211171578B000435FBE /* ShowStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowStoryViewController.h; sourceTree = "<group>"; };
 		18E24212171578B000435FBE /* ShowStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowStoryViewController.m; sourceTree = "<group>"; };
 		18E24214171583F000435FBE /* StoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryStore.h; sourceTree = "<group>"; };
@@ -277,6 +291,12 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18BFB7611724A36100930B97 /* facebook_login@2x.png */,
+				18BFB7621724A36100930B97 /* facebook_login.png */,
+				18BFB7631724A36100930B97 /* email_login@2x.png */,
+				18BFB7641724A36100930B97 /* email_login.png */,
+				18BFB75B17249AC100930B97 /* twitter_login@2x.png */,
+				18BFB75C17249AC100930B97 /* twitter_login.png */,
 				84AEC1B117213FD1005CCD58 /* onemydayLogo.png */,
 				1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */,
 				1889A2BA1720AC6900F3E2CD /* furley_bg.png */,
@@ -407,6 +427,7 @@
 		844DFA6416CFB66F00884637 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				18BFB75F17249FE500930B97 /* Default-568h@2x.png */,
 				18BFB75717242A0200930B97 /* Default@2x.png */,
 				18BFB75817242A0200930B97 /* Default.png */,
 				844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */,
@@ -607,6 +628,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18BFB7651724A36100930B97 /* facebook_login@2x.png in Resources */,
+				18BFB7661724A36100930B97 /* facebook_login.png in Resources */,
+				18BFB7671724A36100930B97 /* email_login@2x.png in Resources */,
+				18BFB7681724A36100930B97 /* email_login.png in Resources */,
+				18BFB76017249FE500930B97 /* Default-568h@2x.png in Resources */,
+				18BFB75D17249AC100930B97 /* twitter_login@2x.png in Resources */,
+				18BFB75E17249AC100930B97 /* twitter_login.png in Resources */,
 				18BFB75917242A0200930B97 /* Default@2x.png in Resources */,
 				18BFB75A17242A0200930B97 /* Default.png in Resources */,
 				1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */,

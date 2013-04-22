@@ -38,8 +38,6 @@
     
     [self updateView];
     
-    //[[self navigationController] setNavigationBarHidden:YES animated:NO];
-    
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
         // create a fresh session object
@@ -65,9 +63,17 @@
     twitterButton.layer.cornerRadius = 3;
     twitterButton.clipsToBounds = YES;
     
-    self.navigationController.navigationBarHidden = YES;
-    
-    self.navigationItem.title = @"Authorization";   
+    [[self navigationController] setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

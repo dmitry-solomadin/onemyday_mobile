@@ -23,6 +23,8 @@
 		18BFB7661724A36100930B97 /* facebook_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7621724A36100930B97 /* facebook_login.png */; };
 		18BFB7671724A36100930B97 /* email_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7631724A36100930B97 /* email_login@2x.png */; };
 		18BFB7681724A36100930B97 /* email_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7641724A36100930B97 /* email_login.png */; };
+		18D9D1D2172554480092FC8F /* login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D9D1D0172554470092FC8F /* login@2x.png */; };
+		18D9D1D3172554480092FC8F /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D9D1D1172554480092FC8F /* login.png */; };
 		18E24213171578B000435FBE /* ShowStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24212171578B000435FBE /* ShowStoryViewController.m */; };
 		18E24216171583F100435FBE /* StoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24215171583F100435FBE /* StoryStore.m */; };
 		18E242191716CA5800435FBE /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E242181716CA5800435FBE /* ExploreViewController.m */; };
@@ -142,6 +144,8 @@
 		18BFB7621724A36100930B97 /* facebook_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facebook_login.png; path = assets/facebook_login.png; sourceTree = "<group>"; };
 		18BFB7631724A36100930B97 /* email_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "email_login@2x.png"; path = "assets/email_login@2x.png"; sourceTree = "<group>"; };
 		18BFB7641724A36100930B97 /* email_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = email_login.png; path = assets/email_login.png; sourceTree = "<group>"; };
+		18D9D1D0172554470092FC8F /* login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login@2x.png"; path = "assets/login@2x.png"; sourceTree = "<group>"; };
+		18D9D1D1172554480092FC8F /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = assets/login.png; sourceTree = "<group>"; };
 		18E24211171578B000435FBE /* ShowStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowStoryViewController.h; sourceTree = "<group>"; };
 		18E24212171578B000435FBE /* ShowStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowStoryViewController.m; sourceTree = "<group>"; };
 		18E24214171583F000435FBE /* StoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryStore.h; sourceTree = "<group>"; };
@@ -291,6 +295,8 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18D9D1D0172554470092FC8F /* login@2x.png */,
+				18D9D1D1172554480092FC8F /* login.png */,
 				18BFB7611724A36100930B97 /* facebook_login@2x.png */,
 				18BFB7621724A36100930B97 /* facebook_login.png */,
 				18BFB7631724A36100930B97 /* email_login@2x.png */,
@@ -628,6 +634,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18D9D1D2172554480092FC8F /* login@2x.png in Resources */,
+				18D9D1D3172554480092FC8F /* login.png in Resources */,
 				18BFB7651724A36100930B97 /* facebook_login@2x.png in Resources */,
 				18BFB7661724A36100930B97 /* facebook_login.png in Resources */,
 				18BFB7671724A36100930B97 /* email_login@2x.png in Resources */,

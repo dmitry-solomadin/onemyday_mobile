@@ -36,15 +36,9 @@
 {
     [super viewDidLoad];
     
-    facebookButton.layer.cornerRadius = 3;
-    facebookButton.clipsToBounds = YES;
-    
-    twitterButton.layer.cornerRadius = 3;
-    twitterButton.clipsToBounds = YES;
-    
     [self updateView];
     
-    [[self navigationController] setNavigationBarHidden:YES animated:NO];
+    //[[self navigationController] setNavigationBarHidden:YES animated:NO];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
@@ -64,6 +58,16 @@
             }];
         }
     }
+    
+    facebookButton.layer.cornerRadius = 3;
+    facebookButton.clipsToBounds = YES;
+    
+    twitterButton.layer.cornerRadius = 3;
+    twitterButton.clipsToBounds = YES;
+    
+    self.navigationController.navigationBarHidden = YES;
+    
+    self.navigationItem.title = @"Authorization";   
 }
 
 - (void)didReceiveMemoryWarning
@@ -145,9 +149,8 @@
                                                // store our auth data so we can use later in other sessions
                                                [[DMTwitter shared] saveCredentials];
                                                
-                                               [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:
-                                                ^(){
-                                                    
+                                               [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:^(){
+                                                    [self updateView];
                                                 }];
                                                
                                               

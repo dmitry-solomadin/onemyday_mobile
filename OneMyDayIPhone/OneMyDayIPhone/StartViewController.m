@@ -36,13 +36,7 @@
 {
     [super viewDidLoad];
     
-    facebookButton.layer.cornerRadius = 3;
-    facebookButton.clipsToBounds = YES;
     
-    twitterButton.layer.cornerRadius = 3;
-    twitterButton.clipsToBounds = YES;
-    
-    self.navigationItem.title = @"Authorization";
     
     [self updateView];
     
@@ -65,8 +59,15 @@
         }
     }
     
+    facebookButton.layer.cornerRadius = 3;
+    facebookButton.clipsToBounds = YES;
     
-   
+    twitterButton.layer.cornerRadius = 3;
+    twitterButton.clipsToBounds = YES;
+    
+    self.navigationController.navigationBarHidden = YES;
+    
+    self.navigationItem.title = @"Authorization";   
 
 }
 
@@ -150,9 +151,8 @@
                                                // store our auth data so we can use later in other sessions
                                                [[DMTwitter shared] saveCredentials];
                                                
-                                               [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:
-                                                ^(){
-                                                    
+                                               [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:^(){
+                                                    [self updateView];
                                                 }];
                                                
                                               

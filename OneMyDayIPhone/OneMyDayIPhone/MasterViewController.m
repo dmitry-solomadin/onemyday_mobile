@@ -23,6 +23,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cool_bg"]];
+        
         HomeViewController *hvc = [[HomeViewController alloc] init];
         UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:hvc];
         homeNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"home.png"] tag:0];

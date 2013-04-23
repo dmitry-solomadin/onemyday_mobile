@@ -32,6 +32,10 @@
 {    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    UIImage *navBackgroundImage = [UIImage imageNamed:@"navbar_bg"];
+    [[UINavigationBar appearance] setBackgroundImage:navBackgroundImage forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
+
     [[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
     
     StartViewController *svc = [[StartViewController alloc] init];

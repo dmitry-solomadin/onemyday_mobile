@@ -10,7 +10,7 @@
 #import "HomeViewController.h"
 #import "Request.h"
 #import "AppDelegate.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 @interface LoginViewController ()
 
@@ -19,6 +19,27 @@
 @implementation LoginViewController
 
 @synthesize txtEmail, txtPassword;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whitey"]];
+
+        UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+        txtEmail.leftView = paddingView;
+        txtEmail.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView *paddingView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+        txtPassword.leftView = paddingView2;
+        txtPassword.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+        [txtEmail setBackground:fieldBGImage];
+        [txtPassword setBackground:fieldBGImage];
+    }
+    return self;
+}
 
 - (void) alertStatus:(NSString *)msg :(NSString *) title
 {

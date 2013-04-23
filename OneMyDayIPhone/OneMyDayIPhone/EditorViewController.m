@@ -41,13 +41,12 @@
 
 - (UIButton *)addBottomButtonWithTitle:(NSString *)title frame:(CGRect)frame action:(SEL)selector {
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *buttonBG = [[UIImage imageNamed:@"editorbar_button"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
+    UIImage *buttonBGSelected = [[UIImage imageNamed:@"editorbar_button"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
+    [button setBackgroundImage:buttonBG forState:UIControlStateNormal];
+    [button setBackgroundImage:buttonBGSelected forState:UIControlStateHighlighted];
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    CALayer * layer = [button layer];
-    [layer setMasksToBounds:YES];
-    [layer setCornerRadius:0.0]; //when radius is 0, the border is a rectangle
-    [layer setBorderWidth:1.0];
-    [layer setBorderColor:[[UIColor grayColor] CGColor]];
+    [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 
     button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin
     | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;

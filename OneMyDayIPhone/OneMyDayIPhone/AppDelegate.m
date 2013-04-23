@@ -35,6 +35,11 @@
     UIImage *navBackgroundImage = [UIImage imageNamed:@"navbar_bg"];
     [[UINavigationBar appearance] setBackgroundImage:navBackgroundImage forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
+    
+    UIImage* tabBarBackground = [UIImage imageNamed:@"tabbar_bg"];
+    [[UITabBar appearance] setBackgroundImage:tabBarBackground];
+    //[[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tabbar_selected.png"]];
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:0.8 green:0.1 blue:0 alpha:1]];
 
     [[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
     

@@ -18,6 +18,12 @@
 		185BC4091725EBDE002D4FE8 /* cool_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4071725EBDE002D4FE8 /* cool_bg.png */; };
 		185BC4101725FBED002D4FE8 /* text_field@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC40E1725FBED002D4FE8 /* text_field@2x.png */; };
 		185BC4111725FBED002D4FE8 /* text_field.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC40F1725FBED002D4FE8 /* text_field.png */; };
+		185BC4141726BD56002D4FE8 /* tabbar_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4121726BD56002D4FE8 /* tabbar_bg@2x.png */; };
+		185BC4151726BD56002D4FE8 /* tabbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4131726BD56002D4FE8 /* tabbar_bg.png */; };
+		185BC4181726C96E002D4FE8 /* editorbar_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4161726C96D002D4FE8 /* editorbar_button@2x.png */; };
+		185BC4191726C96E002D4FE8 /* editorbar_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4171726C96E002D4FE8 /* editorbar_button.png */; };
+		185BC4271726EB1A002D4FE8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4261726EB1A002D4FE8 /* Icon.png */; };
+		185BC4291726EB2A002D4FE8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4281726EB2A002D4FE8 /* Icon@2x.png */; };
 		1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BA1720AC6900F3E2CD /* furley_bg.png */; };
 		1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */; };
 		1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */; };
@@ -143,8 +149,14 @@
 		185BC4031725E834002D4FE8 /* navbar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = navbar_bg.png; path = assets/navbar_bg.png; sourceTree = "<group>"; };
 		185BC4061725EBDE002D4FE8 /* cool_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cool_bg@2x.png"; path = "assets/cool_bg@2x.png"; sourceTree = "<group>"; };
 		185BC4071725EBDE002D4FE8 /* cool_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cool_bg.png; path = assets/cool_bg.png; sourceTree = "<group>"; };
-		185BC40E1725FBED002D4FE8 /* text_field@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "text_field@2x.png"; path = "OneMyDayIPhone/assets/text_field@2x.png"; sourceTree = "<group>"; };
-		185BC40F1725FBED002D4FE8 /* text_field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = text_field.png; path = OneMyDayIPhone/assets/text_field.png; sourceTree = "<group>"; };
+		185BC40E1725FBED002D4FE8 /* text_field@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "text_field@2x.png"; path = "assets/text_field@2x.png"; sourceTree = "<group>"; };
+		185BC40F1725FBED002D4FE8 /* text_field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = text_field.png; path = assets/text_field.png; sourceTree = "<group>"; };
+		185BC4121726BD56002D4FE8 /* tabbar_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tabbar_bg@2x.png"; path = "assets/tabbar_bg@2x.png"; sourceTree = "<group>"; };
+		185BC4131726BD56002D4FE8 /* tabbar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tabbar_bg.png; path = assets/tabbar_bg.png; sourceTree = "<group>"; };
+		185BC4161726C96D002D4FE8 /* editorbar_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "editorbar_button@2x.png"; path = "assets/editorbar_button@2x.png"; sourceTree = "<group>"; };
+		185BC4171726C96E002D4FE8 /* editorbar_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button.png; path = assets/editorbar_button.png; sourceTree = "<group>"; };
+		185BC4261726EB1A002D4FE8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
+		185BC4281726EB2A002D4FE8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../Icon@2x.png"; sourceTree = "<group>"; };
 		1889A2BA1720AC6900F3E2CD /* furley_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = furley_bg.png; path = assets/furley_bg.png; sourceTree = "<group>"; };
 		1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "furley_bg@2x.png"; path = "assets/furley_bg@2x.png"; sourceTree = "<group>"; };
 		1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryShadowWrapView.h; sourceTree = "<group>"; };
@@ -220,19 +232,19 @@
 		844DFA5D16CFB66F00884637 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		844DFA5F16CFB66F00884637 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		844DFA6116CFB66F00884637 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneMyDayIPhone-Info.plist"; sourceTree = "<group>"; };
+		844DFA6516CFB66F00884637 /* Onemyday-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Onemyday-Info.plist"; sourceTree = "<group>"; };
 		844DFA6716CFB66F00884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		844DFA6916CFB66F00884637 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneMyDayIPhone-Prefix.pch"; sourceTree = "<group>"; };
+		844DFA6B16CFB66F00884637 /* Onemyday-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Onemyday-Prefix.pch"; sourceTree = "<group>"; };
 		844DFA6C16CFB66F00884637 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		844DFA6D16CFB66F00884637 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		844DFA8716CFB67000884637 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		844DFA8F16CFB67000884637 /* OneMyDayIPhoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneMyDayIPhoneTests-Info.plist"; sourceTree = "<group>"; };
+		844DFA8F16CFB67000884637 /* OnemydayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OnemydayTests-Info.plist"; sourceTree = "<group>"; };
 		844DFA9116CFB67000884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		844DFA9316CFB67000884637 /* OneMyDayIPhoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneMyDayIPhoneTests.h; sourceTree = "<group>"; };
 		844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneMyDayIPhoneTests.m; sourceTree = "<group>"; };
-		849C6DD41718304A006C5766 /* OneMyDayIPhone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneMyDayIPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		849C6DD61718304A006C5766 /* OneMyDayIPhoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneMyDayIPhoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		849C6DD41718304A006C5766 /* Onemyday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Onemyday.app; path = "/Users/apple/Documents/work/ios/onemyday_mobile/OneMyDayIPhone/build/Release-iphoneos/Onemyday.app"; sourceTree = "<absolute>"; };
+		849C6DD61718304A006C5766 /* OnemydayTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = OnemydayTests.octest; path = "/Users/apple/Documents/work/ios/onemyday_mobile/OneMyDayIPhone/build/Release-iphoneos/OnemydayTests.octest"; sourceTree = "<absolute>"; };
 		849C6E2417183F68006C5766 /* DMTwitterCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTwitterCore.h; sourceTree = "<group>"; };
 		849C6E2517183F6E006C5766 /* DMTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTwitter.h; sourceTree = "<group>"; };
 		849C6E2617183F74006C5766 /* DMTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTwitter.m; sourceTree = "<group>"; };
@@ -309,6 +321,12 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				185BC4161726C96D002D4FE8 /* editorbar_button@2x.png */,
+				185BC4171726C96E002D4FE8 /* editorbar_button.png */,
+				185BC4121726BD56002D4FE8 /* tabbar_bg@2x.png */,
+				185BC4131726BD56002D4FE8 /* tabbar_bg.png */,
+				185BC40E1725FBED002D4FE8 /* text_field@2x.png */,
+				185BC40F1725FBED002D4FE8 /* text_field.png */,
 				185BC4061725EBDE002D4FE8 /* cool_bg@2x.png */,
 				185BC4071725EBDE002D4FE8 /* cool_bg.png */,
 				185BC4021725E834002D4FE8 /* navbar_bg@2x.png */,
@@ -409,14 +427,10 @@
 		844DFA4E16CFB66F00884637 = {
 			isa = PBXGroup;
 			children = (
-				185BC40E1725FBED002D4FE8 /* text_field@2x.png */,
-				185BC40F1725FBED002D4FE8 /* text_field.png */,
 				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
 				18E242251716DB4E00435FBE /* Resources */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
 				844DFA5C16CFB66F00884637 /* Frameworks */,
-				849C6DD41718304A006C5766 /* OneMyDayIPhone.app */,
-				849C6DD61718304A006C5766 /* OneMyDayIPhoneTests.octest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -454,13 +468,15 @@
 		844DFA6416CFB66F00884637 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				185BC4281726EB2A002D4FE8 /* Icon@2x.png */,
+				185BC4261726EB1A002D4FE8 /* Icon.png */,
 				18BFB75F17249FE500930B97 /* Default-568h@2x.png */,
 				18BFB75717242A0200930B97 /* Default@2x.png */,
 				18BFB75817242A0200930B97 /* Default.png */,
-				844DFA6516CFB66F00884637 /* OneMyDayIPhone-Info.plist */,
+				844DFA6516CFB66F00884637 /* Onemyday-Info.plist */,
 				844DFA6616CFB66F00884637 /* InfoPlist.strings */,
 				844DFA6916CFB66F00884637 /* main.m */,
-				844DFA6B16CFB66F00884637 /* OneMyDayIPhone-Prefix.pch */,
+				844DFA6B16CFB66F00884637 /* Onemyday-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -478,7 +494,7 @@
 		844DFA8E16CFB67000884637 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				844DFA8F16CFB67000884637 /* OneMyDayIPhoneTests-Info.plist */,
+				844DFA8F16CFB67000884637 /* OnemydayTests-Info.plist */,
 				844DFA9016CFB67000884637 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -587,9 +603,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		844DFA5816CFB66F00884637 /* OneMyDayIPhone */ = {
+		844DFA5816CFB66F00884637 /* Onemyday */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 844DFA9816CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhone" */;
+			buildConfigurationList = 844DFA9816CFB67000884637 /* Build configuration list for PBXNativeTarget "Onemyday" */;
 			buildPhases = (
 				844DFA5516CFB66F00884637 /* Sources */,
 				844DFA5616CFB66F00884637 /* Frameworks */,
@@ -599,14 +615,14 @@
 			);
 			dependencies = (
 			);
-			name = OneMyDayIPhone;
+			name = Onemyday;
 			productName = OneMyDayIPhone;
-			productReference = 849C6DD41718304A006C5766 /* OneMyDayIPhone.app */;
+			productReference = 849C6DD41718304A006C5766 /* Onemyday.app */;
 			productType = "com.apple.product-type.application";
 		};
-		844DFA8516CFB67000884637 /* OneMyDayIPhoneTests */ = {
+		844DFA8516CFB67000884637 /* OnemydayTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 844DFA9B16CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhoneTests" */;
+			buildConfigurationList = 844DFA9B16CFB67000884637 /* Build configuration list for PBXNativeTarget "OnemydayTests" */;
 			buildPhases = (
 				844DFA8116CFB67000884637 /* Sources */,
 				844DFA8216CFB67000884637 /* Frameworks */,
@@ -618,9 +634,9 @@
 			dependencies = (
 				844DFA8C16CFB67000884637 /* PBXTargetDependency */,
 			);
-			name = OneMyDayIPhoneTests;
+			name = OnemydayTests;
 			productName = OneMyDayIPhoneTests;
-			productReference = 849C6DD61718304A006C5766 /* OneMyDayIPhoneTests.octest */;
+			productReference = 849C6DD61718304A006C5766 /* OnemydayTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -632,7 +648,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = Admin;
 			};
-			buildConfigurationList = 844DFA5316CFB66F00884637 /* Build configuration list for PBXProject "OneMyDayIPhone" */;
+			buildConfigurationList = 844DFA5316CFB66F00884637 /* Build configuration list for PBXProject "Onemyday" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -644,8 +660,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				844DFA5816CFB66F00884637 /* OneMyDayIPhone */,
-				844DFA8516CFB67000884637 /* OneMyDayIPhoneTests */,
+				844DFA5816CFB66F00884637 /* Onemyday */,
+				844DFA8516CFB67000884637 /* OnemydayTests */,
 			);
 		};
 /* End PBXProject section */
@@ -655,6 +671,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				185BC4181726C96E002D4FE8 /* editorbar_button@2x.png in Resources */,
+				185BC4191726C96E002D4FE8 /* editorbar_button.png in Resources */,
+				185BC4141726BD56002D4FE8 /* tabbar_bg@2x.png in Resources */,
+				185BC4151726BD56002D4FE8 /* tabbar_bg.png in Resources */,
 				185BC4101725FBED002D4FE8 /* text_field@2x.png in Resources */,
 				185BC4111725FBED002D4FE8 /* text_field.png in Resources */,
 				185BC4081725EBDE002D4FE8 /* cool_bg@2x.png in Resources */,
@@ -694,6 +714,8 @@
 				84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */,
 				849C6E2E17183FB0006C5766 /* DMTwitterLoginViewController.xib in Resources */,
 				84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */,
+				185BC4271726EB1A002D4FE8 /* Icon.png in Resources */,
+				185BC4291726EB2A002D4FE8 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -804,7 +826,7 @@
 /* Begin PBXTargetDependency section */
 		844DFA8C16CFB67000884637 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 844DFA5816CFB66F00884637 /* OneMyDayIPhone */;
+			target = 844DFA5816CFB66F00884637 /* Onemyday */;
 			targetProxy = 844DFA8B16CFB67000884637 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -889,9 +911,9 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
-				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "OneMyDayIPhone/Onemyday-Prefix.pch";
+				INFOPLIST_FILE = "OneMyDayIPhone/Onemyday-Info.plist";
+				PRODUCT_NAME = Onemyday;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -905,9 +927,9 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
-				INFOPLIST_FILE = "OneMyDayIPhone/OneMyDayIPhone-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "OneMyDayIPhone/Onemyday-Prefix.pch";
+				INFOPLIST_FILE = "OneMyDayIPhone/Onemyday-Info.plist";
+				PRODUCT_NAME = Onemyday;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -923,8 +945,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
-				INFOPLIST_FILE = "OneMyDayIPhoneTests/OneMyDayIPhoneTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "OneMyDayIPhoneTests/OnemydayTests-Info.plist";
+				PRODUCT_NAME = OnemydayTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -940,8 +962,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OneMyDayIPhone/OneMyDayIPhone-Prefix.pch";
-				INFOPLIST_FILE = "OneMyDayIPhoneTests/OneMyDayIPhoneTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "OneMyDayIPhoneTests/OnemydayTests-Info.plist";
+				PRODUCT_NAME = OnemydayTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -950,7 +972,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		844DFA5316CFB66F00884637 /* Build configuration list for PBXProject "OneMyDayIPhone" */ = {
+		844DFA5316CFB66F00884637 /* Build configuration list for PBXProject "Onemyday" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				844DFA9616CFB67000884637 /* Debug */,
@@ -959,7 +981,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		844DFA9816CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhone" */ = {
+		844DFA9816CFB67000884637 /* Build configuration list for PBXNativeTarget "Onemyday" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				844DFA9916CFB67000884637 /* Debug */,
@@ -968,7 +990,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		844DFA9B16CFB67000884637 /* Build configuration list for PBXNativeTarget "OneMyDayIPhoneTests" */ = {
+		844DFA9B16CFB67000884637 /* Build configuration list for PBXNativeTarget "OnemydayTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				844DFA9C16CFB67000884637 /* Debug */,

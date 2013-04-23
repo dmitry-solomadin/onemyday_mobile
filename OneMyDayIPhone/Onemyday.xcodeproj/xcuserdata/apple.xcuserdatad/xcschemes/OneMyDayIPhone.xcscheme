@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "844DFA5816CFB66F00884637"
                BuildableName = "OneMyDayIPhone.app"
-               BlueprintName = "OneMyDayIPhone"
-               ReferencedContainer = "container:OneMyDayIPhone.xcodeproj">
+               BlueprintName = "Onemyday"
+               ReferencedContainer = "container:Onemyday.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "844DFA8516CFB67000884637"
                BuildableName = "OneMyDayIPhoneTests.octest"
-               BlueprintName = "OneMyDayIPhoneTests"
-               ReferencedContainer = "container:OneMyDayIPhone.xcodeproj">
+               BlueprintName = "OnemydayTests"
+               ReferencedContainer = "container:Onemyday.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844DFA5816CFB66F00884637"
             BuildableName = "OneMyDayIPhone.app"
-            BlueprintName = "OneMyDayIPhone"
-            ReferencedContainer = "container:OneMyDayIPhone.xcodeproj">
+            BlueprintName = "Onemyday"
+            ReferencedContainer = "container:Onemyday.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844DFA5816CFB66F00884637"
             BuildableName = "OneMyDayIPhone.app"
-            BlueprintName = "OneMyDayIPhone"
-            ReferencedContainer = "container:OneMyDayIPhone.xcodeproj">
+            BlueprintName = "Onemyday"
+            ReferencedContainer = "container:Onemyday.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844DFA5816CFB66F00884637"
             BuildableName = "OneMyDayIPhone.app"
-            BlueprintName = "OneMyDayIPhone"
-            ReferencedContainer = "container:OneMyDayIPhone.xcodeproj">
+            BlueprintName = "Onemyday"
+            ReferencedContainer = "container:Onemyday.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

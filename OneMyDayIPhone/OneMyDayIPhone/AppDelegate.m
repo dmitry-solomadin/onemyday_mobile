@@ -66,6 +66,7 @@
 // will be boolean NO, meaning the URL was not handled by the authenticating application
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *) url sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+    NSLog(@"loggedInFlag  %@!",loggedInFlag);
     // attempt to extract a token from the url
     if([loggedInFlag intValue]==1)return [self.session handleOpenURL:url];
     else if([loggedInFlag intValue]==2)return [[DMTwitter shared].currentLoginController handleTokenRequestResponseURL:url];

@@ -53,6 +53,10 @@
         if([[txtEmail text] isEqualToString:@""] || [[txtPassword text] isEqualToString:@""] ) {
             [self alertStatus:@"Please enter both Email and Password" :@"Login Failed!"];
         } else {
+            
+            AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+            appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
+            
             NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
             NSString *userId = [[Request alloc] requestLoginWithPath: postString];
             

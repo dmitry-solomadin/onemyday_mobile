@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "844DFA5816CFB66F00884637"
-               BuildableName = "OneMyDayIPhone.app"
+               BuildableName = "Onemyday.app"
                BlueprintName = "Onemyday"
                ReferencedContainer = "container:Onemyday.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "844DFA8516CFB67000884637"
-               BuildableName = "OneMyDayIPhoneTests.octest"
+               BuildableName = "OnemydayTests.octest"
                BlueprintName = "OnemydayTests"
                ReferencedContainer = "container:Onemyday.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844DFA5816CFB66F00884637"
-            BuildableName = "OneMyDayIPhone.app"
+            BuildableName = "Onemyday.app"
             BlueprintName = "Onemyday"
             ReferencedContainer = "container:Onemyday.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844DFA5816CFB66F00884637"
-            BuildableName = "OneMyDayIPhone.app"
+            BuildableName = "Onemyday.app"
             BlueprintName = "Onemyday"
             ReferencedContainer = "container:Onemyday.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844DFA5816CFB66F00884637"
-            BuildableName = "OneMyDayIPhone.app"
+            BuildableName = "Onemyday.app"
             BlueprintName = "Onemyday"
             ReferencedContainer = "container:Onemyday.xcodeproj">
          </BuildableReference>

@@ -33,6 +33,7 @@
 
 #import "AsyncImageView.h"
 #import <objc/message.h>
+#import "StoryStore.h"
 
 
 NSString *const AsyncImageLoadDidFinish = @"AsyncImageLoadDidFinish";
@@ -114,7 +115,7 @@ NSString *const AsyncImageErrorKey = @"error";
 }
 
 - (BOOL)isInCache
-{
+{    
     return [self cachedImage] != nil;
 }
 
@@ -141,13 +142,15 @@ NSString *const AsyncImageErrorKey = @"error";
             {
                 if ([[[_URL absoluteURL] path] hasPrefix:[[NSBundle mainBundle] resourcePath]])
                 {
-                    //do not store in cache
+                    //no store in cache
                     storeInCache = NO;
                 }
             }
             if (storeInCache)
             {
+                NSLog(@"store");
                 [_cache setObject:image forKey:_URL];
+                [[StoryStore get] saveImage:image  withName: [_URL absoluteString]];
             }
         }
         
@@ -457,11 +460,15 @@ NSString *const AsyncImageErrorKey = @"error";
 - (void)loadImageWithURL:(NSURL *)URL target:(id)target success:(SEL)success failure:(SEL)failure
 {
     //check cache
+    //NSLog(@"cache");
     UIImage *image = [_cache objectForKey:URL];
+    if (!image)image = [[StoryStore get] loadImage: [URL absoluteString]];
     if (image)
     {
+        NSLog(@"check cache");
         [self cancelLoadingImagesForTarget:self action:success];
         if (success) [target performSelectorOnMainThread:success withObject:image waitUntilDone:NO];
+        
         return;
     }
     

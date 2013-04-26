@@ -57,6 +57,11 @@
         }
     }
     
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     facebookButton.layer.cornerRadius = 3;
     facebookButton.clipsToBounds = YES;
     
@@ -64,11 +69,6 @@
     twitterButton.clipsToBounds = YES;
     
     [[self navigationController] setNavigationBarHidden:YES animated:NO];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -203,7 +203,7 @@
 // main helper method to update the UI to reflect the current state of the session.
 - (void)updateView
 {
-    NSLog(@"updateView !");
+    //NSLog(@"updateView !");
     // get the app delegate, so that we can reference the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (appDelegate.session.isOpen) {

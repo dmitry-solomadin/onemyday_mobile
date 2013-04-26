@@ -30,6 +30,7 @@
 -(void)insertImage:(UIImage*)image withSize:(NSUInteger)sz forKey:(NSString*)key{
     ImageCacheObject *object = [[ImageCacheObject alloc] initWithSize:sz Image:image];
     while (totalSize + sz > maxSize) {
+        
         NSDate *oldestTime;
         NSString *oldestKey;
         for (NSString *key in [myDictionary allKeys]) {

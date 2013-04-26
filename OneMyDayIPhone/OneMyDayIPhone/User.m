@@ -29,4 +29,21 @@
     return url;
 }
 
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.name forKey:@"name"];
+    [coder encodeObject:self.avatarUrls forKey:@"avatarUrls"];
+	[coder encodeInt32:self.userId forKey:@"userId"];}
+
+
+-(id)initWithCoder:(NSCoder *)coder {
+	if ((self = [super init]))
+	{
+        self.name = [coder decodeObjectForKey:@"name"];
+        self.avatarUrls = [coder decodeObjectForKey:@"avatarUrls"];
+        self.userId = [coder decodeInt32ForKey:@"userId"];
+ 	}
+	return self;
+}
+ 
+
 @end

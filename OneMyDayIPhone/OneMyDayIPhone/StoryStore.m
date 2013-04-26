@@ -11,7 +11,12 @@
 #import "Story.h"
 #import "Request.h"
 
+
+
 @implementation StoryStore
+
+@synthesize cacheLimit;
+@synthesize numOfCachedImages;
 
 + (StoryStore *)get
 {
@@ -61,10 +66,13 @@
     [Request insertParametersIntoUrl:path parameters:parameters];
 
     Request *request = [[Request alloc] init];
-    NSDictionary *jsonData = [request getDataFrom: path];
+    NSArray *jsonData = [request getDataFrom: path];
     NSMutableArray *allStories = [NSMutableArray array];
-    
-    for (NSDictionary *story in jsonData) {
+    NSMutableArray *cacheStories = [NSMutableArray array];
+    NSMutableArray *cacheUsers = [NSMutableArray array];
+     
+    for (int i=0; i < [jsonData  count]; i++) {
+        NSDictionary *story = [jsonData objectAtIndex:i];
         int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
         int authorId = [(NSString *) [story objectForKey:@"user_id"] intValue];
         NSString *title = (NSString *) [story objectForKey:@"title"];
@@ -76,17 +84,82 @@
             [photoArray addObject:photo];
         }
         
-        [allStories addObject:[[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos]];
+        Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
+        [allStories addObject:newStory];
+        if(i < [cacheLimit intValue])[cacheStories addObject:newStory];
         
         if (includeUser) {
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey:@"user"]];
             [[UserStore get] addUser:user];
+            if(i < [cacheLimit intValue])[cacheUsers addObject:user];
         }
     }
     
     [[StoryStore get] setStories:allStories];
     
+    [self saveStoriesToDisk:cacheStories];
+    [[UserStore get] saveUsersToDisk:cacheUsers];
+    //[self loadDataFromDisk];
+    
     return allStories;
+}
+
+- (void)saveStoriesToDisk: (NSMutableArray *)allStories {
+    NSString *path = @"~/Documents/data";
+    path = [path stringByExpandingTildeInPath];
+    
+    NSMutableDictionary *rootObject;
+    rootObject = [NSMutableDictionary dictionary];
+    
+    [rootObject setValue:allStories forKey:@"stories"];
+    
+    [NSKeyedArchiver archiveRootObject:rootObject toFile:path];
+}
+
+- (id)loadStoriesFromDisk {
+    NSString *path = @"~/Documents/data";
+    path = [path stringByExpandingTildeInPath];
+    
+    NSMutableDictionary *rootObject;
+    rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    
+    /*if ([rootObject valueForKey:@"stories"]) {
+        return [rootObject valueForKey:@"stories"];
+    }
+    ruturn nil;
+     */
+    return [rootObject valueForKey:@"stories"];
+}
+
+- (void)saveImage:(UIImage*)image withName:(NSString*)imageName {
+    //convert image into .png format.
+    NSData *imageData = UIImagePNGRepresentation(image);
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.png", imageName]];
+    
+    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    numOfCachedImages = [NSNumber numberWithInt:[numOfCachedImages intValue]+1];
+    NSLog(@"image saved");  
+}
+
+- (UIImage*)loadImage:(NSString*)imageName {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:
+                          [NSString stringWithFormat:@"%@.png", imageName]];
+    NSLog(@"image loaded");
+    return [UIImage imageWithContentsOfFile:fullPath];
+    
+}
+
+- (bool*)checkImageLimit{
+    if([cacheLimit intValue]==0)cacheLimit = [NSNumber numberWithInt:10];
+    if([numOfCachedImages intValue]<[cacheLimit intValue])return true;
+    else return false;    
 }
 
 @end

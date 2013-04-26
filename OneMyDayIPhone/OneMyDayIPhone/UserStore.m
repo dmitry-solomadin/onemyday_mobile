@@ -74,4 +74,27 @@
     return [[User alloc] initWithId:userId andName:name andAvatarUrls:avatar_urls];
 }
 
+- (void)saveUsersToDisk: (NSMutableArray *)stories {
+    NSString *path = @"~/Documents/data";
+    path = [path stringByExpandingTildeInPath];
+    
+    NSMutableDictionary *rootObject;
+    rootObject = [NSMutableDictionary dictionary];
+    
+    [rootObject setValue:stories forKey:@"users"];
+    
+    [NSKeyedArchiver archiveRootObject:rootObject toFile:path];
+}
+
+- (void)loadUsersFromDisk {
+    NSString *path = @"~/Documents/data";
+    path = [path stringByExpandingTildeInPath];
+    
+    NSMutableDictionary *rootObject;
+    rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path];    
+    
+    users = [rootObject valueForKey:@"users"];
+}
+
+
 @end

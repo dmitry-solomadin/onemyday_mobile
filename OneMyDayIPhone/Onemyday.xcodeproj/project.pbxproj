@@ -24,6 +24,8 @@
 		185BC4191726C96E002D4FE8 /* editorbar_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4171726C96E002D4FE8 /* editorbar_button.png */; };
 		185BC4271726EB1A002D4FE8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4261726EB1A002D4FE8 /* Icon.png */; };
 		185BC4291726EB2A002D4FE8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4281726EB2A002D4FE8 /* Icon@2x.png */; };
+		187DBDEB1729ECF50040E97D /* editorbar_button_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */; };
+		187DBDEC1729ECF50040E97D /* editorbar_button_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */; };
 		1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BA1720AC6900F3E2CD /* furley_bg.png */; };
 		1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */; };
 		1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */; };
@@ -157,6 +159,10 @@
 		185BC4171726C96E002D4FE8 /* editorbar_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button.png; path = assets/editorbar_button.png; sourceTree = "<group>"; };
 		185BC4261726EB1A002D4FE8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		185BC4281726EB2A002D4FE8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../Icon@2x.png"; sourceTree = "<group>"; };
+		187DBDE71729E2B70040E97D /* Onemyday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onemyday.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		187DBDE81729E2B70040E97D /* OnemydayTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnemydayTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "editorbar_button_highlight@2x.png"; path = "assets/editorbar_button_highlight@2x.png"; sourceTree = "<group>"; };
+		187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button_highlight.png; path = assets/editorbar_button_highlight.png; sourceTree = "<group>"; };
 		1889A2BA1720AC6900F3E2CD /* furley_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = furley_bg.png; path = assets/furley_bg.png; sourceTree = "<group>"; };
 		1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "furley_bg@2x.png"; path = "assets/furley_bg@2x.png"; sourceTree = "<group>"; };
 		1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryShadowWrapView.h; sourceTree = "<group>"; };
@@ -243,8 +249,6 @@
 		844DFA9116CFB67000884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		844DFA9316CFB67000884637 /* OneMyDayIPhoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneMyDayIPhoneTests.h; sourceTree = "<group>"; };
 		844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneMyDayIPhoneTests.m; sourceTree = "<group>"; };
-		849C6DD41718304A006C5766 /* Onemyday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Onemyday.app; path = "/Users/apple/Documents/work/ios/onemyday_mobile/OneMyDayIPhone/build/Release-iphoneos/Onemyday.app"; sourceTree = "<absolute>"; };
-		849C6DD61718304A006C5766 /* OnemydayTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = OnemydayTests.octest; path = "/Users/apple/Documents/work/ios/onemyday_mobile/OneMyDayIPhone/build/Release-iphoneos/OnemydayTests.octest"; sourceTree = "<absolute>"; };
 		849C6E2417183F68006C5766 /* DMTwitterCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTwitterCore.h; sourceTree = "<group>"; };
 		849C6E2517183F6E006C5766 /* DMTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTwitter.h; sourceTree = "<group>"; };
 		849C6E2617183F74006C5766 /* DMTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTwitter.m; sourceTree = "<group>"; };
@@ -321,6 +325,8 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */,
+				187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */,
 				185BC4161726C96D002D4FE8 /* editorbar_button@2x.png */,
 				185BC4171726C96E002D4FE8 /* editorbar_button.png */,
 				185BC4121726BD56002D4FE8 /* tabbar_bg@2x.png */,
@@ -431,6 +437,8 @@
 				18E242251716DB4E00435FBE /* Resources */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
 				844DFA5C16CFB66F00884637 /* Frameworks */,
+				187DBDE71729E2B70040E97D /* Onemyday.app */,
+				187DBDE81729E2B70040E97D /* OnemydayTests.octest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -617,7 +625,7 @@
 			);
 			name = Onemyday;
 			productName = OneMyDayIPhone;
-			productReference = 849C6DD41718304A006C5766 /* Onemyday.app */;
+			productReference = 187DBDE71729E2B70040E97D /* Onemyday.app */;
 			productType = "com.apple.product-type.application";
 		};
 		844DFA8516CFB67000884637 /* OnemydayTests */ = {
@@ -636,7 +644,7 @@
 			);
 			name = OnemydayTests;
 			productName = OneMyDayIPhoneTests;
-			productReference = 849C6DD61718304A006C5766 /* OnemydayTests.octest */;
+			productReference = 187DBDE81729E2B70040E97D /* OnemydayTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -671,6 +679,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187DBDEB1729ECF50040E97D /* editorbar_button_highlight@2x.png in Resources */,
+				187DBDEC1729ECF50040E97D /* editorbar_button_highlight.png in Resources */,
 				185BC4181726C96E002D4FE8 /* editorbar_button@2x.png in Resources */,
 				185BC4191726C96E002D4FE8 /* editorbar_button.png in Resources */,
 				185BC4141726BD56002D4FE8 /* tabbar_bg@2x.png in Resources */,

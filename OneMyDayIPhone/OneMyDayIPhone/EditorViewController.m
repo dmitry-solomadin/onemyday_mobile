@@ -42,7 +42,7 @@
 - (UIButton *)addBottomButtonWithTitle:(NSString *)title frame:(CGRect)frame action:(SEL)selector {
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *buttonBG = [[UIImage imageNamed:@"editorbar_button"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
-    UIImage *buttonBGSelected = [[UIImage imageNamed:@"editorbar_button"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
+    UIImage *buttonBGSelected = [[UIImage imageNamed:@"editorbar_button_highlight"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
     [button setBackgroundImage:buttonBG forState:UIControlStateNormal];
     [button setBackgroundImage:buttonBGSelected forState:UIControlStateHighlighted];
     [button setTitle:title forState:UIControlStateNormal];

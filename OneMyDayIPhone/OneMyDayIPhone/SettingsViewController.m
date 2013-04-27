@@ -61,8 +61,6 @@
     //StartViewController  *startViewController = [[StartViewController alloc] initWithNibName:@"StartViewController" bundle:nil];
     //[self presentViewController:startViewController animated:YES completion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
-     
-   
 }
 
 - (void)viewDidLoad

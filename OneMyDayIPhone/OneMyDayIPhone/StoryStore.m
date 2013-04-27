@@ -12,10 +12,11 @@
 #import "Request.h"
 
 
-
 @implementation StoryStore
 
-@synthesize cacheLimit;
+NSString *path = @"~/Documents/stories";
+int cacheLimit = 10;
+
 @synthesize numOfCachedImages;
 
 + (StoryStore *)get
@@ -86,12 +87,12 @@
         
         Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
         [allStories addObject:newStory];
-        if(i < [cacheLimit intValue])[cacheStories addObject:newStory];
+        if(i < cacheLimit)[cacheStories addObject:newStory];
         
         if (includeUser) {
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey:@"user"]];
             [[UserStore get] addUser:user];
-            if(i < [cacheLimit intValue])[cacheUsers addObject:user];
+            if(i < cacheLimit)[cacheUsers addObject:user];
         }
     }
     
@@ -104,61 +105,53 @@
     return allStories;
 }
 
-- (void)saveStoriesToDisk: (NSMutableArray *)allStories {
-    NSString *path = @"~/Documents/data";
+- (void)saveStoriesToDisk: (NSMutableArray *)cacheStories {
+    
     path = [path stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;
     rootObject = [NSMutableDictionary dictionary];
     
-    [rootObject setValue:allStories forKey:@"stories"];
+    [rootObject setValue: cacheStories forKey:@"stories"];
     
     [NSKeyedArchiver archiveRootObject:rootObject toFile:path];
 }
 
 - (id)loadStoriesFromDisk {
-    NSString *path = @"~/Documents/data";
+   
     path = [path stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;
     rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     
-    /*if ([rootObject valueForKey:@"stories"]) {
-        return [rootObject valueForKey:@"stories"];
-    }
-    ruturn nil;
-     */
-    return [rootObject valueForKey:@"stories"];
+    return[rootObject valueForKey:@"stories"];
 }
 
-- (void)saveImage:(UIImage*)image withName:(NSString*)imageName {
-    //convert image into .png format.
+- (void)saveImage:(UIImage*)image withName:(NSString*)imageName {    
+    
+    imageName = [imageName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     NSData *imageData = UIImagePNGRepresentation(image);
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:
-                          [NSString stringWithFormat:@"%@.png", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: imageName];
     
-    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
-    numOfCachedImages = [NSNumber numberWithInt:[numOfCachedImages intValue]+1];
-    NSLog(@"image saved");  
+    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];  
 }
 
-- (UIImage*)loadImage:(NSString*)imageName {
+- (UIImage*)loadImage:(NSString*)imageName {    
+    
+    imageName = [imageName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:
-                          [NSString stringWithFormat:@"%@.png", imageName]];
-    NSLog(@"image loaded");
-    return [UIImage imageWithContentsOfFile:fullPath];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:imageName];
     
+    return [UIImage imageWithContentsOfFile:fullPath];
 }
 
-- (bool*)checkImageLimit{
-    if([cacheLimit intValue]==0)cacheLimit = [NSNumber numberWithInt:10];
-    if([numOfCachedImages intValue]<[cacheLimit intValue])return true;
+- (bool)checkImageLimit {   
+    if([numOfCachedImages intValue]<cacheLimit)return true;
     else return false;    
 }
 

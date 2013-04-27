@@ -27,11 +27,15 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
         //stories = [[StoryStore get] loadStoriesFromDisk];
         //[[UserStore get] loadUsersFromDisk];
-        stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES];
-        NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+        
         NSLog(@"stories count is: %d", [stories count]);
+        
+        NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+        
+        stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES];
         
         [[self view] setFrame: self.view.window.bounds];
         

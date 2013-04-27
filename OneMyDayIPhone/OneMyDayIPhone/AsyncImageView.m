@@ -460,12 +460,12 @@ NSString *const AsyncImageErrorKey = @"error";
 - (void)loadImageWithURL:(NSURL *)URL target:(id)target success:(SEL)success failure:(SEL)failure
 {
     //check cache
-    //NSLog(@"cache");
     UIImage *image = [_cache objectForKey:URL];
-    if (!image)image = [[StoryStore get] loadImage: [URL absoluteString]];
+   
+    if (image==NULL)image = [[StoryStore get] loadImage: [URL absoluteString]];
+    
     if (image)
     {
-        NSLog(@"check cache");
         [self cancelLoadingImagesForTarget:self action:success];
         if (success) [target performSelectorOnMainThread:success withObject:image waitUntilDone:NO];
         

@@ -12,6 +12,8 @@
 
 @implementation UserStore
 
+NSString *userStorePath = @"~/Documents/users";
+
 + (UserStore *)get
 {
     static UserStore *store = nil;
@@ -74,24 +76,24 @@
     return [[User alloc] initWithId:userId andName:name andAvatarUrls:avatar_urls];
 }
 
-- (void)saveUsersToDisk: (NSMutableArray *)stories {
-    NSString *path = @"~/Documents/data";
-    path = [path stringByExpandingTildeInPath];
+- (void)saveUsersToDisk: (NSMutableArray *)cacheUsers {
+    
+    userStorePath = [userStorePath stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;
     rootObject = [NSMutableDictionary dictionary];
     
-    [rootObject setValue:stories forKey:@"users"];
+    [rootObject setValue:cacheUsers forKey:@"users"];
     
-    [NSKeyedArchiver archiveRootObject:rootObject toFile:path];
+    [NSKeyedArchiver archiveRootObject:rootObject toFile: userStorePath];
 }
 
 - (void)loadUsersFromDisk {
-    NSString *path = @"~/Documents/data";
-    path = [path stringByExpandingTildeInPath];
+    
+    userStorePath = [userStorePath stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;
-    rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path];    
+    rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile: userStorePath];
     
     users = [rootObject valueForKey:@"users"];
 }

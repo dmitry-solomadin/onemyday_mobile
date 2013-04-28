@@ -20,11 +20,11 @@
         aview.layer.masksToBounds = YES;
         
         self.layer.cornerRadius = 5.0;
-        self.layer.masksToBounds = YES;
         self.layer.shadowColor = [UIColor grayColor].CGColor;
         self.layer.shadowOffset = CGSizeMake(0, 0);
-        self.layer.shadowOpacity = 0.75;
+        self.layer.shadowOpacity = 1;
         self.layer.shadowRadius = 1.5;
+        self.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:5.0].CGPath;
         self.clipsToBounds = NO;
     }
     return self;

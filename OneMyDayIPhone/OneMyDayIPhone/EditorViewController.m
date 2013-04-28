@@ -7,9 +7,14 @@
 //
 
 #import "EditorViewController.h"
+#import "EditorStore.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface EditorViewController ()
+{
+    UIScrollView *scrollView;
+    int currentScrollHeight;
+}
 
 @end
 
@@ -28,6 +33,17 @@
         self.navigationItem.leftBarButtonItem = cancelButton;
         self.navigationItem.rightBarButtonItem = publishButton;
         
+        // add scroll view
+        scrollView = [[UIScrollView alloc] initWithFrame: CGRectMake(0, 0, 320, self.view.bounds.size.height - 95)];
+        [[self view] addSubview:scrollView];
+        
+        currentScrollHeight = 10;
+        
+        // add previously saved images if any
+        for (UIImage *image in [[EditorStore get] loadAllImages]) {
+            [self addPhotoToTheView:image];
+        }
+        
         // add bottom bar
         [self addBottomButtonWithTitle:@"Photo" frame:CGRectMake(0.1, 0.0, 108, 50) action:@selector(addPhoto:)];
         [self addBottomButtonWithTitle:@"Library" frame:CGRectMake(107.0, 0.0, 108, 50) action:@selector(addPhotoFromLib:)];
@@ -42,7 +58,7 @@
 - (UIButton *)addBottomButtonWithTitle:(NSString *)title frame:(CGRect)frame action:(SEL)selector {
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *buttonBG = [[UIImage imageNamed:@"editorbar_button"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
-    UIImage *buttonBGSelected = [[UIImage imageNamed:@"editorbar_button"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
+    UIImage *buttonBGSelected = [[UIImage imageNamed:@"editorbar_button_highlight"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
     [button setBackgroundImage:buttonBG forState:UIControlStateNormal];
     [button setBackgroundImage:buttonBGSelected forState:UIControlStateHighlighted];
     [button setTitle:title forState:UIControlStateNormal];
@@ -83,11 +99,23 @@
     [self presentViewController:imagePicker animated:YES completion:nil];
 }
 
+- (void)addPhotoToTheView:(UIImage *)photo
+{
+    UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(10, currentScrollHeight, 300, 300)];
+    [photoView setImage:photo];
+    [scrollView addSubview:photoView];
+    
+    currentScrollHeight += 310; // image height with bottom 10px margin
+    
+    [scrollView setContentSize:(CGSizeMake(320, currentScrollHeight))];
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    //UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    NSLog(@"okay we've got the image.");
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];    
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    [self addPhotoToTheView: image];
+    [[EditorStore get] saveImage:image];
 }
 
 - (void)dismissSelf:(id)sender

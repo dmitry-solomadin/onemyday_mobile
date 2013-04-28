@@ -218,7 +218,7 @@
         [self goToMasterView];
         
     }
-    else if ([self checkEmail]) {
+    else if ([appDelegate checkEmail]) {
         NSLog(@"Welcome to email session!");
         appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
         [self goToMasterView];
@@ -230,14 +230,9 @@
 - (void)goToMasterView
 {
     UIViewController *masterController = [AppDelegate initMasterController];
-    [self presentViewController:masterController animated:YES completion:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self presentViewController:masterController animated:NO completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (bool)checkEmail
-{
-    NSData *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];    
-    if (saved_credentials != nil)return true;
-    else return false;
-}
+
 @end

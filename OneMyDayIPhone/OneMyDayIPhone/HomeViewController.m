@@ -16,7 +16,8 @@
 
 @interface HomeViewController ()
 {
-    NSMutableArray * stories;
+    NSArray * stories;
+    UIActivityIndicatorView *indicator;
 }
 @end
 
@@ -27,33 +28,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
-        //stories = [[StoryStore get] loadStoriesFromDisk];
-        //[[UserStore get] loadUsersFromDisk];
-        
-        NSLog(@"stories count is: %d", [stories count]);
-        
-        NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-        
-        stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES];
-        
-        [[self view] setFrame: self.view.window.bounds];
-        
-        scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
-        [[self view] addSubview:scrollView];
-        
-        CGFloat currentFeedHeight = 10.0;
-        for (int i = 0; i < [stories count]; i++) {
-            Story *story = [stories objectAtIndex:i];
-            CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
-            ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
-            thumbStoryView.controller = self;
-            
-            [scrollView addSubview:thumbStoryView];
-            currentFeedHeight += 355;
-        }
-        
-        [scrollView setContentSize:(CGSizeMake(320, currentFeedHeight))];
+        // Custom initialization
     }
     return self;
 }
@@ -68,6 +43,71 @@
     Story *story = [[StoryStore get] findById:[storyId intValue]];
     ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
+    [[self view] addSubview:scrollView];
+    
+    stories = [[StoryStore get] getStories];
+    
+    if (stories == NULL)
+    {        
+        indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator.frame = CGRectMake(10, 45, 300, 300);
+        indicator.center = CGPointMake(160, 15);
+        indicator.hidesWhenStopped = YES;
+        [scrollView addSubview:indicator];
+        [indicator bringSubviewToFront: scrollView];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
+        
+        [indicator startAnimating];
+        
+        stories = [[StoryStore get] loadStoriesFromDisk];
+        [[UserStore get] loadUsersFromDisk];        
+        
+        // how we stop refresh from freezing the main UI thread
+        dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+        dispatch_async(downloadQueue, ^{
+            
+            // do our long running process here
+            [NSThread sleepForTimeInterval:3];
+            
+            stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES];
+            
+            // do any UI stuff on the main UI thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //self.myLabel.text = @"After!";
+                [indicator stopAnimating];
+                
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                
+                HomeViewController *hvc = [[HomeViewController alloc] init];
+                [hvc.view setNeedsDisplay];
+            });
+        });        
+    }   
+    
+    NSLog(@"stories count is: %d", [stories count]);
+    
+    NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+    
+    [[self view] setFrame: self.view.window.bounds];
+    
+    CGFloat currentFeedHeight = 10.0;
+    for (int i = 0; i < [stories count]; i++) {
+        Story *story = [stories objectAtIndex:i];
+        CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
+        ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+        thumbStoryView.controller = self;
+        
+        [scrollView addSubview:thumbStoryView];
+        currentFeedHeight += 355;
+    }
+    
+    [scrollView setContentSize:(CGSizeMake(320, currentFeedHeight))];    
 }
 
 @end

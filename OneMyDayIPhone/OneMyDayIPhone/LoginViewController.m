@@ -66,7 +66,7 @@
             
             UIViewController *masterController = [AppDelegate initMasterController];
             [self presentViewController:masterController animated:YES completion:nil];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            //[self dismissViewControllerAnimated:YES completion:nil];
             //[self.navigationController popToRootViewControllerAnimated:NO];
         }
     }

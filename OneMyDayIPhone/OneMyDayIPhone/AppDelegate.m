@@ -18,7 +18,7 @@
 
 @implementation AppDelegate
 
-@synthesize session = _session;
+@synthesize session;
 @synthesize loggedInFlag;
 
 
@@ -41,18 +41,46 @@
     //[[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tabbar_selected.png"]];
     [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:0.8 green:0.1 blue:0 alpha:1]];
 
-    [[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     StartViewController *svc = [[StartViewController alloc] init];
-    //UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:svc];
     
-    [[self window] setRootViewController:navController];
-    
+    if (session.isOpen) {
+        NSLog(@"Welcome to facebook session!");
+        loggedInFlag = [NSNumber numberWithInt:1];
+        [self goToMasterView:navController];
+        
+    }
+    else if ([DMTwitter shared].oauth_token_authorized) {
+        NSLog(@"Welcome to twitter session!");
+        loggedInFlag = [NSNumber numberWithInt:2];
+        [self goToMasterView:navController];
+        
+    }
+    else if ([self checkEmail]) {
+        NSLog(@"Welcome to email session!");
+        loggedInFlag = [NSNumber numberWithInt:3];
+        [self goToMasterView:navController];
+        
+    }
+    else {
+        loggedInFlag = [NSNumber numberWithInt:0];
+    }
+        
+    [[self window] setRootViewController:navController];    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+- (void)goToMasterView : (UINavigationController *)navController
+{    
+    UIViewController *masterController = [AppDelegate initMasterController];
+    [navController  presentViewController:masterController animated:NO completion:nil];     
+}
+
+
 
 // FBSample logic
 // The native facebook application transitions back to an authenticating application when the user
@@ -106,6 +134,12 @@
     [FBSession.activeSession handleDidBecomeActive];
 }
 
+- (bool)checkEmail
+{
+    NSData *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
+    if (saved_credentials != nil)return true;
+    else return false;
+}
 
 
 @end

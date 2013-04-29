@@ -385,8 +385,6 @@
 				84E701A016D76D5100979856 /* LoginViewController.h */,
 				18F98FEF17137A1A00D8F7A3 /* HomeViewController.h */,
 				18F98FF017137A1A00D8F7A3 /* HomeViewController.m */,
-				18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */,
-				18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */,
 				18E24211171578B000435FBE /* ShowStoryViewController.h */,
 				18E24212171578B000435FBE /* ShowStoryViewController.m */,
 				84A031EA1715A5F20098B201 /* StartViewController.h */,
@@ -587,6 +585,8 @@
 		84E701A616D76EB900979856 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */,
+				18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */,
 				84E701B716D76F6B00979856 /* AsyncImageView.h */,
 				84E701B516D76F5F00979856 /* AsyncImageView.m */,
 				1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */,

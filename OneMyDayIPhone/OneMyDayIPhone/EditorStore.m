@@ -24,7 +24,6 @@
 {
     NSMutableDictionary *keyToImage = [[NSMutableDictionary alloc] init];
     for (NSString *key in [self loadAllKeys]) {
-        NSLog(@"Key is %@", key);
         UIImage *image = [self loadImageByKey:key];
         if (image) {
             [keyToImage setObject:image forKey:key];

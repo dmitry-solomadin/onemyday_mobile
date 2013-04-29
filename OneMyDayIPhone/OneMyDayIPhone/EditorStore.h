@@ -12,7 +12,8 @@
 
 + (EditorStore *)get;
 
-- (void)saveImage:(UIImage *)image;
-- (NSMutableArray *)loadAllImages;
+- (NSString *)saveImage:(UIImage *)image;
+- (void)deleteImageWithKey:(NSString *)key;
+- (NSMutableDictionary *)loadAllImages;
 
 @end

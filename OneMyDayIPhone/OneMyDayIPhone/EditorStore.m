@@ -20,13 +20,17 @@
     return store;
 }
 
-- (NSMutableArray *)loadAllImages
+- (NSMutableDictionary *)loadAllImages
 {
-    NSMutableArray *images = [[NSMutableArray alloc] init];
+    NSMutableDictionary *keyToImage = [[NSMutableDictionary alloc] init];
     for (NSString *key in [self loadAllKeys]) {
-        [images addObject:[self loadImageByKey:key]];
+        NSLog(@"Key is %@", key);
+        UIImage *image = [self loadImageByKey:key];
+        if (image) {
+            [keyToImage setObject:image forKey:key];
+        }
     }
-    return images;
+    return keyToImage;
 }
 
 - (UIImage *)loadImageByKey:(NSString *)key
@@ -35,7 +39,7 @@
     return [UIImage imageWithContentsOfFile:path];
 }
 
-- (void)saveImage:(UIImage *)image
+- (NSString *)saveImage:(UIImage *)image
 {
     NSString *imageKey = [self generateAndSaveKey];
     NSData *imageData = UIImagePNGRepresentation(image);
@@ -43,6 +47,16 @@
     NSString *path = [self imagePathForKey:imageKey];
     
     [fileManager createFileAtPath:path contents:imageData attributes:nil];
+    return imageKey;
+}
+
+- (void)deleteImageWithKey:(NSString *)key
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *path = [self imagePathForKey:key];
+    
+    [fileManager removeItemAtPath:path error:NULL];
+    [self deleteKey:key];
 }
 
 - (NSString *)generateAndSaveKey
@@ -64,9 +78,24 @@
     NSMutableArray *editorImageKeys = [userDefaults objectForKey:@"editor_image_keys"];
     if (editorImageKeys == nil) {
         editorImageKeys = [[NSMutableArray alloc] init];
+    } else {
+        editorImageKeys = [NSMutableArray arrayWithArray:editorImageKeys];
     }
     [editorImageKeys addObject:key];
-    [userDefaults setObject: editorImageKeys forKey:@"editor_image_keys"];
+    [userDefaults setObject:editorImageKeys forKey:@"editor_image_keys"];
+    [userDefaults synchronize];
+}
+
+- (void)deleteKey:(NSString *)key
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *editorImageKeys = [userDefaults objectForKey:@"editor_image_keys"];
+    if (editorImageKeys) {
+        editorImageKeys = [NSMutableArray arrayWithArray:editorImageKeys];
+        [editorImageKeys removeObject:key];
+    }
+    [userDefaults setObject:editorImageKeys forKey:@"editor_image_keys"];
+    [userDefaults synchronize];
 }
 
 - (NSString *)generateImageKey

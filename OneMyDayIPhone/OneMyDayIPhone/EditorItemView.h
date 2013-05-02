@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EditorStore.h"
 
 @interface EditorItemView : UIView
+
+- (id)initWithFrame:(CGRect)frame andType:(ItemType)_type;
+
+@property (nonatomic) ItemType *type;
 
 @end

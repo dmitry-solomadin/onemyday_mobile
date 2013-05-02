@@ -10,10 +10,18 @@
 
 @interface EditorStore : NSObject
 
+typedef enum {
+    photoItemType, textItemType
+} ItemType;
+
 + (EditorStore *)get;
+
+- (NSMutableDictionary *)loadAllItems;
 
 - (NSString *)saveImage:(UIImage *)image;
 - (void)deleteImageWithKey:(NSString *)key;
-- (NSMutableDictionary *)loadAllImages;
+
+- (NSString *)saveText:(NSString *)text;
+- (void)deleteTextWithKey:(NSString *)key;
 
 @end

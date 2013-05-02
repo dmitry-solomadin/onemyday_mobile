@@ -7,6 +7,7 @@
 //
 
 #import "EditorStore.h"
+#import "OrderedDictionary.h"
 
 @implementation EditorStore
 
@@ -20,16 +21,25 @@
     return store;
 }
 
-- (NSMutableDictionary *)loadAllImages
+/* --- Load from store methods --- */
+
+- (OrderedDictionary *)loadAllItems
 {
-    NSMutableDictionary *keyToImage = [[NSMutableDictionary alloc] init];
-    for (NSString *key in [self loadAllKeys]) {
+    OrderedDictionary *keyToItem = [[OrderedDictionary alloc] init];
+    NSMutableArray *keys = [[NSUserDefaults standardUserDefaults] objectForKey:@"editor_item_keys"];
+    for (NSString *key in keys) {
         UIImage *image = [self loadImageByKey:key];
         if (image) {
-            [keyToImage setObject:image forKey:key];
+            [keyToItem setObject:image forKey:key];
+            continue;
+        }
+        NSString *text = [self loadTextByKey:key];
+        if (text) {
+            [keyToItem setObject:text forKey:key];
+            continue;
         }
     }
-    return keyToImage;
+    return keyToItem;
 }
 
 - (UIImage *)loadImageByKey:(NSString *)key
@@ -38,9 +48,16 @@
     return [UIImage imageWithContentsOfFile:path];
 }
 
+- (NSString *)loadTextByKey:(NSString *)key
+{
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"editor_key_to_text"] objectForKey:key];
+}
+
+/* --- Save to store methods --- */
+
 - (NSString *)saveImage:(UIImage *)image
 {
-    NSString *imageKey = [self generateAndSaveKey];
+    NSString *imageKey = [self generateAndSaveImageKey];
     NSData *imageData = UIImagePNGRepresentation(image);
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *path = [self imagePathForKey:imageKey];
@@ -48,6 +65,49 @@
     [fileManager createFileAtPath:path contents:imageData attributes:nil];
     return imageKey;
 }
+
+- (NSString *)saveText:(NSString *)text
+{
+    NSString *key = [self generateKey];
+    
+    [self saveKey:key];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *editorKeyToText = [userDefaults objectForKey:@"editor_key_to_text"];
+    if (editorKeyToText == nil) {
+        editorKeyToText = [[NSMutableDictionary alloc] init];
+    } else {
+        editorKeyToText = [NSMutableDictionary dictionaryWithDictionary:editorKeyToText];
+    }
+    [editorKeyToText setObject:text forKey:key];
+    [userDefaults setObject:editorKeyToText forKey:@"editor_key_to_text"];
+    [userDefaults synchronize];
+    
+    return key;
+}
+
+- (NSString *)generateAndSaveImageKey
+{
+    NSString *key = [self generateKey];
+    [self saveKey:key];
+    return key;
+}
+
+- (void)saveKey:(NSString *)key
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *editorItemKeys = [userDefaults objectForKey:@"editor_item_keys"];
+    if (editorItemKeys == nil) {
+        editorItemKeys = [[NSMutableArray alloc] init];
+    } else {
+        editorItemKeys = [NSMutableArray arrayWithArray:editorItemKeys];
+    }
+    [editorItemKeys addObject:key];
+    [userDefaults setObject:editorItemKeys forKey:@"editor_item_keys"];
+    [userDefaults synchronize];
+}
+
+/* --- Delete from store methods --- */
 
 - (void)deleteImageWithKey:(NSString *)key
 {
@@ -58,46 +118,34 @@
     [self deleteKey:key];
 }
 
-- (NSString *)generateAndSaveKey
-{
-    NSString *key = [self generateImageKey];
-    [self saveKey:key];
-    return key;
-}
-
-- (NSMutableArray *)loadAllKeys
+- (void)deleteTextWithKey:(NSString *)key
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey:@"editor_image_keys"];
-}
-
-- (void)saveKey:(NSString *)key
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *editorImageKeys = [userDefaults objectForKey:@"editor_image_keys"];
-    if (editorImageKeys == nil) {
-        editorImageKeys = [[NSMutableArray alloc] init];
-    } else {
-        editorImageKeys = [NSMutableArray arrayWithArray:editorImageKeys];
+    NSMutableDictionary *editorKeyToText = [userDefaults objectForKey:@"editor_key_to_text"];
+    if (editorKeyToText) {
+        editorKeyToText = [NSMutableDictionary dictionaryWithDictionary:editorKeyToText];
+        [editorKeyToText removeObjectForKey:key];
     }
-    [editorImageKeys addObject:key];
-    [userDefaults setObject:editorImageKeys forKey:@"editor_image_keys"];
+    [userDefaults setObject:editorKeyToText forKey:@"editor_key_to_text"];
     [userDefaults synchronize];
+    [self deleteKey:key];
 }
 
 - (void)deleteKey:(NSString *)key
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *editorImageKeys = [userDefaults objectForKey:@"editor_image_keys"];
-    if (editorImageKeys) {
-        editorImageKeys = [NSMutableArray arrayWithArray:editorImageKeys];
-        [editorImageKeys removeObject:key];
+    NSMutableArray *editorItemKeys = [userDefaults objectForKey:@"editor_item_keys"];
+    if (editorItemKeys) {
+        editorItemKeys = [NSMutableArray arrayWithArray:editorItemKeys];
+        [editorItemKeys removeObject:key];
     }
-    [userDefaults setObject:editorImageKeys forKey:@"editor_image_keys"];
+    [userDefaults setObject:editorItemKeys forKey:@"editor_item_keys"];
     [userDefaults synchronize];
 }
 
-- (NSString *)generateImageKey
+/* --- Misc store methods --- */
+
+- (NSString *)generateKey
 {
     CFUUIDRef uniqueId = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef uniqueIdString = CFUUIDCreateString(kCFAllocatorDefault, uniqueId);

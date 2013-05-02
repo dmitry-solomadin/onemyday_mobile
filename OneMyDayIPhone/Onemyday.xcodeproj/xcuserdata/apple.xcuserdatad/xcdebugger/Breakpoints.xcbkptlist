@@ -7,26 +7,26 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "OneMyDayIPhone/EditorStore.m"
-         timestampString = "388962136.577775"
+         filePath = "OneMyDayIPhone/EditorViewController.m"
+         timestampString = "389185211.980026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "44"
-         endingLineNumber = "44"
-         landmarkName = "-saveImage:"
+         startingLineNumber = "121"
+         endingLineNumber = "121"
+         landmarkName = "-addPhotoToTheView:withKey:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "OneMyDayIPhone/EditorStore.m"
-         timestampString = "388962195.62714"
+         filePath = "OneMyDayIPhone/EditorViewController.m"
+         timestampString = "389189997.046469"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "77"
-         endingLineNumber = "77"
-         landmarkName = "-saveKey:"
+         startingLineNumber = "179"
+         endingLineNumber = "179"
+         landmarkName = "-addTextToTheView:withKey:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -86,6 +86,22 @@
     return key;
 }
 
+- (NSString *)changeText:(NSString *)text withKey:(NSString *)key
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *editorKeyToText = [userDefaults objectForKey:@"editor_key_to_text"];
+    if (editorKeyToText == nil) {
+        editorKeyToText = [[NSMutableDictionary alloc] init];
+    } else {
+        editorKeyToText = [NSMutableDictionary dictionaryWithDictionary:editorKeyToText];
+    }
+    [editorKeyToText setObject:text forKey:key];
+    [userDefaults setObject:editorKeyToText forKey:@"editor_key_to_text"];
+    [userDefaults synchronize];
+    
+    return key;
+}
+
 - (NSString *)generateAndSaveImageKey
 {
     NSString *key = [self generateKey];

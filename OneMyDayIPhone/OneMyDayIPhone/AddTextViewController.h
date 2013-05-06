@@ -11,5 +11,7 @@
 @interface AddTextViewController : UIViewController
 
 @property (nonatomic, weak) UIViewController *controller;
+@property (nonatomic, strong) NSString *textToEdit;
+@property (nonatomic, strong) NSString *textToEditKey;
 
 @end

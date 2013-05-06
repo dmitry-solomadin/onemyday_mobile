@@ -9,13 +9,14 @@
 #import "EditorItemView.h"
 
 @implementation EditorItemView
-@synthesize type;
+@synthesize type, key;
 
-- (id)initWithFrame:(CGRect)frame andType:(ItemType)_type
+- (id)initWithFrame:(CGRect)frame andType:(ItemType)_type andKey:(NSString *)_key
 {
     self = [super initWithFrame:frame];
     if (self) {
         type = _type;
+        key = _key;
     }
     return self;
 }

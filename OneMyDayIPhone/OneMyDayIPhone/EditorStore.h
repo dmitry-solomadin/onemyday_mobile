@@ -22,6 +22,7 @@ typedef enum {
 - (void)deleteImageWithKey:(NSString *)key;
 
 - (NSString *)saveText:(NSString *)text;
+- (NSString *)changeText:(NSString *)text withKey:(NSString *)key;
 - (void)deleteTextWithKey:(NSString *)key;
 
 @end

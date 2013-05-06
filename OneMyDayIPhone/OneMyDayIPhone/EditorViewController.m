@@ -104,6 +104,23 @@
     [self presentViewController:textVCNav animated:YES completion:nil];
 }
 
+- (void)editText:(id)sender
+{
+    EditorItemView *editorItemView = (EditorItemView *)[sender superview];
+    NSString *text = nil;
+    for (UIView *subview in [editorItemView subviews]) {
+        if ([subview isKindOfClass:[UITextView class]]) {
+            text = [(UITextView *)subview text];
+        }
+    }
+    AddTextViewController *textVC = [[AddTextViewController alloc] init];
+    [textVC setController:self];
+    [textVC setTextToEdit:text];
+    [textVC setTextToEditKey:editorItemView.key];
+    UINavigationController *textVCNav = [[UINavigationController alloc] initWithRootViewController:textVC];
+    [self presentViewController:textVCNav animated:YES completion:nil];
+}
+
 - (void)addPhotoFromLib:(id)sender
 {
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
@@ -118,8 +135,9 @@
 - (void)addPhotoToTheView:(UIImage *)photo withKey:(NSString *)key
 {
     EditorItemView *itemView = [[EditorItemView alloc] initWithFrame:CGRectMake(10, [self getCurrentScrollHeight], 300, 300)
-                                                             andType:photoItemType];
-    
+                                                             andType:photoItemType
+                                                             andKey:key];
+
     // add photo
     UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
     [photoView setImage:photo];
@@ -145,9 +163,9 @@
 
 - (void)addTextToTheView:(NSString *)text withKey:(NSString *)key
 {
-    NSLog(@"here!");
     EditorItemView *itemView = [[EditorItemView alloc] initWithFrame:CGRectMake(10, [self getCurrentScrollHeight], 300, 300)
-                                                             andType:textItemType];
+                                                             andType:textItemType
+                                                              andKey:key];
     
     // add text
     UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
@@ -166,6 +184,7 @@
     
     // add text hidden button
     UIButton *textBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 300, textView.frame.size.height)];
+    [textBtn addTarget:self action:@selector(editText:) forControlEvents:UIControlEventTouchUpInside];
     [itemView addSubview:textBtn];
     [itemView bringSubviewToFront:textBtn];
     
@@ -180,6 +199,20 @@
     
     [scrollView addSubview:itemView];
     [scrollView setContentSize:(CGSizeMake(320, [self getCurrentScrollHeight]))];
+}
+
+- (void)editTextOnTheView:(NSString *)text withKey:(NSString *)key
+{
+    for (EditorItemView *itemView in [scrollView subviews]) {
+        if (itemView.key == key) {
+            for (UIView *subview in [itemView subviews]) {
+                if ([subview isKindOfClass:[UITextView class]]) {
+                    [(UITextView *)subview setText:text];
+                }
+            }
+            break;
+        }
+    }
 }
 
 - (void)addDeleteButtonToView:(UIView *)view withKey:(NSString *)key

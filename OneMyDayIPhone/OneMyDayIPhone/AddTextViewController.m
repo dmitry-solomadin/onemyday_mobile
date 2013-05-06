@@ -17,7 +17,7 @@
 @end
 
 @implementation AddTextViewController
-@synthesize controller;
+@synthesize controller, textToEdit, textToEditKey;
 
 - (void)viewDidLoad
 {
@@ -35,6 +35,9 @@
     // add textfield
     textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
     [textView setFont:[UIFont systemFontOfSize:17]];
+    if (textToEdit) {
+        [textView setText:textToEdit];
+    }
     [[self view] addSubview:textView];
 }
 
@@ -51,8 +54,13 @@
 - (void)saveText:(id)sender
 {
     NSString *text = [textView text];
-    NSString *key = [[EditorStore get] saveText:text];
-    [[self controller] performSelector:@selector(addTextToTheView: withKey:) withObject:text withObject:key];
+    if (textToEdit) {
+        [[EditorStore get] changeText:text withKey:textToEditKey];
+        [[self controller] performSelector:@selector(editTextOnTheView: withKey:) withObject:text withObject:textToEditKey];
+    } else {
+        NSString *key = [[EditorStore get] saveText:text];
+        [[self controller] performSelector:@selector(addTextToTheView: withKey:) withObject:text withObject:key];        
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

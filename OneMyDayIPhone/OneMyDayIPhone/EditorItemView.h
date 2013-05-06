@@ -11,8 +11,9 @@
 
 @interface EditorItemView : UIView
 
-- (id)initWithFrame:(CGRect)frame andType:(ItemType)_type;
+- (id)initWithFrame:(CGRect)frame andType:(ItemType)_type andKey:(NSString *)_key;
 
 @property (nonatomic) ItemType *type;
+@property (nonatomic) NSString *key;
 
 @end

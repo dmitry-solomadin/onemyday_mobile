@@ -8,10 +8,13 @@
 
 #import "EditorViewController.h"
 #import "EditorStore.h"
+#import "GPUImage.h"
 #import "EditorItemView.h"
 #import "ViewWithAttributes.h"
 #import "AddTextViewController.h"
+#import "DLCImagePickerController.h"
 #import <QuartzCore/QuartzCore.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface EditorViewController ()
 {
@@ -83,17 +86,9 @@
 
 - (void)addPhoto:(id)sender
 {
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
-    } else {
-        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    }
-    
-    [imagePicker setDelegate:self];
-    
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    DLCImagePickerController *picker = [[DLCImagePickerController alloc] init];
+    picker.delegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)addText:(id)sender
@@ -286,12 +281,51 @@
     return height + count * 10 + 10;
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerControllerDidCancel:(DLCImagePickerController *)picker{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(DLCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if (info) {
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        [library writeImageDataToSavedPhotosAlbum:[info objectForKey:@"data"] metadata:nil
+                                  completionBlock:^(NSURL *assetURL, NSError *error) {
+             if (error) {
+                 NSLog(@"ERROR: the image failed to be written");
+             } else {
+                 [self findLargeImage:assetURL];
+             }
+         }];
+    }
+}
+
+- (void)hiresImageAvailable:(UIImage *)image
 {
-    [self dismissViewControllerAnimated:YES completion:nil];    
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     NSString *key = [[EditorStore get] saveImage:image];
     [self addPhotoToTheView:image withKey: key];
+}
+
+- (void)findLargeImage:(NSURL *)asseturl
+{
+    ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
+    {
+        ALAssetRepresentation *rep = [myasset defaultRepresentation];
+        CGImageRef iref = [rep fullResolutionImage];
+        if (iref) {
+            UIImage *largeimage = [UIImage imageWithCGImage:iref];
+            [self hiresImageAvailable:largeimage];
+        }
+    };
+    
+    ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror) {
+        NSLog(@"booya, cant get image - %@",[myerror localizedDescription]);
+    };
+    
+    ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+    [assetslibrary assetForURL:asseturl resultBlock:resultblock failureBlock:failureblock];
 }
 
 - (void)dismissSelf:(id)sender

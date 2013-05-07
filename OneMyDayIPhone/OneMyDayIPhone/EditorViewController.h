@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HiResImageDelegate.h"
 
-@interface EditorViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface EditorViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, HiResImageDelegate>
 
 @end

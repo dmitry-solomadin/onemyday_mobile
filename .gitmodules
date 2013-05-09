@@ -1,0 +1,3 @@
+[submodule "OneMyDayIPhone/OneMyDayIPhone/vendor/GPUImage"]
+	path = OneMyDayIPhone/OneMyDayIPhone/vendor/GPUImage
+	url = https://github.com/BradLarson/GPUImage.git

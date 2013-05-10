@@ -12,7 +12,7 @@
 
 @interface StoryStore : NSObject
 {
-    NSMutableArray *stories;
+    NSMutableArray *stories;  
 }
 
 @property (strong, nonatomic) NSNumber *numOfCachedImages;

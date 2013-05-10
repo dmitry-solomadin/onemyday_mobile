@@ -29,6 +29,12 @@
     return url;
 }
 
+- (id)extractAvatarStringType:(NSString *)type
+{
+    NSString *image = (NSString*) [avatarUrls objectForKey:type];  
+    return image;
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.name forKey:@"name"];
     [coder encodeObject:self.avatarUrls forKey:@"avatarUrls"];

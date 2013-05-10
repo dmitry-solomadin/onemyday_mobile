@@ -16,5 +16,6 @@
 
 - (id)initWithId:(int)_userId andName:(NSString *)name andAvatarUrls:(NSDictionary *)avatarUrls;
 - (id)extractAvatarUrlType:(NSString *)type;
+- (id)extractAvatarStringType:(NSString *)type;
 
 @end

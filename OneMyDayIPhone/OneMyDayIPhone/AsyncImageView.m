@@ -147,10 +147,14 @@ NSString *const AsyncImageErrorKey = @"error";
                 }
             }
             if (storeInCache)
-            {
-                NSLog(@"store");
+            {                
                 [_cache setObject:image forKey:_URL];
-                [[StoryStore get] saveImage:image  withName: [_URL absoluteString]];
+                
+                /*NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[_URL absoluteString] forKey:@"imageName"];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"SaveImageNotification" object:nil userInfo:userInfo];*/
+                
+                if([[StoryStore get] checkImageLimit]) [[StoryStore get] saveImage:image  withName: [_URL absoluteString]];
             }
         }
         
@@ -462,7 +466,7 @@ NSString *const AsyncImageErrorKey = @"error";
     //check cache
     UIImage *image = [_cache objectForKey:URL];
    
-    if (image==NULL)image = [[StoryStore get] loadImage: [URL absoluteString]];
+    if (image==NULL) image = [[StoryStore get] loadImage: [URL absoluteString]];
     
     if (image)
     {

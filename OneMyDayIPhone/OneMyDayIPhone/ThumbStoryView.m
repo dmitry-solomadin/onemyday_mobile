@@ -35,8 +35,7 @@
         photoView.contentMode = UIViewContentModeScaleAspectFit;
         photoView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"furley_bg"]];
         
-        StoryShadowWrapView *wrapView = [[StoryShadowWrapView alloc] initWithFrame: CGRectMake(0, 45, 300, 300)
-                                                                      andAsyncView:photoView];
+        StoryShadowWrapView *wrapView = [[StoryShadowWrapView alloc] initWithFrame: CGRectMake(0, 45, 300, 300) andAsyncView:photoView];
         [wrapView addSubview:photoView];
         
         NSURL *url = [[self story] extractPhotoUrlType:@"thumb_url" atIndex:0];
@@ -44,8 +43,7 @@
         [self addSubview:wrapView];
         
         // Photo hidden button
-        UIButton *imageBtn = [[UIButton alloc] initWithFrame:
-                              CGRectMake(0, 45, 300, 300)];
+        UIButton *imageBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 45, 300, 300)];
         imageBtn.tag = story.storyId;
         [imageBtn addTarget:self action:@selector(imageTap:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:imageBtn];

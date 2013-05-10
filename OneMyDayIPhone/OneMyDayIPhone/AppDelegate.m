@@ -77,6 +77,8 @@
 - (void)goToMasterView : (UINavigationController *)navController
 {    
     UIViewController *masterController = [AppDelegate initMasterController];
+    //masterController.modalPresentationStyle = UIModalPresentationFormSheet;
+    //masterController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [navController  presentViewController:masterController animated:NO completion:nil];     
 }
 

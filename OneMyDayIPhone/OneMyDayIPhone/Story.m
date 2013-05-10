@@ -34,6 +34,14 @@
     return url;
 }
 
+- (id)extractPhotoStringType:(NSString *)type atIndex:(int)index
+{
+    NSDictionary *photo = [photos objectAtIndex: 0];
+    NSDictionary *photo_urls = (NSDictionary *) [photo objectForKey:@"photo_urls"];
+    NSString *image = (NSString*) [photo_urls objectForKey:type];
+    return image;
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.title forKey:@"title"];
     [coder encodeObject:self.photos forKey:@"photos"];

@@ -9,6 +9,7 @@
 #import "StoryStore.h"
 #import "UserStore.h"
 #import "Story.h"
+#import "User.h"
 #import "Request.h"
 
 
@@ -16,8 +17,7 @@
 
 NSString *path = @"~/Documents/stories";
 int cacheLimit = 10;
-
-@synthesize numOfCachedImages;
+int numOfCachedImages = 0;
 
 + (StoryStore *)get
 {
@@ -44,6 +44,16 @@ int cacheLimit = 10;
     stories = _stories;
 }
 
+/*- (bool *)getCacheImageFlag;
+{
+    return cacheImageFlag;
+}
+
+- (void)setCacheImageFlag:(bool *)_cacheImageFlag
+{
+    cacheImageFlag = _cacheImageFlag;
+}*/
+
 - (Story *)findById:(int)storyId
 {
     for (Story *story in stories) {
@@ -55,7 +65,7 @@ int cacheLimit = 10;
 }
 
 - (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser
-{
+{    
     NSMutableString *path = [[NSMutableString alloc] initWithString:@"/stories.json"];
     NSMutableArray *parameters = [[NSMutableArray alloc] init];
     if (includePhotos) {
@@ -86,21 +96,24 @@ int cacheLimit = 10;
         }
         
         Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
-        [allStories addObject:newStory];
-        if(i < cacheLimit)[cacheStories addObject:newStory];
+        [allStories addObject: newStory];
+        if(i < cacheLimit && i > 1)[cacheStories addObject: newStory];
         
         if (includeUser) {
-            User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey:@"user"]];
+            User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey: @"user"]];
             [[UserStore get] addUser:user];
             if(i < cacheLimit)[cacheUsers addObject:user];
         }
     }
     
     [[StoryStore get] setStories:allStories];
-    
-    [self saveStoriesToDisk:cacheStories];
-    [[UserStore get] saveUsersToDisk:cacheUsers];
-    //[self loadDataFromDisk];
+    NSLog(@"[cacheStories count] %d", [cacheStories count]); 
+    if ([cacheStories count] > 0)
+    {
+        [self delOldCachedInfo: cacheStories];
+        [self saveStoriesToDisk:cacheStories];
+        [[UserStore get] saveUsersToDisk:cacheUsers];        
+    }
     
     return allStories;
 }
@@ -112,9 +125,9 @@ int cacheLimit = 10;
     NSMutableDictionary *rootObject;
     rootObject = [NSMutableDictionary dictionary];
     
-    [rootObject setValue: cacheStories forKey:@"stories"];
+    [rootObject setValue: cacheStories forKey: @"stories"];
     
-    [NSKeyedArchiver archiveRootObject:rootObject toFile:path];
+    [NSKeyedArchiver archiveRootObject: rootObject toFile: path];    
 }
 
 - (id)loadStoriesFromDisk {
@@ -122,9 +135,9 @@ int cacheLimit = 10;
     path = [path stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;
-    rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    
-    return[rootObject valueForKey:@"stories"];
+    rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile: path];
+   
+    return[rootObject valueForKey: @"stories"];
 }
 
 - (void)saveImage:(UIImage*)image withName:(NSString*)imageName {    
@@ -134,9 +147,12 @@ int cacheLimit = 10;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: @"onemyday/images"];
+    //fullPath = [documentsDirectory stringByAppendingPathComponent: @"images"];
     NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: imageName];
     
-    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];  
+    bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    NSLog(@"store result %d",result);
 }
 
 - (UIImage*)loadImage:(NSString*)imageName {    
@@ -145,14 +161,83 @@ int cacheLimit = 10;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: @"onemyday/images"];
+    //fullPath = [documentsDirectory stringByAppendingPathComponent: @"images"];
     NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:imageName];
-    
+    //NSLog(@"load %@",fullPath);
     return [UIImage imageWithContentsOfFile:fullPath];
 }
 
-- (bool)checkImageLimit {   
-    if([numOfCachedImages intValue]<cacheLimit)return true;
-    else return false;    
+- (void)delOldCachedInfo: (NSArray *) cacheStories {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    
+    NSFileManager *fm = [NSFileManager defaultManager];   
+    NSError *error = nil;
+  
+    for (NSString *file in [fm contentsOfDirectoryAtPath:documentsDirectory error:&error]) {        
+       
+        bool exists = false;
+        for(int j = 0; j < [cacheStories count]; j++)
+        {          
+            Story *story = [cacheStories objectAtIndex:j];
+            //NSLog(@"j: %d" , j);
+            NSString *photoName = [story extractPhotoStringType:@"thumb_url" atIndex:0];
+            User *author = [[UserStore get] findById:[story authorId]];
+            NSString *avatarName = [author extractAvatarStringType:@"small_url"];
+            photoName = [photoName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+            avatarName = [avatarName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+            
+            if ([file isEqualToString:photoName] || [file isEqualToString:avatarName])
+            {
+                exists = true;                
+                //NSLog(@"exists: %@ or %@" , photoName, avatarName);
+                break;                
+            }            
+            
+        }
+        
+        if(!exists)
+        {
+            NSLog(@"delete file: %@" , file);
+            bool success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", documentsDirectory, file] error:&error];
+        
+            if (!success || error)
+            {                
+                //NSLog(@"error %@", error);
+            }
+            else
+            {
+                //NSLog(@"delete success");
+            }
+        }
+    }    
+    
+}
+
+- (void) receiveTestNotification:(NSNotification *) notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    UIImage *image = [userInfo objectForKey:@"image"];
+    NSString *imageName = [userInfo objectForKey:@"imageName"];
+    
+    [self saveImage:image  withName:  imageName];
+}
+
+
+
+- (bool)checkImageLimit
+{
+    int imageLimit = cacheLimit * 2;
+    if(numOfCachedImages < imageLimit)
+    {
+        numOfCachedImages++;
+        NSLog(@"numOfCachedImages %d", numOfCachedImages);
+        return true;
+    }
+    else return false;
 }
 
 @end

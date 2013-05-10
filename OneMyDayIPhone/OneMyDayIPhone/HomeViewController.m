@@ -46,58 +46,46 @@
 }
 
 - (void)viewDidLoad
-{
+{     
     [super viewDidLoad];
     
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
-    [[self view] addSubview:scrollView];
+    [[self view] addSubview:scrollView];    
+      
+    __block CGFloat oldFeedHeight = 10.0;
     
-    stories = [[StoryStore get] getStories];
+    __block NSArray * oldStories = [[StoryStore get] loadStoriesFromDisk];
+    [[UserStore get] loadUsersFromDisk];
     
-   __block CGFloat currentFeedHeight = 10.0;
+    indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.frame = CGRectMake(10, 45, 300, 300);
+    indicator.center = CGPointMake(160, 15);
+    indicator.hidesWhenStopped = YES;
+    [scrollView addSubview: indicator];
+    [indicator bringSubviewToFront: scrollView];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+    [indicator startAnimating];                    
     
-    if (stories == NULL)
-    {
-        stories = [[StoryStore get] loadStoriesFromDisk];
-        [[UserStore get] loadUsersFromDisk];
-        
-        
-       
-
-        //currentFeedHeight = 25.0;
-        indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        indicator.frame = CGRectMake(10, 45, 300, 300);
-        indicator.center = CGPointMake(160, 15);
-        indicator.hidesWhenStopped = YES;
-        [scrollView addSubview:indicator];
-        [indicator bringSubviewToFront: scrollView];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
-        
-        [indicator startAnimating];
-        
+    for (int i = 0; i < [oldStories count]; i++) {
+        Story *story = [oldStories objectAtIndex:i];
+        CGRect frame = CGRectMake(10, oldFeedHeight, 300, 300);
+        ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+        thumbStoryView.controller = self;
                 
-        if (stories != NULL)
-        {
-            for (int i = 0; i < [stories count]; i++) {
-                Story *story = [stories objectAtIndex:i];
-                CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
-                ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
-                thumbStoryView.controller = self;
-                
-                [scrollView addSubview:thumbStoryView];
-                currentFeedHeight += 355;
-            }
-        }
+        [scrollView addSubview:thumbStoryView];
+        oldFeedHeight += 355;        
+    }       
         
-        [scrollView setContentSize:(CGSizeMake(320, currentFeedHeight))];
+    [scrollView setContentSize:(CGSizeMake(320, oldFeedHeight))];
+            
+    NSLog(@"oldStories count is: %d", [oldStories count]);
         
-        NSLog(@"stories count is: %d", [stories count]);
+    NSLog(@"oldUser count is: %d", [[[UserStore get] getUsers] count]);
         
-        NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-        
-        // how we stop refresh from freezing the main UI thread
-        dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
-        dispatch_async(downloadQueue, ^{
+    // how we stop refresh from freezing the main UI thread
+    dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+    dispatch_async(downloadQueue, ^{
             
             // do our long running process here
             [NSThread sleepForTimeInterval:3];
@@ -110,41 +98,56 @@
                 
                 NSLog(@"stories count is: %d", [stories count]);
                 
-                NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+                NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);                
+               
+               
+                if([stories count] > 0)
+                {                    
+                    CGFloat currentFeedHeight = 10.0;
+                    Story *oldStory = [oldStories objectAtIndex: 0];
+                    int newStoriesCount = 0;
+                    
+                    for (int i = 0; i < [stories count]; i++) {
+                        
+                        Story *story = [stories objectAtIndex: i];
+                        
+                        if([oldStory storyId] == [story storyId]) break;
+                       
+                        newStoriesCount++;
+                        CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
+                        ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+                        thumbStoryView.controller = self;
+                        [scrollView insertSubview: thumbStoryView atIndex: 0];
+                        currentFeedHeight  += 355;
+                    }
+                    
+                    if(newStoriesCount > 0)
+                    {
+                        for (int i = newStoriesCount; i < [[scrollView subviews] count]; i++ ) {
+                        
+                            if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]])
+                            {
+                                ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
+                                CGRect rect = tSV.frame;
+                                rect.origin = CGPointMake(tSV.frame.origin.x, tSV.frame.origin.y + currentFeedHeight);
+                                tSV.frame = rect;
+                            }
+                        }
+                    }
                 
-                currentFeedHeight = 10.0;
-                for (int i = 0; i < [stories count]; i++) {
-                    Story *story = [stories objectAtIndex:i];
-                    CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
-                    ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
-                    thumbStoryView.controller = self;
-                    NSLog(@"i: %d", i);
-                    [scrollView insertSubview: thumbStoryView atIndex:0];
-                    currentFeedHeight  += 355;
+                    [scrollView setContentSize: CGSizeMake(320, currentFeedHeight + oldFeedHeight)];
+                                    
                 }
                 
-                for (int i = 0; i < [[scrollView subviews] count]; i++ ) {
-                    [[[scrollView subviews] objectAtIndex:i] removeFromSuperview];
-                }
-
-
-                [scrollView setContentSize: CGSizeMake(320, currentFeedHeight )];
+            [indicator stopAnimating];
                 
-                [indicator stopAnimating];
-                
-                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
                                
               
             });
         });        
-    }   
+       
     
     
 }
-
-- (void) addStories: (NSArray *)stories withFeedHeight: (CGFloat*) currentFeedHeight
-{
-    
-}
-
 @end

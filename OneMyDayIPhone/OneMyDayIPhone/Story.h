@@ -18,5 +18,5 @@
 - (id)initWithId:(int)storyId andTitle:(NSString*)title
        andAuthor:(int)author_id andPhotos: (NSArray*)photos;
 - (id)extractPhotoUrlType:(NSString*)type atIndex:(int)index;
-
+- (id)extractPhotoStringType:(NSString*)type atIndex:(int)index;
 @end

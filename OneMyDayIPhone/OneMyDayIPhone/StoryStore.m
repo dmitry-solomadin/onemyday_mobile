@@ -34,7 +34,7 @@ int numOfCachedImages = 0;
     return [self get];
 }
 
-- (NSArray *)getStories;
+- (NSMutableArray *)getStories;
 {
     return stories;
 }
@@ -44,15 +44,16 @@ int numOfCachedImages = 0;
     stories = _stories;
 }
 
-/*- (bool *)getCacheImageFlag;
+- (NSMutableArray *)getCachedStories;
 {
-    return cacheImageFlag;
+    return cachedStories;
 }
 
-- (void)setCacheImageFlag:(bool *)_cacheImageFlag
+- (void)setCachedStories:(NSMutableArray *)_cachedStories
 {
-    cacheImageFlag = _cacheImageFlag;
-}*/
+    cachedStories = _cachedStories;
+}
+
 
 - (Story *)findById:(int)storyId
 {
@@ -111,7 +112,8 @@ int numOfCachedImages = 0;
     if ([cacheStories count] > 0)
     {
         [self delOldCachedInfo: cacheStories];
-        [self saveStoriesToDisk:cacheStories];
+        [self saveStoriesToDisk: cacheStories];
+        [self setCachedStories: cacheStories];
         [[UserStore get] saveUsersToDisk:cacheUsers];        
     }
     
@@ -152,7 +154,7 @@ int numOfCachedImages = 0;
     NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: imageName];
     
     bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
-    NSLog(@"store result %d",result);
+    //NSLog(@"store result %d",result);
 }
 
 - (UIImage*)loadImage:(NSString*)imageName {    
@@ -173,6 +175,7 @@ int numOfCachedImages = 0;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
+    numOfCachedImages = 0;
     
     NSFileManager *fm = [NSFileManager defaultManager];   
     NSError *error = nil;
@@ -190,18 +193,26 @@ int numOfCachedImages = 0;
             photoName = [photoName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
             avatarName = [avatarName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
             
-            if ([file isEqualToString:photoName] || [file isEqualToString:avatarName])
+            if ([file isEqualToString:photoName])
             {
                 exists = true;                
                 //NSLog(@"exists: %@ or %@" , photoName, avatarName);
-                break;                
-            }            
+                numOfCachedImages++;
+                break;
+            }
+            else if ([file isEqualToString:avatarName])
+            {
+                exists = true;
+                //NSLog(@"exists: %@ or %@" , photoName, avatarName);
+                
+                break;
+            }
             
         }
         
         if(!exists)
         {
-            NSLog(@"delete file: %@" , file);
+            //NSLog(@"delete file: %@" , file);
             bool success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", documentsDirectory, file] error:&error];
         
             if (!success || error)
@@ -228,16 +239,42 @@ int numOfCachedImages = 0;
 
 
 
-- (bool)checkImageLimit
+- (bool)checkImageLimit: (NSString*)imageURL
 {
-    int imageLimit = cacheLimit * 2;
-    if(numOfCachedImages < imageLimit)
+    if([self isAvatar: imageURL])
     {
-        numOfCachedImages++;
-        NSLog(@"numOfCachedImages %d", numOfCachedImages);
+        bool result = false;
+        NSMutableArray *cStories = [self getCachedStories];
+        for(int i = 0; i < [cStories count]; i++)
+        {
+            User *author = [[UserStore get] findById:[[cStories objectAtIndex: i] authorId]];
+            NSString *avatarName = [author extractAvatarStringType:@"small_url"];
+            if ([avatarName  isEqualToString:imageURL])
+            {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+    else
+    {
+        if(numOfCachedImages < cacheLimit)
+        {
+            numOfCachedImages++;
+            NSLog(@"numOfCachedImages %d", numOfCachedImages);
+            return true;
+        }
+        else return false;
+    }
+}
+
+- (bool)isAvatar: (NSString *)AvatarURL
+{
+    if ([AvatarURL rangeOfString:@"avatars" options:NSCaseInsensitiveSearch].location != NSNotFound){
         return true;
     }
-    else return false;
+    else return false;    
 }
 
 @end

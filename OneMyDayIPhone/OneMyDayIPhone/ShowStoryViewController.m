@@ -41,16 +41,7 @@
                 asyncImageView.layer.cornerRadius = 5.0;
                 asyncImageView.layer.masksToBounds = YES;
                 
-                /*[[NSNotificationCenter defaultCenter] addObserverForName:@"AsyncImageLoadDidFinish" object:asyncImageView
-                                                                   queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif)
-                {
-                    UIImage *image = [notif.userInfo objectForKey:@"image"];
-                    CGRect frame = asyncImageView.frame;
-                    
-                    frame.size.width = image.size.width;
-                    frame.size.height = image.size.height;
-                    asyncImageView.frame = frame;
-                }];*/
+                
                 
                 NSURL *url = [NSURL URLWithString:image];
                 asyncImageView.imageURL = url;

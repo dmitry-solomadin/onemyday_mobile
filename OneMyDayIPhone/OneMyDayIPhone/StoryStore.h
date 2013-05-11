@@ -12,7 +12,8 @@
 
 @interface StoryStore : NSObject
 {
-    NSMutableArray *stories;  
+    NSMutableArray *stories;
+    NSMutableArray *cachedStories;
 }
 
 @property (strong, nonatomic) NSNumber *numOfCachedImages;
@@ -24,7 +25,7 @@
 - (Story *)findById:(int)storyId;
 - (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser;
 - (id)loadStoriesFromDisk;
-- (bool)checkImageLimit;
+- (bool)checkImageLimit: (NSString*)imageURL;
 - (void)saveImage:(UIImage*)image withName:(NSString*)imageName;
 - (UIImage*)loadImage:(NSString*)imageName;
 

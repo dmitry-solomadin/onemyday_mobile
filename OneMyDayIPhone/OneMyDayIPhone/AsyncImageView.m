@@ -150,11 +150,8 @@ NSString *const AsyncImageErrorKey = @"error";
             {                
                 [_cache setObject:image forKey:_URL];
                 
-                /*NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[_URL absoluteString] forKey:@"imageName"];
-                
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"SaveImageNotification" object:nil userInfo:userInfo];*/
-                
-                if([[StoryStore get] checkImageLimit]) [[StoryStore get] saveImage:image  withName: [_URL absoluteString]];
+                NSString *stringURL = [_URL absoluteString];
+                if([[StoryStore get] checkImageLimit:stringURL]) [[StoryStore get] saveImage:image  withName: stringURL];
             }
         }
         

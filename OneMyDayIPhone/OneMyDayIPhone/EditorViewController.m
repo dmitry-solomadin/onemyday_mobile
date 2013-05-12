@@ -44,6 +44,20 @@
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectMake(0, 0, 320, self.view.bounds.size.height - 95)];
     [[self view] addSubview:scrollView];
     
+    // add story title
+    UITextField *storyTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 300, 38)];
+    [storyTitle setPlaceholder:@"Enter story title..."];
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+    storyTitle.leftView = paddingView;
+    storyTitle.leftViewMode = UITextFieldViewModeAlways;
+    storyTitle.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    [storyTitle setBackground:fieldBGImage];
+    [storyTitle setDelegate:self];
+    [storyTitle setReturnKeyType:UIReturnKeyDone];
+    [storyTitle setText:[[EditorStore get] loadTitle]];
+    [scrollView addSubview:storyTitle];
+    
     // add previously saved images&texts if any
     NSMutableDictionary *keyToItem = [[EditorStore get] loadAllItems];
     for (NSString *key in keyToItem) {
@@ -270,7 +284,7 @@
 
 - (float)getCurrentScrollHeight
 {
-    float height = 0;
+    float height = 48;
     int count = 0;
     for (UIView *view in [scrollView subviews]) {
         if ([view isKindOfClass:[EditorItemView class]]) {
@@ -331,6 +345,13 @@
 - (void)dismissSelf:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [[EditorStore get] saveTitle:[textField text]];
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

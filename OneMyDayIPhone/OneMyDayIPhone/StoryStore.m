@@ -16,6 +16,7 @@
 @implementation StoryStore
 
 NSString *path = @"~/Documents/stories";
+NSString *imagesDirectory = @"~/Documents/images_cache";
 int cacheLimit = 10;
 int numOfCachedImages = 0;
 
@@ -146,14 +147,12 @@ int numOfCachedImages = 0;
     
     imageName = [imageName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     NSData *imageData = UIImagePNGRepresentation(image);
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    //NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: @"onemyday/images"];
-    //fullPath = [documentsDirectory stringByAppendingPathComponent: @"images"];
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: imageName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];    
     
-    bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    NSString *fullPath = [imagesDirectory stringByAppendingPathComponent: imageName];
+    
+    //bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
     //NSLog(@"store result %d",result);
 }
 
@@ -161,26 +160,26 @@ int numOfCachedImages = 0;
     
     imageName = [imageName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //NSString *documentsDirectory = [paths objectAtIndex:0];
     //NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: @"onemyday/images"];
     //fullPath = [documentsDirectory stringByAppendingPathComponent: @"images"];
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:imageName];
+    NSString *fullPath = [imagesDirectory stringByAppendingPathComponent:imageName];
     //NSLog(@"load %@",fullPath);
     return [UIImage imageWithContentsOfFile:fullPath];
 }
 
 - (void)delOldCachedInfo: (NSArray *) cacheStories {
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //NSString *documentsDirectory = [paths objectAtIndex:0];
     
     numOfCachedImages = 0;
     
     NSFileManager *fm = [NSFileManager defaultManager];   
     NSError *error = nil;
   
-    for (NSString *file in [fm contentsOfDirectoryAtPath:documentsDirectory error:&error]) {        
+    for (NSString *file in [fm contentsOfDirectoryAtPath:imagesDirectory error:&error]) {
        
         bool exists = false;
         for(int j = 0; j < [cacheStories count]; j++)
@@ -213,7 +212,7 @@ int numOfCachedImages = 0;
         if(!exists)
         {
             //NSLog(@"delete file: %@" , file);
-            bool success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", documentsDirectory, file] error:&error];
+            bool success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", imagesDirectory, file] error:&error];
         
             if (!success || error)
             {                

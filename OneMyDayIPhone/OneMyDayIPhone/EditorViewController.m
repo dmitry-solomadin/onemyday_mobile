@@ -19,6 +19,7 @@
 @interface EditorViewController ()
 {
     UIScrollView *scrollView;
+    float totalSwipeRightTranslation;
 }
 
 - (void)exitEditingMode;
@@ -30,6 +31,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    totalSwipeRightTranslation = 0;
     
     // add navigation
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
@@ -90,7 +93,8 @@
     [[self view] setBackgroundColor:[UIColor whiteColor]];
 }
 
-- (UIButton *)addBottomButtonWithTitle:(NSString *)title frame:(CGRect)frame action:(SEL)selector {
+- (UIButton *)addBottomButtonWithTitle:(NSString *)title frame:(CGRect)frame action:(SEL)selector
+{
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *buttonBG = [[UIImage imageNamed:@"editorbar_button"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
     UIImage *buttonBGSelected = [[UIImage imageNamed:@"editorbar_button_highlight"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
@@ -167,16 +171,10 @@
     // add photo hidden button
     UIButton *imageBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
     [itemView addSubview:imageBtn];
-    [itemView bringSubviewToFront:imageBtn];
+    [itemView bringSubviewToFront:imageBtn];    
     
-    // create long press gesture recognizer
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
-                                               initWithTarget:self action:@selector(enterEditingMode:)];
-    longPress.minimumPressDuration = 0.75; //seconds
-    [imageBtn addGestureRecognizer:longPress];
-    
-    // add photo delete button
-    [self addDeleteButtonToView:itemView withKey:key];
+    // create pan gesture recognizer (delete item)
+    [self addRemoveGestureRecognizer:imageBtn];
     
     [scrollView addSubview:itemView];
     [scrollView setContentSize:(CGSizeMake(320, [self getCurrentScrollHeight]))];
@@ -209,17 +207,61 @@
     [itemView addSubview:textBtn];
     [itemView bringSubviewToFront:textBtn];
     
-    // create long press gesture recognizer
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
-                                               initWithTarget:self action:@selector(enterEditingMode:)];
-    longPress.minimumPressDuration = 0.75; //seconds
-    [textBtn addGestureRecognizer:longPress];
-    
-    // add photo delete button
-    [self addDeleteButtonToView:itemView withKey:key];
+    // create pan gesture recognizer (delete item)
+    [self addRemoveGestureRecognizer:textBtn];
     
     [scrollView addSubview:itemView];
     [scrollView setContentSize:(CGSizeMake(320, [self getCurrentScrollHeight]))];
+}
+
+- (void)addRemoveGestureRecognizer:(UIView *)view
+{
+    UIPanGestureRecognizer *moveRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
+    [moveRecognizer setDelegate:self];
+    [view addGestureRecognizer:moveRecognizer];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+- (void)move:(UIPanGestureRecognizer *)gr
+{
+    EditorItemView *itemView = (EditorItemView *)[[gr view] superview];
+    float origin_position = 10;
+    if ([gr state] == UIGestureRecognizerStateChanged) {        
+        if (itemView.frame.origin.x > 180) {
+            // remove item
+            [[gr view] removeGestureRecognizer:gr];
+            [self deleteItemAnimation:itemView];
+        } else {
+            CGPoint translation = [gr translationInView:[self view]];
+            
+            if (translation.x > 0) {
+                totalSwipeRightTranslation+= translation.x;
+                if (totalSwipeRightTranslation > 20) {
+                    itemView.frame = CGRectOffset(itemView.frame, translation.x, 0);
+                    itemView.layer.opacity = 1 - (itemView.frame.origin.x - origin_position) / 250;
+                }
+            }
+        }
+        
+        [[self view] setNeedsDisplay];
+        
+        [gr setTranslation:CGPointZero inView:[self view]];
+    } else if ([gr state] == UIGestureRecognizerStateEnded) {
+        [UIView beginAnimations:@"animateReturnItemOnInitialPosition" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.3f];
+        
+        itemView.frame = CGRectMake(origin_position, itemView.frame.origin.y,
+                                    itemView.frame.size.width, itemView.frame.size.height);
+        itemView.layer.opacity = 1;
+        
+        [UIView commitAnimations];
+        totalSwipeRightTranslation = 0;
+    }
 }
 
 - (void)editTextOnTheView:(NSString *)text withKey:(NSString *)key
@@ -239,60 +281,39 @@
     }
 }
 
-- (void)addDeleteButtonToView:(UIView *)view withKey:(NSString *)key
+- (void)deleteItemAnimation:(EditorItemView *)itemView
 {
-    ViewWithAttributes *deleteBtnWrap = [[ViewWithAttributes alloc] initWithFrame:CGRectMake(275, -5, 32, 32)];
-    [deleteBtnWrap addAttribute:key forKey:@"item_to_delete"];
-    UIButton *deleteBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    [deleteBtn setBackgroundImage:[UIImage imageNamed:@"image_remove"] forState:UIControlStateNormal];
-    [deleteBtn setHidden:YES];
-    [deleteBtn addTarget:self action:@selector(deleteItem:) forControlEvents:UIControlEventTouchUpInside];
-    [deleteBtnWrap setTag:DELETE_BUTTON_TAG];
-    [deleteBtnWrap addSubview:deleteBtn];
-    [view addSubview:deleteBtnWrap];
-}
-
-- (void)deleteItem:(UIView *)sender
-{
-    ViewWithAttributes *buttonWrap = (ViewWithAttributes *)[sender superview];
-    UIView *itemView = [buttonWrap superview];
-    EditorViewController *this = self;
-    [UIView animateWithDuration:0.2 animations:^{itemView.alpha = 0.0;}
+    [UIView animateWithDuration:0.5f
+                     animations:^{
+                         itemView.frame = CGRectMake(320, itemView.frame.origin.y,
+                                                     itemView.frame.size.width, itemView.frame.size.height);
+                         itemView.alpha = 0;
+                     }
                      completion:^(BOOL finished) {
-                         [itemView removeFromSuperview];
-                         [[EditorStore get] deleteImageWithKey:[buttonWrap getAttributeForKey:@"item_to_delete"]];
-                         
-                         for (UIView *view in [scrollView subviews]) {
-                             if ([view isKindOfClass:[EditorItemView class]] &&
-                                    view.frame.origin.y > itemView.frame.origin.y) {
-                                 [UIView beginAnimations:@"searchGrowUp" context:nil];
-                                 [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-                                 [UIView setAnimationDuration:0.3f];
-                            
-                                 view.frame = CGRectOffset(view.frame, 0, -(itemView.frame.size.height + 10));
-                                 
-                                 [UIView commitAnimations];
-                             }
-                         }
-                         
-                         [this exitEditingMode];
+                         [self deleteItem:itemView];
                      }];
 }
 
-- (void)enterEditingMode:(id)sender
+- (void)deleteItem:(EditorItemView *)itemView
 {
-    for (UIView *view in [scrollView subviews]) {
-        if ([view isKindOfClass:[EditorItemView class]]) {
-            [[[[view viewWithTag:DELETE_BUTTON_TAG] subviews] objectAtIndex:0] setHidden:NO];
-        }
+    NSString *itemKey = [itemView key];
+    [itemView removeFromSuperview];
+    if ([itemView type] == photoItemType) {
+        [[EditorStore get] deleteImageWithKey:itemKey];
+    } else if ([itemView type] == textItemType) {
+        [[EditorStore get] deleteTextWithKey:itemKey];
     }
-}
-
-- (void)exitEditingMode
-{
+    
     for (UIView *view in [scrollView subviews]) {
-        if ([view isKindOfClass:[EditorItemView class]]) {
-            [[[[view viewWithTag:DELETE_BUTTON_TAG] subviews] objectAtIndex:0] setHidden:YES];
+        if ([view isKindOfClass:[EditorItemView class]] &&
+            view.frame.origin.y > itemView.frame.origin.y) {
+            [UIView beginAnimations:@"searchGrowUp" context:nil];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+            [UIView setAnimationDuration:0.3f];
+            
+            view.frame = CGRectOffset(view.frame, 0, -(itemView.frame.size.height + 10));
+            
+            [UIView commitAnimations];
         }
     }
 }
@@ -310,11 +331,13 @@
     return height + count * 10 + 10;
 }
 
-- (void)imagePickerControllerDidCancel:(DLCImagePickerController *)picker{
+- (void)imagePickerControllerDidCancel:(DLCImagePickerController *)picker
+{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePickerController:(DLCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+- (void)imagePickerController:(DLCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
     [self dismissViewControllerAnimated:YES completion:nil];
     

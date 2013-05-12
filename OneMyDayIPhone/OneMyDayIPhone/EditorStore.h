@@ -25,4 +25,7 @@ typedef enum {
 - (NSString *)changeText:(NSString *)text withKey:(NSString *)key;
 - (void)deleteTextWithKey:(NSString *)key;
 
+- (void)saveTitle:(NSString *)title;
+- (NSString *)loadTitle;
+
 @end

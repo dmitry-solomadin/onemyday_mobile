@@ -53,6 +53,11 @@
     return [[[NSUserDefaults standardUserDefaults] objectForKey:@"editor_key_to_text"] objectForKey:key];
 }
 
+- (NSString *)loadTitle
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"editor_story_title"];
+}
+
 /* --- Save to store methods --- */
 
 - (NSString *)saveImage:(UIImage *)image
@@ -84,6 +89,13 @@
     [userDefaults synchronize];
     
     return key;
+}
+
+- (void)saveTitle:(NSString *)title
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:title forKey:@"editor_story_title"];
+    [userDefaults synchronize];
 }
 
 - (NSString *)changeText:(NSString *)text withKey:(NSString *)key
@@ -173,9 +185,13 @@
 
 - (NSString *)imagePathForKey:(NSString *)key
 {
+    NSFileManager *fileManager = [NSFileManager defaultManager]; 
     NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDirectory = [documentDirectories objectAtIndex:0];
-    return [documentDirectory stringByAppendingPathComponent:key];
+    NSMutableString *cache_location = [[NSMutableString alloc] initWithString:@"/editor_cache"];
+    [fileManager createDirectoryAtPath:cache_location withIntermediateDirectories:NO attributes:nil error:nil];
+    [cache_location appendString:key];
+    return [documentDirectory stringByAppendingPathComponent:cache_location];
 }
 
 @end

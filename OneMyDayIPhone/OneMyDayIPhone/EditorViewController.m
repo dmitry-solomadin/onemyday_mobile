@@ -39,10 +39,36 @@
     [publishButton setTintColor:[UIColor colorWithRed:0.08 green:0.78 blue:0.08 alpha:0.5]];
     self.navigationItem.leftBarButtonItem = cancelButton;
     self.navigationItem.rightBarButtonItem = publishButton;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"furley_bg"]];
     
     // add scroll view
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectMake(0, 0, 320, self.view.bounds.size.height - 95)];
+    scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cool_bg"]];
     [[self view] addSubview:scrollView];
+    
+    // add story title
+    UITextField *storyTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 300, 38)];
+    [storyTitle setPlaceholder:@"Enter story title..."];
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+    storyTitle.leftView = paddingView;
+    storyTitle.leftViewMode = UITextFieldViewModeAlways;
+    storyTitle.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    [storyTitle setBackground:fieldBGImage];
+    [storyTitle setDelegate:self];
+    [storyTitle setReturnKeyType:UIReturnKeyDone];
+    [storyTitle setText:[[EditorStore get] loadTitle]];
+    storyTitle.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"furley_bg"]];
+    [scrollView addSubview:storyTitle];
+    
+    // lines under the title
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 53, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.5];
+    [scrollView addSubview:lineView];
+    
+    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 54, self.view.bounds.size.width, 1)];
+    lineView2.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+    [scrollView addSubview:lineView2];
     
     // add previously saved images&texts if any
     NSMutableDictionary *keyToItem = [[EditorStore get] loadAllItems];
@@ -198,15 +224,18 @@
 
 - (void)editTextOnTheView:(NSString *)text withKey:(NSString *)key
 {
-    for (EditorItemView *itemView in [scrollView subviews]) {
-        if (itemView.key == key) {
-            for (UIView *subview in [itemView subviews]) {
-                if ([subview isKindOfClass:[UITextView class]]) {
-                    [(UITextView *)subview setText:text];
+    for (UIView *view in [scrollView subviews]) {        
+        if ([view isKindOfClass:[EditorItemView class]]) {
+            EditorItemView *itemView = (EditorItemView *)view;
+            if (itemView.key == key) {
+                for (UIView *subview in [itemView subviews]) {
+                    if ([subview isKindOfClass:[UITextView class]]) {
+                        [(UITextView *)subview setText:text];
+                    }
                 }
+                break;
             }
-            break;
-        }
+        }    
     }
 }
 
@@ -270,7 +299,7 @@
 
 - (float)getCurrentScrollHeight
 {
-    float height = 0;
+    float height = 52;
     int count = 0;
     for (UIView *view in [scrollView subviews]) {
         if ([view isKindOfClass:[EditorItemView class]]) {
@@ -331,6 +360,13 @@
 - (void)dismissSelf:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [[EditorStore get] saveTitle:[textField text]];
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/EditorViewController.m"
-         timestampString = "390088314.907973"
+         timestampString = "390088997.747228"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "169"
-         endingLineNumber = "169"
+         startingLineNumber = "170"
+         endingLineNumber = "170"
          landmarkName = "-addPhotoToTheView:withKey:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/EditorViewController.m"
-         timestampString = "390088700.896752"
+         timestampString = "390088997.747228"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "267"
-         endingLineNumber = "267"
+         startingLineNumber = "268"
+         endingLineNumber = "268"
          landmarkName = "-editTextOnTheView:withKey:"
          landmarkType = "5">
       </FileBreakpoint>

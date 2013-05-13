@@ -68,7 +68,7 @@ int numOfCachedImages = 0;
 
 - (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser
 {    
-    NSMutableString *path = [[NSMutableString alloc] initWithString:@"/stories.json"];
+    NSMutableString *path = [[NSMutableString alloc] initWithString:@"/search_stories.json"];
     NSMutableArray *parameters = [[NSMutableArray alloc] init];
     if (includePhotos) {
         [parameters addObject:@"p=true"];
@@ -76,6 +76,8 @@ int numOfCachedImages = 0;
     if (includeUser) {
         [parameters addObject:@"u=true"];
     }
+    [parameters addObject:@"ft=2"];
+    [parameters addObject:@"page=all"];
     [Request insertParametersIntoUrl:path parameters:parameters];
 
     Request *request = [[Request alloc] init];

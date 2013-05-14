@@ -89,9 +89,11 @@
             
             // do our long running process here
             [NSThread sleepForTimeInterval:3];
+        long storyId = 0;
+        if([oldStories count] == 10) storyId = [[oldStories objectAtIndex:0] storyId];
             
-            stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES];
-            
+        stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES higherThanId: storyId withLimit: 11];
+        
             // do any UI stuff on the main UI thread
             dispatch_async(dispatch_get_main_queue(), ^{
                 //self.myLabel.text = @"After!";

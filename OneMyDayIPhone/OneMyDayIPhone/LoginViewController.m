@@ -103,8 +103,7 @@
 }
 
 - (void) saveCredentials: userId {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:userId]
-                                              forKey:@"user_id"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:userId] forKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

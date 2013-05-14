@@ -66,7 +66,7 @@ int numOfCachedImages = 0;
     return nil;
 }
 
-- (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser
+- (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser higherThanId: (long) lastId withLimit: (int) limit
 {    
     NSMutableString *path = [[NSMutableString alloc] initWithString:@"/search_stories.json"];
     NSMutableArray *parameters = [[NSMutableArray alloc] init];
@@ -78,6 +78,8 @@ int numOfCachedImages = 0;
     }
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
+    [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
+    [parameters addObject:[NSString stringWithFormat:@"limit=%d",limit]];
     [Request insertParametersIntoUrl:path parameters:parameters];
 
     Request *request = [[Request alloc] init];
@@ -92,7 +94,7 @@ int numOfCachedImages = 0;
         int authorId = [(NSString *) [story objectForKey:@"user_id"] intValue];
         NSString *title = (NSString *) [story objectForKey:@"title"];
         NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
-        
+        NSLog(@"i %d", i);
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
         for (NSDictionary *photo in photos) {
@@ -101,7 +103,7 @@ int numOfCachedImages = 0;
         
         Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
         [allStories addObject: newStory];
-        if(i < cacheLimit && i > 1)[cacheStories addObject: newStory];
+        if(i < cacheLimit)[cacheStories addObject: newStory];
         
         if (includeUser) {
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey: @"user"]];
@@ -111,7 +113,8 @@ int numOfCachedImages = 0;
     }
     
     [[StoryStore get] setStories:allStories];
-    NSLog(@"[cacheStories count] %d", [cacheStories count]); 
+    NSLog(@"[cacheStories count] %d", [cacheStories count]);
+    
     if ([cacheStories count] > 0)
     {
         [self delOldCachedInfo: cacheStories];
@@ -263,7 +266,7 @@ int numOfCachedImages = 0;
         if(numOfCachedImages < cacheLimit)
         {
             numOfCachedImages++;
-            NSLog(@"numOfCachedImages %d", numOfCachedImages);
+            //NSLog(@"numOfCachedImages %d", numOfCachedImages);
             return true;
         }
         else return false;

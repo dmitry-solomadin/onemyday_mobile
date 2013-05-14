@@ -11,6 +11,8 @@
 		180D97A0171F248B0034A9C2 /* capture-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 180D979E171F248B0034A9C2 /* capture-button@2x.png */; };
 		180D97A1171F248B0034A9C2 /* capture-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 180D979F171F248B0034A9C2 /* capture-button.png */; };
 		180D97A4171F27200034A9C2 /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D97A3171F27200034A9C2 /* EditorViewController.m */; };
+		184374241742EA33005828E7 /* no-avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 184374221742EA33005828E7 /* no-avatar@2x.png */; };
+		184374251742EA33005828E7 /* no-avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 184374231742EA33005828E7 /* no-avatar.png */; };
 		184D55EB173844750088CADF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184D55EA173844750088CADF /* CoreMedia.framework */; };
 		184D55ED1738447F0088CADF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184D55EC1738447F0088CADF /* CoreVideo.framework */; };
 		184D55EF173844850088CADF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184D55EE173844850088CADF /* OpenGLES.framework */; };
@@ -253,6 +255,8 @@
 		180D979F171F248B0034A9C2 /* capture-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "capture-button.png"; path = "assets/capture-button.png"; sourceTree = "<group>"; };
 		180D97A2171F27200034A9C2 /* EditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorViewController.h; sourceTree = "<group>"; };
 		180D97A3171F27200034A9C2 /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorViewController.m; sourceTree = "<group>"; };
+		184374221742EA33005828E7 /* no-avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar@2x.png"; path = "OneMyDayIPhone/assets/no-avatar@2x.png"; sourceTree = "<group>"; };
+		184374231742EA33005828E7 /* no-avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar.png"; path = "OneMyDayIPhone/assets/no-avatar.png"; sourceTree = "<group>"; };
 		184D55C8173831E90088CADF /* OnemydayTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnemydayTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		184D55EA173844750088CADF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		184D55EC1738447F0088CADF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -782,6 +786,8 @@
 		844DFA4E16CFB66F00884637 = {
 			isa = PBXGroup;
 			children = (
+				184374221742EA33005828E7 /* no-avatar@2x.png */,
+				184374231742EA33005828E7 /* no-avatar.png */,
 				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
 				18E242251716DB4E00435FBE /* Resources */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
@@ -1065,6 +1071,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184374241742EA33005828E7 /* no-avatar@2x.png in Resources */,
+				184374251742EA33005828E7 /* no-avatar.png in Resources */,
 				18D7D0FD1742373E00C9EEC3 /* furley_bg@2x.png in Resources */,
 				184D56891738DA3B0088CADF /* 02.acv in Resources */,
 				184D568A1738DA3B0088CADF /* 06.acv in Resources */,

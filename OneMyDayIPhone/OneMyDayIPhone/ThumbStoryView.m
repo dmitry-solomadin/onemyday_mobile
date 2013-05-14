@@ -56,9 +56,16 @@
         avatarView.layer.cornerRadius = 35.0 / 2;
         avatarView.layer.borderColor = [[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1] CGColor];
         avatarView.layer.borderWidth = 1;
+        avatarView.layer.backgroundColor = [[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1] CGColor];
+        avatarView.showActivityIndicator = NO;
 
         NSURL *avatarUrl = [author extractAvatarUrlType:@"small_url"];
-        [avatarView setImageURL:avatarUrl];
+        if ([self isAvatarEmpty:[avatarUrl absoluteString]]) {
+            [avatarView setImage:[UIImage imageNamed:@"no-avatar"]];
+        } else {
+            [avatarView setImageURL:avatarUrl];
+        }
+        
         [self addSubview:avatarView];
     }
     return self;
@@ -70,14 +77,13 @@
     [[self controller] performSelector:@selector(storyTap:) withObject:storyId];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (BOOL)isAvatarEmpty:(NSString *)avatarURL
 {
-    // Drawing code
+    if ([avatarURL rangeOfString:@"no-avatar" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        return YES;
+    }
+    return NO;
 }
-*/
 
 @end
 

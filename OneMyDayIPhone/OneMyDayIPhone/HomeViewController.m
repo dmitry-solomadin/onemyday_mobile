@@ -49,6 +49,9 @@
 {     
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:)
+                                                 name:@"AsyncImageLoadDidFail" object:nil];
+    
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
     [[self view] addSubview:scrollView];    
       
@@ -160,7 +163,12 @@
               
             });
         });
-        
+    
+}
+
+- (void)handleNotification:(NSNotification *)note
+{
+    NSLog(@"IMAGE FAILED LOADING");
 }
 
 @end

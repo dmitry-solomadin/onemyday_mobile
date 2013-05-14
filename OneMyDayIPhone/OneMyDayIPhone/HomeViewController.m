@@ -16,7 +16,7 @@
 
 @interface HomeViewController ()
 {
-    NSArray * stories;
+    NSMutableArray * stories;
     UIActivityIndicatorView *indicator;
 }
 @end
@@ -54,7 +54,8 @@
       
     __block CGFloat oldFeedHeight = 10.0;
     
-    __block NSArray * oldStories = [[StoryStore get] loadStoriesFromDisk];
+    __block NSMutableArray *oldStories = [[StoryStore get] loadStoriesFromDisk];
+    stories = oldStories;
     [[UserStore get] loadUsersFromDisk];
     
     indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -88,32 +89,33 @@
     dispatch_async(downloadQueue, ^{
             
             // do our long running process here
-            [NSThread sleepForTimeInterval:3];
+            //[NSThread sleepForTimeInterval:3];
         long storyId = 0;
-        if([oldStories count] == 10) storyId = [[oldStories objectAtIndex:0] storyId];
-            
-        stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES higherThanId: storyId withLimit: 11];
+        if(oldStories != NULL && [oldStories count] > 0) storyId = [[oldStories objectAtIndex:0] storyId];
+        //NSLog(@"storyId %ld", storyId);
+        NSMutableArray *newStories = [[StoryStore get]
+                                      requestStoriesIncludePhotos:YES includeUser:YES higherThanId: storyId withLimit: 11];
         
             // do any UI stuff on the main UI thread
             dispatch_async(dispatch_get_main_queue(), ^{
-                //self.myLabel.text = @"After!";
                 
-                NSLog(@"stories count is: %d", [stories count]);
+                NSLog(@"newStories count is: %d", [newStories count]);
                 
-                NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);                
-               
-               
-                if([stories count] > 0)
-                {                    
+                NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+                
+                if(newStories != NULL && [newStories count] > 0)
+                {                                      
+                    stories = newStories;
                     CGFloat currentFeedHeight = 10.0;
-                    Story *oldStory = [oldStories objectAtIndex: 0];
+                    Story *oldStory = nil;
+                    if(oldStories != NULL && [oldStories count] > 0)oldStory = [oldStories objectAtIndex: 0];
                     int newStoriesCount = 0;
-                    
+                   
                     for (int i = 0; i < [stories count]; i++) {
                         
                         Story *story = [stories objectAtIndex: i];
                             
-                        if([oldStory storyId] == [story storyId]) break;
+                        if(oldStory != nil && [oldStory storyId] == [story storyId]) break;
                        
                         newStoriesCount++;
                         CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
@@ -121,35 +123,44 @@
                         thumbStoryView.controller = self;
                         [scrollView insertSubview: thumbStoryView atIndex: 0];
                         currentFeedHeight  += 355;
+                    }                    
+                                          
+                    for (int i = 0; i < [oldStories count]; i++ ) {
+                        [stories addObject: [oldStories objectAtIndex: i]];
                     }
                     
-                    if(newStoriesCount > 0)
-                    {
-                        for (int i = newStoriesCount; i < [[scrollView subviews] count]; i++ ) {
+                    for (int i = newStoriesCount; i < [[scrollView subviews] count]; i++ ) {
                         
-                            if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]])
+                        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]])
+                        {
+                            if([newStories count] == 11 && [[newStories objectAtIndex: 10] storyId] != storyId)
                             {
+                                NSLog(@"i %d",i);
+                                ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
+                                [tSV removeFromSuperview];
+                                oldFeedHeight -= 355;
+                            }else{
                                 ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
                                 CGRect rect = tSV.frame;
                                 rect.origin = CGPointMake(tSV.frame.origin.x, tSV.frame.origin.y + currentFeedHeight);
                                 tSV.frame = rect;
                             }
                         }
-                    }
-                
+                    }  
+                    
                     [scrollView setContentSize: CGSizeMake(320, currentFeedHeight + oldFeedHeight)];
-                                    
+                    
                 }
                 
-            [indicator stopAnimating];
+                NSLog(@"stories count is: %d", [stories count]);
+                [[StoryStore get] setStories:stories];
+                [indicator stopAnimating];
                 
-            //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-                               
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;                               
               
             });
-        });        
-       
-    
-    
+        });
+        
 }
+
 @end

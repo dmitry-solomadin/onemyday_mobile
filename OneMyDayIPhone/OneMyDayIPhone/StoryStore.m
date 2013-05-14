@@ -88,13 +88,13 @@ int numOfCachedImages = 0;
     NSMutableArray *cacheStories = [NSMutableArray array];
     NSMutableArray *cacheUsers = [NSMutableArray array];
      
-    for (int i=0; i < [jsonData  count]; i++) {
+    for (int i = 0; i < [jsonData  count]; i++) {
         NSDictionary *story = [jsonData objectAtIndex:i];
         int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
         int authorId = [(NSString *) [story objectForKey:@"user_id"] intValue];
         NSString *title = (NSString *) [story objectForKey:@"title"];
         NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
-        NSLog(@"i %d", i);
+        
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
         for (NSDictionary *photo in photos) {
@@ -102,25 +102,43 @@ int numOfCachedImages = 0;
         }
         
         Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
+       
         [allStories addObject: newStory];
-        if(i < cacheLimit)[cacheStories addObject: newStory];
+        if(i < cacheLimit &&i>0)[cacheStories addObject: newStory];
         
         if (includeUser) {
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey: @"user"]];
-            [[UserStore get] addUser:user];
-            if(i < cacheLimit)[cacheUsers addObject:user];
+            [[UserStore get] addUser:user];            
         }
     }
     
-    [[StoryStore get] setStories:allStories];
+    NSMutableArray *oldCachedStories = [self getCachedStories];     
     NSLog(@"[cacheStories count] %d", [cacheStories count]);
-    
-    if ([cacheStories count] > 0)
+    if ([cacheStories count] > 1)
     {
+        if([cachedStories count] < 10){
+            
+            int storiesLeftForCache = 10 - [cacheStories count];
+            //NSLog(@"storiesLeftForCache %d", storiesLeftForCache);
+            for(int i = 0;i < storiesLeftForCache;i++){
+                NSLog(@"i %d", i);
+                Story *story = [oldCachedStories objectAtIndex:i];
+                if(story != nil)[cacheStories addObject: story];
+                else break;
+            }
+        }
+        NSLog(@"[cacheStories count] %d", [cacheStories count]);
+        NSArray *users = [[UserStore get] getUsers];
+        NSLog(@"[users  count] %d", [users count]);
+        int usersLimit = [users count] - 1;
+        for(int i = usersLimit, j = 0; i > 0; i--, j++){
+            if(j == cacheLimit) break;
+            [cacheUsers addObject:[users objectAtIndex:i]];
+        }
+        NSLog(@"[cacheUsers count] %d", [cacheUsers count]);
         [self delOldCachedInfo: cacheStories];
         [self saveStoriesToDisk: cacheStories];
-        [self setCachedStories: cacheStories];
-        [[UserStore get] saveUsersToDisk:cacheUsers];        
+        [[UserStore get] saveUsersToDisk:cacheUsers];
     }
     
     return allStories;
@@ -135,7 +153,9 @@ int numOfCachedImages = 0;
     
     [rootObject setValue: cacheStories forKey: @"stories"];
     
-    [NSKeyedArchiver archiveRootObject: rootObject toFile: path];    
+    [NSKeyedArchiver archiveRootObject: rootObject toFile: path];
+    
+    [self setCachedStories: cacheStories];
 }
 
 - (id)loadStoriesFromDisk {
@@ -144,8 +164,12 @@ int numOfCachedImages = 0;
     
     NSMutableDictionary *rootObject;
     rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile: path];
-   
-    return[rootObject valueForKey: @"stories"];
+    
+    NSMutableArray *loadedStories = [rootObject valueForKey: @"stories"];
+    
+    [self setStories:loadedStories];
+    
+    return loadedStories;
 }
 
 - (void)saveImage:(UIImage*)image withName:(NSString*)imageName {    

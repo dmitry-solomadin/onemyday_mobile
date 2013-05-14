@@ -42,7 +42,14 @@ NSString *userStorePath = @"~/Documents/users";
 
 - (void)addUser:(User *)user
 {
-    [users addObject:user];
+    bool exists = false;
+    for(int i = 0;i < [users count];i++){
+        if([[users objectAtIndex:i] userId] == [user userId]){
+            exists = true;
+            break;
+        }
+    }
+    if(!exists) [users addObject:user];
 }
 
 - (User *)findById:(int)userId

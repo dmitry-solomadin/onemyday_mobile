@@ -30,15 +30,15 @@
         [self setStory:_story];
         
         // Photo
-        photoView = [[AsyncImageView alloc] initWithFrame: CGRectMake(0, 0, 300, 300)];
+        photoView = [[AsyncImageView alloc] initWithFrame: CGRectMake(5, 5, 290, 290)];
         photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         photoView.contentMode = UIViewContentModeScaleAspectFit;
         photoView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"furley_bg"]];
         
-        StoryShadowWrapView *wrapView = [[StoryShadowWrapView alloc] initWithFrame: CGRectMake(0, 45, 300, 300) andAsyncView:photoView];
-        [wrapView addSubview:photoView];
+        StoryShadowWrapView *wrapView = [[StoryShadowWrapView alloc] initWithFrame: CGRectMake(0, 45, 300, 300)
+                                                                      andAsyncView:photoView];
         
-        NSURL *url = [[self story] extractPhotoUrlType:@"thumb_url" atIndex:0];
+        NSURL *url = [[self story] extractPhotoUrlType:@"iphone2x_thumb_url" atIndex:0];
         [photoView setImageURL:url];
         [self addSubview:wrapView];
         
@@ -54,6 +54,8 @@
         AsyncImageView *avatarView = [[AsyncImageView alloc] initWithFrame: CGRectMake(0, 0, 35, 35)];
         avatarView.clipsToBounds = YES;
         avatarView.layer.cornerRadius = 35.0 / 2;
+        avatarView.layer.borderColor = [[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1] CGColor];
+        avatarView.layer.borderWidth = 1;
 
         NSURL *avatarUrl = [author extractAvatarUrlType:@"small_url"];
         [avatarView setImageURL:avatarUrl];

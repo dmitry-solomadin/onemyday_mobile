@@ -51,29 +51,50 @@
 - (IBAction)loginClick:(id)sender {
     @try {
         if([[txtEmail text] isEqualToString:@""] || [[txtPassword text] isEqualToString:@""] ) {
+            
             [self alertStatus:@"Please enter both Email and Password" :@"Login Failed!"];
+            
         } else {
             
-            AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-            appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
-            
-            NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
-            NSString *userId = [[Request alloc] requestLoginWithPath: postString];
-            
-            NSLog(@"userId = %@", userId);
-            
-            [self saveCredentials:userId];
-            
-            UIViewController *masterController = [AppDelegate initMasterController];
-            [self presentViewController:masterController animated:YES completion:nil];
-            //[self dismissViewControllerAnimated:YES completion:nil];
-            //[self.navigationController popToRootViewControllerAnimated:NO];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+               
+                [self loginTask];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    UIViewController *masterController = [AppDelegate initMasterController];
+                    [self presentViewController:masterController animated:YES completion:nil];
+                });
+            });             
         }
     }
     @catch (NSException * e) {
         NSLog(@"Exception: %@", e);
         [self alertStatus:@"Login Failed." :@"Login Failed!"];
     }
+}
+
+- (void)loginTask
+{
+    double startTime = [[NSDate date] timeIntervalSince1970];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
+    
+    NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
+    NSString *userId = [[Request alloc] requestLoginWithPath: postString];
+    
+    NSLog(@"userId = %@", userId);
+    
+    [self saveCredentials:userId];
+    
+    double stopTime = [[NSDate date] timeIntervalSince1970];
+    
+    double time = 2000 - (stopTime - startTime);
+    
+    //NSLog(@"time %f",time);
+    
+    if(time > 0) sleep(time / 1000);   
 }
 
 - (void)viewWillAppear:(BOOL)animated

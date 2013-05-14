@@ -14,6 +14,8 @@
 #import "DMTwitterCore.h"
 #import "MasterViewController.h"
 
+#import "MBProgressHUD.h"
+
 @class ExploreViewController;
 
 @implementation AppDelegate
@@ -142,6 +144,5 @@
     if (saved_credentials != nil)return true;
     else return false;
 }
-
 
 @end

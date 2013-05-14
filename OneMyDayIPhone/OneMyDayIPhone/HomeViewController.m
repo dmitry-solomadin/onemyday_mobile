@@ -49,8 +49,6 @@
 {     
     [super viewDidLoad];
     
-    
-    
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
     [[self view] addSubview:scrollView];    
       

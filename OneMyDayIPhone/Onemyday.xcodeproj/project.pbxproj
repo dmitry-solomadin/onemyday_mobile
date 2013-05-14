@@ -208,6 +208,7 @@
 		84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AEC1B117213FD1005CCD58 /* onemydayLogo.png */; };
 		84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
 		84DD61DA16D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
+		84DF0A9E174022340088578A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DF0A9D174022340088578A /* MBProgressHUD.m */; };
 		84E701A216D76D5100979856 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701A116D76D5100979856 /* LoginViewController.m */; };
 		84E701B116D76F2100979856 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701B016D76F2100979856 /* Request.m */; };
 		84E701B416D76F3600979856 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701B316D76F3600979856 /* Story.m */; };
@@ -478,6 +479,8 @@
 		84A031EC1715A5F40098B201 /* StartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartViewController.xib; sourceTree = "<group>"; };
 		84AEC1B117213FD1005CCD58 /* onemydayLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemydayLogo.png; sourceTree = "<group>"; };
 		84DD61D816D019ED0049B78B /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		84DF0A9C1740222D0088578A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		84DF0A9D174022340088578A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		84E701A016D76D5100979856 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		84E701A116D76D5100979856 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		84E701AF16D76F1900979856 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
@@ -741,6 +744,8 @@
 		18F98FBD171378A600D8F7A3 /* vendor */ = {
 			isa = PBXGroup;
 			children = (
+				84DF0A9D174022340088578A /* MBProgressHUD.m */,
+				84DF0A9C1740222D0088578A /* MBProgressHUD.h */,
 				1886808117379C27006A3E20 /* DLCImagePickerController */,
 				18B37EB417328C4E0007D53E /* OrderedDictionary.m */,
 				18B37EB517328C4E0007D53E /* OrderedDictionary.h */,
@@ -1264,6 +1269,7 @@
 				18A082E0172EFAD5001E125F /* EditorItemView.m in Sources */,
 				18A082E3172F10C8001E125F /* ViewWithAttributes.m in Sources */,
 				18B37EB3173189AA0007D53E /* AddTextViewController.m in Sources */,
+				84DF0A9E174022340088578A /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

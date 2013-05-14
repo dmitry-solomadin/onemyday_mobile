@@ -110,7 +110,7 @@
                     for (int i = 0; i < [stories count]; i++) {
                         
                         Story *story = [stories objectAtIndex: i];
-                        
+                            
                         if([oldStory storyId] == [story storyId]) break;
                        
                         newStoriesCount++;

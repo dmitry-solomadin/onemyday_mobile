@@ -20,12 +20,13 @@
 
 - (id) initWithStory:(Story *)_story
 {
-    if(self = [super initWithNibName: nil bundle: nil]){
+    if (self = [super initWithNibName: nil bundle: nil]) {
         self.story = _story;
         
         [[self view] setFrame: self.view.window.bounds];
         
         scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
+        [scrollView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"cool_bg"]]];
         [[self view] addSubview:scrollView];
         
         CGFloat currentStoryHeight = 10.0f;
@@ -33,21 +34,23 @@
             // Add photo
             NSDictionary *photo = [[story photos] objectAtIndex:i];
             NSDictionary *photo_urls = (NSDictionary *) [photo objectForKey:@"photo_urls"];
-            NSString *image = (NSString*) [photo_urls objectForKey:@"thumb_url"];
+            NSString *image = (NSString*) [photo_urls objectForKey:@"iphone2x_url"];
+            
+            NSDictionary *photo_dimensions = (NSDictionary *) [photo objectForKey:@"photo_dimensions"];
+            NSDictionary *dimensions = (NSDictionary *) [photo_dimensions objectForKey:@"iphone2x"];
+            NSNumber *height2x = [dimensions objectForKey:@"height"];
+            float height = [height2x floatValue] / 2;
+
             if (image) {
-                AsyncImageView *asyncImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(10, currentStoryHeight, 300, 300)];
-                asyncImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+                AsyncImageView *asyncImageView = [[AsyncImageView alloc] initWithFrame:
+                                                  CGRectMake(10, currentStoryHeight, 300, height)];
                 asyncImageView.contentMode = UIViewContentModeScaleAspectFit;
-                asyncImageView.layer.cornerRadius = 5.0;
-                asyncImageView.layer.masksToBounds = YES;
-                
-                
                 
                 NSURL *url = [NSURL URLWithString:image];
                 asyncImageView.imageURL = url;
                 
                 [scrollView addSubview:asyncImageView];
-                currentStoryHeight += 300;
+                currentStoryHeight += height;
             }
             
             // Add text
@@ -56,9 +59,14 @@
                 UITextView *textView = [[UITextView alloc] init];
                 textView.text = caption;
                 [textView setEditable:NO];
+                [textView setFont:[UIFont systemFontOfSize:15]];
+                [textView sizeToFit];
+                [textView setBackgroundColor:[UIColor clearColor]];
+                [textView setContentInset:UIEdgeInsetsMake(0, -8, 0, 0)];
                 [scrollView addSubview:textView];
 
                 textView.frame = CGRectMake(10, currentStoryHeight, 300, textView.contentSize.height);
+                [textView sizeToFit];
                 currentStoryHeight += textView.contentSize.height;
             }
         }

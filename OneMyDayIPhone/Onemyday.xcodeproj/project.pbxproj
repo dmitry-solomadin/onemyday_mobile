@@ -110,7 +110,6 @@
 		1886807F17379C14006A3E20 /* BlurOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1886807717379C14006A3E20 /* BlurOverlayView.m */; };
 		1886808017379C14006A3E20 /* BlurOverlayView.h in Sources */ = {isa = PBXBuildFile; fileRef = 1886807817379C14006A3E20 /* BlurOverlayView.h */; };
 		1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BA1720AC6900F3E2CD /* furley_bg.png */; };
-		1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */; };
 		1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */; };
 		18A082E0172EFAD5001E125F /* EditorItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A082DF172EFAD5001E125F /* EditorItemView.m */; };
 		18A082E3172F10C8001E125F /* ViewWithAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A082E2172F10C8001E125F /* ViewWithAttributes.m */; };
@@ -126,6 +125,7 @@
 		18BFB7661724A36100930B97 /* facebook_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7621724A36100930B97 /* facebook_login.png */; };
 		18BFB7671724A36100930B97 /* email_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7631724A36100930B97 /* email_login@2x.png */; };
 		18BFB7681724A36100930B97 /* email_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BFB7641724A36100930B97 /* email_login.png */; };
+		18D7D0FD1742373E00C9EEC3 /* furley_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D7D0FC1742373E00C9EEC3 /* furley_bg@2x.png */; };
 		18D9D1D2172554480092FC8F /* login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D9D1D0172554470092FC8F /* login@2x.png */; };
 		18D9D1D3172554480092FC8F /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D9D1D1172554480092FC8F /* login.png */; };
 		18E24213171578B000435FBE /* ShowStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E24212171578B000435FBE /* ShowStoryViewController.m */; };
@@ -356,7 +356,6 @@
 		1886807717379C14006A3E20 /* BlurOverlayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BlurOverlayView.m; path = vendor/DLCImagePickerController/BlurOverlayView.m; sourceTree = "<group>"; };
 		1886807817379C14006A3E20 /* BlurOverlayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BlurOverlayView.h; path = vendor/DLCImagePickerController/BlurOverlayView.h; sourceTree = "<group>"; };
 		1889A2BA1720AC6900F3E2CD /* furley_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = furley_bg.png; path = assets/furley_bg.png; sourceTree = "<group>"; };
-		1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "furley_bg@2x.png"; path = "assets/furley_bg@2x.png"; sourceTree = "<group>"; };
 		1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryShadowWrapView.h; sourceTree = "<group>"; };
 		1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryShadowWrapView.m; sourceTree = "<group>"; };
 		18A082DE172EFAD5001E125F /* EditorItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorItemView.h; sourceTree = "<group>"; };
@@ -376,6 +375,7 @@
 		18BFB7621724A36100930B97 /* facebook_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facebook_login.png; path = assets/facebook_login.png; sourceTree = "<group>"; };
 		18BFB7631724A36100930B97 /* email_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "email_login@2x.png"; path = "assets/email_login@2x.png"; sourceTree = "<group>"; };
 		18BFB7641724A36100930B97 /* email_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = email_login.png; path = assets/email_login.png; sourceTree = "<group>"; };
+		18D7D0FC1742373E00C9EEC3 /* furley_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "furley_bg@2x.png"; path = "assets/furley_bg@2x.png"; sourceTree = "<group>"; };
 		18D9D1D0172554470092FC8F /* login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login@2x.png"; path = "assets/login@2x.png"; sourceTree = "<group>"; };
 		18D9D1D1172554480092FC8F /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = assets/login.png; sourceTree = "<group>"; };
 		18E24211171578B000435FBE /* ShowStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowStoryViewController.h; sourceTree = "<group>"; };
@@ -691,7 +691,7 @@
 				18BFB75B17249AC100930B97 /* twitter_login@2x.png */,
 				18BFB75C17249AC100930B97 /* twitter_login.png */,
 				84AEC1B117213FD1005CCD58 /* onemydayLogo.png */,
-				1889A2BE1720ACAF00F3E2CD /* furley_bg@2x.png */,
+				18D7D0FC1742373E00C9EEC3 /* furley_bg@2x.png */,
 				1889A2BA1720AC6900F3E2CD /* furley_bg.png */,
 				180D979E171F248B0034A9C2 /* capture-button@2x.png */,
 				180D979F171F248B0034A9C2 /* capture-button.png */,
@@ -1065,6 +1065,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18D7D0FD1742373E00C9EEC3 /* furley_bg@2x.png in Resources */,
 				184D56891738DA3B0088CADF /* 02.acv in Resources */,
 				184D568A1738DA3B0088CADF /* 06.acv in Resources */,
 				184D568B1738DA3B0088CADF /* 17.acv in Resources */,
@@ -1155,7 +1156,6 @@
 				18BFB75E17249AC100930B97 /* twitter_login.png in Resources */,
 				18BFB75917242A0200930B97 /* Default@2x.png in Resources */,
 				18BFB75A17242A0200930B97 /* Default.png in Resources */,
-				1889A2BF1720ACAF00F3E2CD /* furley_bg@2x.png in Resources */,
 				1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */,
 				180D97A0171F248B0034A9C2 /* capture-button@2x.png in Resources */,
 				180D97A1171F248B0034A9C2 /* capture-button.png in Resources */,

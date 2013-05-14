@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class AsyncImageView;
 
-@interface StoryShadowWrapView : UIImageView
+@interface StoryShadowWrapView : UIView;
 
 - (id)initWithFrame:(CGRect)frame andAsyncView:(AsyncImageView *)aview;
 

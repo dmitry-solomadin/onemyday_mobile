@@ -68,8 +68,7 @@
     
     stories = [[StoryStore get] loadStoriesFromDisk];
     __block NSMutableArray *oldStories = stories;
-    [[UserStore get] loadUsersFromDisk];
-    NSLog(@"stories %@", stories);
+    [[UserStore get] loadUsersFromDisk];    
     
     for (int i = 0; i < [oldStories count]; i++) {
         Story *story = [oldStories objectAtIndex:i];
@@ -130,7 +129,7 @@
         long storyId = 0;       
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
-        NSLog(@"storyId %ld", storyId);
+        
         NSMutableArray *newStories = [[StoryStore get]
                                       requestStoriesIncludePhotos:YES includeUser:YES higherThanId: storyId withLimit: 11];
         
@@ -148,8 +147,7 @@
                 CGFloat currentFeedHeight = 10.0;
                 Story *oldStory = nil;
                 if(oldStories != NULL && [oldStories count] > 0)oldStory = [oldStories objectAtIndex: 0];
-                int storiesCount = [stories count];
-                NSLog(@"[[scrollView subviews] count] %d",[[scrollView subviews] count]);                
+                int storiesCount = [stories count];                              
                
                 if(storiesCount == 11 && [[stories objectAtIndex: 10] storyId] != storyId){
                     int oldSubViewsCount = [[scrollView subviews] count] - 1;
@@ -162,8 +160,7 @@
                         //} else j++;
                         
                     }
-                    oldFeedHeight = 0;
-                    NSLog(@"[[scrollView subviews] count] %d",[[scrollView subviews] count]);
+                    oldFeedHeight = 0;                 
                 }
                 
                 for (int i = 0; i < storiesCount; i++) {
@@ -188,7 +185,7 @@
                     for (int i = start, j = 0; i < [[scrollView subviews] count]; i++) {
                     
                         if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]]){                            
-                            NSLog(@" i = %d j %d",i,j);
+                            
                             ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
                             CGRect rect = tSV.frame;
                             rect.origin = CGPointMake(tSV.frame.origin.x, tSV.frame.origin.y + currentFeedHeight);
@@ -212,12 +209,68 @@
             //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             
         });
+     });
     
 }
 
-- (void)handleNotification:(NSNotification *)note
-{
-    NSLog(@"IMAGE FAILED LOADING");
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+- (void)reloadTableViewDataSource{
+	
+	//  should be calling your tableviews data source model to reload
+	//  put here just for demo
+	_reloading = YES;
+	
 }
 
+- (void)doneLoadingTableViewData{
+	
+	//  model should call this when its done loading
+	_reloading = NO;
+	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+	
+}
+
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)sView{
+	
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:sView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)sView willDecelerate:(BOOL)decelerate{
+	
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:sView];
+	
+}
+
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self reloadTableViewDataSource];
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+	
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return _reloading; // should return if data source model is reloading
+	
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	return [NSDate date]; // should return date data source was last changed
+	
+}
+
+
 @end
+

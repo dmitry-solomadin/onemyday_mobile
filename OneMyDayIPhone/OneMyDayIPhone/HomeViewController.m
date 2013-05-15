@@ -47,26 +47,26 @@
 
 - (void)viewDidLoad
 {     
-    [super viewDidLoad];
+    [super viewDidLoad];    
     
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
-    [[self view] addSubview:scrollView];    
+    [[self view] addSubview:scrollView];
+    [self.scrollView setDelegate:self];
+    
+    if (_refreshHeaderView == nil) {
+		
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - scrollView.bounds.size.height, scrollView.frame.size.width, scrollView.bounds.size.height)];
+		view.delegate = self;
+		[scrollView addSubview:view];
+		_refreshHeaderView = view;		
+	}
       
-    __block CGFloat oldFeedHeight = 10.0;
+    oldFeedHeight = 10.0;
     
-    __block NSMutableArray *oldStories = [[StoryStore get] loadStoriesFromDisk];
-    stories = oldStories;
+    stories = [[StoryStore get] loadStoriesFromDisk];
+    __block NSMutableArray *oldStories = stories;
     [[UserStore get] loadUsersFromDisk];
-    
-    indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    indicator.frame = CGRectMake(10, 45, 300, 300);
-    indicator.center = CGPointMake(160, 15);
-    indicator.hidesWhenStopped = YES;
-    [scrollView addSubview: indicator];
-    [indicator bringSubviewToFront: scrollView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
-    [indicator startAnimating];                    
+    NSLog(@"stories %@", stories);
     
     for (int i = 0; i < [oldStories count]; i++) {
         Story *story = [oldStories objectAtIndex:i];
@@ -83,84 +83,193 @@
     NSLog(@"oldStories count is: %d", [oldStories count]);
         
     NSLog(@"oldUser count is: %d", [[[UserStore get] getUsers] count]);
-        
+    
+    indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.frame = CGRectMake(10, 45, 300, 300);
+    indicator.center = CGPointMake(160, 15);
+    indicator.hidesWhenStopped = YES;
+    [scrollView addSubview: indicator];
+    [indicator bringSubviewToFront: scrollView];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    [indicator startAnimating];
+    
+    [self refreshView: nil];
+    
+    // Add this instance of TestClass as an observer of the TestNotification.
+    // We tell the notification center to inform us of "TestNotification"
+    // notifications using the receiveTestNotification: selector. By
+    // specifying object:nil, we tell the notification center that we are not
+    // interested in who posted the notification. If you provided an actual
+    // object rather than nil, the notification center will only notify you
+    // when the notification was posted by that particular object.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshView:)
+                                             name:@"refreshViewNotification"
+                                             object:nil];
+	
+}
+
+- (void)refreshView:(NSNotification *) notification
+{
+    if ([[notification name] isEqualToString:@"refreshViewNotification"])
+                        NSLog (@"Successfully received the test notification!");
+
+	
+    
     // how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
-            
-            // do our long running process here
-            //[NSThread sleepForTimeInterval:3];
-        long storyId = 0;
-        if(oldStories != NULL && [oldStories count] > 0) storyId = [[oldStories objectAtIndex:0] storyId];
-        //NSLog(@"storyId %ld", storyId);
+        
+        // do our long running process here
+        //[NSThread sleepForTimeInterval:3];
+        long storyId = 0;       
+        
+        if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
+        NSLog(@"storyId %ld", storyId);
         NSMutableArray *newStories = [[StoryStore get]
                                       requestStoriesIncludePhotos:YES includeUser:YES higherThanId: storyId withLimit: 11];
         
-            // do any UI stuff on the main UI thread
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                NSLog(@"newStories count is: %d", [newStories count]);
-                
-                NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-                
-                if(newStories != NULL && [newStories count] > 0)
-                {                                      
-                    stories = newStories;
-                    CGFloat currentFeedHeight = 10.0;
-                    Story *oldStory = nil;
-                    if(oldStories != NULL && [oldStories count] > 0)oldStory = [oldStories objectAtIndex: 0];
-                    int newStoriesCount = 0;
-                   
-                    for (int i = 0; i < [stories count]; i++) {
-                        
-                        Story *story = [stories objectAtIndex: i];
-                            
-                        if(oldStory != nil && [oldStory storyId] == [story storyId]) break;
+        // do any UI stuff on the main UI thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSLog(@"newStories count is: %d", [newStories count]);
+            
+            NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+            
+            if(newStories != NULL && [newStories count] > 0)
+            {
+                NSMutableArray *oldStories = stories;
+                stories = newStories;
+                CGFloat currentFeedHeight = 10.0;
+                Story *oldStory = nil;
+                if(oldStories != NULL && [oldStories count] > 0)oldStory = [oldStories objectAtIndex: 0];
+                int storiesCount = [stories count];
+                NSLog(@"[[scrollView subviews] count] %d",[[scrollView subviews] count]);                
+               
+                if(storiesCount == 11 && [[stories objectAtIndex: 10] storyId] != storyId){
+                    int oldSubViewsCount = [[scrollView subviews] count] - 1;
+                    for (int i = 0; i < oldSubViewsCount; i++) {
                        
-                        newStoriesCount++;
-                        CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
-                        ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
-                        thumbStoryView.controller = self;
-                        [scrollView insertSubview: thumbStoryView atIndex: 0];
-                        currentFeedHeight  += 355;
-                    }                    
-                                          
-                    for (int i = 0; i < [oldStories count]; i++ ) {
-                        [stories addObject: [oldStories objectAtIndex: i]];
-                    }
-                    
-                    for (int i = newStoriesCount; i < [[scrollView subviews] count]; i++ ) {
+                        //if([[[scrollView subviews] objectAtIndex:j] isKindOfClass:[ThumbStoryView class]]){                           
+                           
+                            [[[scrollView subviews] objectAtIndex:1] removeFromSuperview];                           
+                            
+                        //} else j++;
                         
-                        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]])
-                        {
-                            if([newStories count] == 11 && [[newStories objectAtIndex: 10] storyId] != storyId)
-                            {
-                                NSLog(@"i %d",i);
-                                ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
-                                [tSV removeFromSuperview];
-                                oldFeedHeight -= 355;
-                            }else{
-                                ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
-                                CGRect rect = tSV.frame;
-                                rect.origin = CGPointMake(tSV.frame.origin.x, tSV.frame.origin.y + currentFeedHeight);
-                                tSV.frame = rect;
-                            }
-                        }
-                    }  
-                    
-                    [scrollView setContentSize: CGSizeMake(320, currentFeedHeight + oldFeedHeight)];
-                    
+                    }
+                    oldFeedHeight = 0;
+                    NSLog(@"[[scrollView subviews] count] %d",[[scrollView subviews] count]);
                 }
                 
-                NSLog(@"stories count is: %d", [stories count]);
-                [[StoryStore get] setStories:stories];
-                [indicator stopAnimating];
+                for (int i = 0; i < storiesCount; i++) {
+                    
+                    Story *story = [stories objectAtIndex: i];
+                    //NSLog(@"i %d", i);
+                    //NSLog(@"story %@", [story title]);
+                    //if(oldStory != nil && [oldStory storyId] == [story storyId]) break;                    
+                    
+                    CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
+                    ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+                    thumbStoryView.controller = self;
+                    [scrollView insertSubview: thumbStoryView atIndex: 0];
+                    currentFeedHeight  += 355;
+                }
+                NSLog(@"[[scrollView subviews] count] %d",[[scrollView subviews] count]);
                 
-            //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;                               
-              
-            });
+                
+                    
+               if(storiesCount != 11 || (storiesCount != 11 && [[stories objectAtIndex: 10] storyId] != storyId)){
+                   int start = storiesCount + 1;
+                    for (int i = start, j = 0; i < [[scrollView subviews] count]; i++) {
+                    
+                        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]]){                            
+                            NSLog(@" i = %d j %d",i,j);
+                            ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
+                            CGRect rect = tSV.frame;
+                            rect.origin = CGPointMake(tSV.frame.origin.x, tSV.frame.origin.y + currentFeedHeight);
+                            tSV.frame = rect;
+                            [stories addObject: [oldStories objectAtIndex: j]];
+                            j++;
+                        }
+                    }
+                }
+                //  update the last update date
+                [_refreshHeaderView refreshLastUpdatedDate];
+                oldFeedHeight += currentFeedHeight;
+                [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
+                
+            }
+            
+            NSLog(@"stories count is: %d", [stories count]);
+            [[StoryStore get] setStories:stories];
+            [indicator stopAnimating];
+            
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            
         });
-        
+    });
+
+	
+}
+
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+- (void)reloadTableViewDataSource{
+	
+	//  should be calling your tableviews data source model to reload
+	//  put here just for demo
+	_reloading = YES;
+	
+}
+
+- (void)doneLoadingTableViewData{
+	
+	//  model should call this when its done loading
+	_reloading = NO;
+	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+	
+}
+
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)sView{	
+   
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:sView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)sView willDecelerate:(BOOL)decelerate{
+
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:sView];
+	
+}
+
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self reloadTableViewDataSource];
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+	
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return _reloading; // should return if data source model is reloading
+	
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	return [NSDate date]; // should return date data source was last changed
+	
 }
 
 @end

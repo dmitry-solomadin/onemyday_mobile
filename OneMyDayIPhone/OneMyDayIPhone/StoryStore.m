@@ -104,7 +104,7 @@ int numOfCachedImages = 0;
         Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
        
         [allStories addObject: newStory];
-        if(i < cacheLimit &&i>0)[cacheStories addObject: newStory];
+        if(i < cacheLimit)[cacheStories addObject: newStory];
         
         if (includeUser) {
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey: @"user"]];

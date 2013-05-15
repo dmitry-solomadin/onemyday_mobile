@@ -49,6 +49,9 @@
 {     
     [super viewDidLoad];    
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:)
+                                                 name:@"AsyncImageLoadDidFail" object:nil];
+    
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
     [[self view] addSubview:scrollView];
     [self.scrollView setDelegate:self];
@@ -209,67 +212,12 @@
             //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             
         });
-    });
-
-	
-}
-
-#pragma mark -
-#pragma mark Data Source Loading / Reloading Methods
-
-- (void)reloadTableViewDataSource{
-	
-	//  should be calling your tableviews data source model to reload
-	//  put here just for demo
-	_reloading = YES;
-	
-}
-
-- (void)doneLoadingTableViewData{
-	
-	//  model should call this when its done loading
-	_reloading = NO;
-	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
-	
-}
-
-
-#pragma mark -
-#pragma mark UIScrollViewDelegate Methods
-
-- (void)scrollViewDidScroll:(UIScrollView *)sView{	
-   
-	[_refreshHeaderView egoRefreshScrollViewDidScroll:sView];
     
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)sView willDecelerate:(BOOL)decelerate{
-
-	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:sView];
-	
-}
-
-
-#pragma mark -
-#pragma mark EGORefreshTableHeaderDelegate Methods
-
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
-	
-	[self reloadTableViewDataSource];
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
-	
-}
-
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
-	
-	return _reloading; // should return if data source model is reloading
-	
-}
-
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
-	
-	return [NSDate date]; // should return date data source was last changed
-	
+- (void)handleNotification:(NSNotification *)note
+{
+    NSLog(@"IMAGE FAILED LOADING");
 }
 
 @end

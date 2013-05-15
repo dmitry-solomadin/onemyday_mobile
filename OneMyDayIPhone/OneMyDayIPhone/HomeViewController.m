@@ -17,7 +17,9 @@
 @interface HomeViewController ()
 {
     NSMutableArray * stories;
-    UIActivityIndicatorView *indicator;
+    UIActivityIndicatorView *topIndicator;
+    UIActivityIndicatorView *bottomIndicator;
+    bool *oldStoriesLoading;
 }
 @end
 
@@ -36,6 +38,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    oldStoriesLoading = false;
 }
 
 - (void)storyTap:(NSNumber *)storyId
@@ -86,15 +89,15 @@
         
     NSLog(@"oldUser count is: %d", [[[UserStore get] getUsers] count]);
     
-    indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    indicator.frame = CGRectMake(10, 45, 300, 300);
-    indicator.center = CGPointMake(160, 15);
-    indicator.hidesWhenStopped = YES;
-    [scrollView addSubview: indicator];
-    [indicator bringSubviewToFront: scrollView];
+    topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    topIndicator.frame = CGRectMake(10, 45, 100, 100);
+    topIndicator.center = CGPointMake(160, 15);
+    topIndicator.hidesWhenStopped = YES;
+    [scrollView addSubview: topIndicator];
+    [topIndicator bringSubviewToFront: scrollView];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    [indicator startAnimating];
+    [topIndicator startAnimating];
     
     [self refreshView: nil];
     
@@ -115,23 +118,20 @@
 
 - (void)refreshView:(NSNotification *) notification
 {
-    if ([[notification name] isEqualToString:@"refreshViewNotification"])
-                        NSLog (@"Successfully received the test notification!");
-
-	
+    /*if ([[notification name] isEqualToString:@"refreshViewNotification"])
+                        NSLog (@"Successfully received the test notification!");*/	
     
     // how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
         
         // do our long running process here
-        //[NSThread sleepForTimeInterval:3];
+        [NSThread sleepForTimeInterval:3];
         long storyId = 0;       
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get]
-                                      requestStoriesIncludePhotos:YES includeUser:YES higherThanId: storyId withLimit: 11];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -145,8 +145,8 @@
                 NSMutableArray *oldStories = stories;
                 stories = newStories;
                 CGFloat currentFeedHeight = 10.0;
-                Story *oldStory = nil;
-                if(oldStories != NULL && [oldStories count] > 0)oldStory = [oldStories objectAtIndex: 0];
+                //Story *oldStory = nil;
+                //if(oldStories != NULL && [oldStories count] > 0)oldStory = [oldStories objectAtIndex: 0];
                 int storiesCount = [stories count];                              
                
                 if(storiesCount == 11 && [[stories objectAtIndex: 10] storyId] != storyId){
@@ -165,10 +165,7 @@
                 
                 for (int i = 0; i < storiesCount; i++) {
                     
-                    Story *story = [stories objectAtIndex: i];
-                    //NSLog(@"i %d", i);
-                    //NSLog(@"story %@", [story title]);
-                    //if(oldStory != nil && [oldStory storyId] == [story storyId]) break;                    
+                    Story *story = [stories objectAtIndex: i];                                      
                     
                     CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
                     ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
@@ -204,7 +201,7 @@
             
             NSLog(@"stories count is: %d", [stories count]);
             [[StoryStore get] setStories:stories];
-            [indicator stopAnimating];
+            [topIndicator stopAnimating];
             
             //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             
@@ -240,6 +237,21 @@
 	
 	[_refreshHeaderView egoRefreshScrollViewDidScroll:sView];
     
+    if(!oldStoriesLoading && (oldFeedHeight - scrollView.contentOffset.y) <= 500){
+        oldStoriesLoading = true;
+        //NSLog(@"y %f", scrollView.contentOffset.y);
+        bottomIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        bottomIndicator.frame = CGRectMake(10, 45, 100, 100);
+        bottomIndicator.center = CGPointMake(160, oldFeedHeight + 20);
+        bottomIndicator.hidesWhenStopped = YES;
+        [sView addSubview: bottomIndicator];
+        [bottomIndicator bringSubviewToFront: sView];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [sView setContentSize: CGSizeMake(320, oldFeedHeight + 355)];
+        [bottomIndicator startAnimating];
+        
+        [self getOldStories];
+    }    
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)sView willDecelerate:(BOOL)decelerate{
@@ -268,6 +280,62 @@
 - (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
 	
 	return [NSDate date]; // should return date data source was last changed
+	
+}
+
+- (void)getOldStories{
+	
+	// how we stop refresh from freezing the main UI thread
+    dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        
+        // do our long running process here
+        //[NSThread sleepForTimeInterval:3];
+        long storyId = 0;
+        
+        if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
+        
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10];
+        
+        // do any UI stuff on the main UI thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSLog(@"newStories count is: %d", [newStories count]);
+            
+            NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+            
+            [bottomIndicator stopAnimating];
+            
+            [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];            
+            
+            if(newStories != NULL && [newStories count] > 0){                
+                
+                for (int i = 0; i < [newStories count]; i++) {
+                    
+                    Story *story = [newStories objectAtIndex: i];
+                    
+                    CGRect frame = CGRectMake(10, oldFeedHeight, 300, 300);
+                    ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+                    thumbStoryView.controller = self;
+                    [scrollView addSubview: thumbStoryView];
+                    oldFeedHeight  += 355;
+                    
+                    [stories addObject:story];
+                }                                              
+            }
+            
+            [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
+            
+            NSLog(@"stories count is: %d", [stories count]);
+            [[StoryStore get] setStories:stories];
+            
+            
+            oldStoriesLoading = false;
+            
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            
+        });
+    });
 	
 }
 

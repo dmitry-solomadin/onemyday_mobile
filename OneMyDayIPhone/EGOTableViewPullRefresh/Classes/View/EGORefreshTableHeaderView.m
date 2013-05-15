@@ -131,7 +131,6 @@
 }
 
 - (void)setState:(EGOPullRefreshState)aState{
-    NSLog(@"state %u", aState);
 	
 	switch (aState) {
 		case EGOOPullRefreshPulling:
@@ -175,8 +174,7 @@
             // All instances of TestClass will be notified
             [[NSNotificationCenter defaultCenter]
              postNotificationName:@"refreshViewNotification"
-             object:self];
-            //[[[HomeViewController alloc] init] refreshView];
+             object:self];           
             
 			break;
 		default:

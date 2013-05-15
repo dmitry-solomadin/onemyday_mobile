@@ -21,7 +21,6 @@
 
 - (void)reloadTableViewDataSource;
 - (void)doneLoadingTableViewData;
-- (void)refreshView;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 

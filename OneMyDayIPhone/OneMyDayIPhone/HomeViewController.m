@@ -204,7 +204,7 @@
         [sView addSubview: bottomIndicator];
         [bottomIndicator bringSubviewToFront: sView];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        [sView setContentSize: CGSizeMake(320, oldFeedHeight + STORY_HEIGHT_WITH_PADDING)];
+        [sView setContentSize: CGSizeMake(320, oldFeedHeight + 50)];
         [bottomIndicator startAnimating];
         
         [self getOldStories];
@@ -244,7 +244,7 @@
     dispatch_async(downloadQueue, ^{
         
         // do our long running process here
-        //[NSThread sleepForTimeInterval:3];
+        [NSThread sleepForTimeInterval:3];
         long storyId = 0;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];

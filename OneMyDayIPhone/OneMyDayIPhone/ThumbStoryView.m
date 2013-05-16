@@ -12,6 +12,7 @@
 #import "User.h"
 #import "UserStore.h"
 #import "StoryShadowWrapView.h"
+#import "TTTTimeIntervalFormatter.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface ThumbStoryView ()
@@ -35,7 +36,7 @@
         photoView.contentMode = UIViewContentModeScaleAspectFit;
         photoView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"furley_bg"]];
         
-        StoryShadowWrapView *wrapView = [[StoryShadowWrapView alloc] initWithFrame: CGRectMake(0, 45, 300, 300)
+        StoryShadowWrapView *wrapView = [[StoryShadowWrapView alloc] initWithFrame: CGRectMake(0, 40, 300, 300)
                                                                       andAsyncView:photoView];
         
         NSURL *url = [[self story] extractPhotoUrlType:@"iphone2x_thumb_url" atIndex:0];
@@ -43,7 +44,7 @@
         [self addSubview:wrapView];
         
         // Photo hidden button
-        UIButton *imageBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 45, 300, 300)];
+        UIButton *imageBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 40, 300, 300)];
         imageBtn.tag = story.storyId;
         [imageBtn addTarget:self action:@selector(imageTap:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:imageBtn];
@@ -67,6 +68,30 @@
         }
         
         [self addSubview:avatarView];
+        
+        // Author name
+        UILabel *authorNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 8, 0, 35)];
+        [authorNameLabel setText:[author name]];
+        [authorNameLabel setBackgroundColor:[UIColor clearColor]];
+        [authorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
+        [authorNameLabel setTextColor:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1]];
+        [authorNameLabel sizeToFit];
+        [self addSubview:authorNameLabel];
+        
+        // Time created
+        TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
+        NSString *time = [timeIntervalFormatter stringForTimeInterval:[[story createdAt] timeIntervalSinceNow]];
+        
+        UILabel *timeAgoLabel = [[UILabel alloc] initWithFrame:CGRectMake(300, 10, 0, 35)];
+        [timeAgoLabel setText:time];
+        [timeAgoLabel setBackgroundColor:[UIColor clearColor]];
+        [timeAgoLabel setFont:[UIFont fontWithName:@"Helvetica" size:12]];
+        [timeAgoLabel setTextColor:[UIColor grayColor]];
+        [timeAgoLabel sizeToFit];
+        NSLog(@"%f", timeAgoLabel.frame.size.width);
+        timeAgoLabel.frame = CGRectMake(300 - timeAgoLabel.frame.size.width, 10,
+                                        timeAgoLabel.frame.size.width, timeAgoLabel.frame.size.height);
+        [self addSubview:timeAgoLabel];
     }
     return self;
 }

@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "EGORefreshTableHeaderView.h"
  
-@interface HomeViewController : UIViewController <EGORefreshTableHeaderDelegate>{
-    
+@interface HomeViewController : UIViewController <UIScrollViewDelegate, EGORefreshTableHeaderDelegate>
+{    
     __block CGFloat oldFeedHeight;
 
     EGORefreshTableHeaderView *_refreshHeaderView;
-    //  Reloading var should really be your tableviews datasource
-	//  Putting it here for demo purposes
 	BOOL _reloading;
 }
 

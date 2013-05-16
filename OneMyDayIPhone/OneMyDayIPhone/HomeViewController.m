@@ -27,6 +27,8 @@
 @implementation HomeViewController
 @synthesize scrollView;
 
+#define STORY_HEIGHT_WITH_PADDING 360 // 10px padding at the top
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -77,7 +79,7 @@
         thumbStoryView.controller = self;
                 
         [scrollView addSubview:thumbStoryView];
-        oldFeedHeight += 355;        
+        oldFeedHeight += STORY_HEIGHT_WITH_PADDING;
     }       
         
     [scrollView setContentSize:(CGSizeMake(320, oldFeedHeight))];
@@ -144,7 +146,7 @@
                     ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
                     thumbStoryView.controller = self;
                     [scrollView insertSubview: thumbStoryView atIndex: 0];
-                    currentFeedHeight  += 355;
+                    currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
                 }
                 NSLog(@"[[scrollView subviews] count] %d",[[scrollView subviews] count]);
                 
@@ -202,7 +204,7 @@
         [sView addSubview: bottomIndicator];
         [bottomIndicator bringSubviewToFront: sView];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        [sView setContentSize: CGSizeMake(320, oldFeedHeight + 355)];
+        [sView setContentSize: CGSizeMake(320, oldFeedHeight + STORY_HEIGHT_WITH_PADDING)];
         [bottomIndicator startAnimating];
         
         [self getOldStories];
@@ -266,7 +268,7 @@
                     ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
                     thumbStoryView.controller = self;
                     [scrollView addSubview: thumbStoryView];
-                    oldFeedHeight  += 355;
+                    oldFeedHeight += STORY_HEIGHT_WITH_PADDING;
                     
                     [stories addObject:story];
                 }                                              

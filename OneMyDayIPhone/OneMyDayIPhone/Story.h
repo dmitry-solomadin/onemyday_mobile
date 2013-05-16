@@ -14,9 +14,11 @@
 @property (nonatomic, strong) NSArray *photos;
 @property int storyId;
 @property int authorId;
+@property NSDate *createdAt;
 
 - (id)initWithId:(int)storyId andTitle:(NSString*)title
-       andAuthor:(int)author_id andPhotos: (NSArray*)photos;
+       andAuthor:(int)author_id andPhotos: (NSArray*)photos
+    andCreatedAt:(NSDate *)_createdAt;
 - (id)extractPhotoUrlType:(NSString*)type atIndex:(int)index;
 - (id)extractPhotoStringType:(NSString*)type atIndex:(int)index;
 @end

@@ -20,6 +20,8 @@
     UIActivityIndicatorView *topIndicator;
     UIActivityIndicatorView *bottomIndicator;
     bool *oldStoriesLoading;
+    CGFloat previousY;
+    
 }
 @end
 
@@ -236,10 +238,13 @@
 - (void)scrollViewDidScroll:(UIScrollView *)sView{
 	
 	[_refreshHeaderView egoRefreshScrollViewDidScroll:sView];
+    CGFloat direction = scrollView.contentOffset.y - previousY;
+    CGFloat pixLeft = oldFeedHeight - scrollView.contentOffset.y;
     
-    if(!oldStoriesLoading && (oldFeedHeight - scrollView.contentOffset.y) <= 500){
+    if(!oldStoriesLoading && pixLeft <= 500 && pixLeft >= 400 && direction > 0){
+        
         oldStoriesLoading = true;
-        //NSLog(@"y %f", scrollView.contentOffset.y);
+        
         bottomIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         bottomIndicator.frame = CGRectMake(10, 45, 100, 100);
         bottomIndicator.center = CGPointMake(160, oldFeedHeight + 20);
@@ -251,7 +256,11 @@
         [bottomIndicator startAnimating];
         
         [self getOldStories];
-    }    
+    }
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)sView {
+    previousY = sView.contentOffset.y;
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)sView willDecelerate:(BOOL)decelerate{

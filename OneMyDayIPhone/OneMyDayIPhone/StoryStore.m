@@ -195,11 +195,9 @@ int numOfCachedImages = 0;
     NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: imagesDirectory];
     fullPath = [documentsDirectory stringByAppendingPathComponent: imageName];
     
-    bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
-    //[fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
-    //NSLog(@"imagesDirectory %@",imagesDirectory);
-    //NSLog(@"documentsDirectory  %@",documentsDirectory);
-    NSLog(@"store result %d",result);
+    //bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];   
+    //NSLog(@"store result %d",result);
 }
 
 - (UIImage*)loadImage:(NSString*)imageName {    

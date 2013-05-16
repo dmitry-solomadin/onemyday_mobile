@@ -79,6 +79,7 @@
 
 - (BOOL)isAvatarEmpty:(NSString *)avatarURL
 {
+    NSLog(@"%@", avatarURL);
     if ([avatarURL rangeOfString:@"no-avatar" options:NSCaseInsensitiveSearch].location != NSNotFound) {
         return YES;
     }

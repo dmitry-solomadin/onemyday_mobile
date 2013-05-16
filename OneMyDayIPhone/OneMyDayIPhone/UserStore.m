@@ -83,27 +83,28 @@ NSString *userStorePath = @"~/Documents/users";
     return [[User alloc] initWithId:userId andName:name andAvatarUrls:avatar_urls];
 }
 
-- (void)saveUsersToDisk: (NSMutableArray *)cacheUsers {
-    
+- (void)saveUsersToDisk
+{    
     userStorePath = [userStorePath stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;
     rootObject = [NSMutableDictionary dictionary];
     
-    [rootObject setValue:cacheUsers forKey:@"users"];
+    [rootObject setValue:users forKey:@"users"];
     
     [NSKeyedArchiver archiveRootObject:rootObject toFile: userStorePath];
 }
 
-- (void)loadUsersFromDisk {
-    
+- (void)loadUsersFromDisk
+{
     userStorePath = [userStorePath stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;
     rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile: userStorePath];
     
-    users = [rootObject valueForKey:@"users"];
+    if ([rootObject valueForKey:@"users"] != nil) {
+        users = [rootObject valueForKey:@"users"];
+    }
 }
-
 
 @end

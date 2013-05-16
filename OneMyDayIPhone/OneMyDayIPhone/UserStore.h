@@ -23,7 +23,7 @@
 - (User *)findById:(int)userId;
 - (User *)requestUserWithId:(int)userId;
 - (User *)parseUserData:(NSDictionary *)userData;
-- (void)saveUsersToDisk: (NSMutableArray *)stories;
+- (void)saveUsersToDisk;
 - (void)loadUsersFromDisk;
 
 @end

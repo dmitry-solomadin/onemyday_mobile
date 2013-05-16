@@ -94,7 +94,6 @@ int numOfCachedImages = 0;
     NSArray *jsonData = [request getDataFrom: path];
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];
-    NSMutableArray *cacheUsers = [NSMutableArray array];
      
     for (int i = 0; i < [jsonData  count]; i++) {
         NSDictionary *story = [jsonData objectAtIndex:i];
@@ -120,37 +119,25 @@ int numOfCachedImages = 0;
         }
     }
     
-    if(newStories){
+    if (newStories) {
         NSMutableArray *oldCachedStories = [self getCachedStories];     
-        //NSLog(@"[cacheStories count] %d", [cacheStories count]);
-        if ([cacheStories count] > 0)
-        {
-            if([cachedStories count] < 10){
-            
+        
+        if ([cacheStories count] > 0) {
+            if([cachedStories count] < 10) {
                 int storiesLeftForCache = 10 - [cacheStories count];
-                //NSLog(@"storiesLeftForCache %d", storiesLeftForCache);
                 for(int i = 0;i < storiesLeftForCache;i++){
-                    //NSLog(@"storiesLeftForCache %d", i);
                     Story *story = [oldCachedStories objectAtIndex:i];
-                    //NSLog(@"story %@", story);
                     if(story != nil)[cacheStories addObject: story];
                     else break;
                 }
             }
-           //NSLog(@"[cacheStories count] %d", [cacheStories count]);
-            NSArray *users = [[UserStore get] getUsers];
-            //NSLog(@"[users  count] %d", [users count]);
-            int usersLimit = [users count] - 1;
-            for(int i = usersLimit, j = 0; i > 0; i--, j++){
-                if(j == cacheLimit) break;
-                [cacheUsers addObject:[users objectAtIndex:i]];
-            }
-            //NSLog(@"[cacheUsers count] %d", [cacheUsers count]);
+
             [self delOldCachedInfo: cacheStories];
             [self saveStoriesToDisk: cacheStories];
-            [[UserStore get] saveUsersToDisk:cacheUsers];
         }
     }
+    
+    [[UserStore get] saveUsersToDisk];
     
     return allStories;
 }

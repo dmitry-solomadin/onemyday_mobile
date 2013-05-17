@@ -112,7 +112,7 @@
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
         // do our long running process here
-        [NSThread sleepForTimeInterval:3];
+        //[NSThread sleepForTimeInterval:3];
         long storyId = 0;       
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
@@ -126,10 +126,12 @@
             
             NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
             
-            [topIndicator stopAnimating];
+            [topIndicator stopAnimating];            
             
             if([[notification object] isKindOfClass:[HomeViewController class]] && stories != NULL && [stories count] > 0)
             {
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:0.2];
                 oldFeedHeight = 10.0;
                 for (int i = 0; i < [[scrollView subviews] count]; i++) {
                     if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]]){                        
@@ -140,6 +142,8 @@
                         oldFeedHeight += STORY_HEIGHT_WITH_PADDING;
                     }
                 }
+                [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
+                [UIView commitAnimations];
             }
             
             if(newStories != NULL && [newStories count] > 0)

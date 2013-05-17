@@ -111,28 +111,30 @@ int numOfCachedImages = 0;
         Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
        
         [allStories addObject: newStory];
-        if(newStories && i < cacheLimit)[cacheStories addObject: newStory];
+        if(newStories && i < cacheLimit && i>0)[cacheStories addObject: newStory];
         
         if (includeUser) {
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey: @"user"]];
             [[UserStore get] addUser:user];            
         }
     }
-    
+    //[self delOldCachedImages: cacheStories];
+    //[self saveStoriesToDisk: cacheStories];
     if (newStories) {
         NSMutableArray *oldCachedStories = [self getCachedStories];     
         
         if ([cacheStories count] > 0) {
-            if([cachedStories count] < 10) {
-                int storiesLeftForCache = 10 - [cacheStories count];
+            if([cachedStories count] < cacheLimit) {
+                int storiesLeftForCache = cacheLimit - [cacheStories count];
                 for(int i = 0;i < storiesLeftForCache;i++){
                     Story *story = [oldCachedStories objectAtIndex:i];
+                    //NSLog(@"story %@",story);
                     if(story != nil)[cacheStories addObject: story];
                     else break;
                 }
             }
 
-            [self delOldCachedInfo: cacheStories];
+            [self delOldCachedImages: cacheStories];
             [self saveStoriesToDisk: cacheStories];
         }
     }
@@ -200,7 +202,7 @@ int numOfCachedImages = 0;
     return [UIImage imageWithContentsOfFile:fullPath];
 }
 
-- (void)delOldCachedInfo: (NSArray *) cacheStories {
+- (void)delOldCachedImages: (NSArray *) cacheStories {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];

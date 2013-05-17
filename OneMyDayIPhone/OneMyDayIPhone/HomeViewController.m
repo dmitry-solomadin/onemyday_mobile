@@ -242,7 +242,7 @@
     dispatch_async(downloadQueue, ^{
         
         // do our long running process here
-        [NSThread sleepForTimeInterval:3];
+        //[NSThread sleepForTimeInterval:3];
         long storyId = 0;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
@@ -271,8 +271,10 @@
                     [stories addObject:story];
                 }                                              
             }
-            
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.3];
             [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
+            [UIView commitAnimations];
             
             NSLog(@"stories count is: %d", [stories count]);
             [[StoryStore get] setStories:stories];

@@ -11,7 +11,7 @@
  
 @interface HomeViewController : UIViewController <UIScrollViewDelegate, EGORefreshTableHeaderDelegate>
 {    
-    __block CGFloat oldFeedHeight;
+    __block CGFloat oldFeedHeight;   
 
     EGORefreshTableHeaderView *_refreshHeaderView;
 	BOOL _reloading;

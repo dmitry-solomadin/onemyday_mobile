@@ -66,7 +66,7 @@
 		_refreshHeaderView = view;		
 	}
       
-    oldFeedHeight = 10.0;
+    oldFeedHeight = 40.0;
     
     stories = [[StoryStore get] loadStoriesFromDisk];
     __block NSMutableArray *oldStories = stories;
@@ -89,7 +89,7 @@
     
     topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     topIndicator.frame = CGRectMake(10, 45, 100, 100);
-    topIndicator.center = CGPointMake(160, 15);
+    topIndicator.center = CGPointMake(160, 22);
     topIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: topIndicator];
     [topIndicator bringSubviewToFront: scrollView];
@@ -97,14 +97,17 @@
     
     [topIndicator startAnimating];
     
-    [self refreshView: nil];
+    //[self refreshView: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:)
                                                  name:@"refreshViewNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshViewNotification"
+     object:self];
 }
 
 - (void)refreshView:(NSNotification *) notification
-{
+{    
     // how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
@@ -122,6 +125,22 @@
             NSLog(@"newStories count is: %d", [newStories count]);
             
             NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
+            
+            [topIndicator stopAnimating];
+            
+            if([[notification object] isKindOfClass:[HomeViewController class]] && stories != NULL && [stories count] > 0)
+            {
+                oldFeedHeight = 10.0;
+                for (int i = 0; i < [[scrollView subviews] count]; i++) {
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]]){                        
+                        ThumbStoryView *tSV = [[scrollView subviews] objectAtIndex:i];
+                        CGRect rect = tSV.frame;
+                        rect.origin = CGPointMake(tSV.frame.origin.x, oldFeedHeight);
+                        tSV.frame = rect;
+                        oldFeedHeight += STORY_HEIGHT_WITH_PADDING;
+                    }
+                }
+            }
             
             if(newStories != NULL && [newStories count] > 0)
             {
@@ -148,7 +167,7 @@
                     [scrollView insertSubview: thumbStoryView atIndex: 0];
                     currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
                 }
-                NSLog(@"[[scrollView subviews] count] %d",[[scrollView subviews] count]);
+               
                 
                if (storiesCount != 11 || (storiesCount != 11 && [[stories objectAtIndex: 10] storyId] != storyId)) {
                    int start = storiesCount + 1;
@@ -168,11 +187,9 @@
                 oldFeedHeight += currentFeedHeight;
                 [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
                 
-            }
+            }            
             
-            NSLog(@"stories count is: %d", [stories count]);
-            [[StoryStore get] setStories:stories];
-            [topIndicator stopAnimating];
+            [[StoryStore get] setStories:stories];            
         });
      });
 }

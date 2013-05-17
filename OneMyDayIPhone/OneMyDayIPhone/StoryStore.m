@@ -112,15 +112,14 @@ int numOfCachedImages = 0;
                                           andPhotos: (NSArray*)photos andCreatedAt:createdAt];
        
         [allStories addObject: newStory];
-        if(newStories && i < cacheLimit && i>0)[cacheStories addObject: newStory];
+        if(newStories && i < cacheLimit)[cacheStories addObject: newStory];
         
         if (includeUser) {
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [story objectForKey: @"user"]];
             [[UserStore get] addUser:user];            
         }
     }
-    //[self delOldCachedImages: cacheStories];
-    //[self saveStoriesToDisk: cacheStories];
+   
     if (newStories) {
         NSMutableArray *oldCachedStories = [self getCachedStories];     
         

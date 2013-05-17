@@ -79,11 +79,10 @@ int numOfCachedImages = 0;
     }
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
-    if(newStories){
+    if (newStories) {
         NSLog(@"new id = %ld",lastId);
         [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
-    }
-    else{
+    } else {
         NSLog(@"old id = %ld",lastId);
         [parameters addObject:[NSString stringWithFormat:@"lower_than_id=%ld",lastId]];
     }
@@ -101,6 +100,7 @@ int numOfCachedImages = 0;
         int authorId = [(NSString *) [story objectForKey:@"user_id"] intValue];
         NSString *title = (NSString *) [story objectForKey:@"title"];
         NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
+        NSDate *createdAt = [StoryStore parseRFC3339Date:[story objectForKey:@"created_at"]];
         
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
@@ -108,7 +108,8 @@ int numOfCachedImages = 0;
             [photoArray addObject:photo];
         }
         
-        Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId andPhotos: (NSArray*)photos];
+        Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId
+                                          andPhotos: (NSArray*)photos andCreatedAt:createdAt];
        
         [allStories addObject: newStory];
         if(newStories && i < cacheLimit && i>0)[cacheStories addObject: newStory];
@@ -184,9 +185,9 @@ int numOfCachedImages = 0;
     NSString *fullPath = [documentsDirectory stringByAppendingPathComponent: imagesDirectory];
     fullPath = [documentsDirectory stringByAppendingPathComponent: imageName];
     
-    //bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
-    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];   
-    //NSLog(@"store result %d",result);
+    bool result = [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+
+    NSLog(@"store result %d",result);
 }
 
 - (UIImage*)loadImage:(NSString*)imageName {    
@@ -216,8 +217,7 @@ int numOfCachedImages = 0;
     for (NSString *file in [fm contentsOfDirectoryAtPath:documentsDirectory error:&error]) {
        
         bool exists = false;
-        for(int j = 0; j < [cacheStories count]; j++)
-        {          
+        for(int j = 0; j < [cacheStories count]; j++) {          
             Story *story = [cacheStories objectAtIndex:j];
             //NSLog(@"j: %d" , j);
             NSString *photoName = [story extractPhotoStringType:@"thumb_url" atIndex:0];
@@ -226,34 +226,24 @@ int numOfCachedImages = 0;
             photoName = [photoName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
             avatarName = [avatarName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
             
-            if ([file isEqualToString:photoName])
-            {
+            if ([file isEqualToString:photoName]) {
                 exists = true;                
-                //NSLog(@"exists: %@ or %@" , photoName, avatarName);
                 numOfCachedImages++;
                 break;
             }
-            else if ([file isEqualToString:avatarName])
-            {
+            else if ([file isEqualToString:avatarName]) {
                 exists = true;
-                //NSLog(@"exists: %@ or %@" , photoName, avatarName);
-                
                 break;
             }
-            
         }
         
-        if(!exists)
-        {
+        if(!exists) {
             NSLog(@"delete file: %@" , file);
             bool success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", documentsDirectory, file] error:&error];
         
-            if (!success || error)
-            {                
+            if (!success || error) {
                 NSLog(@"error %@", error);
-            }
-            else
-            {
+            } else {
                 NSLog(@"delete success");
             }
         }
@@ -263,26 +253,20 @@ int numOfCachedImages = 0;
 
 - (bool)checkImageLimit: (NSString*)imageURL
 {
-    if([self isAvatar: imageURL])
-    {
+    if ([self isAvatar: imageURL]) {
         bool result = false;
         NSMutableArray *cStories = [self getCachedStories];
-        for(int i = 0; i < [cStories count]; i++)
-        {
+        for (int i = 0; i < [cStories count]; i++) {
             User *author = [[UserStore get] findById:[[cStories objectAtIndex: i] authorId]];
             NSString *avatarName = [author extractAvatarStringType:@"small_url"];
-            if ([avatarName  isEqualToString:imageURL])
-            {
+            if ([avatarName  isEqualToString:imageURL]) {
                 result = true;
                 break;
             }
         }
         return result;
-    }
-    else
-    {
-        if(numOfCachedImages < cacheLimit)
-        {
+    } else {
+        if (numOfCachedImages < cacheLimit) {
             numOfCachedImages++;
             //NSLog(@"numOfCachedImages %d", numOfCachedImages);
             return true;
@@ -293,10 +277,25 @@ int numOfCachedImages = 0;
 
 - (bool)isAvatar: (NSString *)AvatarURL
 {
-    if ([AvatarURL rangeOfString:@"avatars" options:NSCaseInsensitiveSearch].location != NSNotFound){
+    if ([AvatarURL rangeOfString:@"avatars" options:NSCaseInsensitiveSearch].location != NSNotFound) {
         return true;
     }
     else return false;    
+}
+
++ (NSDate *)parseRFC3339Date:(NSString *)dateString
+{
+    NSDateFormatter *rfc3339TimestampFormatterWithTimeZone = [[NSDateFormatter alloc] init];
+    [rfc3339TimestampFormatterWithTimeZone setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [rfc3339TimestampFormatterWithTimeZone setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+    
+    NSDate *theDate = nil;
+    NSError *error = nil;
+    if (![rfc3339TimestampFormatterWithTimeZone getObjectValue:&theDate forString:dateString range:nil error:&error]) {
+        NSLog(@"Date '%@' could not be parsed: %@", dateString, error);
+    }
+    
+    return theDate;
 }
 
 @end

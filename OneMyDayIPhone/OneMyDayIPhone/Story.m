@@ -10,10 +10,11 @@
 
 @implementation Story
 
-@synthesize storyId, authorId, title, photos;
+@synthesize storyId, authorId, title, photos, createdAt;
 
 - (id)initWithId:(int)_storyId andTitle:(NSString*)_title
        andAuthor:(int)_author_id andPhotos: (NSArray*)_photos
+    andCreatedAt:(NSDate *)_createdAt
 {
     self = [super init];
     if (self) {
@@ -21,6 +22,7 @@
         self.title = _title;
         self.authorId = _author_id;
         self.photos = _photos;
+        self.createdAt = _createdAt;
     }
     return self;
 }
@@ -45,23 +47,20 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.title forKey:@"title"];
     [coder encodeObject:self.photos forKey:@"photos"];
+    [coder encodeObject:self.createdAt forKey:@"createdAt"];
 	[coder encodeInt32:self.storyId forKey:@"storyId"];
     [coder encodeInt32:self.authorId forKey:@"authorId"];
 }
 
-
--(id)initWithCoder:(NSCoder *)coder {
-	if ((self = [super init]))
-	{
+- (id)initWithCoder:(NSCoder *)coder {
+	if ((self = [super init])) {
         self.title = [coder decodeObjectForKey:@"title"];
         self.photos = [coder decodeObjectForKey:@"photos"];
         self.storyId = [coder decodeInt32ForKey:@"storyId"];
         self.authorId = [coder decodeInt32ForKey:@"authorId"];
+        self.createdAt = [coder decodeObjectForKey:@"createdAt"];
  	}
 	return self;
 }
-
-
-
 
 @end

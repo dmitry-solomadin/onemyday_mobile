@@ -113,6 +113,20 @@
 		1886808017379C14006A3E20 /* BlurOverlayView.h in Sources */ = {isa = PBXBuildFile; fileRef = 1886807817379C14006A3E20 /* BlurOverlayView.h */; };
 		1889A2BC1720AC6900F3E2CD /* furley_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1889A2BA1720AC6900F3E2CD /* furley_bg.png */; };
 		1889A2C21720CD4600F3E2CD /* StoryShadowWrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */; };
+		1891F231174597D9007D3B69 /* TTTAddressFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22317459170007D3B69 /* TTTAddressFormatter.h */; };
+		1891F232174597D9007D3B69 /* TTTAddressFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22417459170007D3B69 /* TTTAddressFormatter.m */; };
+		1891F233174597D9007D3B69 /* TTTArrayFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22517459170007D3B69 /* TTTArrayFormatter.h */; };
+		1891F234174597D9007D3B69 /* TTTArrayFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22617459170007D3B69 /* TTTArrayFormatter.m */; };
+		1891F235174597D9007D3B69 /* TTTLocationFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22717459170007D3B69 /* TTTLocationFormatter.h */; };
+		1891F236174597D9007D3B69 /* TTTLocationFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22817459170007D3B69 /* TTTLocationFormatter.m */; };
+		1891F237174597D9007D3B69 /* TTTOrdinalNumberFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22917459170007D3B69 /* TTTOrdinalNumberFormatter.h */; };
+		1891F238174597D9007D3B69 /* TTTOrdinalNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22A17459170007D3B69 /* TTTOrdinalNumberFormatter.m */; };
+		1891F239174597D9007D3B69 /* TTTTimeIntervalFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22B17459170007D3B69 /* TTTTimeIntervalFormatter.h */; };
+		1891F23A174597D9007D3B69 /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22C17459170007D3B69 /* TTTTimeIntervalFormatter.m */; };
+		1891F23B174597D9007D3B69 /* TTTUnitOfInformationFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22D17459170007D3B69 /* TTTUnitOfInformationFormatter.h */; };
+		1891F23C174597D9007D3B69 /* TTTUnitOfInformationFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22E17459170007D3B69 /* TTTUnitOfInformationFormatter.m */; };
+		1891F23D174597D9007D3B69 /* TTTURLRequestFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1891F22F17459170007D3B69 /* TTTURLRequestFormatter.h */; };
+		1891F23E174597D9007D3B69 /* TTTURLRequestFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F23017459170007D3B69 /* TTTURLRequestFormatter.m */; };
 		18A082E0172EFAD5001E125F /* EditorItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A082DF172EFAD5001E125F /* EditorItemView.m */; };
 		18A082E3172F10C8001E125F /* ViewWithAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A082E2172F10C8001E125F /* ViewWithAttributes.m */; };
 		18B37EB3173189AA0007D53E /* AddTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B37EB2173189AA0007D53E /* AddTextViewController.m */; };
@@ -264,8 +278,8 @@
 		180D979F171F248B0034A9C2 /* capture-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "capture-button.png"; path = "assets/capture-button.png"; sourceTree = "<group>"; };
 		180D97A2171F27200034A9C2 /* EditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorViewController.h; sourceTree = "<group>"; };
 		180D97A3171F27200034A9C2 /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorViewController.m; sourceTree = "<group>"; };
-		184374221742EA33005828E7 /* no-avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar@2x.png"; path = "OneMyDayIPhone/assets/no-avatar@2x.png"; sourceTree = "<group>"; };
-		184374231742EA33005828E7 /* no-avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar.png"; path = "OneMyDayIPhone/assets/no-avatar.png"; sourceTree = "<group>"; };
+		184374221742EA33005828E7 /* no-avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar@2x.png"; path = "assets/no-avatar@2x.png"; sourceTree = "<group>"; };
+		184374231742EA33005828E7 /* no-avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar.png"; path = "assets/no-avatar.png"; sourceTree = "<group>"; };
 		184D55C8173831E90088CADF /* OnemydayTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnemydayTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		184D55EA173844750088CADF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		184D55EC1738447F0088CADF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -371,6 +385,28 @@
 		1889A2BA1720AC6900F3E2CD /* furley_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = furley_bg.png; path = assets/furley_bg.png; sourceTree = "<group>"; };
 		1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryShadowWrapView.h; sourceTree = "<group>"; };
 		1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryShadowWrapView.m; sourceTree = "<group>"; };
+		1891F21B17459170007D3B69 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F21C17459170007D3B69 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F21D17459170007D3B69 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F21E17459170007D3B69 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F21F17459170007D3B69 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F22017459170007D3B69 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F22117459170007D3B69 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F22217459170007D3B69 /* nn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nn; path = nn.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		1891F22317459170007D3B69 /* TTTAddressFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTAddressFormatter.h; sourceTree = "<group>"; };
+		1891F22417459170007D3B69 /* TTTAddressFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTAddressFormatter.m; sourceTree = "<group>"; };
+		1891F22517459170007D3B69 /* TTTArrayFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTArrayFormatter.h; sourceTree = "<group>"; };
+		1891F22617459170007D3B69 /* TTTArrayFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTArrayFormatter.m; sourceTree = "<group>"; };
+		1891F22717459170007D3B69 /* TTTLocationFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTLocationFormatter.h; sourceTree = "<group>"; };
+		1891F22817459170007D3B69 /* TTTLocationFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTLocationFormatter.m; sourceTree = "<group>"; };
+		1891F22917459170007D3B69 /* TTTOrdinalNumberFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTOrdinalNumberFormatter.h; sourceTree = "<group>"; };
+		1891F22A17459170007D3B69 /* TTTOrdinalNumberFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTOrdinalNumberFormatter.m; sourceTree = "<group>"; };
+		1891F22B17459170007D3B69 /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
+		1891F22C17459170007D3B69 /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
+		1891F22D17459170007D3B69 /* TTTUnitOfInformationFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTUnitOfInformationFormatter.h; sourceTree = "<group>"; };
+		1891F22E17459170007D3B69 /* TTTUnitOfInformationFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTUnitOfInformationFormatter.m; sourceTree = "<group>"; };
+		1891F22F17459170007D3B69 /* TTTURLRequestFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTURLRequestFormatter.h; sourceTree = "<group>"; };
+		1891F23017459170007D3B69 /* TTTURLRequestFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTURLRequestFormatter.m; sourceTree = "<group>"; };
 		18A082DE172EFAD5001E125F /* EditorItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorItemView.h; sourceTree = "<group>"; };
 		18A082DF172EFAD5001E125F /* EditorItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorItemView.m; sourceTree = "<group>"; };
 		18A082E1172F10C8001E125F /* ViewWithAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewWithAttributes.h; sourceTree = "<group>"; };
@@ -686,9 +722,42 @@
 			name = DLCImagePickerController;
 			sourceTree = "<group>";
 		};
+		1891F21817459170007D3B69 /* FormatterKit */ = {
+			isa = PBXGroup;
+			children = (
+				1891F21917459170007D3B69 /* Localizations */,
+				1891F22317459170007D3B69 /* TTTAddressFormatter.h */,
+				1891F22417459170007D3B69 /* TTTAddressFormatter.m */,
+				1891F22517459170007D3B69 /* TTTArrayFormatter.h */,
+				1891F22617459170007D3B69 /* TTTArrayFormatter.m */,
+				1891F22717459170007D3B69 /* TTTLocationFormatter.h */,
+				1891F22817459170007D3B69 /* TTTLocationFormatter.m */,
+				1891F22917459170007D3B69 /* TTTOrdinalNumberFormatter.h */,
+				1891F22A17459170007D3B69 /* TTTOrdinalNumberFormatter.m */,
+				1891F22B17459170007D3B69 /* TTTTimeIntervalFormatter.h */,
+				1891F22C17459170007D3B69 /* TTTTimeIntervalFormatter.m */,
+				1891F22D17459170007D3B69 /* TTTUnitOfInformationFormatter.h */,
+				1891F22E17459170007D3B69 /* TTTUnitOfInformationFormatter.m */,
+				1891F22F17459170007D3B69 /* TTTURLRequestFormatter.h */,
+				1891F23017459170007D3B69 /* TTTURLRequestFormatter.m */,
+			);
+			name = FormatterKit;
+			path = vendor/FormatterKit;
+			sourceTree = "<group>";
+		};
+		1891F21917459170007D3B69 /* Localizations */ = {
+			isa = PBXGroup;
+			children = (
+				1891F21A17459170007D3B69 /* FormatterKit.strings */,
+			);
+			path = Localizations;
+			sourceTree = "<group>";
+		};
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				184374221742EA33005828E7 /* no-avatar@2x.png */,
+				184374231742EA33005828E7 /* no-avatar.png */,
 				184D560A1738D9A70088CADF /* DLCImagePicker */,
 				1883AB2D172D3C550093554B /* image_remove@2x.png */,
 				1883AB2E172D3C550093554B /* image_remove.png */,
@@ -767,12 +836,13 @@
 		18F98FBD171378A600D8F7A3 /* vendor */ = {
 			isa = PBXGroup;
 			children = (
+				849C6E2317183F4B006C5766 /* DMTwitterOAuth Library */,
+				1886808117379C27006A3E20 /* DLCImagePickerController */,
+				1891F21817459170007D3B69 /* FormatterKit */,
 				84DF0A9D174022340088578A /* MBProgressHUD.m */,
 				84DF0A9C1740222D0088578A /* MBProgressHUD.h */,
-				1886808117379C27006A3E20 /* DLCImagePickerController */,
 				18B37EB417328C4E0007D53E /* OrderedDictionary.m */,
 				18B37EB517328C4E0007D53E /* OrderedDictionary.h */,
-				849C6E2317183F4B006C5766 /* DMTwitterOAuth Library */,
 				18F98FBE171378C600D8F7A3 /* NSObject+SBJson.h */,
 				18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */,
 				18F98FC0171378C600D8F7A3 /* SBJson.h */,
@@ -805,8 +875,6 @@
 		844DFA4E16CFB66F00884637 = {
 			isa = PBXGroup;
 			children = (
-				184374221742EA33005828E7 /* no-avatar@2x.png */,
-				184374231742EA33005828E7 /* no-avatar.png */,
 				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
 				18E242251716DB4E00435FBE /* Resources */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
@@ -1092,6 +1160,13 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				da,
+				de,
+				es,
+				it,
+				nb,
+				nl,
+				nn,
 			);
 			mainGroup = 844DFA4E16CFB66F00884637;
 			productRefGroup = 844DFA4E16CFB66F00884637;
@@ -1291,6 +1366,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1891F231174597D9007D3B69 /* TTTAddressFormatter.h in Sources */,
+				1891F232174597D9007D3B69 /* TTTAddressFormatter.m in Sources */,
+				1891F233174597D9007D3B69 /* TTTArrayFormatter.h in Sources */,
+				1891F234174597D9007D3B69 /* TTTArrayFormatter.m in Sources */,
+				1891F235174597D9007D3B69 /* TTTLocationFormatter.h in Sources */,
+				1891F236174597D9007D3B69 /* TTTLocationFormatter.m in Sources */,
+				1891F237174597D9007D3B69 /* TTTOrdinalNumberFormatter.h in Sources */,
+				1891F238174597D9007D3B69 /* TTTOrdinalNumberFormatter.m in Sources */,
+				1891F239174597D9007D3B69 /* TTTTimeIntervalFormatter.h in Sources */,
+				1891F23A174597D9007D3B69 /* TTTTimeIntervalFormatter.m in Sources */,
+				1891F23B174597D9007D3B69 /* TTTUnitOfInformationFormatter.h in Sources */,
+				1891F23C174597D9007D3B69 /* TTTUnitOfInformationFormatter.m in Sources */,
+				1891F23D174597D9007D3B69 /* TTTURLRequestFormatter.h in Sources */,
+				1891F23E174597D9007D3B69 /* TTTURLRequestFormatter.m in Sources */,
 				1886807917379C14006A3E20 /* PhotoViewController.m in Sources */,
 				1886807A17379C14006A3E20 /* PhotoViewController.h in Sources */,
 				1886807B17379C14006A3E20 /* GrayscaleContrastFilter.m in Sources */,
@@ -1390,6 +1479,21 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1891F21A17459170007D3B69 /* FormatterKit.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1891F21B17459170007D3B69 /* da */,
+				1891F21C17459170007D3B69 /* de */,
+				1891F21D17459170007D3B69 /* en */,
+				1891F21E17459170007D3B69 /* es */,
+				1891F21F17459170007D3B69 /* it */,
+				1891F22017459170007D3B69 /* nb */,
+				1891F22117459170007D3B69 /* nl */,
+				1891F22217459170007D3B69 /* nn */,
+			);
+			name = FormatterKit.strings;
+			sourceTree = "<group>";
+		};
 		844DFA6616CFB66F00884637 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

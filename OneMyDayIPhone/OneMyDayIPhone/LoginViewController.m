@@ -20,11 +20,17 @@
 
 @synthesize txtEmail, txtPassword;
 
+AppDelegate *appDelegate;
+NSString *userId = nil;
+Request *request;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whitey"]];
+        
+        appDelegate = [[UIApplication sharedApplication] delegate];
 
         UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
         txtEmail.leftView = paddingView;
@@ -41,18 +47,15 @@
     return self;
 }
 
-- (void) alertStatus:(NSString *)msg :(NSString *) title
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:msg
-                                                       delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alertView show];
-}
-
 - (IBAction)loginClick:(id)sender {
     @try {
-        if([[txtEmail text] isEqualToString:@""] || [[txtPassword text] isEqualToString:@""] ) {
+        if([[txtEmail text] isEqualToString:@""]) {
             
-            [self alertStatus:@"Please enter both Email and Password" :@"Login Failed!"];
+            [appDelegate alertStatus:@"" :@"Please enter Email" ];
+            
+        } else if([[txtPassword text] isEqualToString:@""] ) {
+            
+            [appDelegate alertStatus:@"" :@"Please enter Password" ];
             
         } else {
             
@@ -62,37 +65,43 @@
                 [self loginTask];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    UIViewController *masterController = [AppDelegate initMasterController];
-                    [self presentViewController:masterController animated:YES completion:nil];
+                    
+                    if(userId != nil && [request errorMsg] == nil){
+                        UIViewController *masterController = [AppDelegate initMasterController];
+                        [self presentViewController:masterController animated:YES completion:nil];
+                    } else if([request errorMsg] != nil){
+                        [appDelegate alertStatus:@"" :[request errorMsg]];                        
+                    } else {
+                        [appDelegate alertStatus:@"" :[request operationFailedMsg]];
+                    }
                 });
             });             
         }
     }
     @catch (NSException * e) {
         NSLog(@"Exception: %@", e);
-        [self alertStatus:@"Login Failed." :@"Login Failed!"];
+        [appDelegate alertStatus:@"" :@"Login Failed!"];
     }
 }
 
 - (void)loginTask
 {
     double startTime = [[NSDate date] timeIntervalSince1970];
-    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-    appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
     
+    request = [[Request alloc] init];
     NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
-    NSString *userId = [[Request alloc] requestLoginWithPath: postString];
+    userId = [request requestLoginWithPath: postString];  
     
-    NSLog(@"userId = %@", userId);
-    
-    [self saveCredentials:userId];
+    if(userId != nil){
+        [self saveCredentials:userId];
+        appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
+    }
     
     double stopTime = [[NSDate date] timeIntervalSince1970];
     
     double time = 2000 - (stopTime - startTime);
-    
-    //NSLog(@"time %f",time);
     
     if(time > 0) sleep(time / 1000);   
 }

@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate> 
 
 @property (strong, nonatomic) UIWindow *window;
@@ -28,6 +26,7 @@
 @property (strong, nonatomic) NSNumber *loggedInFlag;
 
 + (UIViewController *) initMasterController;
-- (bool)checkEmail;
+- (bool) checkEmail;
+- (void) alertStatus:(NSString *)msg :(NSString *) title;
 
 @end

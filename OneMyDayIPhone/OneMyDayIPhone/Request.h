@@ -15,5 +15,7 @@
 - (id)sendRequest:(NSString *)path data:(NSString *)post;
 - (id)getDataFrom:(NSString *)path;
 - (id)requestLoginWithPath:(NSString*)path;
+- (NSString *) errorMsg;
+- (NSString *) operationFailedMsg;
 
 @end

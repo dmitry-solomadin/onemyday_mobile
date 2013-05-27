@@ -19,6 +19,17 @@ NSString *path = @"~/Documents/stories";
 NSString *imagesDirectory = @"images_cache";
 int cacheLimit = 10;
 int numOfCachedImages = 0;
+NSString *requestErrorMsg = nil;
+
+- (NSString *) requestErrorMsg
+{
+    return requestErrorMsg;
+}
+
+- (void) setRequestErrorMsg: msg
+{
+    requestErrorMsg = msg;
+}
 
 + (StoryStore *)get
 {
@@ -55,7 +66,6 @@ int numOfCachedImages = 0;
     cachedStories = _cachedStories;
 }
 
-
 - (Story *)findById:(int)storyId
 {
     for (Story *story in stories) {
@@ -79,18 +89,19 @@ int numOfCachedImages = 0;
     }
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
-    if (newStories) {
-        NSLog(@"new id = %ld",lastId);
-        [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
-    } else {
-        NSLog(@"old id = %ld",lastId);
-        [parameters addObject:[NSString stringWithFormat:@"lower_than_id=%ld",lastId]];
-    }
+    if (newStories)  [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
+    else [parameters addObject:[NSString stringWithFormat:@"lower_than_id=%ld",lastId]];
     [parameters addObject:[NSString stringWithFormat:@"limit=%d",limit]];
     [Request insertParametersIntoUrl:path parameters:parameters];
 
     Request *request = [[Request alloc] init];
     NSArray *jsonData = [request getDataFrom: path];
+   
+    if([request errorMsg] != nil){
+        requestErrorMsg = [request errorMsg];        
+        return nil;  
+    }
+        
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];
      

@@ -13,6 +13,8 @@
 #import "ShowStoryViewController.h"
 #import "StoryStore.h"
 #import "UserStore.h"
+#import "AppDelegate.h"
+#import "Request.h"
 
 @interface HomeViewController ()
 {
@@ -26,6 +28,8 @@
 
 @implementation HomeViewController
 @synthesize scrollView;
+
+AppDelegate *appDelegate;
 
 #define STORY_HEIGHT_WITH_PADDING 360 // 10px padding at the top
 
@@ -55,6 +59,8 @@
 {
     [super viewDidLoad];    
     
+    appDelegate = [[UIApplication sharedApplication] delegate];
+    
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
     [[self view] addSubview:scrollView];
     [self.scrollView setDelegate:self];
@@ -72,6 +78,7 @@
     __block NSMutableArray *oldStories = stories;
     [[UserStore get] loadUsersFromDisk];    
     
+    //draw old stories
     for (int i = 0; i < [oldStories count]; i++) {
         Story *story = [oldStories objectAtIndex:i];
         CGRect frame = CGRectMake(10, oldFeedHeight, 300, 300);
@@ -96,8 +103,6 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     [topIndicator startAnimating];
-    
-    //[self refreshView: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:)
                                                  name:@"refreshViewNotification" object:nil];
@@ -128,6 +133,7 @@
             
             [topIndicator stopAnimating];            
             
+            //move old stories to top after removing the wheel
             if([[notification object] isKindOfClass:[HomeViewController class]] && stories != NULL && [stories count] > 0)
             {
                 [UIView beginAnimations:nil context:NULL];
@@ -145,15 +151,20 @@
                 [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
                 [UIView commitAnimations];
             }
-            
-            if(newStories != NULL && [newStories count] > 0)
-            {
+         
+            if([[StoryStore get] requestErrorMsg] != nil ){
+                [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
+                [[StoryStore get] setRequestErrorMsg: nil];
+                
+            } else if(newStories != NULL && [newStories count] > 0){
+                
                 NSMutableArray *oldStories = stories;
                 stories = newStories;
                 CGFloat currentFeedHeight = 10.0;
                
                 int storiesCount = [stories count];                              
                
+                //if old stories are too old (last new story id > first old story id) remove old stories
                 if(storiesCount == 11 && [[stories objectAtIndex: 10] storyId] != storyId){
                     int oldSubViewsCount = [[scrollView subviews] count] - 1;
                     for (int i = 0; i < oldSubViewsCount; i++) {
@@ -162,6 +173,7 @@
                     oldFeedHeight = 0;                 
                 }
                 
+                //draw new stories
                 for (int i = 0; i < storiesCount; i++) {
                     Story *story = [stories objectAtIndex: i];
                     
@@ -172,7 +184,7 @@
                     currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
                 }
                
-                
+               //move old stories to the bottom
                if (storiesCount != 11 || (storiesCount != 11 && [[stories objectAtIndex: 10] storyId] != storyId)) {
                    int start = storiesCount + 1;
                     for (int i = start, j = 0; i < [[scrollView subviews] count]; i++) {
@@ -186,14 +198,13 @@
                         }
                     }
                 }
-                //  update the last update date
+                
+                //update the last update date
                 [_refreshHeaderView refreshLastUpdatedDate];
                 oldFeedHeight += currentFeedHeight;
                 [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
-                
-            }            
-            
-            [[StoryStore get] setStories:stories];            
+                [[StoryStore get] setStories:stories];  
+            }        
         });
      });
 }
@@ -279,9 +290,13 @@
             
             [bottomIndicator stopAnimating];
             
-            [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];            
-            
-            if (newStories != NULL && [newStories count] > 0) {
+            [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
+                        
+            if([[StoryStore get] requestErrorMsg] != nil && newStories == NULL){
+                [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
+                [[StoryStore get] setRequestErrorMsg: nil];
+                
+            } else if (newStories != NULL && [newStories count] > 0) {
                 for (int i = 0; i < [newStories count]; i++) {
                     Story *story = [newStories objectAtIndex: i];
                     

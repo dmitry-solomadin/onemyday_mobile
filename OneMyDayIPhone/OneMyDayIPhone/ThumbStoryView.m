@@ -88,7 +88,7 @@
         [timeAgoLabel setFont:[UIFont fontWithName:@"Helvetica" size:12]];
         [timeAgoLabel setTextColor:[UIColor grayColor]];
         [timeAgoLabel sizeToFit];
-        NSLog(@"%f", timeAgoLabel.frame.size.width);
+        //NSLog(@"%f", timeAgoLabel.frame.size.width);
         timeAgoLabel.frame = CGRectMake(300 - timeAgoLabel.frame.size.width, 10,
                                         timeAgoLabel.frame.size.width, timeAgoLabel.frame.size.height);
         [self addSubview:timeAgoLabel];
@@ -104,7 +104,7 @@
 
 - (BOOL)isAvatarEmpty:(NSString *)avatarURL
 {
-    NSLog(@"%@", avatarURL);
+   /// NSLog(@"%@", avatarURL);
     if ([avatarURL rangeOfString:@"no-avatar" options:NSCaseInsensitiveSearch].location != NSNotFound) {
         return YES;
     }

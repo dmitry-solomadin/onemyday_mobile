@@ -93,10 +93,11 @@ Request *request;
     request = [[Request alloc] init];
     NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
     userId = [request requestLoginWithPath: postString];  
-    
+    NSLog(@"Login user %@", userId);
     if(userId != nil){
         [self saveCredentials:userId];
         appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
+        appDelegate.currentUserId = userId;
     }
     
     double stopTime = [[NSDate date] timeIntervalSince1970];

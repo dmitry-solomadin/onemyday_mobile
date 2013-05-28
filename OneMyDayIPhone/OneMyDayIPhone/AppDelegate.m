@@ -22,6 +22,7 @@
 
 @synthesize session;
 @synthesize loggedInFlag;
+@synthesize currentUserId;
 
 + (UIViewController *)initMasterController
 {
@@ -47,7 +48,7 @@
     StartViewController *svc = [[StartViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:svc];
     
-    if (session.isOpen) {        
+    /*if (session.isOpen) {
         NSLog(@"Welcome to facebook session!");
         loggedInFlag = [NSNumber numberWithInt:1];
         [self goToMasterView:navController];        
@@ -64,7 +65,7 @@
     }
     else {
         loggedInFlag = [NSNumber numberWithInt:0];
-    }
+    }*/
         
     [[self window] setRootViewController:navController];    
     self.window.backgroundColor = [UIColor whiteColor];
@@ -137,7 +138,10 @@
 - (bool) checkEmail
 {
     NSData *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
-    if (saved_credentials != nil)return true;
+    if (saved_credentials != nil){          
+        currentUserId = [NSKeyedUnarchiver unarchiveObjectWithData: saved_credentials];       
+        return true;
+    }
     else return false;
 }
 

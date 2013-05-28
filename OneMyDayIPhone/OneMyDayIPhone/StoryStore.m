@@ -95,7 +95,7 @@ NSString *requestErrorMsg = nil;
     [Request insertParametersIntoUrl:path parameters:parameters];
 
     Request *request = [[Request alloc] init];
-    NSArray *jsonData = [request getDataFrom: path];
+    NSArray *jsonData = [request getDataFrom: path requestData: nil];
    
     if([request errorMsg] != nil){
         requestErrorMsg = [request errorMsg];        
@@ -104,7 +104,7 @@ NSString *requestErrorMsg = nil;
         
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];
-     
+    NSLog(@"jsonData %@", jsonData);
     for (int i = 0; i < [jsonData  count]; i++) {
         NSDictionary *story = [jsonData objectAtIndex:i];
         int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
@@ -196,7 +196,7 @@ NSString *requestErrorMsg = nil;
     NSError *error;
     if (![fileManager createDirectoryAtPath:fullPath 
                                    withIntermediateDirectories:NO attributes:nil error:&error]){
-        NSLog(@"Create directory error: %@", error);
+        //NSLog(@"Create directory error: %@", error);
     }
     fullPath = [fullPath stringByAppendingPathComponent: imageName];
     //NSLog(@"fullPath save %@",fullPath);

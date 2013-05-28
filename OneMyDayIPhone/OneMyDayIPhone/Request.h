@@ -12,8 +12,8 @@
 
 + (NSString *)insertParametersIntoUrl:(NSMutableString *)url parameters:(NSArray *)parameters;
 
-- (id)sendRequest:(NSString *)path data:(NSString *)post;
-- (id)getDataFrom:(NSString *)path;
+//- (id)sendRequest:(NSString *)path data:(NSString *)post;
+- (id)getDataFrom:(NSString *)path requestData: (NSString *)post;
 - (id)requestLoginWithPath:(NSString*)path;
 - (NSString *) errorMsg;
 - (NSString *) operationFailedMsg;

@@ -49,7 +49,7 @@ NSString *errorMsg = nil;
 }
 
 // TODO this method and getData method look very similar, do we really need both?
-- (id)sendRequest:(NSString*)path data: (NSString*)post
+/*- (id)sendRequest:(NSString*)path data: (NSString*)post
 {
     //NSLog(@"PostData: %@", post);
     
@@ -92,14 +92,26 @@ NSString *errorMsg = nil;
         } else errorMsg = badConnectionMsg;
     }
     return nil;
-}
+}*/
 
-- (id) getDataFrom:(NSString *)path
+- (id)getDataFrom:(NSString *)path requestData: (NSString *)post
 {    
-    NSString *url = [mainUrl stringByAppendingString: path];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setHTTPMethod:@"GET"];
-    [request setURL:[NSURL URLWithString:url]];
+    NSString *urlTxt = [mainUrl stringByAppendingString: path];        
+    NSURL *url = [NSURL URLWithString: urlTxt];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
+    [request setURL: url];
+    
+    if(post != nil){
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];        
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[url host]];
+    }  else [request setHTTPMethod:@"GET"];
+    
     
     NSError *error = [[NSError alloc] init];
     NSHTTPURLResponse *responseCode = nil;
@@ -123,7 +135,7 @@ NSString *errorMsg = nil;
 
 - (id)requestLoginWithPath:(NSString*)path
 {    
-    NSDictionary *jsonData = [self sendRequest: @"auth/regular.json" data: path];
+    NSDictionary *jsonData = [self getDataFrom:@"auth/regular.json" requestData: path];
     if(jsonData == nil) return nil;
     
     NSString *status = (NSString *) [jsonData objectForKey:@"status"];

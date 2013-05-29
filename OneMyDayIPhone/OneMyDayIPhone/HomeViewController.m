@@ -201,6 +201,7 @@ AppDelegate *appDelegate;
                 
                 //update the last update date
                 [_refreshHeaderView refreshLastUpdatedDate];
+                
                 oldFeedHeight += currentFeedHeight;
                 [scrollView setContentSize: CGSizeMake(320, oldFeedHeight)];
                 [[StoryStore get] setStories:stories];  

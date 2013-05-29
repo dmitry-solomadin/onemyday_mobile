@@ -100,10 +100,11 @@ NSString *errorMsg = nil;
     NSURL *url = [NSURL URLWithString: urlTxt];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
     [request setURL: url];
-    
+    NSLog(@"url %@", url);
+    NSLog(@"post %@", post);
     if(post != nil){
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];        
-        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];        
         [request setHTTPMethod:@"POST"];
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];

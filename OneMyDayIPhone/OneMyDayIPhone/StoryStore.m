@@ -89,7 +89,7 @@ NSString *requestErrorMsg = nil;
     }
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
-    if (newStories)  [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
+    if (newStories) [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
     else [parameters addObject:[NSString stringWithFormat:@"lower_than_id=%ld",lastId]];
     [parameters addObject:[NSString stringWithFormat:@"limit=%d",limit]];
     [Request insertParametersIntoUrl:path parameters:parameters];
@@ -104,7 +104,7 @@ NSString *requestErrorMsg = nil;
         
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];
-    NSLog(@"jsonData %@", jsonData);
+    //NSLog(@"jsonData %@", jsonData);
     for (int i = 0; i < [jsonData  count]; i++) {
         NSDictionary *story = [jsonData objectAtIndex:i];
         int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
@@ -135,16 +135,19 @@ NSString *requestErrorMsg = nil;
         NSMutableArray *oldCachedStories = [self getCachedStories];     
         
         if ([cacheStories count] > 0) {
-            if([cachedStories count] < cacheLimit) {
+            NSLog(@"cacheStories count %d", [cacheStories count]);
+            NSLog(@"cacheLimit %d", cacheLimit);
+            if([cacheStories count] < cacheLimit) {
                 int storiesLeftForCache = cacheLimit - [cacheStories count];
+                NSLog(@"storiesLeftForCache %d", storiesLeftForCache);
                 for(int i = 0;i < storiesLeftForCache;i++){
                     Story *story = [oldCachedStories objectAtIndex:i];
-                    //NSLog(@"story %@",story);
+                    NSLog(@"story %@",story);
                     if(story != nil)[cacheStories addObject: story];
                     else break;
                 }
             }
-
+            NSLog(@"cacheStories count %d", [cacheStories count]);
             [self delOldCachedImages: cacheStories];
             [self saveStoriesToDisk: cacheStories];
         } else numOfCachedImages = cacheLimit;

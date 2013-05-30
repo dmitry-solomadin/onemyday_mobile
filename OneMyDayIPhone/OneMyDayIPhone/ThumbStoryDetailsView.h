@@ -1,8 +1,8 @@
 //
-//  ThumbStoryView.h
-//  OneMyDayIPhone
+//  ThumbStoryDetailsView.h
+//  Onemyday
 //
-//  Created by dmitry.solomadin on 09.04.13.
+//  Created by dmitry.solomadin on 17.05.13.
 //  Copyright (c) 2013 Admin. All rights reserved.
 //
 
@@ -10,9 +10,9 @@
 
 @class Story;
 
-@interface ThumbStoryView : UIView
+@interface ThumbStoryDetailsView : UIView
+
 @property (nonatomic, strong) Story *story;
-@property (nonatomic, weak) id controller;
 
 - (id)initWithFrame:(CGRect)frame story:(Story *)_story;
 

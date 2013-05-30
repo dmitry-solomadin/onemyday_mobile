@@ -13,6 +13,7 @@
 #import "UserStore.h"
 #import "StoryShadowWrapView.h"
 #import "TTTTimeIntervalFormatter.h"
+#import "ThumbStoryDetailsView.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface ThumbStoryView ()
@@ -92,6 +93,11 @@
         timeAgoLabel.frame = CGRectMake(300 - timeAgoLabel.frame.size.width, 10,
                                         timeAgoLabel.frame.size.width, timeAgoLabel.frame.size.height);
         [self addSubview:timeAgoLabel];
+        
+        // Story details rect
+        ThumbStoryDetailsView *storyDetails = [[ThumbStoryDetailsView alloc] initWithFrame:CGRectMake(6, 285, 288, 50)
+                                                                                     story:story];
+        [self addSubview:storyDetails];
     }
     return self;
 }

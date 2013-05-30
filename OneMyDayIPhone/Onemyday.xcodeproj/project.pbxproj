@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18064FFF175764850054338C /* heart_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18064FF9175764850054338C /* heart_small@2x.png */; };
+		18065000175764850054338C /* heart_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 18064FFA175764850054338C /* heart_small.png */; };
+		18065001175764850054338C /* eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18064FFB175764850054338C /* eye@2x.png */; };
+		18065002175764850054338C /* eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 18064FFC175764850054338C /* eye.png */; };
+		18065003175764850054338C /* comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18064FFD175764850054338C /* comment@2x.png */; };
+		18065004175764850054338C /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 18064FFE175764850054338C /* comment.png */; };
 		180D979D171F0FD90034A9C2 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D979C171F0FD90034A9C2 /* MasterViewController.m */; };
 		180D97A0171F248B0034A9C2 /* capture-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 180D979E171F248B0034A9C2 /* capture-button@2x.png */; };
 		180D97A1171F248B0034A9C2 /* capture-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 180D979F171F248B0034A9C2 /* capture-button.png */; };
@@ -164,6 +170,7 @@
 		18E24242171739D700435FBE /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E24240171739D500435FBE /* gear@2x.png */; };
 		18E24243171739D700435FBE /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E24241171739D600435FBE /* gear.png */; };
 		18E2424617173A1100435FBE /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2424517173A1000435FBE /* SettingsViewController.m */; };
+		18EC7CBD17462A0800F50A70 /* ThumbStoryDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EC7CBC17462A0800F50A70 /* ThumbStoryDetailsView.m */; };
 		18F98FD7171378C600D8F7A3 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */; };
 		18F98FD8171378C600D8F7A3 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */; };
 		18F98FD9171378C600D8F7A3 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FC2171378C600D8F7A3 /* SBJsonParser.m */; };
@@ -272,6 +279,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18064FF9175764850054338C /* heart_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "heart_small@2x.png"; path = "assets/heart_small@2x.png"; sourceTree = "<group>"; };
+		18064FFA175764850054338C /* heart_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart_small.png; path = assets/heart_small.png; sourceTree = "<group>"; };
+		18064FFB175764850054338C /* eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "eye@2x.png"; path = "assets/eye@2x.png"; sourceTree = "<group>"; };
+		18064FFC175764850054338C /* eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eye.png; path = assets/eye.png; sourceTree = "<group>"; };
+		18064FFD175764850054338C /* comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "comment@2x.png"; path = "assets/comment@2x.png"; sourceTree = "<group>"; };
+		18064FFE175764850054338C /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = comment.png; path = assets/comment.png; sourceTree = "<group>"; };
 		180D979B171F0FD90034A9C2 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		180D979C171F0FD90034A9C2 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		180D979E171F248B0034A9C2 /* capture-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "capture-button@2x.png"; path = "assets/capture-button@2x.png"; sourceTree = "<group>"; };
@@ -455,6 +468,8 @@
 		18E24241171739D600435FBE /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = assets/gear.png; sourceTree = "<group>"; };
 		18E2424417173A1000435FBE /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		18E2424517173A1000435FBE /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		18EC7CBB17462A0800F50A70 /* ThumbStoryDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbStoryDetailsView.h; sourceTree = "<group>"; };
+		18EC7CBC17462A0800F50A70 /* ThumbStoryDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbStoryDetailsView.m; sourceTree = "<group>"; };
 		18F98FBE171378C600D8F7A3 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "vendor/NSObject+SBJson.h"; sourceTree = "<group>"; };
 		18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJson.m"; path = "vendor/NSObject+SBJson.m"; sourceTree = "<group>"; };
 		18F98FC0171378C600D8F7A3 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJson.h; path = vendor/SBJson.h; sourceTree = "<group>"; };
@@ -756,6 +771,12 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18064FF9175764850054338C /* heart_small@2x.png */,
+				18064FFA175764850054338C /* heart_small.png */,
+				18064FFB175764850054338C /* eye@2x.png */,
+				18064FFC175764850054338C /* eye.png */,
+				18064FFD175764850054338C /* comment@2x.png */,
+				18064FFE175764850054338C /* comment.png */,
 				184374221742EA33005828E7 /* no-avatar@2x.png */,
 				184374231742EA33005828E7 /* no-avatar.png */,
 				184D560A1738D9A70088CADF /* DLCImagePicker */,
@@ -1073,6 +1094,8 @@
 			children = (
 				18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */,
 				18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */,
+				18EC7CBB17462A0800F50A70 /* ThumbStoryDetailsView.h */,
+				18EC7CBC17462A0800F50A70 /* ThumbStoryDetailsView.m */,
 				84E701B716D76F6B00979856 /* AsyncImageView.h */,
 				84E701B516D76F5F00979856 /* AsyncImageView.m */,
 				1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */,
@@ -1207,6 +1230,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18064FFF175764850054338C /* heart_small@2x.png in Resources */,
+				18065000175764850054338C /* heart_small.png in Resources */,
+				18065001175764850054338C /* eye@2x.png in Resources */,
+				18065002175764850054338C /* eye.png in Resources */,
+				18065003175764850054338C /* comment@2x.png in Resources */,
+				18065004175764850054338C /* comment.png in Resources */,
 				184374241742EA33005828E7 /* no-avatar@2x.png in Resources */,
 				184374251742EA33005828E7 /* no-avatar.png in Resources */,
 				18D7D0FD1742373E00C9EEC3 /* furley_bg@2x.png in Resources */,
@@ -1437,6 +1466,7 @@
 				18B37EB3173189AA0007D53E /* AddTextViewController.m in Sources */,
 				84DF0A9E174022340088578A /* MBProgressHUD.m in Sources */,
 				84A607941743823E00848AF7 /* EGORefreshTableHeaderView.m in Sources */,
+				18EC7CBD17462A0800F50A70 /* ThumbStoryDetailsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

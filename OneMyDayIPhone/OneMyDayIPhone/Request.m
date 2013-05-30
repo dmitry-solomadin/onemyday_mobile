@@ -124,14 +124,14 @@ NSString *errorMsg = nil;
      NSLog(@"HTTP status code %i", [responseCode statusCode]);
     if ([responseCode statusCode] != 200) {
         NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
-        @try{
-            if (error){          
-                //errorMsg = [error localizedDescription];
+        //@try{
+            if (error && [responseCode statusCode] == 0){
+                errorMsg = [error localizedDescription];                
             } else errorMsg = badConnectionMsg;
-        } @catch (NSException * e) {
+        /*} @catch (NSException * e) {
             NSLog(@"Exception: %@", e);
             errorMsg = badConnectionMsg;
-        }
+        }*/
         return nil;
     } else {
         SBJsonParser *jsonParser = [SBJsonParser new];

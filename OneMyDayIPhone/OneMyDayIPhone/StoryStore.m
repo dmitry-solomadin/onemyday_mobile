@@ -77,7 +77,7 @@ NSString *requestErrorMsg = nil;
 }
 
 - (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser newStories:(BOOL)newStories
-                      lastId: (long) lastId withLimit: (int) limit
+lastId: (long) lastId withLimit: (int) limit userId: (NSString *)userId
 {    
     NSMutableString *path = [[NSMutableString alloc] initWithString:@"/search_stories.json"];
     NSMutableArray *parameters = [[NSMutableArray alloc] init];
@@ -89,6 +89,7 @@ NSString *requestErrorMsg = nil;
     }
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
+    [parameters addObject:[NSString stringWithFormat:@"requesting_user_id=%@",userId]];
     if (newStories) [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
     else [parameters addObject:[NSString stringWithFormat:@"lower_than_id=%ld",lastId]];
     [parameters addObject:[NSString stringWithFormat:@"limit=%d",limit]];
@@ -96,8 +97,9 @@ NSString *requestErrorMsg = nil;
 
     Request *request = [[Request alloc] init];
     NSArray *jsonData = [request getDataFrom: path requestData: nil];
-   
+ 
     if([request errorMsg] != nil){
+         NSLog(@"[[request errorMsg] %@", [request errorMsg]);
         requestErrorMsg = [request errorMsg];        
         return nil;  
     }
@@ -112,6 +114,10 @@ NSString *requestErrorMsg = nil;
         NSString *title = (NSString *) [story objectForKey:@"title"];
         NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
         NSDate *createdAt = [StoryStore parseRFC3339Date:[story objectForKey:@"created_at"]];
+        NSString *isLikedByUser = (NSString *) [story objectForKey:@"is_liked_by_user"];
+        NSLog(@"isLikedByUser %@", isLikedByUser);
+        NSString *likesCount = (NSString *) [story objectForKey:@"likes_count"];
+        NSLog(@"likes_count %@", likesCount);
         
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
@@ -134,20 +140,15 @@ NSString *requestErrorMsg = nil;
     if (newStories) {
         NSMutableArray *oldCachedStories = [self getCachedStories];     
         
-        if ([cacheStories count] > 0) {
-            NSLog(@"cacheStories count %d", [cacheStories count]);
-            NSLog(@"cacheLimit %d", cacheLimit);
+        if ([cacheStories count] > 0) {            
             if([cacheStories count] < cacheLimit) {
-                int storiesLeftForCache = cacheLimit - [cacheStories count];
-                NSLog(@"storiesLeftForCache %d", storiesLeftForCache);
+                int storiesLeftForCache = cacheLimit - [cacheStories count];               
                 for(int i = 0;i < storiesLeftForCache;i++){
-                    Story *story = [oldCachedStories objectAtIndex:i];
-                    NSLog(@"story %@",story);
+                    Story *story = [oldCachedStories objectAtIndex:i];                    
                     if(story != nil)[cacheStories addObject: story];
                     else break;
                 }
-            }
-            NSLog(@"cacheStories count %d", [cacheStories count]);
+            }           
             [self delOldCachedImages: cacheStories];
             [self saveStoriesToDisk: cacheStories];
         } else numOfCachedImages = cacheLimit;

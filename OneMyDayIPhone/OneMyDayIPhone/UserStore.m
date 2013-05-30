@@ -66,7 +66,7 @@ NSString *userStorePath = @"~/Documents/users";
 {
     NSString *path = [NSString stringWithFormat:@"/users/%d.json", userId];
     Request *request = [[Request alloc] init];
-    NSDictionary *jsonData = [request getDataFrom: path];
+    NSDictionary *jsonData = [request getDataFrom: path requestData: nil];
     
     User *user = [self parseUserData:jsonData];
     [self addUser:user];

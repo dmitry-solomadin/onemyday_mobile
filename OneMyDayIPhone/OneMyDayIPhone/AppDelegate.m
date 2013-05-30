@@ -22,7 +22,7 @@
 
 @synthesize session;
 @synthesize loggedInFlag;
-
+@synthesize currentUserId;
 
 + (UIViewController *)initMasterController
 {
@@ -48,27 +48,24 @@
     StartViewController *svc = [[StartViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:svc];
     
-    if (session.isOpen) {
+    /*if (session.isOpen) {
         NSLog(@"Welcome to facebook session!");
         loggedInFlag = [NSNumber numberWithInt:1];
-        [self goToMasterView:navController];
-        
+        [self goToMasterView:navController];        
     }
     else if ([DMTwitter shared].oauth_token_authorized) {
         NSLog(@"Welcome to twitter session!");
         loggedInFlag = [NSNumber numberWithInt:2];
-        [self goToMasterView:navController];
-        
+        [self goToMasterView:navController];        
     }
     else if ([self checkEmail]) {
         NSLog(@"Welcome to email session!");
         loggedInFlag = [NSNumber numberWithInt:3];
-        [self goToMasterView:navController];
-        
+        [self goToMasterView:navController];        
     }
     else {
         loggedInFlag = [NSNumber numberWithInt:0];
-    }
+    }*/
         
     [[self window] setRootViewController:navController];    
     self.window.backgroundColor = [UIColor whiteColor];
@@ -138,11 +135,21 @@
     [FBSession.activeSession handleDidBecomeActive];
 }
 
-- (bool)checkEmail
+- (bool) checkEmail
 {
     NSData *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
-    if (saved_credentials != nil)return true;
+    if (saved_credentials != nil){          
+        currentUserId = [NSKeyedUnarchiver unarchiveObjectWithData: saved_credentials];       
+        return true;
+    }
     else return false;
+}
+
+- (void) alertStatus:(NSString *)msg :(NSString *) title
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:msg
+                                                       delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertView show];
 }
 
 @end

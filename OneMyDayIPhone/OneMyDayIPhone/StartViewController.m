@@ -119,6 +119,19 @@
             
             [self updateView];
         }];
+    /*NSArray *permissions = [[NSArray alloc] initWithObjects:
+                            @"user_location", // you need to have this permission
+                            @"user_email", // to be approved                            
+                            nil];
+  [appDelegate.session  openActiveSessionWithReadPermissions:permissions
+                                              allowLoginUI:allowLoginUI
+                                         completionHandler:^(FBSession *session,
+                                                             FBSessionState state,
+                                                             NSError *error) {
+                                             [self sessionStateChanged:session
+                                                                 state:state
+                                                                 error:error];
+                                         }];*/
     //}
 
 }
@@ -135,8 +148,6 @@
         // prompt login
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
-    
-    
     
         [[DMTwitter shared] newLoginSessionFrom:self.navigationController
                                        progress:^(DMOTwitterLoginStatus currentStatus) {
@@ -158,9 +169,6 @@
                                                [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:^(){
                                                     [self updateView];
                                                 }];
-                                               
-                                              
-                                             
                                                
                                                /*NSLog(@"Now getting more data...");
                                                // you can use this call in order to validate your credentials
@@ -208,6 +216,13 @@
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (appDelegate.session.isOpen) {
         NSLog(@"Welcome to facebook session!");
+        [FBSession setActiveSession: appDelegate.session];
+        [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+            if (!error) {
+                NSLog(@"user.name %@", user.id);
+                NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+            } else NSLog(@"error %@", error);
+        }];
         appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
         [self goToMasterView];
         

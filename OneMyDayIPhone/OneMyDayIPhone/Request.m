@@ -125,9 +125,9 @@ NSString *errorMsg = nil;
     if ([responseCode statusCode] != 200) {
         NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
         //@try{
-            if (error && [responseCode statusCode] == 0){
+            /*if (error && [responseCode statusCode] == 0){
                 errorMsg = [error localizedDescription];                
-            } else errorMsg = badConnectionMsg;
+            } else */errorMsg = badConnectionMsg;
         /*} @catch (NSException * e) {
             NSLog(@"Exception: %@", e);
             errorMsg = badConnectionMsg;

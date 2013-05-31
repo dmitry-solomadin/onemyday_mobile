@@ -106,7 +106,7 @@ lastId: (long) lastId withLimit: (int) limit userId: (NSString *)userId
         
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];
-    //NSLog(@"jsonData %@", jsonData);
+    NSLog(@"jsonData %@", jsonData);
     for (int i = 0; i < [jsonData  count]; i++) {
         NSDictionary *story = [jsonData objectAtIndex:i];
         int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
@@ -114,10 +114,10 @@ lastId: (long) lastId withLimit: (int) limit userId: (NSString *)userId
         NSString *title = (NSString *) [story objectForKey:@"title"];
         NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
         NSDate *createdAt = [StoryStore parseRFC3339Date:[story objectForKey:@"created_at"]];
-        NSString *isLikedByUser = (NSString *) [story objectForKey:@"is_liked_by_user"];
-        NSLog(@"isLikedByUser %@", isLikedByUser);
-        NSString *likesCount = (NSString *) [story objectForKey:@"likes_count"];
-        NSLog(@"likes_count %@", likesCount);
+        int isLikedByUser = [(NSString *) [story objectForKey:@"is_liked_by_user"] intValue];     
+        int likesCount = [(NSString *) [story objectForKey:@"likes_count"] intValue];
+        int viewsCount = [(NSString *) [story objectForKey:@"views_count"] intValue];
+        int commentsCount = [(NSString *) [story objectForKey:@"comments_count"] intValue];
         
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
@@ -126,7 +126,8 @@ lastId: (long) lastId withLimit: (int) limit userId: (NSString *)userId
         }
         
         Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId
-                                          andPhotos: (NSArray*)photos andCreatedAt:createdAt];
+                                          andPhotos: (NSArray*)photos andCreatedAt:createdAt  andViewsCount:viewsCount
+                                   andCommentsCount:commentsCount andLikesCount:likesCount isLikedByUser:isLikedByUser];
        
         [allStories addObject: newStory];
         if(newStories && i < cacheLimit)[cacheStories addObject: newStory];

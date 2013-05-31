@@ -14,11 +14,17 @@
 @property (nonatomic, strong) NSArray *photos;
 @property int storyId;
 @property int authorId;
+@property int viewsCount;
+@property int commentsCount;
+@property int likesCount;
 @property NSDate *createdAt;
 
-- (id)initWithId:(int)storyId andTitle:(NSString*)title
-       andAuthor:(int)author_id andPhotos: (NSArray*)photos
-    andCreatedAt:(NSDate *)_createdAt;
+- (id)initWithId:(int)_storyId andTitle:(NSString*)_title
+       andAuthor:(int)_author_id andPhotos: (NSArray*)_photos
+    andCreatedAt:(NSDate *)_createdAt andViewsCount:(int)_viewsCount
+andCommentsCount:(int)_commentsCount andLikesCount:(int)_likesCount isLikedByUser:(int)_isLikedByUser;
 - (id)extractPhotoUrlType:(NSString*)type atIndex:(int)index;
 - (id)extractPhotoStringType:(NSString*)type atIndex:(int)index;
+- (bool) isLikedByUser;
+- (void) setIsLikedByUser;
 @end

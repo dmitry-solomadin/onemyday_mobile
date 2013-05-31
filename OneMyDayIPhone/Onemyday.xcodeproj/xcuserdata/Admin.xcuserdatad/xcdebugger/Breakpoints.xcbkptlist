@@ -217,11 +217,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/AppDelegate.m"
-         timestampString = "391432378.428685"
+         timestampString = "391699726.927728"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "86"
-         endingLineNumber = "86"
+         startingLineNumber = "88"
+         endingLineNumber = "88"
          landmarkName = "@implementation AppDelegate"
          landmarkType = "3">
       </FileBreakpoint>
@@ -269,11 +269,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StoryStore.m"
-         timestampString = "391529407.523713"
+         timestampString = "391699180.455736"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "205"
-         endingLineNumber = "205"
+         startingLineNumber = "206"
+         endingLineNumber = "206"
          landmarkName = "-saveImage:withName:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -282,11 +282,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StoryStore.m"
-         timestampString = "391529407.523713"
+         timestampString = "391699180.455736"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "200"
-         endingLineNumber = "200"
+         startingLineNumber = "201"
+         endingLineNumber = "201"
          landmarkName = "-saveImage:withName:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -321,11 +321,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StoryStore.m"
-         timestampString = "391529407.523713"
+         timestampString = "391699180.455736"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "234"
-         endingLineNumber = "234"
+         startingLineNumber = "235"
+         endingLineNumber = "235"
          landmarkName = "-delOldCachedImages:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -334,11 +334,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StoryStore.m"
-         timestampString = "391529407.523713"
+         timestampString = "391699180.455736"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "202"
-         endingLineNumber = "202"
+         startingLineNumber = "203"
+         endingLineNumber = "203"
          landmarkName = "-saveImage:withName:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -347,11 +347,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StoryStore.m"
-         timestampString = "391529407.523713"
+         timestampString = "391699180.455736"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "213"
-         endingLineNumber = "213"
+         startingLineNumber = "214"
+         endingLineNumber = "214"
          landmarkName = "-loadImage:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -373,11 +373,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StoryStore.m"
-         timestampString = "391529407.523713"
+         timestampString = "391699180.455736"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "283"
-         endingLineNumber = "283"
+         startingLineNumber = "284"
+         endingLineNumber = "284"
          landmarkName = "-checkImageLimit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -399,11 +399,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StoryStore.m"
-         timestampString = "391529407.523713"
+         timestampString = "391699180.455736"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "141"
-         endingLineNumber = "141"
+         startingLineNumber = "142"
+         endingLineNumber = "142"
          landmarkName = "-requestStoriesIncludePhotos:includeUser:newStories:lastId:withLimit:userId:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -503,11 +503,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/ShowStoryViewController.m"
-         timestampString = "391432378.428685"
+         timestampString = "391701688.745851"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "80"
-         endingLineNumber = "80"
+         startingLineNumber = "83"
+         endingLineNumber = "83"
          landmarkName = "-initWithStory:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -516,11 +516,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/ShowStoryViewController.m"
-         timestampString = "391432378.428685"
+         timestampString = "391701688.745851"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "81"
-         endingLineNumber = "81"
+         startingLineNumber = "84"
+         endingLineNumber = "84"
          landmarkName = "-initWithStory:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -529,11 +529,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/ShowStoryViewController.m"
-         timestampString = "391432378.428685"
+         timestampString = "391701688.745851"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "100"
-         endingLineNumber = "100"
+         startingLineNumber = "104"
+         endingLineNumber = "104"
          landmarkName = "-initWithStory:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -562,6 +562,97 @@
          endingLineNumber = "126"
          landmarkName = "-getDataFrom:requestData:"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/Story.m"
+         timestampString = "391701688.745851"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "29"
+         endingLineNumber = "29"
+         landmarkName = "-initWithId:andTitle:andAuthor:andPhotos:andCreatedAt:andViewsCount:andCommentsCount:andLikesCount:isLikedByUser:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/StoryStore.m"
+         timestampString = "391698862.982105"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "118"
+         endingLineNumber = "118"
+         landmarkName = "-requestStoriesIncludePhotos:includeUser:newStories:lastId:withLimit:userId:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/Story.m"
+         timestampString = "391701093.942387"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "82"
+         endingLineNumber = "82"
+         landmarkName = "-isLikedByUser"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/Story.m"
+         timestampString = "391701171.498403"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "86"
+         endingLineNumber = "86"
+         landmarkName = "@implementation Story"
+         landmarkType = "3">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/Story.m"
+         timestampString = "391701265.875989"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "32"
+         endingLineNumber = "32"
+         landmarkName = "-initWithId:andTitle:andAuthor:andPhotos:andCreatedAt:andViewsCount:andCommentsCount:andLikesCount:isLikedByUser:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/Story.m"
+         timestampString = "391701293.970982"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
+         landmarkName = "-initWithId:andTitle:andAuthor:andPhotos:andCreatedAt:andViewsCount:andCommentsCount:andLikesCount:isLikedByUser:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/Story.m"
+         timestampString = "391701417.416219"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "84"
+         endingLineNumber = "84"
+         landmarkName = "@implementation Story"
+         landmarkType = "3">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

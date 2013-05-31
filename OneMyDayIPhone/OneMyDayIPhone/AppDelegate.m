@@ -24,6 +24,8 @@
 @synthesize loggedInFlag;
 @synthesize currentUserId;
 
+NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
+
 + (UIViewController *)initMasterController
 {
     MasterViewController *mvc = [[MasterViewController alloc] init];
@@ -150,6 +152,11 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:msg
                                                        delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
+}
+
+- (NSString *) apiKey
+{
+    return apiKey;
 }
 
 @end

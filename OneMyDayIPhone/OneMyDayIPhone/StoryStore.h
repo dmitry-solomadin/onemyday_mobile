@@ -28,7 +28,7 @@
 - (bool)checkImageLimit: (NSString*)imageURL;
 - (void)saveImage:(UIImage*)image withName:(NSString*)imageName;
 - (UIImage*)loadImage:(NSString*)imageName;
-- (NSString *) requestErrorMsg;
-- (void) setRequestErrorMsg: msg;
+- (NSString *)requestErrorMsg;
+- (void)setRequestErrorMsg: msg;
 
 @end

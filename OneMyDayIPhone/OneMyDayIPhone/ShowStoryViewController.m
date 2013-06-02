@@ -13,6 +13,7 @@
 #import "Request.h"
 #import "AppDelegate.h"
 #import "StoryStore.h"
+#import "StoryCommentView.h"
 
 @interface ShowStoryViewController ()
 
@@ -24,12 +25,17 @@
 UITextView *likeButtonView;
 UITextView *numberOfPeopleView;
 UIActivityIndicatorView *likeIndicator;
+UIActivityIndicatorView *commentsIndicator;
 UITextView *likeView;
+AppDelegate *appDelegate;
+CGFloat currentStoryHeight;
 
 - (id) initWithStory:(Story *)_story
 {
     if (self = [super initWithNibName: nil bundle: nil]) {
         self.story = _story;
+        
+        appDelegate = [[UIApplication sharedApplication] delegate];
         
         [[self view] setFrame: self.view.window.bounds];
         
@@ -37,7 +43,7 @@ UITextView *likeView;
         [scrollView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"cool_bg"]]];
         [[self view] addSubview:scrollView];
         
-        CGFloat currentStoryHeight = 10.0f;
+        currentStoryHeight = 10.0f;
         for (int i = 0; i < [[story photos] count]; i++) {
             // Add photo
             NSDictionary *photo = [[story photos] objectAtIndex:i];
@@ -99,7 +105,7 @@ UITextView *likeView;
         likeButtonView.layer.cornerRadius = 14.0;
         likeButtonView.layer.borderColor = [[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1] CGColor];
         likeButtonView.layer.borderWidth = 2;
-        NSLog(@"[story isLikedByUser] %d", [story isLikedByUser]);
+        //NSLog(@"[story isLikedByUser] %d", [story isLikedByUser]);
         if(![story isLikedByUser]){
             likeButtonView.text = @"Like";
             [likeButtonView setContentInset:UIEdgeInsetsMake(-5, 10, 0, 0)];
@@ -121,7 +127,7 @@ UITextView *likeView;
         numberOfPeopleView.text = [NSString stringWithFormat:@"%d",[story likesCount]];
         [numberOfPeopleView setFont:[UIFont systemFontOfSize:17]];
         [likeView addSubview:numberOfPeopleView];
-        numberOfPeopleView.frame = CGRectMake(90, 6, 20, 27);
+        numberOfPeopleView.frame = CGRectMake(90, 5, 20, 27);
         
         UITextView *numberOfPeopleTextView = [[UITextView alloc] init];
         numberOfPeopleTextView.text = @"people likes this story";
@@ -129,16 +135,10 @@ UITextView *likeView;
         [likeView addSubview:numberOfPeopleTextView];
         numberOfPeopleTextView.frame = CGRectMake(120, 5, 200, 27);
         
-        likeIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        likeIndicator.frame = CGRectMake(10, 45, 100, 100);
-        likeIndicator.center = CGPointMake(110, 25);
-        likeIndicator.hidesWhenStopped = YES;
-        [likeView addSubview: likeIndicator];
-        [likeIndicator bringSubviewToFront: likeView];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;     
-                
         [scrollView setContentSize:(CGSizeMake(10, currentStoryHeight))];
-        [scrollView setAutoresizesSubviews:NO];        
+        [scrollView setAutoresizesSubviews:NO];
+        
+        [self getStoryComments];
     }
     return self;
 }
@@ -150,8 +150,15 @@ UITextView *likeView;
 
 - (void)likeButtonTapped:(UITapGestureRecognizer *)gr 
 {
-    [likeIndicator startAnimating];
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    likeIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    likeIndicator.frame = CGRectMake(10, 45, 100, 100);
+    likeIndicator.center = CGPointMake(110, 25);
+    likeIndicator.hidesWhenStopped = YES;
+    [likeView addSubview: likeIndicator];
+    [likeIndicator bringSubviewToFront: likeView];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [likeIndicator startAnimating];    
+    
     NSString *likeOrUnlike;
     if([story isLikedByUser])likeOrUnlike = @"unlike";
     else likeOrUnlike = @"like";
@@ -210,5 +217,74 @@ UITextView *likeView;
         }
     }    
 }
+
+- (void)getStoryComments
+{
+    commentsIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    commentsIndicator.frame = CGRectMake(10, 45, 100, 100);
+    commentsIndicator.center = CGPointMake(160, currentStoryHeight + 20);
+    commentsIndicator.hidesWhenStopped = YES;
+    [scrollView addSubview: commentsIndicator];
+    [commentsIndicator bringSubviewToFront: scrollView];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [scrollView setContentSize: CGSizeMake(320, currentStoryHeight + 50)];
+    [commentsIndicator startAnimating];
+    
+    Request *request = [[Request alloc] init];
+    
+    dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        // do our long running process here        
+        NSArray *comments = [self getComments: request];
+        [NSThread sleepForTimeInterval:3];
+        // do any UI stuff on the main UI thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [commentsIndicator stopAnimating];         
+            if([request errorMsg] != nil){                
+                [appDelegate alertStatus:@"" :[request errorMsg]];
+                //return;
+            } else if(comments != nil && [comments count] > 0){
+                currentStoryHeight += 5;
+                for (Comment *comment in comments) {                    
+                    CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
+                    StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame andComment:comment];
+                    storyCommentView.controller = self;
+                    //storyCommentView.frame = CGRectMake(10, currentStoryHeight, 300, storyCommentView.contentSize.height);
+                    [scrollView addSubview: storyCommentView];
+                    currentStoryHeight +=  storyCommentView.frame.size.height +10;              
+                }
+            }                    
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.3];
+            [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
+            [UIView commitAnimations];
+        });
+    });
+}
+
+- (NSMutableArray *)getComments: request
+{
+    NSMutableString *path = [NSString stringWithFormat:@"/stories/%d/comments.json/", [story storyId]];  
+    NSDictionary *jsonData = [request getDataFrom: path requestData:nil];
+    NSMutableArray *comments;
+    if(jsonData != nil){
+        comments = [NSMutableArray array];
+        for (NSDictionary *comment in jsonData) {
+            int commentId = [(NSString *) [comment objectForKey:@"id"] intValue];
+            int authorId = [(NSString *) [comment objectForKey:@"user_id"] intValue];
+            int storyId = [(NSString *) [comment objectForKey:@"story_id"] intValue];       
+            NSString *text = (NSString *) [comment objectForKey:@"text"];
+            NSDate *updatedAt = [StoryStore parseRFC3339Date:[comment objectForKey:@"updated_at"]];
+            NSDate *createdAt = [StoryStore parseRFC3339Date:[comment objectForKey:@"created_at"]];
+            
+            Comment *newComment = [[Comment alloc] initWithId:storyId andText:text
+                                                   andAuthor:authorId andCreatedAt:createdAt
+                                                    updatedAt:updatedAt andCommentId:commentId];
+            [comments addObject:newComment];
+        }
+    }
+    return comments;
+}
+
 
 @end

@@ -16,6 +16,7 @@
 }
 
 + (UserStore *)get;
++ (BOOL)isAvatarEmpty:(NSString *)avatarURL;
 
 - (void)setUsers:(NSMutableArray *)_users;
 - (NSArray *)getUsers;
@@ -25,5 +26,6 @@
 - (User *)parseUserData:(NSDictionary *)userData;
 - (void)saveUsersToDisk;
 - (void)loadUsersFromDisk;
+
 
 @end

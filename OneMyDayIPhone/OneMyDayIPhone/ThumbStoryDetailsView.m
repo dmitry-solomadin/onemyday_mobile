@@ -51,7 +51,7 @@
         [self addSubview:commentImage];
         
         UILabel *commentsCount = [self createLabelWithFrame:CGRectMake(commentImage.frame.origin.x + commentImage.frame.size.width + 4,
-                                                                       25, 0, 35) andText:[NSString stringWithFormat:@"%d",[story viewsCount]]];
+                                                                       25, 0, 35) andText:[NSString stringWithFormat:@"%d",[story commentsCount]]];
         [self addSubview:commentsCount];
 
     }

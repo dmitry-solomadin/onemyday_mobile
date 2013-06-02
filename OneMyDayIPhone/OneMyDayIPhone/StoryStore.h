@@ -32,5 +32,6 @@
 - (void)setRequestErrorMsg: msg;
 - (NSMutableArray *)getCachedStories;
 - (void)saveStoriesToDisk: (NSMutableArray *)cacheStories;
++ (NSDate *)parseRFC3339Date:(NSString *)dateString;
 
 @end

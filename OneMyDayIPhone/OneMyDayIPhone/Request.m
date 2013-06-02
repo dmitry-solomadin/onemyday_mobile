@@ -137,6 +137,7 @@ NSString *errorMsg = nil;
         SBJsonParser *jsonParser = [SBJsonParser new];
         NSString *responseData  = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
         NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
+        NSLog(@"jsonData %@", jsonData);
         return jsonData;
     }    
 }

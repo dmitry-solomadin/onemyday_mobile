@@ -56,7 +56,7 @@ NSString *requestErrorMsg = nil;
     stories = _stories;
 }
 
-- (NSMutableArray *)getCachedStories;
+- (NSMutableArray *)getCachedStories
 {
     return cachedStories;
 }

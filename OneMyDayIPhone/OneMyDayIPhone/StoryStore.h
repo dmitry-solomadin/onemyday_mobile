@@ -30,5 +30,7 @@
 - (UIImage*)loadImage:(NSString*)imageName;
 - (NSString *)requestErrorMsg;
 - (void)setRequestErrorMsg: msg;
+- (NSMutableArray *)getCachedStories;
+- (void)saveStoriesToDisk: (NSMutableArray *)cacheStories;
 
 @end

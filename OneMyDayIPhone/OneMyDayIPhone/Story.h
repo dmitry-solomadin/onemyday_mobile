@@ -17,6 +17,7 @@
 @property int viewsCount;
 @property int commentsCount;
 @property int likesCount;
+@property bool isLikedByUser;
 @property NSDate *createdAt;
 
 - (id)initWithId:(int)_storyId andTitle:(NSString*)_title
@@ -26,5 +27,5 @@ andCommentsCount:(int)_commentsCount andLikesCount:(int)_likesCount isLikedByUse
 - (id)extractPhotoUrlType:(NSString*)type atIndex:(int)index;
 - (id)extractPhotoStringType:(NSString*)type atIndex:(int)index;
 - (bool) isLikedByUser;
-- (void) setIsLikedByUser;
+- (void) setIsLikedByUser: (bool) _isLikedByUser;
 @end

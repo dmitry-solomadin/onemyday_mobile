@@ -10,9 +10,7 @@
 
 @implementation Story
 
-@synthesize storyId, authorId, title, photos, createdAt, viewsCount, commentsCount, likesCount;
-
-bool isLikedByUser;
+@synthesize storyId, authorId, title, photos, createdAt, viewsCount, commentsCount, likesCount, isLikedByUser;
 
 - (id)initWithId:(int)_storyId andTitle:(NSString*)_title
        andAuthor:(int)_author_id andPhotos: (NSArray*)_photos
@@ -31,6 +29,8 @@ andCommentsCount:(int)_commentsCount andLikesCount:(int)_likesCount isLikedByUse
         self.likesCount = _likesCount;        
         if(_isLikedByUser == 1)isLikedByUser = true;
         else isLikedByUser = false;
+        NSLog(@"_isLikedByUser %d", _isLikedByUser);
+        NSLog(@"isLikedByUser %d", isLikedByUser);
     }
     return self;
 }
@@ -61,6 +61,7 @@ andCommentsCount:(int)_commentsCount andLikesCount:(int)_likesCount isLikedByUse
     [coder encodeInt32:self.viewsCount forKey:@"viewsCount"];
 	[coder encodeInt32:self.commentsCount forKey:@"commentsCount"];
     [coder encodeInt32:self.likesCount forKey:@"likesCount"];
+    [coder encodeBool:self.isLikedByUser forKey:@"isLikedByUser"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -72,18 +73,10 @@ andCommentsCount:(int)_commentsCount andLikesCount:(int)_likesCount isLikedByUse
         self.createdAt = [coder decodeObjectForKey:@"createdAt"];
         self.viewsCount = [coder decodeInt32ForKey:@"viewsCount"];
         self.commentsCount = [coder decodeInt32ForKey:@"commentsCount"];
-        self.likesCount = [coder decodeInt32ForKey:@"likesCount"];;
+        self.likesCount = [coder decodeInt32ForKey:@"likesCount"];
+        self.isLikedByUser = [coder decodeBoolForKey:@"isLikedByUser"];
  	}
 	return self;
-}
-
-- (bool) isLikedByUser
-{
-    return isLikedByUser;
-}
-- (void) setIsLikedByUser: (bool) _isLikedByUser
-{
-    isLikedByUser = _isLikedByUser;
 }
 
 @end

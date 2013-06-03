@@ -114,7 +114,7 @@ NSString *errorMsg = nil;
     }  else [request setHTTPMethod:@"GET"];
     
     
-    NSError *error = [[NSError alloc] init];
+    NSError *error;
     NSHTTPURLResponse *responseCode = nil;
     
     NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];

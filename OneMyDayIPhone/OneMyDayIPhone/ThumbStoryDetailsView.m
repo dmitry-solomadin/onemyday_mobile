@@ -31,7 +31,7 @@
         [self addSubview:eyeImage];
 
         UILabel *viewsCount = [self createLabelWithFrame:CGRectMake(eyeImage.frame.origin.x + eyeImage.frame.size.width + 4, 25, 0, 35)
-                                                      andText:@"1"];
+                                                      andText:[NSString stringWithFormat:@"%d", [story viewsCount]]];
         [self addSubview:viewsCount];
         
         // Add likes count
@@ -41,7 +41,7 @@
         [self addSubview:heartImage];
         
         UILabel *likesCount = [self createLabelWithFrame:CGRectMake(heartImage.frame.origin.x + heartImage.frame.size.width + 4, 25, 0, 35)
-                                                 andText:@"1"];
+                                                 andText:[NSString stringWithFormat:@"%d", [story likesCount]]];
         [self addSubview:likesCount];
         
         // Add comments count
@@ -51,7 +51,8 @@
         [self addSubview:commentImage];
         
         UILabel *commentsCount = [self createLabelWithFrame:CGRectMake(commentImage.frame.origin.x + commentImage.frame.size.width + 4,
-                                                                       25, 0, 35) andText:@"1"];
+                                                                       25, 0, 35)
+                                                    andText:[NSString stringWithFormat:@"%d", [story commentsCount]]];
         [self addSubview:commentsCount];
 
     }

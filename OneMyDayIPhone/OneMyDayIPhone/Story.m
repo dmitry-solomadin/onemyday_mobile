@@ -10,11 +10,13 @@
 
 @implementation Story
 
-@synthesize storyId, authorId, title, photos, createdAt;
+@synthesize storyId, authorId, title, photos, createdAt,
+            likesCount, viewsCount, commentsCount;
 
 - (id)initWithId:(int)_storyId andTitle:(NSString*)_title
        andAuthor:(int)_author_id andPhotos: (NSArray*)_photos
-    andCreatedAt:(NSDate *)_createdAt
+    andCreatedAt:(NSDate *)_createdAt andLikesCount:(int)_likesCount
+   andViewsCount:(int)_viewsCount andCommentsCount:(int)_commentsCount
 {
     self = [super init];
     if (self) {
@@ -23,6 +25,9 @@
         self.authorId = _author_id;
         self.photos = _photos;
         self.createdAt = _createdAt;
+        self.likesCount = _likesCount;
+        self.viewsCount = _viewsCount;
+        self.commentsCount = _commentsCount;
     }
     return self;
 }

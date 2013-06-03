@@ -15,10 +15,14 @@
 @property int storyId;
 @property int authorId;
 @property NSDate *createdAt;
+@property int likesCount;
+@property int viewsCount;
+@property int commentsCount;
 
 - (id)initWithId:(int)storyId andTitle:(NSString*)title
        andAuthor:(int)author_id andPhotos: (NSArray*)photos
-    andCreatedAt:(NSDate *)_createdAt;
+    andCreatedAt:(NSDate *)_createdAt andLikesCount:(int)_likesCount
+   andViewsCount:(int)_viewsCount andCommentsCount:(int)_commentsCount;
 - (id)extractPhotoUrlType:(NSString*)type atIndex:(int)index;
 - (id)extractPhotoStringType:(NSString*)type atIndex:(int)index;
 @end

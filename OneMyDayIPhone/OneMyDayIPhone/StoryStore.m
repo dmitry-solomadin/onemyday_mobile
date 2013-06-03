@@ -112,6 +112,9 @@ NSString *requestErrorMsg = nil;
         NSString *title = (NSString *) [story objectForKey:@"title"];
         NSDictionary *photos = (NSDictionary*) [story objectForKey:@"story_photos"];
         NSDate *createdAt = [StoryStore parseRFC3339Date:[story objectForKey:@"created_at"]];
+        NSNumber *likesCount = [story objectForKey:@"likes_count"];
+        NSNumber *viewsCount = [story objectForKey:@"views_count"];
+        NSNumber *commentsCount = [story objectForKey:@"comments_count"];
         
         NSMutableArray *photoArray  = [[NSMutableArray alloc] init];
         
@@ -119,8 +122,10 @@ NSString *requestErrorMsg = nil;
             [photoArray addObject:photo];
         }
         
-        Story *newStory = [[Story alloc] initWithId: storyId andTitle:title andAuthor:authorId
-                                          andPhotos: (NSArray*)photos andCreatedAt:createdAt];
+        Story *newStory = [[Story alloc] initWithId:storyId andTitle:title andAuthor:authorId
+                                          andPhotos:(NSArray*)photos andCreatedAt:createdAt
+                                      andLikesCount:[likesCount intValue] andViewsCount:[viewsCount intValue]
+                                   andCommentsCount:[commentsCount intValue]];
        
         [allStories addObject: newStory];
         if(newStories && i < cacheLimit)[cacheStories addObject: newStory];

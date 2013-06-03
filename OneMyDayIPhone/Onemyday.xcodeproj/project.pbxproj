@@ -228,6 +228,8 @@
 		84A031E917159B000098B201 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E817159B000098B201 /* libsqlite3.dylib */; };
 		84A031ED1715A5F50098B201 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A031EB1715A5F30098B201 /* StartViewController.m */; };
 		84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84A031EC1715A5F40098B201 /* StartViewController.xib */; };
+		84A30738175B704400381EBB /* StoryCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A30737175B704400381EBB /* StoryCommentView.m */; };
+		84A3073B175B798700381EBB /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A3073A175B798700381EBB /* Comment.m */; };
 		84A607941743823E00848AF7 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A6078A1743823E00848AF7 /* EGORefreshTableHeaderView.m */; };
 		84A607951743823E00848AF7 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A6078C1743823E00848AF7 /* blackArrow.png */; };
 		84A607961743823E00848AF7 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A6078D1743823E00848AF7 /* blackArrow@2x.png */; };
@@ -541,6 +543,10 @@
 		84A031EA1715A5F20098B201 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		84A031EB1715A5F30098B201 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		84A031EC1715A5F40098B201 /* StartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartViewController.xib; sourceTree = "<group>"; };
+		84A30736175B704400381EBB /* StoryCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryCommentView.h; sourceTree = "<group>"; };
+		84A30737175B704400381EBB /* StoryCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryCommentView.m; sourceTree = "<group>"; };
+		84A30739175B798700381EBB /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		84A3073A175B798700381EBB /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		84A607891743823E00848AF7 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		84A6078A1743823E00848AF7 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		84A6078C1743823E00848AF7 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -1105,6 +1111,8 @@
 				18A082E1172F10C8001E125F /* ViewWithAttributes.h */,
 				18A082E2172F10C8001E125F /* ViewWithAttributes.m */,
 				184D56931738DD560088CADF /* HiResImageDelegate.h */,
+				84A30736175B704400381EBB /* StoryCommentView.h */,
+				84A30737175B704400381EBB /* StoryCommentView.m */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -1124,6 +1132,8 @@
 				84E701AF16D76F1900979856 /* Request.h */,
 				1883AB2A172C95C40093554B /* EditorStore.h */,
 				1883AB2B172C95C40093554B /* EditorStore.m */,
+				84A30739175B798700381EBB /* Comment.h */,
+				84A3073A175B798700381EBB /* Comment.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -1467,6 +1477,8 @@
 				84DF0A9E174022340088578A /* MBProgressHUD.m in Sources */,
 				84A607941743823E00848AF7 /* EGORefreshTableHeaderView.m in Sources */,
 				18EC7CBD17462A0800F50A70 /* ThumbStoryDetailsView.m in Sources */,
+				84A30738175B704400381EBB /* StoryCommentView.m in Sources */,
+				84A3073B175B798700381EBB /* Comment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -99,9 +99,12 @@ NSString *errorMsg = nil;
     NSString *urlTxt = [mainUrl stringByAppendingString: path];        
     NSURL *url = [NSURL URLWithString: urlTxt];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
-    [request setURL: url];
+    
     NSLog(@"url %@", url);
     NSLog(@"post %@", post);
+    
+    [request setURL: url];
+    
     if(post != nil){
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];        
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];        
@@ -118,18 +121,23 @@ NSString *errorMsg = nil;
     NSHTTPURLResponse *responseCode = nil;
     
     NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
-    
+     NSLog(@"HTTP status code %i", [responseCode statusCode]);
     if ([responseCode statusCode] != 200) {
         NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
-        if (error){
-            NSLog(@"Error: %@", error);
-            errorMsg = [error localizedDescription];
-        } else errorMsg = badConnectionMsg;
+        //@try{
+            /*if (error && [responseCode statusCode] == 0){
+                errorMsg = [error localizedDescription];                
+            } else */errorMsg = badConnectionMsg;
+        /*} @catch (NSException * e) {
+            NSLog(@"Exception: %@", e);
+            errorMsg = badConnectionMsg;
+        }*/
         return nil;
     } else {
         SBJsonParser *jsonParser = [SBJsonParser new];
         NSString *responseData  = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
         NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
+        NSLog(@"jsonData %@", jsonData);
         return jsonData;
     }    
 }

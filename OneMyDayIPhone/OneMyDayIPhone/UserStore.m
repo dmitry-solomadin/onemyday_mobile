@@ -107,4 +107,13 @@ NSString *userStorePath = @"~/Documents/users";
     }
 }
 
++ (BOOL)isAvatarEmpty:(NSString *)avatarURL
+{
+    /// NSLog(@"%@", avatarURL);
+    if ([avatarURL rangeOfString:@"no-avatar" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

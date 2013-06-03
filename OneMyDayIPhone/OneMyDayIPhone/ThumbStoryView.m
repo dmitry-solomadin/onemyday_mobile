@@ -62,7 +62,7 @@
         avatarView.showActivityIndicator = NO;
 
         NSURL *avatarUrl = [author extractAvatarUrlType:@"small_url"];
-        if ([self isAvatarEmpty:[avatarUrl absoluteString]]) {
+        if ([UserStore isAvatarEmpty:[avatarUrl absoluteString]]) {
             [avatarView setImage:[UIImage imageNamed:@"no-avatar"]];
         } else {
             [avatarView setImageURL:avatarUrl];
@@ -106,15 +106,6 @@
 {
     NSNumber *storyId = [NSNumber numberWithInteger:sender.tag];
     [[self controller] performSelector:@selector(storyTap:) withObject:storyId];
-}
-
-- (BOOL)isAvatarEmpty:(NSString *)avatarURL
-{
-   /// NSLog(@"%@", avatarURL);
-    if ([avatarURL rangeOfString:@"no-avatar" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        return YES;
-    }
-    return NO;
 }
 
 @end

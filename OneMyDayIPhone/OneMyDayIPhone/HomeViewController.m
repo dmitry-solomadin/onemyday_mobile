@@ -122,7 +122,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11 userId: appDelegate.currentUserId];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -153,6 +153,7 @@ AppDelegate *appDelegate;
             }
          
             if([[StoryStore get] requestErrorMsg] != nil ){
+                NSLog(@"[StoryStore get] requestErrorMsg] %@", [[StoryStore get] requestErrorMsg]);
                 [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
                 [[StoryStore get] setRequestErrorMsg: nil];
                 
@@ -282,7 +283,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: appDelegate.currentUserId];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{            

@@ -29,5 +29,6 @@
 + (UIViewController *) initMasterController;
 - (bool) checkEmail;
 - (void) alertStatus:(NSString *)msg :(NSString *) title;
+- (NSString *) apiKey;
 
 @end

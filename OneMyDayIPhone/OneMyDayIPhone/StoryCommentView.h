@@ -12,7 +12,10 @@
 @interface StoryCommentView : UIView
 
 @property (nonatomic, weak) id controller;
+@property bool first;
+@property bool last;
 
-- (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment;
+- (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first
+                                   andIsLast:(bool)last;
 
 @end

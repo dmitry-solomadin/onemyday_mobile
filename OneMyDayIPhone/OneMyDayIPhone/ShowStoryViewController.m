@@ -22,8 +22,9 @@
 @implementation ShowStoryViewController
 @synthesize story, scrollView;
 
-UITextView *likeButtonView;
-UITextView *numberOfPeopleView;
+UIButton *likeButtonView;
+UILabel *numberOfPeopleView;
+UILabel *numberOfPeopleTextView;
 UIActivityIndicatorView *likeIndicator;
 UIActivityIndicatorView *commentsIndicator;
 UITextView *likeView;
@@ -89,51 +90,49 @@ CGFloat currentStoryHeight;
         
         likeView.clipsToBounds = YES;
         likeView.layer.cornerRadius = 10.0;
-        likeView.layer.borderColor = [[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] CGColor];
-        likeView.layer.borderWidth = 2;
+        likeView.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+        likeView.layer.borderWidth = 1;
         [likeView setEditable:NO];
         [likeView setFont:[UIFont systemFontOfSize:15]];
         [likeView setBackgroundColor:[UIColor whiteColor]];
         [likeView setContentInset:UIEdgeInsetsMake(0, -8, 0, 0)];
         [scrollView addSubview:likeView];
-        likeView.frame = CGRectMake(10, currentStoryHeight, 300, 50);
+        likeView.frame = CGRectMake(10, currentStoryHeight, 300, 55);
         
-        currentStoryHeight += 50;
+        currentStoryHeight += 60;
         
-        likeButtonView = [[UITextView alloc] init];        
+        likeButtonView = [[UIButton alloc] init];
         likeButtonView.clipsToBounds = YES;
-        likeButtonView.layer.cornerRadius = 14.0;
-        likeButtonView.layer.borderColor = [[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1] CGColor];
-        likeButtonView.layer.borderWidth = 2;
-        //NSLog(@"[story isLikedByUser] %d", [story isLikedByUser]);
-        if(![story isLikedByUser]){
-            likeButtonView.text = @"Like";
-            [likeButtonView setContentInset:UIEdgeInsetsMake(-5, 10, 0, 0)];
+        likeButtonView.layer.cornerRadius = 4.0;
+        likeButtonView.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+        likeButtonView.layer.borderWidth = 1;
+
+        if (![story isLikedByUser]) {
+            [likeButtonView setTitle:@"Like" forState:UIControlStateNormal];
+        } else {
+            [likeButtonView setTitle:@"Liked" forState:UIControlStateNormal];
         }
-        else {
-            likeButtonView.text = @"Liked";
-            [likeButtonView setContentInset:UIEdgeInsetsMake(-5, 6, 0, 0)];
-        }
-        [likeButtonView setEditable:NO];
-        [likeButtonView setFont:[UIFont systemFontOfSize:18]];
+        
+        [likeButtonView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [likeButtonView setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1]];     
         [likeView addSubview:likeButtonView];
-        likeButtonView.frame = CGRectMake(15, 12, 70, 27);
+        likeButtonView.frame = CGRectMake(15, 10, 70, 35);
         
         UITapGestureRecognizer *likeButtonTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeButtonTapped:)];
         [likeButtonView addGestureRecognizer:likeButtonTap];
         
-        numberOfPeopleView = [[UITextView alloc] init];
-        numberOfPeopleView.text = [NSString stringWithFormat:@"%d",[story likesCount]];
-        [numberOfPeopleView setFont:[UIFont systemFontOfSize:17]];
+        numberOfPeopleView = [[UILabel alloc] init];
+        numberOfPeopleView.text = [NSString stringWithFormat:@"%d", [story likesCount]];
+        [numberOfPeopleView setFont:[UIFont systemFontOfSize:14]];
         [likeView addSubview:numberOfPeopleView];
-        numberOfPeopleView.frame = CGRectMake(90, 5, 20, 27);
+        numberOfPeopleView.frame = CGRectMake(93, 10, 20, 35);
         
-        UITextView *numberOfPeopleTextView = [[UITextView alloc] init];
+        numberOfPeopleTextView = [[UILabel alloc] init];
         numberOfPeopleTextView.text = @"people likes this story";
-        [numberOfPeopleTextView setFont:[UIFont systemFontOfSize:17]];
+        [numberOfPeopleTextView setFont:[UIFont systemFontOfSize:14]];
         [likeView addSubview:numberOfPeopleTextView];
-        numberOfPeopleTextView.frame = CGRectMake(120, 5, 200, 27);
+        numberOfPeopleTextView.frame = CGRectMake(105, 10, 200, 35);
+        [self placeLikeTextCorrectly:[story likesCount]];
         
         [scrollView setContentSize:(CGSizeMake(10, currentStoryHeight))];
         [scrollView setAutoresizesSubviews:NO];
@@ -146,6 +145,25 @@ CGFloat currentStoryHeight;
 - (void)viewWillAppear:(BOOL)animated
 {
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+}
+
+- (void)placeLikeTextCorrectly:(int)likesCount
+{
+    if (likesCount > 9) {
+        numberOfPeopleTextView.frame = CGRectMake(112, numberOfPeopleTextView.frame.origin.y,
+                                                  numberOfPeopleTextView.frame.size.width, numberOfPeopleTextView.frame.size.height);
+    } else {
+        numberOfPeopleTextView.frame = CGRectMake(105, numberOfPeopleTextView.frame.origin.y,
+                                                  numberOfPeopleTextView.frame.size.width, numberOfPeopleTextView.frame.size.height);
+    }
+    
+    if (likesCount == 0) {
+        numberOfPeopleTextView.hidden = true;
+        numberOfPeopleView.hidden = true;
+    } else {
+        numberOfPeopleTextView.hidden = false;
+        numberOfPeopleView.hidden = false;
+    }
 }
 
 - (void)likeButtonTapped:(UITapGestureRecognizer *)gr 
@@ -182,19 +200,17 @@ CGFloat currentStoryHeight;
                 return;
             } else {
                 int success = [(NSString *) [jsonData objectForKey:@"success"] intValue];
-                //NSLog(@"success %d", success);
                 if(success == 1){
                     if(![story isLikedByUser]){
-                        likeButtonView.text = @"Liked";
+                        [likeButtonView setTitle:@"Liked" forState:UIControlStateNormal];
                         [story setLikesCount: [story likesCount] + 1];
                         [story setIsLikedByUser: true];
-                        [likeButtonView setContentInset:UIEdgeInsetsMake(-5, 6, 0, 0)];
                     } else {
-                        likeButtonView.text = @"Like";
+                        [likeButtonView setTitle:@"Like" forState:UIControlStateNormal];
                         [story setLikesCount: [story likesCount] - 1];
                         [story setIsLikedByUser: false];
-                        [likeButtonView setContentInset:UIEdgeInsetsMake(-5, 10, 0, 0)];
                     }
+                    [self placeLikeTextCorrectly:[story likesCount]];
                     [self saveLikeToCache];
                     numberOfPeopleView.text = [NSString stringWithFormat:@"%d",[story likesCount]];
                 }        
@@ -240,20 +256,24 @@ CGFloat currentStoryHeight;
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [commentsIndicator stopAnimating];         
-            if([request errorMsg] != nil){                
-                [appDelegate alertStatus:@"" :[request errorMsg]];
+            //if([request errorMsg] != nil){
+            //    [appDelegate alertStatus:@"" :[request errorMsg]];
                 //return;
-            } else if(comments != nil && [comments count] > 0){
+            //} else if(comments != nil && [comments count] > 0){
                 currentStoryHeight += 5;
-                for (Comment *comment in comments) {                    
+                for (int i = 0; i < [comments count]; i++) {
+                    Comment *comment = [comments objectAtIndex:i];
                     CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
-                    StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame andComment:comment];
+                    StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
+                                                                                      andComment:comment
+                                                                                      andIsFirst:(i == 0)
+                                                                                       andIsLast:(i == [comments count] - 1)];
                     storyCommentView.controller = self;
-                    //storyCommentView.frame = CGRectMake(10, currentStoryHeight, 300, storyCommentView.contentSize.height);
                     [scrollView addSubview: storyCommentView];
-                    currentStoryHeight +=  storyCommentView.frame.size.height +10;              
+                    currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border
                 }
-            }                    
+                currentStoryHeight += 15;
+            //}
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:0.3];
             [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
@@ -283,6 +303,19 @@ CGFloat currentStoryHeight;
             [comments addObject:newComment];
         }
     }
+    return comments;
+}
+
+- (NSMutableArray *)getComments1: request
+{
+    NSMutableArray *comments = [NSMutableArray array];
+    for (int i = 0; i < 3; i++) {
+        Comment *newComment = [[Comment alloc] initWithId:1 andText:@"test"
+                                                andAuthor:1 andCreatedAt:[NSDate date]
+                                                updatedAt:[NSDate date] andCommentId:1];
+        [comments addObject:newComment];
+    }
+
     return comments;
 }
 

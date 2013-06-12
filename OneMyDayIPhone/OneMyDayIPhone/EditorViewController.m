@@ -19,7 +19,14 @@
 @interface EditorViewController ()
 {
     UIScrollView *scrollView;
+    NSMutableArray *editorItemViews;
+    
     float totalSwipeRightTranslation;
+
+    /* Rearrange variables */
+    NSTimer *rearrangeScrollTimer;
+    float rearrangeDifference;
+    bool rearrangeMode;
 }
 
 - (void)exitEditingMode;
@@ -33,6 +40,7 @@
     [super viewDidLoad];
     
     totalSwipeRightTranslation = 0;
+    editorItemViews = [[NSMutableArray alloc] init];
     
     // add navigation
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
@@ -162,6 +170,7 @@
     EditorItemView *itemView = [[EditorItemView alloc] initWithFrame:CGRectMake(10, [self getCurrentScrollHeight], 300, 300)
                                                              andType:photoItemType
                                                              andKey:key];
+    [editorItemViews addObject:itemView];
 
     // add photo
     UIImageView *photoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
@@ -176,6 +185,12 @@
     // create pan gesture recognizer (delete item)
     [self addRemoveGestureRecognizer:imageBtn];
     
+    // create long press&tap gesture recognizers (rearrange items and exit rearrange)
+    [self addLongPressGestureRecognizer:imageBtn];
+    [self addTapGestureRecognizer:imageBtn];
+    
+
+    
     [scrollView addSubview:itemView];
     [scrollView setContentSize:(CGSizeMake(320, [self getCurrentScrollHeight]))];
 }
@@ -185,6 +200,7 @@
     EditorItemView *itemView = [[EditorItemView alloc] initWithFrame:CGRectMake(10, [self getCurrentScrollHeight], 300, 300)
                                                              andType:textItemType
                                                               andKey:key];
+    [editorItemViews addObject:itemView];
     
     // add text
     UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
@@ -210,8 +226,26 @@
     // create pan gesture recognizer (delete item)
     [self addRemoveGestureRecognizer:textBtn];
     
+    // create long press&tap gesture recognizers (rearrange items and exit rearrange)
+    [self addLongPressGestureRecognizer:textBtn];
+    [self addTapGestureRecognizer:textBtn];
+    
     [scrollView addSubview:itemView];
     [scrollView setContentSize:(CGSizeMake(320, [self getCurrentScrollHeight]))];
+}
+
+- (void)editTextOnTheView:(NSString *)text withKey:(NSString *)key
+{
+    for (EditorItemView *itemView in editorItemViews) {
+        if (itemView.key == key) {
+            for (UIView *subview in [itemView subviews]) {
+                if ([subview isKindOfClass:[UITextView class]]) {
+                    [(UITextView *)subview setText:text];
+                }
+            }
+            break;
+        }
+    }
 }
 
 - (void)addRemoveGestureRecognizer:(UIView *)view
@@ -221,16 +255,44 @@
     [view addGestureRecognizer:moveRecognizer];
 }
 
+- (void)addLongPressGestureRecognizer:(UIView *)view
+{
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                action:@selector(rearrange:)];
+    [longPressRecognizer setDelegate:self];
+    [view addGestureRecognizer:longPressRecognizer];
+}
+
+- (void)addTapGestureRecognizer:(UIView *)view
+{
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(exitRearrange:)];
+    [tapGestureRecognizer setDelegate:self];
+    [view addGestureRecognizer:tapGestureRecognizer];
+}
+
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
 }
 
+/* REMOVE ITEMS */
+
 - (void)move:(UIPanGestureRecognizer *)gr
 {
     EditorItemView *itemView = (EditorItemView *)[[gr view] superview];
+    if (rearrangeMode) {
+        [self moveToRearrange:gr itemView:itemView];
+    } else {
+        [self moveToDelete:gr itemView:itemView];
+    }
+}
+
+- (void)moveToDelete:(UIPanGestureRecognizer *)gr itemView:(EditorItemView *)itemView
+{
     float origin_position = 10;
-    if ([gr state] == UIGestureRecognizerStateChanged) {        
+    if ([gr state] == UIGestureRecognizerStateChanged) {
         if (itemView.frame.origin.x > 180) {
             // remove item
             [[gr view] removeGestureRecognizer:gr];
@@ -239,7 +301,7 @@
             CGPoint translation = [gr translationInView:[self view]];
             
             if (translation.x > 0) {
-                totalSwipeRightTranslation+= translation.x;
+                totalSwipeRightTranslation += translation.x;
                 if (totalSwipeRightTranslation > 20) {
                     itemView.frame = CGRectOffset(itemView.frame, translation.x, 0);
                     itemView.layer.opacity = 1 - (itemView.frame.origin.x - origin_position) / 250;
@@ -264,22 +326,194 @@
     }
 }
 
-- (void)editTextOnTheView:(NSString *)text withKey:(NSString *)key
+/* REARRANGE ITEMS */
+
+- (void)moveToRearrange:(UIPanGestureRecognizer *)gr itemView:(EditorItemView *)itemView
 {
-    for (UIView *view in [scrollView subviews]) {        
-        if ([view isKindOfClass:[EditorItemView class]]) {
-            EditorItemView *itemView = (EditorItemView *)view;
-            if (itemView.key == key) {
-                for (UIView *subview in [itemView subviews]) {
-                    if ([subview isKindOfClass:[UITextView class]]) {
-                        [(UITextView *)subview setText:text];
-                    }
-                }
-                break;
+    if ([gr state] == UIGestureRecognizerStateBegan) {
+        [self stopRearrangeAnimation:itemView];
+        scrollView.scrollEnabled = NO;
+        itemView.layer.opacity = 0.5;
+        [scrollView bringSubviewToFront:itemView];
+    } else if ([gr state] == UIGestureRecognizerStateChanged) {
+        CGPoint translation = [gr translationInView:[self view]];
+        itemView.frame = CGRectOffset(itemView.frame, 0, translation.y);
+
+        float topThreshold = [scrollView contentOffset].y + 60;
+        float bottomThreshold = [scrollView contentOffset].y + scrollView.frame.size.height - 60;
+        
+        float tapPosY = [gr locationInView:[self view]].y + [scrollView contentOffset].y;
+        if (tapPosY < topThreshold || bottomThreshold < tapPosY) {
+            rearrangeDifference = 0;
+            if (tapPosY < topThreshold) {
+                rearrangeDifference = tapPosY - topThreshold;
+            } else if (bottomThreshold < tapPosY) {
+                rearrangeDifference = tapPosY - bottomThreshold;
             }
-        }    
+            
+            if (rearrangeScrollTimer == nil) {
+                rearrangeScrollTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(rearrangeScrollToEdge:)
+                                                                      userInfo:itemView repeats:YES];
+            }
+        } else {
+            // Out of threshold area and the timer is up — bring the timer down
+            if (rearrangeScrollTimer != nil) {
+                [rearrangeScrollTimer invalidate];
+                rearrangeScrollTimer = nil;
+            }
+        }
+        
+        [self rearrangeItem:itemView userTapPositionY:tapPosY];
+    
+        [[self view] setNeedsDisplay];
+        [gr setTranslation:CGPointZero inView:[self view]];
+    } else if ([gr state] == UIGestureRecognizerStateEnded) {
+        [self exitRearrange:nil];
+        scrollView.scrollEnabled = YES;
+        
+        [rearrangeScrollTimer invalidate];
+        rearrangeScrollTimer = nil;
+        
+        [UIView beginAnimations:@"finishRepositionAnimation" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.3f];
+
+        itemView.frame = CGRectMake(itemView.frame.origin.x, itemView.originY,
+                                    itemView.frame.size.width, itemView.frame.size.height);
+        itemView.layer.opacity = 1;
+        
+        [UIView commitAnimations];        
     }
 }
+
+- (void)rearrangeScrollToEdge:(NSTimer *)timer
+{
+    UIView *itemView = [timer userInfo];
+    
+    float amountToAdd = (rearrangeDifference / 10);
+    float resultingOffsetY = [scrollView contentOffset].y + amountToAdd;
+    
+    if (resultingOffsetY < 0 || resultingOffsetY > [scrollView contentSize].height - scrollView.frame.size.height + 50) {
+        return;
+    }
+    
+    CGPoint pt = CGPointMake(0, resultingOffsetY);
+    [scrollView setContentOffset:pt animated:NO];
+
+    itemView.frame = CGRectOffset(itemView.frame, 0, amountToAdd);
+}
+
+- (void)rearrangeItem:(EditorItemView *)itemView userTapPositionY:(float)posY
+{
+    // Get position
+    int pos = -1;
+    for (EditorItemView *view in editorItemViews) {
+        if (view == itemView) {
+            continue;
+        }
+        
+        float itemCenterY = view.frame.origin.y + (view.frame.size.height / 2);
+
+        if ((posY - itemCenterY) < 0) {
+            pos = [editorItemViews indexOfObject:view] > 0 ? [editorItemViews indexOfObject:view] - 1 : 0;
+            break;
+        }
+    }
+    
+    if (pos == -1) {
+        pos = [editorItemViews count] - 1;
+    }
+    
+    int currentPos = [editorItemViews indexOfObject:itemView];
+    
+    // Change position
+    if (currentPos != pos) {
+        float itemSize = itemView.frame.size.height + 10;
+        
+        [UIView beginAnimations:@"shiftItemsAnimation" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.3f];
+        
+        for (int i = 0; i < [editorItemViews count]; i++) {
+            EditorItemView *shiftingItemView = [editorItemViews objectAtIndex:i];
+            if (pos > currentPos && i > currentPos && i <= pos) {
+                shiftingItemView.frame = CGRectOffset(shiftingItemView.frame, 0, -itemSize);
+            } else if (pos < currentPos && i < currentPos && i >= pos) {
+                shiftingItemView.frame = CGRectOffset(shiftingItemView.frame, 0, itemSize);
+            }
+        }
+        
+        [UIView commitAnimations];
+        
+        [editorItemViews removeObject:itemView];
+        [editorItemViews insertObject:itemView atIndex:pos];
+        
+        itemView.originY = [self getCurrentScrollHeightTillItemWithIndex:pos];
+        
+        [[EditorStore get] changeKeyPositionOldPosition:currentPos newPosition:pos];
+    }
+}
+
+- (void)rearrange:(UIPanGestureRecognizer *)gr
+{
+    if (rearrangeMode == true) {
+        return;
+    }
+    
+    rearrangeMode = true;
+    
+    EditorItemView *itemView = (EditorItemView *)[[gr view] superview];
+    [self startRearrangeAnimation:itemView];
+}
+
+- (void)exitRearrange:(UITapGestureRecognizer *)gr
+{
+    if (rearrangeMode == false) {
+        return;
+    }
+    
+    rearrangeMode = false;
+    
+    for (EditorItemView *view in editorItemViews) {
+        [self stopRearrangeAnimation:view];
+    }
+}
+
+- (void)startRearrangeAnimation:(UIView *)itemView
+{
+    // for antialiased transformations
+    itemView.layer.borderWidth = 3;
+    itemView.layer.borderColor = [UIColor clearColor].CGColor;
+    itemView.layer.shouldRasterize = YES;
+    
+    [UIView animateWithDuration:0.15 delay:0.0
+                        options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction |
+                                 UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse)
+                     animations:^{
+                         CGAffineTransform transform = CGAffineTransformMakeRotation(0.02);
+                         itemView.transform = transform;
+                         
+                         transform = CGAffineTransformMakeRotation(-0.02);
+                         itemView.transform = transform;
+                     }
+                     completion:nil
+     ];
+}
+
+- (void)stopRearrangeAnimation:(UIView *)view
+{
+    // for antialiased transformations
+    view.layer.borderWidth = 0;
+    view.layer.borderColor = [UIColor clearColor].CGColor;
+    view.layer.shouldRasterize = NO;
+    
+    [view.layer removeAllAnimations];
+    
+    CGAffineTransform transform = CGAffineTransformMakeRotation(0);
+    view.transform = transform;
+}
+
+/* DELETE ITEMS */
 
 - (void)deleteItemAnimation:(EditorItemView *)itemView
 {
@@ -304,9 +538,8 @@
         [[EditorStore get] deleteTextWithKey:itemKey];
     }
     
-    for (UIView *view in [scrollView subviews]) {
-        if ([view isKindOfClass:[EditorItemView class]] &&
-            view.frame.origin.y > itemView.frame.origin.y) {
+    for (EditorItemView *view in editorItemViews) {
+        if (view.frame.origin.y > itemView.frame.origin.y) {
             [UIView beginAnimations:@"searchGrowUp" context:nil];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
             [UIView setAnimationDuration:0.3f];
@@ -318,14 +551,22 @@
     }
 }
 
+/* MISC METHODS */
+
 - (float)getCurrentScrollHeight
+{
+    return [self getCurrentScrollHeightTillItemWithIndex:-1];
+}
+
+- (float)getCurrentScrollHeightTillItemWithIndex:(int)itemIndex
 {
     float height = 52;
     int count = 0;
-    for (UIView *view in [scrollView subviews]) {
-        if ([view isKindOfClass:[EditorItemView class]]) {
+    for (int i = 0; i < [editorItemViews count]; i++) {
+        if (i < itemIndex || itemIndex == -1) {
+            EditorItemView *view = [editorItemViews objectAtIndex:i];
             height += view.frame.size.height;
-            count++;
+            count++;            
         }
     }
     return height + count * 10 + 10;

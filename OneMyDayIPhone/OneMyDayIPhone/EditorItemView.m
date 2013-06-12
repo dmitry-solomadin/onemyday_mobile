@@ -9,7 +9,7 @@
 #import "EditorItemView.h"
 
 @implementation EditorItemView
-@synthesize type, key;
+@synthesize type, key, originX, originY;
 
 - (id)initWithFrame:(CGRect)frame andType:(ItemType)_type andKey:(NSString *)_key
 {
@@ -17,6 +17,8 @@
     if (self) {
         type = _type;
         key = _key;
+        originX = frame.origin.x;
+        originY = frame.origin.y;
     }
     return self;
 }

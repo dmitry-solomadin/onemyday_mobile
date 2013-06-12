@@ -135,6 +135,22 @@
     [userDefaults synchronize];
 }
 
+- (void)changeKeyPositionOldPosition:(int)oldPos newPosition:(int)newPos
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *editorItemKeys = [userDefaults objectForKey:@"editor_item_keys"];
+    if (editorItemKeys == nil) {
+        editorItemKeys = [[NSMutableArray alloc] init];
+    } else {
+        editorItemKeys = [NSMutableArray arrayWithArray:editorItemKeys];
+    }
+    NSString *key = [editorItemKeys objectAtIndex:oldPos];
+    [editorItemKeys removeObjectAtIndex:oldPos];
+    [editorItemKeys insertObject:key atIndex:newPos];
+    [userDefaults setObject:editorItemKeys forKey:@"editor_item_keys"];
+    [userDefaults synchronize];
+}
+
 /* --- Delete from store methods --- */
 
 - (void)deleteImageWithKey:(NSString *)key

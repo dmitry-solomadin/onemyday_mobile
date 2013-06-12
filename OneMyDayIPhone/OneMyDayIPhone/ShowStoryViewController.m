@@ -30,6 +30,9 @@ UIActivityIndicatorView *commentsIndicator;
 UITextView *likeView;
 AppDelegate *appDelegate;
 CGFloat currentStoryHeight;
+UITextField *textField;
+NSMutableArray *comments;
+UIButton *button;
 
 - (id) initWithStory:(Story *)_story
 {
@@ -99,8 +102,8 @@ CGFloat currentStoryHeight;
         [scrollView addSubview:likeView];
         likeView.frame = CGRectMake(10, currentStoryHeight, 300, 55);
         
-        currentStoryHeight += 60;
-        
+        currentStoryHeight += 65;
+                
         likeButtonView = [[UIButton alloc] init];
         likeButtonView.clipsToBounds = YES;
         likeButtonView.layer.cornerRadius = 4.0;
@@ -134,10 +137,12 @@ CGFloat currentStoryHeight;
         numberOfPeopleTextView.frame = CGRectMake(105, 10, 200, 35);
         [self placeLikeTextCorrectly:[story likesCount]];
         
+        [self getStoryComments];
+        
         [scrollView setContentSize:(CGSizeMake(10, currentStoryHeight))];
         [scrollView setAutoresizesSubviews:NO];
         
-        [self getStoryComments];
+        
     }
     return self;
 }
@@ -166,8 +171,8 @@ CGFloat currentStoryHeight;
     }
 }
 
-- (void)likeButtonTapped:(UITapGestureRecognizer *)gr 
-{
+- (void)likeButtonTapped:(UITapGestureRecognizer *)gr
+{    
     likeIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     likeIndicator.frame = CGRectMake(10, 45, 100, 100);
     likeIndicator.center = CGPointMake(110, 25);
@@ -191,7 +196,7 @@ CGFloat currentStoryHeight;
         // do our long running process here      
         
         NSDictionary *jsonData = [request getDataFrom: path requestData: postData];
-        [NSThread sleepForTimeInterval:3];
+        //[NSThread sleepForTimeInterval:3];
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [likeIndicator stopAnimating];
@@ -236,14 +241,17 @@ CGFloat currentStoryHeight;
 
 - (void)getStoryComments
 {
+    currentStoryHeight += 50;
     commentsIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     commentsIndicator.frame = CGRectMake(10, 45, 100, 100);
-    commentsIndicator.center = CGPointMake(160, currentStoryHeight + 20);
+    commentsIndicator.center = CGPointMake(160, currentStoryHeight - 30);
     commentsIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: commentsIndicator];
     [commentsIndicator bringSubviewToFront: scrollView];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [scrollView setContentSize: CGSizeMake(320, currentStoryHeight + 50)];
+    [scrollView setContentSize: CGSizeMake(320, currentStoryHeight)];
+    //CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
+    //[self.scrollView setContentOffset:bottomOffset animated:YES];
     [commentsIndicator startAnimating];
     
     Request *request = [[Request alloc] init];
@@ -251,8 +259,8 @@ CGFloat currentStoryHeight;
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
         // do our long running process here        
-        NSArray *comments = [self getComments: request];
-        [NSThread sleepForTimeInterval:3];
+        comments = [self getComments: request];
+        //[NSThread sleepForTimeInterval:3];
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [commentsIndicator stopAnimating];         
@@ -260,7 +268,10 @@ CGFloat currentStoryHeight;
             //    [appDelegate alertStatus:@"" :[request errorMsg]];
                 //return;
             //} else if(comments != nil && [comments count] > 0){
-                currentStoryHeight += 5;
+            currentStoryHeight -= 50;
+            
+            if(comments != nil && [comments count] > 0){
+                //currentStoryHeight += 5;
                 for (int i = 0; i < [comments count]; i++) {
                     Comment *comment = [comments objectAtIndex:i];
                     CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
@@ -272,10 +283,13 @@ CGFloat currentStoryHeight;
                     [scrollView addSubview: storyCommentView];
                     currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border
                 }
-                currentStoryHeight += 15;
+                //currentStoryHeight += 15;
             //}
+            } 
+            [self drawAddCommentForm];
+            
             [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:0.3];
+            [UIView setAnimationDuration:0.3];            
             [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
             [UIView commitAnimations];
         });
@@ -306,7 +320,7 @@ CGFloat currentStoryHeight;
     return comments;
 }
 
-- (NSMutableArray *)getComments1: request
+/*- (NSMutableArray *)getComments1: request
 {
     NSMutableArray *comments = [NSMutableArray array];
     for (int i = 0; i < 3; i++) {
@@ -317,6 +331,175 @@ CGFloat currentStoryHeight;
     }
 
     return comments;
+}*/
+
+- (void)drawAddCommentForm
+{
+    currentStoryHeight += 10;
+    
+    textField = [[UITextField alloc] init];
+    textField.clipsToBounds = YES;
+    textField.tag = 1;
+    //textField.layer.cornerRadius = 4.0;
+    textField.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+    textField.layer.borderWidth = 1;
+    //textField.Bounds = [self textRectForBounds:textField.bounds];
+    [textField setPlaceholder:@"Add Comment"];
+    //[textField setText:@""];
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    //textField.textAlignment = UITextAlignmentLeft;
+    [textField setKeyboardAppearance:UIKeyboardAppearanceAlert];
+    [textField setTextColor:[UIColor blackColor]];
+    [textField setBackgroundColor:[UIColor whiteColor]];
+    [scrollView addSubview:textField];
+    textField.frame = CGRectMake(10, currentStoryHeight , 230, 35);
+    textField.delegate = self;
+    textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
+    
+    button = [[UIButton alloc] init];
+    button.clipsToBounds = YES;
+    //textField.layer.cornerRadius = 4.0;
+    button.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+    button.layer.borderWidth = 1;
+    
+    [button setTitle: @"Add" forState:UIControlStateNormal];
+    
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1]];
+    [scrollView addSubview:button];
+    button.frame = CGRectMake(250, currentStoryHeight, 60, 35);
+    
+    UITapGestureRecognizer *addCommentTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addCommentTapped:)];
+    
+    [button addGestureRecognizer:addCommentTap];
+    
+    currentStoryHeight += 50;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{    
+    [scrollView setContentSize:(CGSizeMake(10, currentStoryHeight + 170))];
+    CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
+    [self.scrollView setContentOffset:bottomOffset animated:YES];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3];
+    [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
+    [UIView commitAnimations];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *) event
+{
+    UITouch *touch = [[event allTouches] anyObject];
+    if ([textField isFirstResponder] && (textField != touch.view))
+    {       
+        [textField resignFirstResponder];
+    }
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    return YES;
+}
+
+- (void)addCommentTapped:(UITapGestureRecognizer *)gr
+{  
+    if([textField text] == nil || [[textField  text] isEqualToString:@""]){
+        [appDelegate alertStatus:@"" :@"Please enter comment text" ];
+        return;
+    }
+   
+    [textField resignFirstResponder];
+    
+    UIActivityIndicatorView *addCommentIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    addCommentIndicator.frame = CGRectMake(10, 45, 100, 100);
+    addCommentIndicator.center = CGPointMake(280, currentStoryHeight-30);
+    addCommentIndicator.hidesWhenStopped = YES;
+    [scrollView addSubview: addCommentIndicator];
+    [addCommentIndicator bringSubviewToFront: scrollView];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [addCommentIndicator startAnimating];
+    
+   
+    NSMutableString *path = [NSString stringWithFormat:@"/api/comments/create"];
+    NSString *postData =[[NSString alloc] initWithFormat:
+                         @"api_key=%@&creator_id=%@&comment[text]=%@&story_id=%d",appDelegate.apiKey, appDelegate.currentUserId, [textField  text], [story storyId]];
+    
+    Request *request = [[Request alloc] init];
+    
+    dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        // do our long running process here
+        
+        NSDictionary *jsonData = [request getDataFrom: path requestData: postData];
+        //[NSThread sleepForTimeInterval:3];
+        //NSLog(@"jsonData %@", jsonData);
+        // do any UI stuff on the main UI thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [addCommentIndicator stopAnimating];
+            
+            int commentId = [(NSString *) [jsonData objectForKey:@"id"] intValue];            
+            int authorId = [(NSString *) [jsonData objectForKey:@"user_id"] intValue];
+            int storyId = [(NSString *) [jsonData objectForKey:@"story_id"] intValue];
+            NSString *text = (NSString *) [jsonData objectForKey:@"text"];
+            if(text != nil){
+                
+                currentStoryHeight -= 60;
+                
+                NSDate *updatedAt = [StoryStore parseRFC3339Date:[jsonData objectForKey:@"updated_at"]];
+                NSDate *createdAt = [StoryStore parseRFC3339Date:[jsonData objectForKey:@"created_at"]];
+            
+                Comment *newComment = [[Comment alloc] initWithId:storyId andText:text
+                                                    andAuthor:authorId andCreatedAt:createdAt
+                                                    updatedAt:updatedAt andCommentId:commentId];
+            
+                CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
+                StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
+                                                                              andComment:newComment
+                                                                              andIsFirst:([comments count] == 0)
+                                                                               andIsLast:(true)];
+                storyCommentView.controller = self;
+                
+                if([comments count] > 0){
+                    int subviewsCount = [[scrollView subviews] count] - 1;
+                    NSLog(@"1");
+                    for(int i = subviewsCount; i > 0; i--){
+                        NSLog(@"i %d", i);
+                        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){
+                            NSLog(@"222");
+                            StoryCommentView *lastStoryCommentView = [[scrollView subviews] objectAtIndex:i];
+                            CAShapeLayer *maskLayer = [CAShapeLayer layer];
+                            UIBezierPath *path;
+                            path = [UIBezierPath bezierPathWithRoundedRect: lastStoryCommentView.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
+                            maskLayer.path = path.CGPath;                        
+                            lastStoryCommentView.layer.mask = maskLayer;
+                            break;
+                        }
+                    }
+                }
+                
+                [comments addObject: newComment];
+                
+                [scrollView insertSubview: storyCommentView atIndex: ([[scrollView subviews] count] - 2)];
+                currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border  */
+            
+                currentStoryHeight += 10;                       
+                textField.frame = CGRectMake(10, currentStoryHeight , 230, 35);              
+                button.frame = CGRectMake(250, currentStoryHeight, 60, 35);
+                currentStoryHeight += 50;                
+               
+                [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
+                CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
+                [self.scrollView setContentOffset:bottomOffset animated:YES];
+            }
+       });
+    });
 }
 
 

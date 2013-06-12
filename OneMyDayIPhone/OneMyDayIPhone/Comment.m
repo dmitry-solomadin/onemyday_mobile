@@ -23,14 +23,7 @@
         self.authorId = _authorId;
         self.updatedAt = _updatedAt;
         self.createdAt = _createdAt;
-        self.commentId = _commentId;
-     
-        NSLog(@"storyId %d", storyId);
-        NSLog(@"text %@", text);
-        NSLog(@"author_id %d", _authorId);
-        NSLog(@"author_id %@", _updatedAt);
-        NSLog(@"author_id %@", _createdAt);
-        NSLog(@"author_id %d", _commentId);
+        self.commentId = _commentId;     
     }
     return self;
 }

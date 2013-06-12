@@ -152,12 +152,12 @@ AppDelegate *appDelegate;
                 [UIView commitAnimations];
             }
          
-            if([[StoryStore get] requestErrorMsg] != nil ){
+            /*if([[StoryStore get] requestErrorMsg] != nil ){
                 NSLog(@"[StoryStore get] requestErrorMsg] %@", [[StoryStore get] requestErrorMsg]);
                 [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
                 [[StoryStore get] setRequestErrorMsg: nil];
                 
-            } else if(newStories != NULL && [newStories count] > 0){
+            } else */if(newStories != NULL && [newStories count] > 0){
                 
                 NSMutableArray *oldStories = stories;
                 stories = newStories;

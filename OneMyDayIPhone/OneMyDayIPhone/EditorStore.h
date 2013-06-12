@@ -18,6 +18,8 @@ typedef enum {
 
 - (NSMutableDictionary *)loadAllItems;
 
+- (void)changeKeyPositionOldPosition:(int)oldPos newPosition:(int)newPos;
+
 - (NSString *)saveImage:(UIImage *)image;
 - (void)deleteImageWithKey:(NSString *)key;
 

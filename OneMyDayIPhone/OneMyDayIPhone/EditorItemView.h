@@ -15,5 +15,7 @@
 
 @property (nonatomic) ItemType type;
 @property (nonatomic) NSString *key;
+@property float originX;
+@property float originY;
 
 @end

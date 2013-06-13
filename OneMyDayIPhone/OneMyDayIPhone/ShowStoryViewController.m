@@ -474,11 +474,23 @@ UIButton *button;
                         if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){
                             NSLog(@"222");
                             StoryCommentView *lastStoryCommentView = [[scrollView subviews] objectAtIndex:i];
+                            NSLog(@"lastStoryCommentView %d", lastStoryCommentView.tag);
+                            UIView *commentContainer = [[lastStoryCommentView  subviews] objectAtIndex:0];
+                            //[commentContainer.layer setCornerRadius:0.0];
+                            
                             CAShapeLayer *maskLayer = [CAShapeLayer layer];
-                            UIBezierPath *path;
-                            path = [UIBezierPath bezierPathWithRoundedRect: lastStoryCommentView.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
-                            maskLayer.path = path.CGPath;                        
-                            lastStoryCommentView.layer.mask = maskLayer;
+                             UIBezierPath *path;
+                             path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
+                             maskLayer.path = path.CGPath;
+                            
+                            commentContainer.layer.mask = maskLayer;
+                            
+                            commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                            commentContainer.layer.borderWidth = 1;
+                            
+                            UIView *strokeView = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
+                            [strokeView removeFromSuperview];
+                            
                             break;
                         }
                     }

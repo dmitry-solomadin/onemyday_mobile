@@ -43,6 +43,8 @@
         
         [commentContainerView addSubview:avatarView];
         
+        self.tag = [comment commentId];
+        
         // Author name
         UILabel *authorNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 13, 0, 35)];
         [authorNameLabel setText:[author name]];

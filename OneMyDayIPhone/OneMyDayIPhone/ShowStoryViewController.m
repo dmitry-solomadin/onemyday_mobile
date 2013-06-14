@@ -33,6 +33,7 @@ CGFloat currentStoryHeight;
 UITextField *textField;
 NSMutableArray *comments;
 UIButton *button;
+UIActivityIndicatorView *delCommentIndicator;
 
 - (id) initWithStory:(Story *)_story
 {
@@ -280,6 +281,16 @@ UIButton *button;
                                                                                       andIsFirst:(i == 0)
                                                                                        andIsLast:(i == [comments count] - 1)];
                     storyCommentView.controller = self;
+                
+                    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
+                    [deleteView setText:@"X"];
+                    deleteView.tag = [comment commentId];
+                    UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
+                    [deleteView addGestureRecognizer:deleteViewTap];
+                    [deleteView setEditable:NO]; 
+                    
+                    [storyCommentView addSubview:deleteView];                    
+                    
                     [scrollView addSubview: storyCommentView];
                     currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border
                 }
@@ -395,16 +406,15 @@ UIButton *button;
 {
     UITouch *touch = [[event allTouches] anyObject];
     if ([textField isFirstResponder] && (textField != touch.view))
-    {       
+    {      
         [textField resignFirstResponder];
     }
     
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    
+{    
+    [textField resignFirstResponder];    
     return YES;
 }
 
@@ -429,7 +439,7 @@ UIButton *button;
    
     NSMutableString *path = [NSString stringWithFormat:@"/api/comments/create"];
     NSString *postData =[[NSString alloc] initWithFormat:
-                         @"api_key=%@&creator_id=%@&comment[text]=%@&story_id=%d",appDelegate.apiKey, appDelegate.currentUserId, [textField  text], [story storyId]];
+                         @"api_key=%@&creator_id=%d&comment[text]=%@&story_id=%d",appDelegate.apiKey, [appDelegate currentUserId], [textField  text], [story storyId]];
     
     Request *request = [[Request alloc] init];
     
@@ -450,6 +460,8 @@ UIButton *button;
             NSString *text = (NSString *) [jsonData objectForKey:@"text"];
             if(text != nil){
                 
+                [textField setText:@""];
+                
                 currentStoryHeight -= 60;
                 
                 NSDate *updatedAt = [StoryStore parseRFC3339Date:[jsonData objectForKey:@"updated_at"]];
@@ -468,37 +480,83 @@ UIButton *button;
                 
                 if([comments count] > 0){
                     int subviewsCount = [[scrollView subviews] count] - 1;
-                    NSLog(@"1");
-                    for(int i = subviewsCount; i > 0; i--){
-                        NSLog(@"i %d", i);
+                 
+                    for(int i = subviewsCount; i >= 0; i--){
+                     
                         if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){
-                            NSLog(@"222");
-                            StoryCommentView *lastStoryCommentView = [[scrollView subviews] objectAtIndex:i];
-                            NSLog(@"lastStoryCommentView %d", lastStoryCommentView.tag);
-                            UIView *commentContainer = [[lastStoryCommentView  subviews] objectAtIndex:0];
-                            //[commentContainer.layer setCornerRadius:0.0];
+                      
+                            StoryCommentView *lastStoryCommentView = [[scrollView subviews] objectAtIndex:i];                            
+                                
+                                UIView *commentContainer = [[lastStoryCommentView  subviews] objectAtIndex:0];
+                                
+                                CAShapeLayer *maskLayer = [CAShapeLayer layer];
+                                UIBezierPath *path;
+                                path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
+                                maskLayer.path = path.CGPath;
+                                
+                                commentContainer.layer.mask = maskLayer;
+                                commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                                commentContainer.layer.borderWidth = 1;
+                                
+                                UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
+                                [strokeViewOld removeFromSuperview];
                             
-                            CAShapeLayer *maskLayer = [CAShapeLayer layer];
-                             UIBezierPath *path;
-                             path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
-                             maskLayer.path = path.CGPath;
-                            
-                            commentContainer.layer.mask = maskLayer;
-                            
-                            commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-                            commentContainer.layer.borderWidth = 1;
-                            
-                            UIView *strokeView = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
-                            [strokeView removeFromSuperview];
+                            if([comments count] == 1){
+                              
+                                CAShapeLayer *maskLayer = [CAShapeLayer layer];
+                                UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.}];
+                                maskLayer.path = path.CGPath;
+                                
+                                commentContainer.layer.mask = maskLayer;
+                                
+                                // Make a transparent, stroked layer which will dispay the stroke.
+                                CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+                                strokeLayer.path = path.CGPath;
+                                strokeLayer.fillColor = [UIColor clearColor].CGColor;
+                                strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                                strokeLayer.lineWidth = 2;
+                                
+                                // Transparent view that will contain the stroke layer
+                                UIView *strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
+                                strokeView.userInteractionEnabled = NO; // in case your container view contains controls
+                                [strokeView.layer addSublayer:strokeLayer];
+                                
+                                [commentContainer addSubview:strokeView];                                
+                            }
                             
                             break;
                         }
                     }
                 }
                 
-                [comments addObject: newComment];
+                [comments addObject: newComment];   
                 
-                [scrollView insertSubview: storyCommentView atIndex: ([[scrollView subviews] count] - 2)];
+                //add cross (delete button) on comment view
+                if([appDelegate currentUserId] == [newComment authorId]){
+                    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
+                    [deleteView setText:@"X"];
+                    deleteView.tag = [newComment commentId];
+                    UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
+                    [deleteView addGestureRecognizer:deleteViewTap];
+                    [deleteView setEditable:NO];
+                    [storyCommentView addSubview:deleteView];
+                }
+                
+                //find index of last comment or detect that there is no comments
+                int lastSubview = 0;
+                int subviewsCount = [[scrollView subviews] count] - 1;                
+                for(int i = subviewsCount; i > 0; i--){
+                    NSLog(@"i %d", i);
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]
+                       || [[[scrollView subviews] objectAtIndex:i] isKindOfClass:[UITextView class]]){
+                        lastSubview = i;
+                        NSLog(@"lastSubView %d", lastSubview);
+                        break;                        
+                    }
+                }
+                
+                //insert new comment in scrollView
+                [scrollView insertSubview:storyCommentView atIndex:lastSubview + 1];
                 currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border  */
             
                 currentStoryHeight += 10;                       
@@ -512,6 +570,226 @@ UIButton *button;
             }
        });
     });
+}
+
+- (void)deleteViewTapped:(UITapGestureRecognizer *)gr
+{
+    int commentId = gr.view.tag;  
+   
+    int subviewsCount = [[scrollView subviews] count] - 1;
+    
+    StoryCommentView *storyCommentView;
+    
+    for(int i = subviewsCount; i > 0; i--){
+        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){                            StoryCommentView *delStoryCommentView = [[scrollView subviews] objectAtIndex:i];
+            if(delStoryCommentView.tag == commentId){
+                //[lastStoryCommentView removeFromSuperview];
+                storyCommentView = delStoryCommentView;
+                subviewsCount = i;
+                break;
+            }
+        }
+    }  
+    
+    delCommentIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    delCommentIndicator.frame = CGRectMake(10, 45, 100, 100);
+    delCommentIndicator.center = CGPointMake(150, 20);
+    delCommentIndicator.hidesWhenStopped = YES;
+    [storyCommentView addSubview: delCommentIndicator];
+    [delCommentIndicator bringSubviewToFront: storyCommentView];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [delCommentIndicator startAnimating];    
+
+    NSMutableString *path = [NSString stringWithFormat:@"/api/comments/%d/destroy",commentId];
+    NSString *postData =[[NSString alloc] initWithFormat:
+                         @"api_key=%@",appDelegate.apiKey];
+    
+    Request *request = [[Request alloc] init];
+    
+    dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        // do our long running process here
+        
+        NSDictionary *jsonData = [request getDataFrom: path requestData: postData];
+        //[NSThread sleepForTimeInterval:3];
+      
+        // do any UI stuff on the main UI thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [delCommentIndicator stopAnimating];            
+            
+            NSString *success = (NSString *) [jsonData objectForKey:@"success"];
+            
+            if(success != nil && [success boolValue]){
+                currentStoryHeight -= storyCommentView.frame.size.height;
+                
+                [storyCommentView removeFromSuperview];
+                
+                for(int i = 0; i < [comments count]; i++){
+                    Comment *comment = [comments objectAtIndex:i];
+                    if([comment commentId] == commentId){
+                        [comments removeObject:comment];
+                        break;
+                    }
+                }
+                
+                //moving subviews on the place of delited one; looking for comments older than this one
+                NSMutableArray *lastSubviews = [NSMutableArray array];                
+                for(int i = subviewsCount; i < [[scrollView subviews] count]; i++){
+                    UIView *view = [[scrollView subviews] objectAtIndex:i];
+                    CGRect rect = view.frame;
+                    rect.origin = CGPointMake(view.frame.origin.x, view.frame.origin.y - storyCommentView.frame.size.height);
+                    view.frame = rect;
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]])[lastSubviews addObject:view];
+                }
+                
+                //looking for comments younger than this one
+                NSMutableArray *firstSubviews = [NSMutableArray array];
+                for(int i = subviewsCount; i > 0; i--){
+                    UIView *view = [[scrollView subviews] objectAtIndex:i];                   
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]])[firstSubviews addObject:view];
+                }
+                NSLog(@"first %d",[firstSubviews count]);
+                NSLog(@"last %d",[lastSubviews count]);
+                
+                //rounding bottom the bordres if needed
+                if([lastSubviews count] == 0 && [firstSubviews count] > 0){
+                    UIView *view = [firstSubviews objectAtIndex:0];
+                    
+                    UIView *commentContainer = [[view  subviews] objectAtIndex:0];
+                    
+                    /*if(![[[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1] isKindOfClass:[UITextView class]]){
+                        UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
+                        [strokeViewOld removeFromSuperview];
+                    }   
+                    
+                    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+                    UIBezierPath *path;
+                    if([firstSubviews count] == 1 && [lastSubviews count] == 1) {
+                        path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight  cornerRadii: (CGSize){10, 10}];
+                    } else {
+                        path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10, 10}];
+                    }*/
+                    
+                   
+                    if(![[[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1] isKindOfClass:[UITextView class]]){
+                        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+                        UIBezierPath *path;
+                        path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
+                        maskLayer.path = path.CGPath;
+                        
+                        commentContainer.layer.mask = maskLayer;
+                        commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                        commentContainer.layer.borderWidth = 1;
+                        
+                        UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
+                        [strokeViewOld removeFromSuperview];
+                    }
+                    
+                    CAShapeLayer *maskLayer1 = [CAShapeLayer layer];
+                    UIBezierPath *path1;
+                    if([firstSubviews count] == 1)path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
+                    else path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners:  UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
+                    maskLayer1.path = path1.CGPath;
+                    
+                    commentContainer.layer.mask = maskLayer1;
+                    
+                    // Make a transparent, stroked layer which will dispay the stroke.
+                    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+                    strokeLayer.path = path1.CGPath;
+                    strokeLayer.fillColor = [UIColor clearColor].CGColor;
+                    strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                    strokeLayer.lineWidth = 2;
+                    
+                    // Transparent view that will contain the stroke layer
+                    UIView *strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
+                    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
+                    [strokeView.layer addSublayer:strokeLayer];
+                    
+                    [commentContainer addSubview:strokeView];
+                }
+                
+                
+                //rounding top borders if neded
+                if(([firstSubviews count] == 0 || [firstSubviews count] == 1) && [lastSubviews count] > 0){
+                    UIView *view = [lastSubviews objectAtIndex:0];
+                    
+                    UIView *commentContainer = [[view  subviews] objectAtIndex:0];
+                    
+                    /*if(![[[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1] isKindOfClass:[UITextView class]]){
+                        UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
+                        [strokeViewOld removeFromSuperview];
+                    }*/
+                    
+                    if(![[[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1] isKindOfClass:[UITextView class]]){
+                        
+                        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+                        UIBezierPath *path;
+                        path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
+                        maskLayer.path = path.CGPath;
+                        
+                        commentContainer.layer.mask = maskLayer;
+                        commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                        commentContainer.layer.borderWidth = 1;
+                        
+                        UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
+                        [strokeViewOld removeFromSuperview];
+                    }
+                    
+                    CAShapeLayer *maskLayer1 = [CAShapeLayer layer];
+                    UIBezierPath *path1;
+                    if([lastSubviews count] ==1)path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
+                    else path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.}];
+                    maskLayer1.path = path1.CGPath;
+                    
+                    commentContainer.layer.mask = maskLayer1;
+                    
+                    // Make a transparent, stroked layer which will dispay the stroke.
+                    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+                    strokeLayer.path = path1.CGPath;
+                    strokeLayer.fillColor = [UIColor clearColor].CGColor;
+                    strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                    strokeLayer.lineWidth = 2;
+                    
+                    // Transparent view that will contain the stroke layer
+                    UIView *strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
+                    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
+                    [strokeView.layer addSublayer:strokeLayer];
+                    
+                    [commentContainer addSubview:strokeView];
+                    
+                    /*CAShapeLayer *maskLayer = [CAShapeLayer layer];
+                    UIBezierPath *path;                   
+                    if([firstSubviews count] == 1 && [lastSubviews count] == 0) {
+                        path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight  cornerRadii: (CGSize){10, 10}];
+                    } else {
+                         path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10, 10}];
+                    }
+                    maskLayer.path = path.CGPath;
+                    
+                    commentContainer.layer.mask = maskLayer;
+                    commentContainer.layer.borderColor = [[UIColor clearColor] CGColor];
+                    commentContainer.layer.borderWidth = 0;
+                    
+                    // Make a transparent, stroked layer which will dispay the stroke.
+                    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+                    strokeLayer.path = path.CGPath;
+                    strokeLayer.fillColor = [UIColor clearColor].CGColor;
+                    strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+                    strokeLayer.lineWidth = 2;
+                    
+                    // Transparent view that will contain the stroke layer
+                    UIView *strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
+                    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
+                    [strokeView.layer addSublayer:strokeLayer];
+                    
+                    [commentContainer addSubview:strokeView];*/
+                }
+                
+                [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
+            }
+        });
+    });
+    
 }
 
 

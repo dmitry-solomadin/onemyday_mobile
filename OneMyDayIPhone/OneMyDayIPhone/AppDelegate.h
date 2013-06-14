@@ -24,11 +24,12 @@
 
 //0 - unauthorized user; 1 - authorized by facebook; 2 - twitter; 3 - email
 @property (strong, nonatomic) NSNumber *loggedInFlag;
-@property (strong, nonatomic) NSString *currentUserId;
 
 + (UIViewController *) initMasterController;
 - (bool) checkEmail;
 - (void) alertStatus:(NSString *)msg :(NSString *) title;
 - (NSString *) apiKey;
+- (int) currentUserId;
+- (void) setCurrentUserId:(int)_currentUserId;
 
 @end

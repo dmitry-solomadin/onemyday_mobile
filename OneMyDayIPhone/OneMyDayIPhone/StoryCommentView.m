@@ -12,15 +12,19 @@
 #import "UserStore.h"
 #import "TTTTimeIntervalFormatter.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Request.h"
+#import "AppDelegate.h"
 
 @implementation StoryCommentView
 
 @synthesize controller;
 
+
 - (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first andIsLast:(bool)last
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
         UIView *commentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 45)];
         [commentContainerView setBackgroundColor:[UIColor whiteColor]];
         
@@ -41,10 +45,10 @@
             [avatarView setImageURL:avatarUrl];
         }
         
-        [commentContainerView addSubview:avatarView];
+        [commentContainerView addSubview:avatarView];       
         
         self.tag = [comment commentId];
-        
+    
         // Author name
         UILabel *authorNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 13, 0, 35)];
         [authorNameLabel setText:[author name]];

@@ -22,7 +22,8 @@
 
 @synthesize session;
 @synthesize loggedInFlag;
-@synthesize currentUserId;
+
+int currentUserId;
 
 NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 
@@ -141,7 +142,7 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 {
     NSData *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
     if (saved_credentials != nil){          
-        currentUserId = [NSKeyedUnarchiver unarchiveObjectWithData: saved_credentials];       
+        currentUserId = [[NSKeyedUnarchiver unarchiveObjectWithData: saved_credentials] intValue];
         return true;
     }
     else return false;
@@ -157,6 +158,16 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 - (NSString *) apiKey
 {
     return apiKey;
+}
+
+- (int) currentUserId
+{
+    return currentUserId;
+}
+
+- (void) setCurrentUserId:(int)_currentUserId
+{
+    currentUserId = _currentUserId;
 }
 
 @end

@@ -67,7 +67,7 @@ Request *request;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    
+                    NSLog(@"request errorMsg] %@", [request errorMsg]);
                     if(userId != nil && [request errorMsg] == nil){
                         UIViewController *masterController = [AppDelegate initMasterController];
                         [self presentViewController:masterController animated:YES completion:nil];
@@ -97,7 +97,8 @@ Request *request;
     if(userId != nil){
         [self saveCredentials:userId];
         appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
-        appDelegate.currentUserId = userId;
+        [appDelegate setCurrentUserId: [userId intValue]];
+        NSLog(@"[appDelegate setCurrentUserId %d", [appDelegate currentUserId]);
     }
     
     double stopTime = [[NSDate date] timeIntervalSince1970];

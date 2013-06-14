@@ -77,7 +77,7 @@ NSString *requestErrorMsg = nil;
 }
 
 - (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser newStories:(BOOL)newStories
-lastId: (long) lastId withLimit: (int) limit userId: (NSString *)userId
+lastId: (long) lastId withLimit: (int) limit userId: (int) userId
 {    
     NSMutableString *path = [[NSMutableString alloc] initWithString:@"/search_stories.json"];
     NSMutableArray *parameters = [[NSMutableArray alloc] init];
@@ -89,7 +89,7 @@ lastId: (long) lastId withLimit: (int) limit userId: (NSString *)userId
     }
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
-    [parameters addObject:[NSString stringWithFormat:@"requesting_user_id=%@",userId]];
+    [parameters addObject:[NSString stringWithFormat:@"requesting_user_id=%d",userId]];
     if (newStories) [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
     else [parameters addObject:[NSString stringWithFormat:@"lower_than_id=%ld",lastId]];
     [parameters addObject:[NSString stringWithFormat:@"limit=%d",limit]];

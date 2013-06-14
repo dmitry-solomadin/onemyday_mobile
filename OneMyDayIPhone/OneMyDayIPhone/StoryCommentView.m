@@ -94,7 +94,10 @@
             // We do this here because we know actual comment height here
             CAShapeLayer *maskLayer = [CAShapeLayer layer];
             UIBezierPath *path;
-            if (first) {
+            if (first && last){
+                path = [UIBezierPath bezierPathWithRoundedRect: commentContainerView.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight
+                                                   cornerRadii: (CGSize){10.0, 10.}];
+            } else if (first) {
                 path = [UIBezierPath bezierPathWithRoundedRect: commentContainerView.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.}];
             } else if (last) {
                 path = [UIBezierPath bezierPathWithRoundedRect: commentContainerView.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];

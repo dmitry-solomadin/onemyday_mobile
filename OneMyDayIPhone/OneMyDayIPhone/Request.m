@@ -9,6 +9,8 @@
 #import "Request.h"
 #import "SBJson.h"
 #import "AppDelegate.h"
+#import "User.h"
+#import "UserStore.h"
 
 // TODO do we need this? Check!
 @interface NSURLRequest (DummyInterface)
@@ -137,7 +139,7 @@ NSString *errorMsg = nil;
         SBJsonParser *jsonParser = [SBJsonParser new];
         NSString *responseData  = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
         NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
-        NSLog(@"jsonData %@", jsonData);
+        //NSLog(@"jsonData %@", jsonData);
         return jsonData;
     }    
 }
@@ -155,9 +157,9 @@ NSString *errorMsg = nil;
         //NSLog(@"no_such_user");
         return nil;
     } else if([status isEqualToString: @"ok"]){
-        NSString *userId = (NSString *) [jsonData objectForKey:@"user_id"];
-        //NSLog(@"Login SUCCESS userId = %@",userId);
-        return userId;        
+        User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
+        [[UserStore get] addUser:user];   
+        return user;
     } else {
         NSString *error_msg = (NSString *) [jsonData objectForKey:@"error_message"];
         if(error_msg != nil) errorMsg = error_msg;

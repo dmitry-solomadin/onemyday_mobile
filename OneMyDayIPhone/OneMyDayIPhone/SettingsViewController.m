@@ -36,7 +36,7 @@
 {
      NSLog(@"Logging out...");
     // get the app delegate so that we can access the session property
-    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     if([appDelegate.loggedInFlag intValue]==1)
     {

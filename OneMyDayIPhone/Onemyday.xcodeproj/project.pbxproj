@@ -221,6 +221,7 @@
 		849C6E44171840CE006C5766 /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E43171840CE006C5766 /* Base64Transcoder.c */; };
 		849C6E47171840DA006C5766 /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E46171840DA006C5766 /* hmac.c */; };
 		849C6E4A171840E9006C5766 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E49171840E9006C5766 /* sha1.c */; };
+		849E097A1779E300009BC55D /* UserInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E09791779E300009BC55D /* UserInfoView.m */; };
 		84A031D217158EFD0098B201 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031D117158EFD0098B201 /* FacebookSDK.framework */; };
 		84A031E3171599A50098B201 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E2171599A50098B201 /* AdSupport.framework */; };
 		84A031E5171599AB0098B201 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E4171599AB0098B201 /* Accounts.framework */; };
@@ -535,6 +536,8 @@
 		849C6E48171840E3006C5766 /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
 		849C6E49171840E9006C5766 /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
 		849C6E4B171840F1006C5766 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
+		849E09761779E2EE009BC55D /* UserInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoView.h; sourceTree = "<group>"; };
+		849E09791779E300009BC55D /* UserInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoView.m; sourceTree = "<group>"; };
 		84A031D117158EFD0098B201 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		84A031E2171599A50098B201 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		84A031E4171599AB0098B201 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -1098,6 +1101,8 @@
 		84E701A616D76EB900979856 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				849E09791779E300009BC55D /* UserInfoView.m */,
+				849E09761779E2EE009BC55D /* UserInfoView.h */,
 				18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */,
 				18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */,
 				18EC7CBB17462A0800F50A70 /* ThumbStoryDetailsView.h */,
@@ -1479,6 +1484,7 @@
 				18EC7CBD17462A0800F50A70 /* ThumbStoryDetailsView.m in Sources */,
 				84A30738175B704400381EBB /* StoryCommentView.m in Sources */,
 				84A3073B175B798700381EBB /* Comment.m in Sources */,
+				849E097A1779E300009BC55D /* UserInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

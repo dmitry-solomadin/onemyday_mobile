@@ -11,6 +11,8 @@
 #import "Request.h"
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+#import "User.h"
+#import "UserStore.h"
 
 @interface LoginViewController ()
 
@@ -21,8 +23,9 @@
 @synthesize txtEmail, txtPassword;
 
 AppDelegate *appDelegate;
-NSString *userId = nil;
+User *user;
 Request *request;
+User *user;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,8 +70,8 @@ Request *request;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    NSLog(@"request errorMsg] %@", [request errorMsg]);
-                    if(userId != nil && [request errorMsg] == nil){
+                    //NSLog(@"request errorMsg] %@", [request errorMsg]);
+                    if(user != nil){
                         UIViewController *masterController = [AppDelegate initMasterController];
                         [self presentViewController:masterController animated:YES completion:nil];
                     } else if([request errorMsg] != nil){
@@ -92,12 +95,13 @@ Request *request;
     
     request = [[Request alloc] init];
     NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
-    userId = [request requestLoginWithPath: postString];  
-    NSLog(@"Login user %@", userId);
-    if(userId != nil){
-        [self saveCredentials:userId];
+    user = [request requestLoginWithPath: postString];
+    if(user != nil){       
+        NSLog(@"Login user %d", [user userId]);
+        [self saveCredentials:[user userId]];
         appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
-        [appDelegate setCurrentUserId: [userId intValue]];
+        [appDelegate setCurrentUserId: [user userId]];
+        [[UserStore get] addUser:user];
         NSLog(@"[appDelegate setCurrentUserId %d", [appDelegate currentUserId]);
     }
     
@@ -113,8 +117,9 @@ Request *request;
     [txtEmail becomeFirstResponder];
 }
 
-- (void) saveCredentials: userId {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:userId] forKey:@"user_id"];
+- (void) saveCredentials: (int) userId {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",userId] forKey:@"user_id"];
+    //[[NSUserDefaults standardUserDefaults] setInteger: userId forKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

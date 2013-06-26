@@ -29,8 +29,8 @@ andCommentsCount:(int)_commentsCount andLikesCount:(int)_likesCount isLikedByUse
         self.likesCount = _likesCount;        
         if(_isLikedByUser == 1)isLikedByUser = true;
         else isLikedByUser = false;
-        NSLog(@"_isLikedByUser %d", _isLikedByUser);
-        NSLog(@"isLikedByUser %d", isLikedByUser);
+        //NSLog(@"_isLikedByUser %d", _isLikedByUser);
+        //NSLog(@"isLikedByUser %d", isLikedByUser);
     }
     return self;
 }

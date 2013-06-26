@@ -49,13 +49,13 @@ NSString *userStorePath = @"~/Documents/users";
             break;
         }
     }
-    if(!exists) [users addObject:user];
+    if(!exists) [users addObject:user];   
 }
 
 - (User *)findById:(int)userId
-{
-    for (User *user in users) {
-        if (user.userId == userId) {
+{  
+    for (User *user in users) {       
+        if (user.userId == userId) {            
             return user;
         }
     }
@@ -76,11 +76,16 @@ NSString *userStorePath = @"~/Documents/users";
 
 - (User *)parseUserData:(NSDictionary *)userData
 {
+    //NSLog(@"userData %@", userData);
     int userId = [(NSString *) [userData objectForKey:@"id"] intValue];
     NSString *name = (NSString *) [userData objectForKey:@"name"];
     NSDictionary *avatar_urls = (NSDictionary*) [userData objectForKey:@"avatar_urls"];
+    int followedBySize = [(NSString *) [userData objectForKey:@"followed_by_size"] intValue];
+    int followersSize = [(NSString *) [userData objectForKey:@"followers_size"] intValue];
+    int storiesSize = [(NSString *) [userData objectForKey:@"stories_size"] intValue];
     
-    return [[User alloc] initWithId:userId andName:name andAvatarUrls:avatar_urls];
+    return [[User alloc] initWithId:(int)userId andName:(NSString *)name andAvatarUrls:(NSDictionary *)avatar_urls andFollowedBySize:(int)followedBySize andFollowersSize: (int)followersSize
+                     andStoriesSize:(int)storiesSize];
 }
 
 - (void)saveUsersToDisk
@@ -103,7 +108,13 @@ NSString *userStorePath = @"~/Documents/users";
     rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile: userStorePath];
     
     if ([rootObject valueForKey:@"users"] != nil) {
-        users = [rootObject valueForKey:@"users"];
+        NSArray *oldUsers = [rootObject valueForKey:@"users"];
+        if(users != nil && [users count] > 0){
+            for(int i= 0; i < [oldUsers count]; i++){
+                [users addObject:[oldUsers objectAtIndex:i]];
+            }
+        }
+        else users = oldUsers;
     }
 }
 

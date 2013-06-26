@@ -14,7 +14,7 @@
 #import "StoryStore.h"
 #import "UserStore.h"
 #import "AppDelegate.h"
-#import "Request.h"
+#import "ProfileViewController.h"
 
 @interface HomeViewController ()
 {
@@ -51,8 +51,14 @@ AppDelegate *appDelegate;
 - (void)storyTap:(NSNumber *)storyId
 {
     Story *story = [[StoryStore get] findById:[storyId intValue]];
-    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
+    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story andProfileAuthorId: 0];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
+}
+
+- (void)authorTap:(NSNumber *)authorId
+{
+    appDelegate.authorId = [authorId intValue];
+    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];  
 }
 
 - (void)viewDidLoad
@@ -76,7 +82,7 @@ AppDelegate *appDelegate;
     
     stories = [[StoryStore get] loadStoriesFromDisk];
     __block NSMutableArray *oldStories = stories;
-    [[UserStore get] loadUsersFromDisk];    
+    [[UserStore get] loadUsersFromDisk];
     
     //draw old stories
     for (int i = 0; i < [oldStories count]; i++) {
@@ -84,7 +90,14 @@ AppDelegate *appDelegate;
         CGRect frame = CGRectMake(10, oldFeedHeight, 300, 300);
         ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
         thumbStoryView.controller = self;
-                
+        
+        //Author hidden button
+        UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+        authorBtn.tag = [story authorId];
+        [authorBtn addTarget:self action:@selector(authorOfStorieTap:) forControlEvents:UIControlEventTouchUpInside];
+        [thumbStoryView addSubview:authorBtn];
+        [thumbStoryView bringSubviewToFront:authorBtn];
+        
         [scrollView addSubview:thumbStoryView];
         oldFeedHeight += STORY_HEIGHT_WITH_PADDING;
     }       
@@ -122,7 +135,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11 userId: [appDelegate currentUserId]];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11 userId: [appDelegate currentUserId] authorId:0];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -177,10 +190,15 @@ AppDelegate *appDelegate;
                 //draw new stories
                 for (int i = 0; i < storiesCount; i++) {
                     Story *story = [stories objectAtIndex: i];
-                    
                     CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
                     ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
                     thumbStoryView.controller = self;
+                    //Author hidden button
+                    UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+                    authorBtn.tag = [story authorId];
+                    [authorBtn addTarget:self action:@selector(authorOfStorieTap:) forControlEvents:UIControlEventTouchUpInside];
+                    [thumbStoryView addSubview:authorBtn];
+                    [thumbStoryView bringSubviewToFront:authorBtn];
                     [scrollView insertSubview: thumbStoryView atIndex: 0];
                     currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
                 }
@@ -283,7 +301,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId]];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId] authorId:0];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{            
@@ -294,17 +312,25 @@ AppDelegate *appDelegate;
             
             [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
                         
-            if([[StoryStore get] requestErrorMsg] != nil && newStories == NULL){
+            /*if([[StoryStore get] requestErrorMsg] != nil && newStories == NULL){
                 [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
                 [[StoryStore get] setRequestErrorMsg: nil];
                 
-            } else if (newStories != NULL && [newStories count] > 0) {
+            } else*/if (newStories != NULL && [newStories count] > 0) {
                 for (int i = 0; i < [newStories count]; i++) {
                     Story *story = [newStories objectAtIndex: i];
                     
                     CGRect frame = CGRectMake(10, oldFeedHeight, 300, 300);
                     ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
                     thumbStoryView.controller = self;
+                    
+                    //Author hidden button
+                    UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+                    authorBtn.tag = [story authorId];
+                    [authorBtn addTarget:self action:@selector(authorOfStorieTap:) forControlEvents:UIControlEventTouchUpInside];
+                    [thumbStoryView addSubview:authorBtn];
+                    [thumbStoryView bringSubviewToFront:authorBtn];
+                    
                     [scrollView addSubview: thumbStoryView];
                     oldFeedHeight += STORY_HEIGHT_WITH_PADDING;
                     
@@ -322,6 +348,12 @@ AppDelegate *appDelegate;
             oldStoriesLoading = false;
         });
     });
+}
+
+- (void)authorOfStorieTap:(UIButton *)sender
+{
+    appDelegate.authorId = sender.tag;
+    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
 }
 
 @end

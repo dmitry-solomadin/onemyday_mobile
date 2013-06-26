@@ -15,6 +15,6 @@
 @property(nonatomic, strong) Story *story;
 @property(nonatomic, strong) UIScrollView *scrollView;
 
-- (id)initWithStory:(Story *)_story;
+- (id)initWithStory:(Story *)_story andProfileAuthorId:(int)_profileAuthorId;
 
 @end

@@ -77,8 +77,8 @@
         [authorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
         [authorNameLabel setTextColor:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1]];
         [authorNameLabel sizeToFit];
-        [self addSubview:authorNameLabel];
-        
+        [self addSubview:authorNameLabel];        
+                        
         // Time created
         TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
         NSString *time = [timeIntervalFormatter stringForTimeInterval:[[story createdAt] timeIntervalSinceNow]];

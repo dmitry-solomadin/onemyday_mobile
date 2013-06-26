@@ -77,7 +77,7 @@ NSString *requestErrorMsg = nil;
 }
 
 - (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser newStories:(BOOL)newStories
-lastId: (long) lastId withLimit: (int) limit userId: (int) userId
+lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int)authorId
 {    
     NSMutableString *path = [[NSMutableString alloc] initWithString:@"/search_stories.json"];
     NSMutableArray *parameters = [[NSMutableArray alloc] init];
@@ -87,6 +87,7 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId
     if (includeUser) {
         [parameters addObject:@"u=true"];
     }
+    if(authorId != 0)[parameters addObject:[NSString stringWithFormat: @"author_id=%d", authorId]];
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
     [parameters addObject:[NSString stringWithFormat:@"requesting_user_id=%d",userId]];
@@ -99,14 +100,14 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId
     NSArray *jsonData = [request getDataFrom: path requestData: nil];
  
     if([request errorMsg] != nil){
-         NSLog(@"[[request errorMsg] %@", [request errorMsg]);
+        // NSLog(@"[[request errorMsg] %@", [request errorMsg]);
         requestErrorMsg = [request errorMsg];        
         return nil;  
     }
         
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];
-    NSLog(@"jsonData %@", jsonData);
+    //NSLog(@"jsonData %@", jsonData);
     for (int i = 0; i < [jsonData  count]; i++) {
         NSDictionary *story = [jsonData objectAtIndex:i];
         int storyId = [(NSString *) [story objectForKey:@"id"] intValue];
@@ -138,7 +139,7 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId
         }
     }
 
-    if (newStories) {
+    if (newStories && authorId == 0) {
         NSMutableArray *oldCachedStories = [self getCachedStories];     
         
         if ([cacheStories count] > 0) {            

@@ -34,12 +34,15 @@ UITextField *textField;
 NSMutableArray *comments;
 UIButton *button;
 UIActivityIndicatorView *delCommentIndicator;
+int profileAuthorId;
 
-- (id) initWithStory:(Story *)_story
+- (id) initWithStory:(Story *)_story andProfileAuthorId:(int)_profileAuthorId
 {
     if (self = [super initWithNibName: nil bundle: nil]) {
         self.story = _story;
-        
+        //NSLog(@"profileAuthorId %d", profileAuthorId);
+        profileAuthorId = _profileAuthorId;
+        //NSLog(@"profileAuthorId %d", profileAuthorId);
         appDelegate = [[UIApplication sharedApplication] delegate];
         
         [[self view] setFrame: self.view.window.bounds];
@@ -281,15 +284,24 @@ UIActivityIndicatorView *delCommentIndicator;
                                                                                       andIsFirst:(i == 0)
                                                                                        andIsLast:(i == [comments count] - 1)];
                     storyCommentView.controller = self;
-                
-                    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
-                    [deleteView setText:@"X"];
-                    deleteView.tag = [comment commentId];
-                    UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
-                    [deleteView addGestureRecognizer:deleteViewTap];
-                    [deleteView setEditable:NO]; 
                     
-                    [storyCommentView addSubview:deleteView];                    
+                    if([appDelegate currentUserId] == [comment authorId]){
+                        UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
+                        [deleteView setText:@"X"];
+                        deleteView.tag = [comment commentId];
+                        UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
+                        [deleteView addGestureRecognizer:deleteViewTap];
+                        [deleteView setEditable:NO];
+                        [storyCommentView addSubview:deleteView];
+                    }
+                    
+                    //Author hidden button
+                    UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+                    authorBtn.tag = [comment authorId];
+                    //NSLog(@"authorBtn.tag %d",authorBtn.tag);
+                    [authorBtn addTarget:self action:@selector(authorTap:) forControlEvents:UIControlEventTouchUpInside];
+                    [storyCommentView addSubview:authorBtn];
+                    [storyCommentView bringSubviewToFront:authorBtn];
                     
                     [scrollView addSubview: storyCommentView];
                     currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border
@@ -538,17 +550,24 @@ UIActivityIndicatorView *delCommentIndicator;
                     [deleteView addGestureRecognizer:deleteViewTap];
                     [deleteView setEditable:NO];
                     [storyCommentView addSubview:deleteView];
-                }
+                }   
+                
+                //Author hidden button
+                UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+                authorBtn.tag = appDelegate.currentUserId;
+                [authorBtn addTarget:self action:@selector(authorTap:) forControlEvents:UIControlEventTouchUpInside];
+                [storyCommentView addSubview:authorBtn];
+                [storyCommentView bringSubviewToFront:authorBtn];
                 
                 //find index of last comment or detect that there is no comments
                 int lastSubview = 0;
                 int subviewsCount = [[scrollView subviews] count] - 1;                
                 for(int i = subviewsCount; i > 0; i--){
-                    NSLog(@"i %d", i);
+                   // NSLog(@"i %d", i);
                     if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]
                        || [[[scrollView subviews] objectAtIndex:i] isKindOfClass:[UITextView class]]){
                         lastSubview = i;
-                        NSLog(@"lastSubView %d", lastSubview);
+                        //NSLog(@"lastSubView %d", lastSubview);
                         break;                        
                     }
                 }
@@ -740,5 +759,19 @@ UIActivityIndicatorView *delCommentIndicator;
     
 }
 
+- (void)authorTap:(UIButton *)sender
+{  
+    appDelegate.authorId = sender.tag;
+    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if(profileAuthorId != 0){
+        appDelegate.authorId = profileAuthorId;
+        profileAuthorId = 0;
+    }
+    //NSLog(@"appDelegate.authorId: %d", appDelegate.authorId);
+}
 
 @end

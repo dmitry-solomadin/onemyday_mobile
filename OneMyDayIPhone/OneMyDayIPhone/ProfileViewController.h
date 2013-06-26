@@ -12,4 +12,6 @@
 
 - (void)showSettings:(UIBarButtonItem *)sender;
 
+@property (nonatomic, strong) UIScrollView *scrollView;
+
 @end

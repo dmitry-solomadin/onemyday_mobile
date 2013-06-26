@@ -20,7 +20,7 @@
 
 - (void)setUsers:(NSMutableArray *)_users;
 - (NSArray *)getUsers;
-- (void)addUser:(User *)user;
+- (void) addUser:(User *)user;
 - (User *)findById:(int)userId;
 - (User *)requestUserWithId:(int)userId;
 - (User *)parseUserData:(NSDictionary *)userData;

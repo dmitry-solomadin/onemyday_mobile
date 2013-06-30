@@ -314,7 +314,7 @@ AppDelegate *appDelegate;
             
             [bottomIndicator stopAnimating];
             
-            [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
+            //[[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
                         
             /*if([[StoryStore get] requestErrorMsg] != nil && newStories == NULL){
                 [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];

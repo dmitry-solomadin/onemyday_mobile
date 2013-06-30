@@ -14,6 +14,7 @@
 #import "UserStore.h"
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ProfileViewController.h"
 
 @interface ExploreViewController ()
 
@@ -170,6 +171,18 @@ CGFloat currentFeedHeight = 10.0;
     return YES;
 }
 
+- (void)authorOfStorieTap:(UIButton *)sender
+{
+    appDelegate.authorId = sender.tag; 
+    ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+    [[self navigationController] pushViewController:profileVC animated:YES];  
+}
 
+- (void)storyTap:(NSNumber *)storyId
+{
+    Story *story = [[StoryStore get] findById:[storyId intValue]];
+    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story andProfileAuthorId: 0];
+    [[self navigationController] pushViewController:showStoryViewController animated:YES];
+}
 
 @end

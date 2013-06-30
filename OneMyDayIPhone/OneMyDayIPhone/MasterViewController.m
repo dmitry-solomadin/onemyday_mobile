@@ -32,7 +32,7 @@
         ExploreViewController *evc = [[ExploreViewController alloc] init];
         UINavigationController *exploreNav = [[UINavigationController alloc] initWithRootViewController:evc];
         exploreNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Explore" image:[UIImage imageNamed:@"globe.png"] tag:0];
-        [exploreNav.tabBarItem setEnabled:NO];
+        //[exploreNav.tabBarItem setEnabled:NO];
         
         UIViewController* photoVC = [[UIViewController alloc] init];
         photoVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"" image:nil tag:0];

@@ -138,7 +138,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11 userId: [appDelegate currentUserId] authorId:0];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11 userId: [appDelegate currentUserId] authorId:0  serchFor: nil];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -206,7 +206,7 @@ AppDelegate *appDelegate;
                     currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
                 }
                
-               //move old stories to the bottom   NOT TESTED!
+               //move old stories to the bottom   
                if (storiesCount != 11 || (storiesCount == 11 && [[stories objectAtIndex: 10] storyId] == storyId)) {
                    int start = storiesCount + 1;
                     for (int i = start, j = 0; i < [[scrollView subviews] count]; i++) {
@@ -305,7 +305,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId] authorId:0];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId] authorId:0 serchFor: nil];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{            

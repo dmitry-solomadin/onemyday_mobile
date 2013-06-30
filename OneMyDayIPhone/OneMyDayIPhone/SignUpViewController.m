@@ -120,6 +120,7 @@ User *user;
     emailField.layer.borderWidth = 2;
     [emailField setPlaceholder:@"Email"];
     if(user != nil)[emailField setText:[user email]];
+    else [emailField setText:@""];
     emailField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     //textField.textAlignment = UITextAlignmentLeft;
     [emailField setKeyboardAppearance:UIKeyboardAppearanceAlert];
@@ -136,7 +137,7 @@ User *user;
     passField.layer.borderColor = [[UIColor blackColor] CGColor];
     passField.layer.borderWidth = 2;
     [passField setPlaceholder:@"Password"];
-    //[textField setText:@""];
+    [passField setText:@""];
     passField.secureTextEntry = YES;
     passField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;  
     [passField setKeyboardAppearance:UIKeyboardAppearanceAlert];
@@ -156,6 +157,7 @@ User *user;
     //textField.Bounds = [self textRectForBounds:textField.bounds];
     [nameField setPlaceholder:@"Name"];
     if(user != nil)[nameField setText:[user name]];
+    else [nameField setText:@""];
     nameField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     //textField.textAlignment = UITextAlignmentLeft;
     [nameField setKeyboardAppearance:UIKeyboardAppearanceAlert];
@@ -377,7 +379,7 @@ User *user;
                         break;
                     }
                     
-                } else  if(status != nil && [status isEqualToString: @"ok"]){
+                } else if(status != nil && [status isEqualToString: @"ok"]){
                     
                     User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [something objectForKey: @"user"]];
                     [[UserStore get] addUser:newUser];
@@ -390,19 +392,20 @@ User *user;
                     UIViewController *masterController = [AppDelegate initMasterController];
                     [self presentViewController:masterController animated:YES completion:nil];
                     
-                } else if(success != nil && success){
+                } else if(success != nil && success) {
                     
-                     User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [something objectForKey: @"user"]];
+                     /*User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [something objectForKey: @"user"]];
                     
                      [user setAvatarUrls:[newUser avatarUrls]];
                      [user setEmail:[newUser email]];
                      [user setGender:[newUser gender]];
                      [user setName:[newUser name]];
                     
-                    NSLog(@"user %@ %@ %@ ",[user email],[user gender],  [user name]);
-                    //self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
+                    NSLog(@"user %@ %@ %@ ",[user email],[user gender],  [user name]);*/
                     
-                     //[self dismissViewControllerAnimated:YES completion:nil];
+                    /*self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];*/
+                    
+                     [self dismissViewControllerAnimated:YES completion:nil];
                     
                     //UIViewController *masterController = [AppDelegate initMasterController];
                     //[self presentViewController:masterController animated:YES completion:nil];

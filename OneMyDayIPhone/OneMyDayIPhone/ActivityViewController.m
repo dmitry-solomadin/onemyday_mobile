@@ -62,7 +62,7 @@ AppDelegate *appDelegate;
 
 - (void)getAvtivities
 {
-	 NSLog(@"activities");
+	 //NSLog(@"activities");
 	// how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
@@ -79,13 +79,13 @@ AppDelegate *appDelegate;
         //NSLog(@"activityId %d",activityId);
         
         Request *request = [[Request alloc] init];
-        NSMutableString *path = [NSString stringWithFormat:@"/users/1/activities.json?limit=11&higher_than_id=%d",activityId];                
+        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d",appDelegate.currentUserId,activityId];
         NSArray *activities = [request getDataFrom: path];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{          
             
-            NSLog(@"activities: %@", activities);
+            //NSLog(@"activities: %@", activities);
             if(activities != nil){             
          
                 int activitiesCount = [activities count];

@@ -10,4 +10,6 @@
 
 @interface ExploreViewController : UIViewController
 
+@property (nonatomic, strong) UIScrollView *scrollView;
+
 @end

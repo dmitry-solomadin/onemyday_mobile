@@ -13,6 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "User.h"
 #import "UserStore.h"
+#import "SignUpViewController.h"
 
 @interface LoginViewController ()
 
@@ -77,7 +78,7 @@ User *user;
                     } else if([request errorMsg] != nil){
                         [appDelegate alertStatus:@"" :[request errorMsg]];                        
                     } else {
-                        [appDelegate alertStatus:@"" :[request operationFailedMsg]];
+                        [appDelegate alertStatus:@"" :[Request operationFailedMsg]];
                     }
                 });
             });             
@@ -94,15 +95,17 @@ User *user;
     double startTime = [[NSDate date] timeIntervalSince1970];
     
     request = [[Request alloc] init];
-    NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
-    user = [request requestLoginWithPath: postString];
+    //NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
+    [request addStringToPostData:@"email" andValue:[txtEmail text]];
+    [request addStringToPostData:@"password" andValue:[txtPassword text]];
+    user = [request requestLogin];
     if(user != nil){       
-        NSLog(@"Login user %d", [user userId]);
-        [self saveCredentials:[user userId]];
+        //NSLog(@"Login user %d", [user userId]);
+        [appDelegate saveCredentials:[user userId]];
         appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
         [appDelegate setCurrentUserId: [user userId]];
         [[UserStore get] addUser:user];
-        NSLog(@"[appDelegate setCurrentUserId %d", [appDelegate currentUserId]);
+        //NSLog(@"[appDelegate setCurrentUserId %d", [appDelegate currentUserId]);
     }
     
     double stopTime = [[NSDate date] timeIntervalSince1970];
@@ -117,10 +120,9 @@ User *user;
     [txtEmail becomeFirstResponder];
 }
 
-- (void) saveCredentials: (int) userId {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",userId] forKey:@"user_id"];
-    //[[NSUserDefaults standardUserDefaults] setInteger: userId forKey:@"user_id"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+- (IBAction)signUp:(id)sender {
+    SignUpViewController  *signUpViewController = [SignUpViewController alloc];    
+    [[self navigationController] pushViewController:signUpViewController animated:YES];
 }
 
 @end

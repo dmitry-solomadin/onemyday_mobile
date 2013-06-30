@@ -43,32 +43,32 @@ NSString *userStorePath = @"~/Documents/users";
 - (void)addUser:(User *)user
 {
     bool exists = false;
-    for(int i = 0;i < [users count];i++){
+    for(int i = 0;i < [users count];i++){   
         if([[users objectAtIndex:i] userId] == [user userId]){
-            exists = true;
+            exists = true;          
             break;
         }
     }
-    if(!exists) [users addObject:user];   
+    if(!exists) [users addObject:user];  
 }
 
 - (User *)findById:(int)userId
-{  
-    for (User *user in users) {       
-        if (user.userId == userId) {            
+{
+    for (User *user in users) {  
+        if (user.userId == userId) { 
             return user;
         }
-    }
-    return nil;
+    }   
+    return [self requestUserWithId:userId];
 }
 
 - (User *)requestUserWithId:(int)userId
 {
     NSString *path = [NSString stringWithFormat:@"/users/%d.json", userId];
     Request *request = [[Request alloc] init];
-    NSDictionary *jsonData = [request getDataFrom: path requestData: nil];
-    
-    User *user = [self parseUserData:jsonData];
+    NSDictionary *jsonData = [request getDataFrom: path];
+    NSDictionary *userData = [jsonData objectForKey:@"user"];
+    User *user = [self parseUserData:userData];
     [self addUser:user];
     
     return user;
@@ -76,16 +76,16 @@ NSString *userStorePath = @"~/Documents/users";
 
 - (User *)parseUserData:(NSDictionary *)userData
 {
-    //NSLog(@"userData %@", userData);
     int userId = [(NSString *) [userData objectForKey:@"id"] intValue];
     NSString *name = (NSString *) [userData objectForKey:@"name"];
+    NSString *email = (NSString *) [userData objectForKey:@"email"];
+    NSString *gender = (NSString *) [userData objectForKey:@"gender"];
     NSDictionary *avatar_urls = (NSDictionary*) [userData objectForKey:@"avatar_urls"];
     int followedBySize = [(NSString *) [userData objectForKey:@"followed_by_size"] intValue];
     int followersSize = [(NSString *) [userData objectForKey:@"followers_size"] intValue];
     int storiesSize = [(NSString *) [userData objectForKey:@"stories_size"] intValue];
     
-    return [[User alloc] initWithId:(int)userId andName:(NSString *)name andAvatarUrls:(NSDictionary *)avatar_urls andFollowedBySize:(int)followedBySize andFollowersSize: (int)followersSize
-                     andStoriesSize:(int)storiesSize];
+    return [[User alloc] initWithId:userId andName:name andAvatarUrls:avatar_urls andFollowedBySize:followedBySize andFollowersSize: followersSize andStoriesSize:storiesSize andEmail: email andGender: gender];
 }
 
 - (void)saveUsersToDisk

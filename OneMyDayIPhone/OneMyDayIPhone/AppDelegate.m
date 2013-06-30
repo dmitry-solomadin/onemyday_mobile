@@ -164,4 +164,9 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     return apiKey;
 }
 
+- (void) saveCredentials: (int) userId {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",userId] forKey:@"user_id"];
+    //[[NSUserDefaults standardUserDefaults] setInteger: userId forKey:@"user_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end

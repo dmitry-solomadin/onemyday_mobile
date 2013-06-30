@@ -14,6 +14,8 @@
 
 @implementation UserInfoView
 
+@synthesize controller;
+
 - (id)initWithFrame:(CGRect)frame andUser: (User *)user
 {
     self = [super initWithFrame:frame];
@@ -70,6 +72,12 @@
             editButton.layer.borderColor = [[UIColor blackColor] CGColor];
             editButton.layer.borderWidth = 2;
             [containerView addSubview:editButton];
+            
+            UIButton *editBtn = [[UIButton alloc] initWithFrame: CGRectMake(70, 28, 120, 25)];
+            editBtn.tag = [user userId];
+            [editBtn addTarget:self action:@selector(editBtnTap:) forControlEvents:UIControlEventTouchUpInside];
+            [containerView addSubview:editBtn];
+            [containerView bringSubviewToFront:editBtn];
         }
         
         // stries count
@@ -163,13 +171,11 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)editBtnTap:(UIButton *)sender
 {
-    // Drawing code
+    //NSLog(@"sender %d", sender.tag);
+    NSNumber *storyId = [NSNumber numberWithInteger:sender.tag];
+    [[self controller] performSelector:@selector(editBtnTap:) withObject:storyId];
 }
-*/
 
 @end

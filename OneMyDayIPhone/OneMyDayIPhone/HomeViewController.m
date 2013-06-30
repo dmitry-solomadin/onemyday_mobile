@@ -55,11 +55,11 @@ AppDelegate *appDelegate;
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }
 
-- (void)authorTap:(NSNumber *)authorId
+/*- (void)authorTap:(NSNumber *)authorId
 {
     appDelegate.authorId = [authorId intValue];
     self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];  
-}
+}*/
 
 - (void)viewDidLoad
 {
@@ -117,14 +117,17 @@ AppDelegate *appDelegate;
     
     [topIndicator startAnimating];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:)
+    /*[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:)
                                                  name:@"refreshViewNotification" object:nil];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshViewNotification"
-     object:self];
+     object:self];*/
+    
+    [self refreshView:0];
 }
 
-- (void)refreshView:(NSNotification *) notification
+//methodCallPointer == 0 - cal from viewDidLoad; 1 - from pull to refresh
+- (void)refreshView:(int) methodCallPointer
 {    
     // how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
@@ -147,7 +150,7 @@ AppDelegate *appDelegate;
             [topIndicator stopAnimating];            
             
             //move old stories to top after removing the wheel
-            if([[notification object] isKindOfClass:[HomeViewController class]] && stories != NULL && [stories count] > 0)
+            if(methodCallPointer == 0 && stories != NULL && [stories count] > 0)
             {
                 [UIView beginAnimations:nil context:NULL];
                 [UIView setAnimationDuration:0.2];
@@ -203,8 +206,8 @@ AppDelegate *appDelegate;
                     currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
                 }
                
-               //move old stories to the bottom
-               if (storiesCount != 11 || (storiesCount != 11 && [[stories objectAtIndex: 10] storyId] != storyId)) {
+               //move old stories to the bottom   NOT TESTED!
+               if (storiesCount != 11 || (storiesCount == 11 && [[stories objectAtIndex: 10] storyId] == storyId)) {
                    int start = storiesCount + 1;
                     for (int i = start, j = 0; i < [[scrollView subviews] count]; i++) {
                         if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]]){
@@ -232,6 +235,7 @@ AppDelegate *appDelegate;
 - (void)reloadTableViewDataSource
 {
 	_reloading = YES;
+    [self refreshView:1];
 }
 
 - (void)doneLoadingTableViewData
@@ -245,7 +249,7 @@ AppDelegate *appDelegate;
 	[_refreshHeaderView egoRefreshScrollViewDidScroll:sView];
     CGFloat direction = scrollView.contentOffset.y - previousY;
     CGFloat pixLeft = oldFeedHeight - scrollView.contentOffset.y;
-    
+
     if(!oldStoriesLoading && pixLeft <= 500 && pixLeft >= 400 && direction > 0) {
         oldStoriesLoading = true;
         
@@ -353,7 +357,10 @@ AppDelegate *appDelegate;
 - (void)authorOfStorieTap:(UIButton *)sender
 {
     appDelegate.authorId = sender.tag;
-    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
+    //self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
+    ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+    [[self navigationController] pushViewController:profileVC animated:YES];
+    ///UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:profileVC];
 }
 
 @end

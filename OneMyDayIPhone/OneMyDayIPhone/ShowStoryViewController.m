@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "StoryStore.h"
 #import "StoryCommentView.h"
+#import "ProfileViewController.h"
 
 @interface ShowStoryViewController ()
 
@@ -190,8 +191,8 @@ int profileAuthorId;
     if([story isLikedByUser])likeOrUnlike = @"unlike";
     else likeOrUnlike = @"like";
     NSMutableString *path = [NSString stringWithFormat:@"/api/stories/%d/%@", [story storyId], likeOrUnlike];
-    NSString *postData =[[NSString alloc] initWithFormat:
-                         @"api_key=%@&user_id=%@",appDelegate.apiKey, appDelegate.currentUserId];
+    /*NSString *post =[[NSString alloc] initWithFormat:
+                         @"api_key=%@&user_id=%@",appDelegate.apiKey, appDelegate.currentUserId];*/
     
     Request *request = [[Request alloc] init];
     
@@ -199,7 +200,12 @@ int profileAuthorId;
     dispatch_async(downloadQueue, ^{
         // do our long running process here      
         
-        NSDictionary *jsonData = [request getDataFrom: path requestData: postData];
+        /*NSMutableData *postData = [NSMutableData alloc];
+        [postData appendData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];*/
+        
+        [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
+        [request addStringToPostData:@"user_id" andValue: [NSString stringWithFormat:@"%d",appDelegate.currentUserId]];
+        NSDictionary *jsonData = [request getDataFrom: path];
         //[NSThread sleepForTimeInterval:3];
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -280,7 +286,7 @@ int profileAuthorId;
                     Comment *comment = [comments objectAtIndex:i];
                     CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
                     StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
-                                                                                      andComment:comment
+                        andComment:comment
                                                                                       andIsFirst:(i == 0)
                                                                                        andIsLast:(i == [comments count] - 1)];
                     storyCommentView.controller = self;
@@ -322,7 +328,7 @@ int profileAuthorId;
 - (NSMutableArray *)getComments: request
 {
     NSMutableString *path = [NSString stringWithFormat:@"/stories/%d/comments.json/", [story storyId]];  
-    NSDictionary *jsonData = [request getDataFrom: path requestData:nil];
+    NSDictionary *jsonData = [request getDataFrom: path];
     NSMutableArray *comments;
     if(jsonData != nil){
         comments = [NSMutableArray array];
@@ -450,8 +456,8 @@ int profileAuthorId;
     
    
     NSMutableString *path = [NSString stringWithFormat:@"/api/comments/create"];
-    NSString *postData =[[NSString alloc] initWithFormat:
-                         @"api_key=%@&creator_id=%d&comment[text]=%@&story_id=%d",appDelegate.apiKey, [appDelegate currentUserId], [textField  text], [story storyId]];
+    /*NSString *post =[[NSString alloc] initWithFormat:
+                         @"api_key=%@&creator_id=%d&comment[text]=%@&story_id=%d",appDelegate.apiKey, [appDelegate currentUserId], [textField  text], [story storyId]];*/
     
     Request *request = [[Request alloc] init];
     
@@ -459,7 +465,15 @@ int profileAuthorId;
     dispatch_async(downloadQueue, ^{
         // do our long running process here
         
-        NSDictionary *jsonData = [request getDataFrom: path requestData: postData];
+        /*NSMutableData *postData = [NSMutableData alloc];
+        [postData appendData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];*/
+        
+        [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
+        [request addStringToPostData:@"creator_id" andValue:[NSString stringWithFormat:@"%d",[appDelegate currentUserId]]];
+        [request addStringToPostData:@"comment[text]" andValue:[textField  text]];
+        [request addStringToPostData:@"story_id" andValue:[NSString stringWithFormat:@"%d",[story storyId]]];
+        
+        NSDictionary *jsonData = [request getDataFrom: path];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [addCommentIndicator stopAnimating];
@@ -617,8 +631,8 @@ int profileAuthorId;
     [delCommentIndicator startAnimating];    
 
     NSMutableString *path = [NSString stringWithFormat:@"/api/comments/%d/destroy",commentId];
-    NSString *postData =[[NSString alloc] initWithFormat:
-                         @"api_key=%@",appDelegate.apiKey];
+   /* NSString *post =[[NSString alloc] initWithFormat:
+                         @"api_key=%@",appDelegate.apiKey];*/
     
     Request *request = [[Request alloc] init];
     
@@ -626,7 +640,12 @@ int profileAuthorId;
     dispatch_async(downloadQueue, ^{
         // do our long running process here
         
-        NSDictionary *jsonData = [request getDataFrom: path requestData: postData];
+        //NSMutableData *postData = [NSMutableData alloc];
+        //[postData appendData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
+        
+        [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
+        
+        NSDictionary *jsonData = [request getDataFrom: path];
         //[NSThread sleepForTimeInterval:3];
       
         // do any UI stuff on the main UI thread
@@ -762,7 +781,9 @@ int profileAuthorId;
 - (void)authorTap:(UIButton *)sender
 {  
     appDelegate.authorId = sender.tag;
-    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
+    ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+    [[self navigationController] pushViewController:profileVC animated:YES];
+    //self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

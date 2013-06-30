@@ -210,6 +210,8 @@
 		844DFA8A16CFB67000884637 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5F16CFB66F00884637 /* Foundation.framework */; };
 		844DFA9216CFB67000884637 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844DFA9016CFB67000884637 /* InfoPlist.strings */; };
 		844DFA9516CFB67000884637 /* OneMyDayIPhoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */; };
+		848CCFE9177C422000A734CA /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 848CCFE8177C422000A734CA /* ActivityView.m */; };
+		848CCFEE177C43BA00A734CA /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 848CCFED177C43BA00A734CA /* Activity.m */; };
 		849C6E2717183F74006C5766 /* DMTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E2617183F74006C5766 /* DMTwitter.m */; };
 		849C6E2B17183FA9006C5766 /* DMTwitterLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E2A17183FA9006C5766 /* DMTwitterLoginViewController.m */; };
 		849C6E2C17183FA9006C5766 /* DMTwitterLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E2A17183FA9006C5766 /* DMTwitterLoginViewController.m */; };
@@ -240,6 +242,8 @@
 		84A6079A1743823E00848AF7 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A607911743823E00848AF7 /* grayArrow@2x.png */; };
 		84A6079B1743823E00848AF7 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A607921743823E00848AF7 /* whiteArrow.png */; };
 		84A6079C1743823E00848AF7 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A607931743823E00848AF7 /* whiteArrow@2x.png */; };
+		84A973A0177B884200CCB9EF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A9739F177B884200CCB9EF /* SignUpViewController.m */; };
+		84A973A4177B8FFE00CCB9EF /* blankPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A973A3177B8FFE00CCB9EF /* blankPhoto.png */; };
 		84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AEC1B117213FD1005CCD58 /* onemydayLogo.png */; };
 		84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
 		84DD61DA16D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
@@ -516,6 +520,10 @@
 		844DFA9116CFB67000884637 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		844DFA9316CFB67000884637 /* OneMyDayIPhoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneMyDayIPhoneTests.h; sourceTree = "<group>"; };
 		844DFA9416CFB67000884637 /* OneMyDayIPhoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneMyDayIPhoneTests.m; sourceTree = "<group>"; };
+		848CCFE7177C422000A734CA /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityView.h; sourceTree = "<group>"; };
+		848CCFE8177C422000A734CA /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
+		848CCFEC177C43BA00A734CA /* Activity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
+		848CCFED177C43BA00A734CA /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Activity.m; sourceTree = "<group>"; };
 		849C6E2417183F68006C5766 /* DMTwitterCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTwitterCore.h; sourceTree = "<group>"; };
 		849C6E2517183F6E006C5766 /* DMTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTwitter.h; sourceTree = "<group>"; };
 		849C6E2617183F74006C5766 /* DMTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTwitter.m; sourceTree = "<group>"; };
@@ -560,6 +568,9 @@
 		84A607911743823E00848AF7 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
 		84A607921743823E00848AF7 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		84A607931743823E00848AF7 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
+		84A9739E177B884200CCB9EF /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		84A9739F177B884200CCB9EF /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		84A973A3177B8FFE00CCB9EF /* blankPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankPhoto.png; sourceTree = "<group>"; };
 		84AEC1B117213FD1005CCD58 /* onemydayLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemydayLogo.png; sourceTree = "<group>"; };
 		84DD61D816D019ED0049B78B /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		84DF0A9C1740222D0088578A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
@@ -780,6 +791,7 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84A973A3177B8FFE00CCB9EF /* blankPhoto.png */,
 				18064FF9175764850054338C /* heart_small@2x.png */,
 				18064FFA175764850054338C /* heart_small.png */,
 				18064FFB175764850054338C /* eye@2x.png */,
@@ -813,13 +825,13 @@
 				18BFB75B17249AC100930B97 /* twitter_login@2x.png */,
 				18BFB75C17249AC100930B97 /* twitter_login.png */,
 				84AEC1B117213FD1005CCD58 /* onemydayLogo.png */,
-				18D7D0FC1742373E00C9EEC3 /* furley_bg@2x.png */,
 				1889A2BA1720AC6900F3E2CD /* furley_bg.png */,
 				180D979E171F248B0034A9C2 /* capture-button@2x.png */,
 				180D979F171F248B0034A9C2 /* capture-button.png */,
 				18E24240171739D500435FBE /* gear@2x.png */,
 				18E24241171739D600435FBE /* gear.png */,
 				18E2422A1716DDFB00435FBE /* photo@2x.png */,
+				18D7D0FC1742373E00C9EEC3 /* furley_bg@2x.png */,
 				18E2422B1716DDFC00435FBE /* photo.png */,
 				18E2422C1716DDFC00435FBE /* man@2x.png */,
 				18E2422D1716DDFC00435FBE /* man.png */,
@@ -837,6 +849,8 @@
 		18F98F44171370C700D8F7A3 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				84A9739E177B884200CCB9EF /* SignUpViewController.h */,
+				84A9739F177B884200CCB9EF /* SignUpViewController.m */,
 				180D979B171F0FD90034A9C2 /* MasterViewController.h */,
 				180D979C171F0FD90034A9C2 /* MasterViewController.m */,
 				84E701A116D76D5100979856 /* LoginViewController.m */,
@@ -1118,6 +1132,8 @@
 				184D56931738DD560088CADF /* HiResImageDelegate.h */,
 				84A30736175B704400381EBB /* StoryCommentView.h */,
 				84A30737175B704400381EBB /* StoryCommentView.m */,
+				848CCFE7177C422000A734CA /* ActivityView.h */,
+				848CCFE8177C422000A734CA /* ActivityView.m */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -1139,6 +1155,8 @@
 				1883AB2B172C95C40093554B /* EditorStore.m */,
 				84A30739175B798700381EBB /* Comment.h */,
 				84A3073A175B798700381EBB /* Comment.m */,
+				848CCFEC177C43BA00A734CA /* Activity.h */,
+				848CCFED177C43BA00A734CA /* Activity.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -1375,6 +1393,7 @@
 				84A6079A1743823E00848AF7 /* grayArrow@2x.png in Resources */,
 				84A6079B1743823E00848AF7 /* whiteArrow.png in Resources */,
 				84A6079C1743823E00848AF7 /* whiteArrow@2x.png in Resources */,
+				84A973A4177B8FFE00CCB9EF /* blankPhoto.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1485,6 +1504,9 @@
 				84A30738175B704400381EBB /* StoryCommentView.m in Sources */,
 				84A3073B175B798700381EBB /* Comment.m in Sources */,
 				849E097A1779E300009BC55D /* UserInfoView.m in Sources */,
+				84A973A0177B884200CCB9EF /* SignUpViewController.m in Sources */,
+				848CCFE9177C422000A734CA /* ActivityView.m in Sources */,
+				848CCFEE177C43BA00A734CA /* Activity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

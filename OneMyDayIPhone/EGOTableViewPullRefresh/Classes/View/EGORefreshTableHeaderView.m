@@ -170,8 +170,8 @@
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
 			_arrowImage.hidden = YES;
 			[CATransaction commit];
-			
-            // All instances of TestClass will be notified
+            
+			// All will be notified
             [[NSNotificationCenter defaultCenter]
              postNotificationName:@"refreshViewNotification"
              object:self];           

@@ -11,6 +11,8 @@
 
 @interface UserInfoView : UIView
 
+@property (nonatomic, weak) id controller;
+
 - (id)initWithFrame:(CGRect)frame andUser: (User *)user;
 
 @end

@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "ThumbStoryView.h"
 #import "ShowStoryViewController.h"
+#import "SignUpViewController.h"
 
 @interface ProfileViewController ()
 
@@ -123,15 +124,25 @@ AppDelegate *appDelegate;
         appDelegate.authorId = 0;
     } else userId = appDelegate.currentUserId;
     
-    //NSLog(@"q %d",userId);
+    NSLog(@"q %d",userId);
     
     User *user = [[UserStore get] findById: userId];
+    
+    //if(user == nil)[[UserStore get] requestUserWithId: userId];
+    
+    NSLog(@"user %@",user);
+    
+     NSLog(@"userid %d",[user userId]);
+    
+     NSLog(@"userName %@",[user name]);
     
     feedHeight = 5;
     
     CGRect frame = CGRectMake(5, feedHeight, 300, 120);
     
     UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
+    
+    userInfoView.controller = self;
     
     [scrollView addSubview:userInfoView];
     
@@ -250,6 +261,14 @@ AppDelegate *appDelegate;
     ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc]
                                                         initWithStory:story andProfileAuthorId: userId];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
+}
+
+- (void)editBtnTap:(NSNumber *)_userId
+{
+    //NSLog(@"authorId %@", _userId);
+    SignUpViewController  *signUpViewController = [SignUpViewController alloc];
+    signUpViewController.userId = [_userId intValue];
+    [[self navigationController] pushViewController:signUpViewController animated:YES];
 }
 
 @end

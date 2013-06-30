@@ -9,10 +9,10 @@
 #import "User.h"
 
 @implementation User
-@synthesize userId, name, avatarUrls, followedBySize, followersSize, storiesSize;
+@synthesize userId, name, email, gender, avatarUrls, followedBySize, followersSize, storiesSize;
 
 - (id)initWithId:(int)_userId andName:(NSString *)_name andAvatarUrls:(NSDictionary *)_avatarUrls andFollowedBySize:
-    (int)_followedBySize andFollowersSize: (int)_followersSize andStoriesSize:(int)_storiesSize
+    (int)_followedBySize andFollowersSize: (int)_followersSize andStoriesSize:(int)_storiesSize  andEmail:(NSString *) _email andGender:(NSString *) _gender
 {
     self = [super init];
     if (self) {
@@ -22,6 +22,8 @@
         self.followersSize = _followersSize;
         self.followedBySize = _followedBySize;
         self.storiesSize = _storiesSize;
+        self.email = _email;
+        self.gender = _gender;
     }
     return self;
 }
@@ -41,6 +43,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.name forKey:@"name"];
+    [coder encodeObject:self.email forKey:@"email"];
+    [coder encodeObject:self.gender forKey:@"gender"];
     [coder encodeObject:self.avatarUrls forKey:@"avatarUrls"];
 	[coder encodeInt32:self.userId forKey:@"userId"];
     [coder encodeInt32:self.followedBySize forKey:@"followedBySize"];
@@ -53,6 +57,8 @@
 	if ((self = [super init]))
 	{
         self.name = [coder decodeObjectForKey:@"name"];
+        self.email = [coder decodeObjectForKey:@"email"];
+        self.gender = [coder decodeObjectForKey:@"gender"];
         self.avatarUrls = [coder decodeObjectForKey:@"avatarUrls"];
         self.userId = [coder decodeInt32ForKey:@"userId"];
         self.followedBySize = [coder decodeInt32ForKey:@"followedBySize"];

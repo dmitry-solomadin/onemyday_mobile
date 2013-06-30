@@ -35,7 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [self updateView];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
@@ -119,6 +119,9 @@
             
             [self updateView];
         }];
+    
+    
+    
     /*NSArray *permissions = [[NSArray alloc] initWithObjects:
                             @"user_location", // you need to have this permission
                             @"user_email", // to be approved                            
@@ -216,10 +219,20 @@
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (appDelegate.session.isOpen) {
         NSLog(@"Welcome to facebook session!");
+        /*NSArray *permissions = [NSArray arrayWithObjects:@"email", nil];
+        [FBSession openActiveSessionWithReadPermissions:permissions
+                                           allowLoginUI:YES
+                                      completionHandler:
+         ^(FBSession *session,
+           FBSessionState state, NSError *error) {
+             
+             //[self sessionStateChanged:session state:state error:error];
+         }];*/
         [FBSession setActiveSession: appDelegate.session];
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
             if (!error) {
-                NSLog(@"user.name %@", user.id);
+                NSLog(@"user.name %@", user.name);
+                NSLog(@"user.name %@", user.username);
                 NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
             } else NSLog(@"error %@", error);
         }];

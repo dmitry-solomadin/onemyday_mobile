@@ -25,13 +25,33 @@ NSString *mainUrl = @"http://onemyday.co/";
 NSString *badConnectionMsg = @"It appears that you have a bad connection.";
 NSString *operationFailedMsg = @"Operation failed";
 NSString *errorMsg = nil;
+NSMutableData *postData;
+NSString *boundary = @"---------------------------14737809831466499882746641449";
+
+- (void) addStringToPostData:(NSString *)key andValue:(NSString *)value
+{
+    if(postData == nil) postData = [NSMutableData alloc];
+    [postData appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData:[[NSString stringWithFormat:@"%@\r\n", value] dataUsingEncoding:NSUTF8StringEncoding]];
+}
+
+- (void) addImageToPostData:(NSString *)key andValue:(UIImage *)value
+{
+    if(postData == nil) postData = [NSMutableData alloc];
+    [postData appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData: [@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData: UIImagePNGRepresentation(value)];
+    [postData appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+}
 
 - (NSString *) errorMsg
 {
     return errorMsg;
 }
 
-- (NSString *) operationFailedMsg
++ (NSString *) operationFailedMsg
 {
     return operationFailedMsg;
 }
@@ -96,28 +116,53 @@ NSString *errorMsg = nil;
     return nil;
 }*/
 
-- (id)getDataFrom:(NSString *)path requestData: (NSString *)post
+- (id)getDataFrom:(NSString *)path
 {    
     NSString *urlTxt = [mainUrl stringByAppendingString: path];        
     NSURL *url = [NSURL URLWithString: urlTxt];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
     
     NSLog(@"url %@", url);
-    NSLog(@"post %@", post);
+    NSLog(@"post %@", postData);
     
     [request setURL: url];
     
-    if(post != nil){
-        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];        
-        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];        
-        [request setHTTPMethod:@"POST"];
+    if(postData != nil){
+        
+        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+        [request setHTTPShouldHandleCookies:NO];
+        [request setTimeoutInterval:30];
+        [request setHTTPMethod:@"POST"];        
+        
+        NSString *boundary = @"---------------------------14737809831466499882746641449";
+        
+        // set Content-Type in HTTP header
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+        
+        
+        /*NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];*/
+        
+      
+        
+        /*NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        [request addValue:contentType forHTTPHeaderField:@"Content-Type"];*/
+        
+        [postData appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+                
         [request setHTTPBody:postData];
+        
+        // set the content-length
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        
         [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[url host]];
     }  else [request setHTTPMethod:@"GET"];
     
+    postData = nil;
     
     NSError *error;
     NSHTTPURLResponse *responseCode = nil;
@@ -137,16 +182,21 @@ NSString *errorMsg = nil;
         return nil;
     } else {
         SBJsonParser *jsonParser = [SBJsonParser new];
-        NSString *responseData  = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
+        
+        NSString *responseData = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
         NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
+        
         //NSLog(@"jsonData %@", jsonData);
         return jsonData;
     }    
 }
 
-- (id)requestLoginWithPath:(NSString*)path
-{    
-    NSDictionary *jsonData = [self getDataFrom:@"auth/regular.json" requestData: path];
+- (id)requestLogin
+{
+    //NSMutableData *postData = [NSMutableData alloc];
+    //[postData appendData:[path dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
+    
+    NSDictionary *jsonData = [self getDataFrom:@"auth/regular.json"];
     if(jsonData == nil) return nil;
     
     NSString *status = (NSString *) [jsonData objectForKey:@"status"];

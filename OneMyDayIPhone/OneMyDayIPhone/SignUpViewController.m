@@ -245,6 +245,7 @@ User *user;
 { 
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    //picker.title = @"";
     picker.delegate = self;  
     [self presentModalViewController:picker animated:YES];
 }

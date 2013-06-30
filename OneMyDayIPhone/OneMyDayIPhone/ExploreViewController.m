@@ -85,8 +85,7 @@ CGFloat currentFeedHeight = 10.0;
 }
 
 - (void)refreshView
-{
-    
+{    
     UIActivityIndicatorView *topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     topIndicator.frame = CGRectMake(10, 45, 100, 100);
     topIndicator.center = CGPointMake(160, 70);
@@ -96,6 +95,12 @@ CGFloat currentFeedHeight = 10.0;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [topIndicator startAnimating];
     
+    int oldSubViewsCount = [[scrollView subviews] count] - 1;
+    for (int i = 0; i < oldSubViewsCount; i++) {
+        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]])[[[scrollView subviews] objectAtIndex:i] removeFromSuperview];
+    }
+    currentFeedHeight = 60;
+    
     // how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
@@ -103,7 +108,7 @@ CGFloat currentFeedHeight = 10.0;
         
         [NSThread sleepForTimeInterval:3];     
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 0 userId: [appDelegate currentUserId] authorId:0 serchFor:[textField text]];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 100 userId: [appDelegate currentUserId] authorId:0 searchFor:[textField text]];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{

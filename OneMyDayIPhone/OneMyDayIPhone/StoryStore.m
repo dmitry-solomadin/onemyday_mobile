@@ -77,7 +77,7 @@ NSString *requestErrorMsg = nil;
 }
 
 - (id)requestStoriesIncludePhotos:(BOOL)includePhotos includeUser:(BOOL)includeUser newStories:(BOOL)newStories
-lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int)authorId serchFor: (NSString *)text
+lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int)authorId searchFor: (NSString *)text
 {    
     NSMutableString *path = [[NSMutableString alloc] initWithString:@"/search_stories.json"];
     NSMutableArray *parameters = [[NSMutableArray alloc] init];

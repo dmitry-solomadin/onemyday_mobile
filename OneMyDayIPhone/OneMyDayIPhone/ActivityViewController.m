@@ -146,15 +146,14 @@ AppDelegate *appDelegate;
 {
     //NSLog(@"storyId %@", storyId);
     Story *story = [[StoryStore get] findById:[storyId intValue]];
-    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story andProfileAuthorId: 0];
+    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }
 
 - (void)authorOfStorieTap:(NSNumber *)authorId
-{
-    //NSLog(@"authorId %@", authorId);
-    appDelegate.authorId = [authorId intValue];
+{   
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+    [profileVC setUserId:[authorId intValue]];
     [[self navigationController] pushViewController:profileVC animated:YES];  
 }
 

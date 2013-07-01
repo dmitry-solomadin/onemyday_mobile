@@ -54,6 +54,7 @@
                 // we recurse here, in order to update buttons and labels
                 [self updateView];
             }];
+            
         }
     }
     
@@ -219,6 +220,7 @@
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (appDelegate.session.isOpen) {
         NSLog(@"Welcome to facebook session!");
+         
         /*NSArray *permissions = [NSArray arrayWithObjects:@"email", nil];
         [FBSession openActiveSessionWithReadPermissions:permissions
                                            allowLoginUI:YES
@@ -234,6 +236,7 @@
                 NSLog(@"user.name %@", user.name);
                 NSLog(@"user.name %@", user.username);
                 NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+                NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
             } else NSLog(@"error %@", error);
         }];
         appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
@@ -242,6 +245,8 @@
     }
     else if ([DMTwitter shared].oauth_token_authorized) {
         NSLog(@"Welcome to twitter session!");
+        NSLog(@"[DMTwitter shared] oauth_token_secret%@", [DMTwitter shared].oauth_token_secret);
+         NSLog(@"[DMTwitter shared] oauth_token%@", [DMTwitter shared].oauth_token);
         appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
         [self goToMasterView];
         

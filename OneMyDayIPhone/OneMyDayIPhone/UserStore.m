@@ -69,9 +69,21 @@ NSString *userStorePath = @"~/Documents/users";
     NSDictionary *jsonData = [request send:path];
     NSDictionary *userData = [jsonData objectForKey:@"user"];
     User *user = [self parseUserData:userData];
-    [self addUser:user];
-    
+    [self addOrReplaceUser:user];    
     return user;
+}
+
+- (void)addOrReplaceUser:(User *)user
+{
+    bool exists = false;
+    for(int i = 0;i < [users count];i++){
+        if([[users objectAtIndex:i] userId] == [user userId]){
+            exists = true;        
+            [users replaceObjectAtIndex:i withObject:user];
+            break;
+        }
+    }
+    if(!exists) [users addObject:user];
 }
 
 - (User *)parseUserData:(NSDictionary *)userData
@@ -109,9 +121,9 @@ NSString *userStorePath = @"~/Documents/users";
     
     if ([rootObject valueForKey:@"users"] != nil) {
         NSArray *oldUsers = [rootObject valueForKey:@"users"];
-        if(users != nil && [users count] > 0){
-            for(int i= 0; i < [oldUsers count]; i++){
-                [users addObject:[oldUsers objectAtIndex:i]];
+        if(users != nil && [users count] > 0){         
+            for(int i= 0; i < [oldUsers count]; i++){               
+                [self addUser:[oldUsers objectAtIndex:i]];
             }
         }
         else users = oldUsers;

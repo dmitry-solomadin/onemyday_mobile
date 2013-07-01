@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/SignUpViewController.m"
-         timestampString = "394309675.501435"
+         timestampString = "394311848.005697"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "396"
-         endingLineNumber = "396"
+         startingLineNumber = "397"
+         endingLineNumber = "397"
          landmarkName = "-join:"
          landmarkType = "5">
       </FileBreakpoint>

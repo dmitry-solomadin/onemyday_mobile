@@ -51,15 +51,9 @@ AppDelegate *appDelegate;
 - (void)storyTap:(NSNumber *)storyId
 {
     Story *story = [[StoryStore get] findById:[storyId intValue]];
-    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story andProfileAuthorId: 0];
+    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }
-
-/*- (void)authorTap:(NSNumber *)authorId
-{
-    appDelegate.authorId = [authorId intValue];
-    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];  
-}*/
 
 - (void)viewDidLoad
 {
@@ -138,7 +132,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11 userId: [appDelegate currentUserId] authorId:0  serchFor: nil];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: storyId withLimit: 11 userId: [appDelegate currentUserId] authorId:0  searchFor: nil];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -305,7 +299,7 @@ AppDelegate *appDelegate;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId] authorId:0 serchFor: nil];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId] authorId:0 searchFor: nil];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{            
@@ -314,7 +308,7 @@ AppDelegate *appDelegate;
             
             [bottomIndicator stopAnimating];
             
-            [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
+            //[[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
                         
             /*if([[StoryStore get] requestErrorMsg] != nil && newStories == NULL){
                 [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
@@ -356,11 +350,9 @@ AppDelegate *appDelegate;
 
 - (void)authorOfStorieTap:(UIButton *)sender
 {
-    appDelegate.authorId = sender.tag;
-    //self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
-    [[self navigationController] pushViewController:profileVC animated:YES];
-    ///UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:profileVC];
+    [profileVC setUserId: sender.tag];
+    [[self navigationController] pushViewController:profileVC animated:YES];    
 }
 
 @end

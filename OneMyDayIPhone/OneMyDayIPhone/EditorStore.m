@@ -151,6 +151,28 @@
     [userDefaults synchronize];
 }
 
+/* --- Get from store methods --- */
+
+- (UIImage *)getImageWithKey:(NSString *)key
+{
+    NSString *path = [self imagePathForKey:key];
+    
+    NSData *imgData = [NSData dataWithContentsOfFile:path];
+    return [[UIImage alloc] initWithData:imgData];
+}
+
+- (NSString *)getTextWithKey:(NSString *)key
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *editorKeyToText = [userDefaults objectForKey:@"editor_key_to_text"];
+    if (editorKeyToText) {
+        editorKeyToText = [NSMutableDictionary dictionaryWithDictionary:editorKeyToText];
+        return [editorKeyToText objectForKey:key];
+    } else {
+        return nil;
+    }
+}
+
 /* --- Delete from store methods --- */
 
 - (void)deleteImageWithKey:(NSString *)key

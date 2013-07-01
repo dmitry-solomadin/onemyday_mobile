@@ -21,6 +21,10 @@
 @interface EditorViewController ()
 {
     AppDelegate *appDelegate;
+    UITextField *storyTitle;
+    UIView *uploadProgressArea;
+    UIProgressView *uploadProgressBar;
+    UIView *storyTitleArea;
     
     UIScrollView *scrollView;
     NSMutableArray *editorItemViews;
@@ -63,8 +67,17 @@
     scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cool_bg"]];
     [[self view] addSubview:scrollView];
     
+    // add upload progress area
+    uploadProgressArea = [[UIView alloc] initWithFrame:CGRectMake(0, -40, 320, 40)];
+    uploadProgressBar = [[UIProgressView alloc] initWithFrame:CGRectMake(10, 20, 300, 40)];
+    [uploadProgressBar setProgressTintColor:[UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f]];
+    [uploadProgressArea addSubview:uploadProgressBar];
+    [scrollView addSubview:uploadProgressArea];
+    
     // add story title
-    UITextField *storyTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 300, 38)];
+    storyTitleArea = [[UITextField alloc] initWithFrame:CGRectMake(0, 10, 320, 52)];
+    
+    storyTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, 300, 38)];
     [storyTitle setPlaceholder:@"Enter story title..."];
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
     storyTitle.leftView = paddingView;
@@ -76,16 +89,18 @@
     [storyTitle setReturnKeyType:UIReturnKeyDone];
     [storyTitle setText:[[EditorStore get] loadTitle]];
     storyTitle.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"furley_bg"]];
-    [scrollView addSubview:storyTitle];
+    [storyTitleArea addSubview:storyTitle];
     
     // lines under the title
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 53, self.view.bounds.size.width, 1)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.5];
-    [scrollView addSubview:lineView];
+    [storyTitleArea addSubview:lineView];
     
-    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 54, self.view.bounds.size.width, 1)];
+    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
     lineView2.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
-    [scrollView addSubview:lineView2];
+    [storyTitleArea addSubview:lineView2];
+    
+    [scrollView addSubview:storyTitleArea];
     
     // add previously saved images&texts if any
     NSMutableDictionary *keyToItem = [[EditorStore get] loadAllItems];
@@ -194,8 +209,6 @@
     // create long press&tap gesture recognizers (rearrange items and exit rearrange)
     [self addLongPressGestureRecognizer:imageBtn];
     [self addTapGestureRecognizer:imageBtn];
-    
-
     
     [scrollView addSubview:itemView];
     [scrollView setContentSize:(CGSizeMake(320, [self getCurrentScrollHeight]))];
@@ -557,30 +570,72 @@
     }
 }
 
-- (void)publishStory
+/* PUBLISH STORY */
+
+- (void)publishStory:(id)sender
 {
     Request *request = [[Request alloc] init];
-    /*
+
     [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
     [request addStringToPostData:@"author_id" andValue: [NSString stringWithFormat:@"%d", appDelegate.currentUserId]];
-    [request addStringToPostData:@"story[title]" andValue:[passField text]];
-    [request addStringToPostData:@"user[gender]" andValue:sex];
-    [request addStringToPostData:@"user[name]" andValue:[nameField text]];
-
-    //[postData appendData:[postString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
-    if(![self isBlankImage:avatarView.image])[request addImageToPostData:@"user[avatar]" andValue:avatarView.image];
+    [request addStringToPostData:@"story[title]" andValue:[storyTitle text]];
     
-    NSDictionary *something;
-    NSString *requestString;
-    if(user == nil)requestString = @"/users.json";
-    else requestString = [NSString stringWithFormat: @"/api/users/%d/update.json", [user userId]];
+    for (int i=0; i < [editorItemViews count]; i++) {
+        EditorItemView *itemView = [editorItemViews objectAtIndex:i];
+        NSString *elementOrder = [NSString stringWithFormat:@"%d", i];
+        if ([itemView type] == photoItemType) {
+            UIImage *image = [[EditorStore get] getImageWithKey:[itemView key]];
+            [request addImageToPostData:@"story_photos[][photo]" andValue:image];
+            [request addStringToPostData:@"story_photos[][element_order]" andValue:elementOrder];
+        } else if ([itemView type] == textItemType) {
+            NSString *text = [[EditorStore get] getTextWithKey:[itemView key]];
+            [request addStringToPostData:@"story_texts[][text]" andValue:text];
+            [request addStringToPostData:@"story_texts[][element_order]" andValue:elementOrder];
+        }
+    }
     
-    something = [request send:requestString];
-    
-    return something;
-    */
+    [self showProgressBar];
+    [request sendAsync:@"/api/stories/create_and_publish"
+            onProgress:^(float percents) {
+                [uploadProgressBar setProgress:(percents / 100)];
+                if (percents == 100) {
+                    [self hideProgressBar];
+                    [self dismissSelf:nil];
+                }
+            }
+              onFinish:^(NSDictionary *response){
+                  NSLog(@"here");
+              }];
 }
 
+- (void)showProgressBar
+{
+    [self shiftProgressBar:40];
+}
+
+- (void)hideProgressBar
+{
+    [self shiftProgressBar:-40];
+}
+
+- (void)shiftProgressBar:(int)shiftAmount
+{
+    [UIView beginAnimations:@"animateReturnItemOnInitialPosition" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:0.5f];
+    
+    for (EditorItemView *itemView in editorItemViews) {
+        itemView.frame = CGRectMake(itemView.frame.origin.x, itemView.frame.origin.y + shiftAmount,
+                                    itemView.frame.size.width, itemView.frame.size.height);
+    }
+    
+    uploadProgressArea.frame = CGRectMake(uploadProgressArea.frame.origin.x, uploadProgressArea.frame.origin.y + shiftAmount,
+                                          uploadProgressArea.frame.size.width, uploadProgressArea.frame.size.height);
+    storyTitleArea.frame = CGRectMake(storyTitleArea.frame.origin.x, storyTitleArea.frame.origin.y + shiftAmount,
+                                      storyTitleArea.frame.size.width, storyTitleArea.frame.size.height);
+    
+    [UIView commitAnimations];
+}
 
 /* MISC METHODS */
 

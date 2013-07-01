@@ -43,7 +43,7 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     UIImage* tabBarBackground = [UIImage imageNamed:@"tabbar_bg"];
     [[UITabBar appearance] setBackgroundImage:tabBarBackground];
     //[[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tabbar_selected.png"]];
-    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:0.8 green:0.1 blue:0 alpha:1]];
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f]];
 
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     

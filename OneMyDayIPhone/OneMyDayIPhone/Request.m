@@ -29,7 +29,7 @@ NSMutableData *postData;
 NSString *boundary = @"---------------------------14737809831466499882746641449";
 NSURLResponse *response;
 void (^finish)(NSDictionary *);
-void (^progress)(void);
+void (^progress)(float);
 
 /* SEND SYNC REQUEST */
 
@@ -52,7 +52,7 @@ void (^progress)(void);
 
 /* SEND ASYNC REQUEST */
 
-- (void)sendAsync:(NSString *)path onProgress:(void (^)(void))_progress onFinish:(void (^)(NSDictionary *))_finish
+- (void)sendAsync:(NSString *)path onProgress:(void (^)(float))_progress onFinish:(void (^)(NSDictionary *))_finish
 {
     NSMutableURLRequest *request = [self prepareRequest:path];
     
@@ -74,12 +74,27 @@ void (^progress)(void);
     if (statusCode != 200) {
         //NSLog(@"Error getting %@, HTTP status code %i", path, statusCode);
         errorMsg = badConnectionMsg;
-        finish(nil);
+        if (finish) {
+            finish(nil);
+        }
     } else {
         NSDictionary *jsonData = [self parseResponseData:data];
-        finish(jsonData);
+        
+        if (finish) {
+            finish(jsonData);
+        }
     }
-    
+}
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
+                                               totalBytesWritten:(NSInteger)totalBytesWritten
+                                       totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
+{
+
+    float percents = totalBytesWritten * 100 / totalBytesExpectedToWrite;
+    if (progress) {
+        progress(percents);
+    }
 }
 
 /* MANAGE POST DATA METHODS */

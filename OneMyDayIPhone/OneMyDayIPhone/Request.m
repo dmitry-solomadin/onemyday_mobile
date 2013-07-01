@@ -38,7 +38,7 @@ void (^progress)(void);
     NSMutableURLRequest *request = [self prepareRequest:path];
     NSError *error;
     NSHTTPURLResponse *responseCode = nil;
-        
+    NSLog(@"path %@", path);    
     NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
     NSLog(@"HTTP status code %i", [responseCode statusCode]);
     if ([responseCode statusCode] != 200) {
@@ -147,6 +147,7 @@ void (^progress)(void);
     
     NSString *responseData = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
     NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
+    //NSLog(@"jsonData %@", jsonData);
     return jsonData;
 }
 

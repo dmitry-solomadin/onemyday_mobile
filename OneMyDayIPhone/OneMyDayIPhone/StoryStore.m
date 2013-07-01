@@ -100,11 +100,11 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int
     Request *request = [[Request alloc] init];
     NSArray *jsonData = [request send:path];
  
-    if([request errorMsg] != nil){
-        // NSLog(@"[[request errorMsg] %@", [request errorMsg]);
+    /*if([request errorMsg] != nil){
+        NSLog(@"[[request errorMsg] %@", [request errorMsg]);
         requestErrorMsg = [request errorMsg];        
         return nil;  
-    }
+    }*/
         
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];

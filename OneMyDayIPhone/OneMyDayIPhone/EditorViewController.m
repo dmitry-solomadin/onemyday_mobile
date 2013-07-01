@@ -13,11 +13,15 @@
 #import "ViewWithAttributes.h"
 #import "AddTextViewController.h"
 #import "DLCImagePickerController.h"
+#import "Request.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "AppDelegate.h"
 
 @interface EditorViewController ()
 {
+    AppDelegate *appDelegate;
+    
     UIScrollView *scrollView;
     NSMutableArray *editorItemViews;
     
@@ -38,6 +42,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    appDelegate = [[UIApplication sharedApplication] delegate];
     
     totalSwipeRightTranslation = 0;
     editorItemViews = [[NSMutableArray alloc] init];
@@ -550,6 +556,31 @@
         }
     }
 }
+
+- (void)publishStory
+{
+    Request *request = [[Request alloc] init];
+    /*
+    [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
+    [request addStringToPostData:@"author_id" andValue: [NSString stringWithFormat:@"%d", appDelegate.currentUserId]];
+    [request addStringToPostData:@"story[title]" andValue:[passField text]];
+    [request addStringToPostData:@"user[gender]" andValue:sex];
+    [request addStringToPostData:@"user[name]" andValue:[nameField text]];
+
+    //[postData appendData:[postString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
+    if(![self isBlankImage:avatarView.image])[request addImageToPostData:@"user[avatar]" andValue:avatarView.image];
+    
+    NSDictionary *something;
+    NSString *requestString;
+    if(user == nil)requestString = @"/users.json";
+    else requestString = [NSString stringWithFormat: @"/api/users/%d/update.json", [user userId]];
+    
+    something = [request send:requestString];
+    
+    return something;
+    */
+}
+
 
 /* MISC METHODS */
 

@@ -11,13 +11,14 @@
 @interface Request : NSObject
 
 + (NSString *)insertParametersIntoUrl:(NSMutableString *)url parameters:(NSArray *)parameters;
++ (NSString *)operationFailedMsg;
 
-//- (id)sendRequest:(NSString *)path data:(NSString *)post;
-- (id)getDataFrom:(NSString *)path;
-- (id)requestLogin;
-- (NSString *) errorMsg;
-+ (NSString *) operationFailedMsg;
+- (id)send:(NSString *)path;
+- (void)sendAsync:(NSString *)path onProgress:(void (^)(void))progress onFinish:(void (^)(NSDictionary *))finish;
+
 - (void) addImageToPostData:(NSString *)key andValue:(UIImage *)value;
 - (void) addStringToPostData:(NSString *)key andValue:(NSString *)value;
+
+- (NSString *)errorMsg;
 
 @end

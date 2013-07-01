@@ -25,8 +25,7 @@
 
 AppDelegate *appDelegate;
 User *user;
-Request *request;
-User *user;
+NSString *loginErrorMsg;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -71,12 +70,11 @@ User *user;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    //NSLog(@"request errorMsg] %@", [request errorMsg]);
                     if(user != nil){
                         UIViewController *masterController = [AppDelegate initMasterController];
                         [self presentViewController:masterController animated:YES completion:nil];
-                    } else if([request errorMsg] != nil){
-                        [appDelegate alertStatus:@"" :[request errorMsg]];                        
+                    } else if(loginErrorMsg != nil){
+                        [appDelegate alertStatus:@"" :loginErrorMsg];
                     } else {
                         [appDelegate alertStatus:@"" :[Request operationFailedMsg]];
                     }
@@ -94,18 +92,12 @@ User *user;
 {
     double startTime = [[NSDate date] timeIntervalSince1970];
     
-    request = [[Request alloc] init];
-    //NSString *postString =[[NSString alloc] initWithFormat:@"email=%@&password=%@",[txtEmail text],[txtPassword text]];
-    [request addStringToPostData:@"email" andValue:[txtEmail text]];
-    [request addStringToPostData:@"password" andValue:[txtPassword text]];
-    user = [request requestLogin];
-    if(user != nil){       
-        //NSLog(@"Login user %d", [user userId]);
+    user = [self requestLogin];
+    if(user != nil){
         [appDelegate saveCredentials:[user userId]];
         appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
-        [appDelegate setCurrentUserId: [user userId]];
+        [appDelegate setCurrentUserId:[user userId]];
         [[UserStore get] addUser:user];
-        //NSLog(@"[appDelegate setCurrentUserId %d", [appDelegate currentUserId]);
     }
     
     double stopTime = [[NSDate date] timeIntervalSince1970];
@@ -113,6 +105,32 @@ User *user;
     double time = 2000 - (stopTime - startTime);
     
     if(time > 0) sleep(time / 1000);   
+}
+
+- (id)requestLogin
+{
+    Request *request = [[Request alloc] init];
+    [request addStringToPostData:@"email" andValue:[txtEmail text]];
+    [request addStringToPostData:@"password" andValue:[txtPassword text]];
+    
+    NSDictionary *jsonData = [request send:@"auth/regular.json"];
+    if(jsonData == nil) return nil;
+    
+    NSString *status = (NSString *) [jsonData objectForKey:@"status"];
+    
+    if([status isEqualToString: @"no_such_user"]){
+        loginErrorMsg = @"Wrong email or password!";
+        return nil;
+    } else if([status isEqualToString: @"ok"]){
+        User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
+        [[UserStore get] addUser:user];
+        return user;
+    } else {
+        NSString *error_msg = (NSString *) [jsonData objectForKey:@"error_message"];
+        if(error_msg != nil) loginErrorMsg = error_msg;
+        else loginErrorMsg = [Request operationFailedMsg];
+        return nil;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -205,7 +205,7 @@ int profileAuthorId;
         
         [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
         [request addStringToPostData:@"user_id" andValue: [NSString stringWithFormat:@"%d",appDelegate.currentUserId]];
-        NSDictionary *jsonData = [request getDataFrom: path];
+        NSDictionary *jsonData = [request send: path];
         //[NSThread sleepForTimeInterval:3];
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -328,7 +328,7 @@ int profileAuthorId;
 - (NSMutableArray *)getComments: request
 {
     NSMutableString *path = [NSString stringWithFormat:@"/stories/%d/comments.json/", [story storyId]];  
-    NSDictionary *jsonData = [request getDataFrom: path];
+    NSDictionary *jsonData = [request send:path];
     NSMutableArray *comments;
     if(jsonData != nil){
         comments = [NSMutableArray array];
@@ -473,7 +473,7 @@ int profileAuthorId;
         [request addStringToPostData:@"comment[text]" andValue:[textField  text]];
         [request addStringToPostData:@"story_id" andValue:[NSString stringWithFormat:@"%d",[story storyId]]];
         
-        NSDictionary *jsonData = [request getDataFrom: path];
+        NSDictionary *jsonData = [request send:path];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [addCommentIndicator stopAnimating];
@@ -645,7 +645,7 @@ int profileAuthorId;
         
         [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
         
-        NSDictionary *jsonData = [request getDataFrom: path];
+        NSDictionary *jsonData = [request send:path];
         //[NSThread sleepForTimeInterval:3];
       
         // do any UI stuff on the main UI thread

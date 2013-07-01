@@ -302,7 +302,7 @@ User *user;
     if(user == nil)requestString = @"/users.json";       
     else requestString = [NSString stringWithFormat: @"/api/users/%d/update.json", [user userId]];
     
-    something = [request getDataFrom:requestString];
+    something = [request send:requestString];
     
     if(something != nil){      
        

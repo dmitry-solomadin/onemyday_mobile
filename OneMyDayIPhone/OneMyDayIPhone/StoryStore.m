@@ -98,7 +98,7 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int
     [Request insertParametersIntoUrl:path parameters:parameters];
 
     Request *request = [[Request alloc] init];
-    NSArray *jsonData = [request getDataFrom: path];
+    NSArray *jsonData = [request send:path];
  
     if([request errorMsg] != nil){
         // NSLog(@"[[request errorMsg] %@", [request errorMsg]);

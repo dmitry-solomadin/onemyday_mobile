@@ -80,7 +80,7 @@ AppDelegate *appDelegate;
         
         Request *request = [[Request alloc] init];
         NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d",appDelegate.currentUserId,activityId];
-        NSArray *activities = [request getDataFrom: path];
+        NSArray *activities = [request send:path];
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{          
@@ -239,7 +239,7 @@ AppDelegate *appDelegate;
         
         Request *request = [[Request alloc] init];
         NSMutableString *path = [NSString stringWithFormat:@"/users/1/activities.json?limit=11&lower_than_id=%d",activityId];
-        NSArray *activities = [request getDataFrom: path];
+        NSArray *activities = [request send: path];
         [NSThread sleepForTimeInterval:3];
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{

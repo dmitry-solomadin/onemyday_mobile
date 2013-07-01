@@ -27,8 +27,64 @@ NSString *operationFailedMsg = @"Operation failed";
 NSString *errorMsg = nil;
 NSMutableData *postData;
 NSString *boundary = @"---------------------------14737809831466499882746641449";
+NSURLResponse *response;
+void (^finish)(NSDictionary *);
+void (^progress)(void);
 
-- (void) addStringToPostData:(NSString *)key andValue:(NSString *)value
+/* SEND SYNC REQUEST */
+
+- (id)send:(NSString *)path
+{
+    NSMutableURLRequest *request = [self prepareRequest:path];
+    NSError *error;
+    NSHTTPURLResponse *responseCode = nil;
+        
+    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+    NSLog(@"HTTP status code %i", [responseCode statusCode]);
+    if ([responseCode statusCode] != 200) {
+        NSLog(@"Error getting %@, HTTP status code %i", path, [responseCode statusCode]);
+        errorMsg = badConnectionMsg;
+        return nil;
+    } else {
+        return [self parseResponseData:oResponseData];
+    }    
+}
+
+/* SEND ASYNC REQUEST */
+
+- (void)sendAsync:(NSString *)path onProgress:(void (^)(void))_progress onFinish:(void (^)(NSDictionary *))_finish
+{
+    NSMutableURLRequest *request = [self prepareRequest:path];
+    
+    progress = _progress;
+    finish = _finish;
+    
+    NSURLConnection *conn = [NSURLConnection connectionWithRequest:request delegate:self];
+    [conn start];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)_response
+{
+    response = _response;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    int statusCode = [(NSHTTPURLResponse *)response statusCode];
+    if (statusCode != 200) {
+        //NSLog(@"Error getting %@, HTTP status code %i", path, statusCode);
+        errorMsg = badConnectionMsg;
+        finish(nil);
+    } else {
+        NSDictionary *jsonData = [self parseResponseData:data];
+        finish(jsonData);
+    }
+    
+}
+
+/* MANAGE POST DATA METHODS */
+
+- (void)addStringToPostData:(NSString *)key andValue:(NSString *)value
 {
     if(postData == nil) postData = [NSMutableData alloc];
     [postData appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -36,7 +92,7 @@ NSString *boundary = @"---------------------------14737809831466499882746641449"
     [postData appendData:[[NSString stringWithFormat:@"%@\r\n", value] dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (void) addImageToPostData:(NSString *)key andValue:(UIImage *)value
+- (void)addImageToPostData:(NSString *)key andValue:(UIImage *)value
 {
     if(postData == nil) postData = [NSMutableData alloc];
     [postData appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -46,12 +102,62 @@ NSString *boundary = @"---------------------------14737809831466499882746641449"
     [postData appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (NSString *) errorMsg
+/* HELPER METHODS */
+
+- (NSMutableURLRequest *)prepareRequest:(NSString *)path
+{
+    NSString *urlTxt = [mainUrl stringByAppendingString: path];
+    NSURL *url = [NSURL URLWithString: urlTxt];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    [request setURL: url];
+    
+    if (postData != nil) {
+        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+        [request setHTTPShouldHandleCookies:NO];
+        [request setTimeoutInterval:30];
+        [request setHTTPMethod:@"POST"];
+        
+        NSString *boundary = @"---------------------------14737809831466499882746641449";
+        
+        // set Content-Type in HTTP header
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+        
+        [postData appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        [request setHTTPBody:postData];
+        
+        // set the content-length
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        
+        [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[url host]];
+    } else {
+        [request setHTTPMethod:@"GET"];
+    }
+    
+    postData = nil;
+    return request;
+}
+
+- (id)parseResponseData:(NSData *)oResponseData
+{
+    SBJsonParser *jsonParser = [SBJsonParser new];
+    
+    NSString *responseData = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
+    NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
+    return jsonData;
+}
+
+/* MISC METHODS */
+
+- (NSString *)errorMsg
 {
     return errorMsg;
 }
 
-+ (NSString *) operationFailedMsg
++ (NSString *)operationFailedMsg
 {
     return operationFailedMsg;
 }
@@ -68,155 +174,6 @@ NSString *boundary = @"---------------------------14737809831466499882746641449"
         [url appendString:parameter];
     }
     return url;
-}
-
-// TODO this method and getData method look very similar, do we really need both?
-/*- (id)sendRequest:(NSString*)path data: (NSString*)post
-{
-    //NSLog(@"PostData: %@", post);
-    
-    NSString *urlTxt = [mainUrl stringByAppendingString: path];
-    
-    NSURL *url = [NSURL URLWithString: urlTxt];
-    
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    
-    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[url host]];
-    
-    NSError *error = [[NSError alloc] init];
-    NSHTTPURLResponse *response = nil;
-    NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    NSLog(@"Response code: %d", [response statusCode]);
-    if ([response statusCode] >= 200 && [response statusCode] < 300) {
-        NSString *responseData = [[NSString alloc]initWithData:urlData encoding:NSUTF8StringEncoding];
-        //NSLog(@"Response ==> %@", responseData);
-        
-        SBJsonParser *jsonParser = [SBJsonParser new];
-        NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
-        //NSLog(@"POST jsonData: %@",jsonData);
-        
-        return jsonData;
-    } else {        
-        if (error){            
-            NSLog(@"Error: %@", error);            
-            errorMsg = [error localizedDescription];
-        } else errorMsg = badConnectionMsg;
-    }
-    return nil;
-}*/
-
-- (id)getDataFrom:(NSString *)path
-{    
-    NSString *urlTxt = [mainUrl stringByAppendingString: path];        
-    NSURL *url = [NSURL URLWithString: urlTxt];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
-    
-    NSLog(@"url %@", url);
-    NSLog(@"post %@", postData);
-    
-    [request setURL: url];
-    
-    if(postData != nil){
-        
-        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-        [request setHTTPShouldHandleCookies:NO];
-        [request setTimeoutInterval:30];
-        [request setHTTPMethod:@"POST"];        
-        
-        NSString *boundary = @"---------------------------14737809831466499882746641449";
-        
-        // set Content-Type in HTTP header
-        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-        [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
-        
-        
-        /*NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];*/
-        
-      
-        
-        /*NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-        [request addValue:contentType forHTTPHeaderField:@"Content-Type"];*/
-        
-        [postData appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-                
-        [request setHTTPBody:postData];
-        
-        // set the content-length
-        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        
-        [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[url host]];
-    }  else [request setHTTPMethod:@"GET"];
-    
-    postData = nil;
-    
-    NSError *error;
-    NSHTTPURLResponse *responseCode = nil;
-    
-    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
-     NSLog(@"HTTP status code %i", [responseCode statusCode]);
-    if ([responseCode statusCode] != 200) {
-        NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
-        //@try{
-            /*if (error && [responseCode statusCode] == 0){
-                errorMsg = [error localizedDescription];                
-            } else */errorMsg = badConnectionMsg;
-        /*} @catch (NSException * e) {
-            NSLog(@"Exception: %@", e);
-            errorMsg = badConnectionMsg;
-        }*/
-        return nil;
-    } else {
-        SBJsonParser *jsonParser = [SBJsonParser new];
-        
-        NSString *responseData = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
-        NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData error:nil];
-        
-        //NSLog(@"jsonData %@", jsonData);
-        return jsonData;
-    }    
-}
-
-- (id)requestLogin
-{
-    //NSMutableData *postData = [NSMutableData alloc];
-    //[postData appendData:[path dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
-    
-    NSDictionary *jsonData = [self getDataFrom:@"auth/regular.json"];
-    if(jsonData == nil) return nil;
-    
-    NSString *status = (NSString *) [jsonData objectForKey:@"status"];
-    //NSLog(@"%@",status);
-    
-    if([status isEqualToString: @"no_such_user"]){        
-        errorMsg = @"Wrong email or password!";
-        //NSLog(@"no_such_user");
-        return nil;
-    } else if([status isEqualToString: @"ok"]){
-        User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
-        [[UserStore get] addUser:user];   
-        return user;
-    } else {
-        NSString *error_msg = (NSString *) [jsonData objectForKey:@"error_message"];
-        if(error_msg != nil) errorMsg = error_msg;
-        else errorMsg = operationFailedMsg;
-        //NSLog(@"Login Failed! %@",error_msg);
-        return nil;
-    }   
 }
 
 @end

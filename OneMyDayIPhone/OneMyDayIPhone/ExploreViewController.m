@@ -177,16 +177,16 @@ CGFloat currentFeedHeight = 10.0;
 }
 
 - (void)authorOfStorieTap:(UIButton *)sender
-{
-    appDelegate.authorId = sender.tag; 
+{   
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+    [profileVC setUserId: sender.tag];
     [[self navigationController] pushViewController:profileVC animated:YES];  
 }
 
 - (void)storyTap:(NSNumber *)storyId
 {
     Story *story = [[StoryStore get] findById:[storyId intValue]];
-    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story andProfileAuthorId: 0];
+    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }
 

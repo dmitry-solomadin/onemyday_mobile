@@ -23,7 +23,6 @@
 @synthesize session;
 @synthesize loggedInFlag;
 @synthesize currentUserId;
-@synthesize authorId;
 
 NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 

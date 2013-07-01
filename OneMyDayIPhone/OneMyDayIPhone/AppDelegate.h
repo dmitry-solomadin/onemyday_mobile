@@ -26,7 +26,6 @@
 @property (strong, nonatomic) NSNumber *loggedInFlag;
 
 @property int currentUserId;
-@property int authorId;
 
 + (UIViewController *) initMasterController;
 - (bool) checkEmail;

@@ -26,13 +26,13 @@
 @implementation ProfileViewController
 
 @synthesize scrollView;
+@synthesize userId;
 
 NSMutableArray * stories;
 UIActivityIndicatorView *topIndicator;
 UIActivityIndicatorView *bottomIndicator;
 bool *oldStoriesLoading;
 CGFloat previousY;
-int userId;
 
 #define STORY_HEIGHT_WITH_PADDING 360 // 10px padding at the top
 
@@ -46,7 +46,7 @@ AppDelegate *appDelegate;
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"]
                                                                            style:UIBarButtonItemStylePlain
                                                                           target:self action:@selector(showSettings:)];
-        self.navigationItem.rightBarButtonItem = settingsButton;
+        if(userId == 0)self.navigationItem.rightBarButtonItem = settingsButton;
     }
     return self;
 }
@@ -64,22 +64,52 @@ AppDelegate *appDelegate;
   
 }
 
+-(void)loadUser
+{
+    dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        
+        User *user = [[UserStore get] requestUserWithId: userId];         
+        
+        // do any UI stuff on the main UI thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+           
+            
+            if(user != nil){
+                
+                NSLog(@"userName %@",[user name]);
+                
+                feedHeight = 5;
+                
+                CGRect frame = CGRectMake(5, feedHeight, 300, 120);
+                
+                UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
+                
+                userInfoView.controller = self;
+                
+                [scrollView addSubview:userInfoView];
+                
+                feedHeight += 120;
+                
+                [self loadStories];
+            } else  [topIndicator stopAnimating];
+        });
+    });
+    
+}
+
+
 -(void)loadStories
 {
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
         
-        //NSLog(@"user %d", userId);
-        
         stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 11 userId: [appDelegate currentUserId] authorId: userId searchFor: nil];
         
         // do any UI stuff on the main UI thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            //NSLog(@"newStories count is: %d", [stories count]);
-            
-            //NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-            
+        dispatch_async(dispatch_get_main_queue(), ^{            
+                       
             [topIndicator stopAnimating];
             
             if(stories != nil){
@@ -117,37 +147,11 @@ AppDelegate *appDelegate;
     [[self view] addSubview:scrollView];
     [self.scrollView setDelegate: self];
     
-    //NSLog(@"appDelegate.authorId: %d", appDelegate.authorId);
+    if(userId == 0)userId = appDelegate.currentUserId;
+     
+    NSLog(@"userId %d",userId);
     
-    if(appDelegate.authorId != 0){
-        userId = appDelegate.authorId;
-        appDelegate.authorId = 0;
-    } else userId = appDelegate.currentUserId;
-    
-    //NSLog(@"q %d",userId);
-    
-    User *user = [[UserStore get] findById: userId];
-    
-    //if(user == nil)[[UserStore get] requestUserWithId: userId];
-    
-    //NSLog(@"user %@",user);
-    
-     //NSLog(@"userid %d",[user userId]);
-    
-     NSLog(@"userName %@",[user name]);
-    
-    feedHeight = 5;
-    
-    CGRect frame = CGRectMake(5, feedHeight, 300, 120);
-    
-    UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
-    
-    userInfoView.controller = self;
-    
-    [scrollView addSubview:userInfoView];
-    
-    feedHeight += 120;
-    
+        
     topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     topIndicator.frame = CGRectMake(10, 45, 100, 100);
     topIndicator.center = CGPointMake(160,150);
@@ -157,11 +161,11 @@ AppDelegate *appDelegate;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [topIndicator startAnimating];
     
-    userId = [user userId];
+    //userId = [user userId];
     
     //NSLog(@"userId p %d",userId);
     
-    [self loadStories];
+    [self loadUser];
     
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     oldStoriesLoading = false;
@@ -258,8 +262,7 @@ AppDelegate *appDelegate;
 - (void)storyTap:(NSNumber *)storyId
 {
     Story *story = [[StoryStore get] findById:[storyId intValue]];
-    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc]
-                                                        initWithStory:story andProfileAuthorId: userId];
+    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }
 

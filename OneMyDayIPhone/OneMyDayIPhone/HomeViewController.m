@@ -51,15 +51,9 @@ AppDelegate *appDelegate;
 - (void)storyTap:(NSNumber *)storyId
 {
     Story *story = [[StoryStore get] findById:[storyId intValue]];
-    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story andProfileAuthorId: 0];
+    ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }
-
-/*- (void)authorTap:(NSNumber *)authorId
-{
-    appDelegate.authorId = [authorId intValue];
-    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];  
-}*/
 
 - (void)viewDidLoad
 {
@@ -356,11 +350,9 @@ AppDelegate *appDelegate;
 
 - (void)authorOfStorieTap:(UIButton *)sender
 {
-    appDelegate.authorId = sender.tag;
-    //self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
-    [[self navigationController] pushViewController:profileVC animated:YES];
-    ///UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:profileVC];
+    [profileVC setUserId: sender.tag];
+    [[self navigationController] pushViewController:profileVC animated:YES];    
 }
 
 @end

@@ -35,15 +35,13 @@ UITextField *textField;
 NSMutableArray *comments;
 UIButton *button;
 UIActivityIndicatorView *delCommentIndicator;
-int profileAuthorId;
+//int profileAuthorId;
 
-- (id) initWithStory:(Story *)_story andProfileAuthorId:(int)_profileAuthorId
+- (id) initWithStory:(Story *)_story
 {
     if (self = [super initWithNibName: nil bundle: nil]) {
         self.story = _story;
-        //NSLog(@"profileAuthorId %d", profileAuthorId);
-        profileAuthorId = _profileAuthorId;
-        //NSLog(@"profileAuthorId %d", profileAuthorId);
+      
         appDelegate = [[UIApplication sharedApplication] delegate];
         
         [[self view] setFrame: self.view.window.bounds];
@@ -780,19 +778,13 @@ int profileAuthorId;
 
 - (void)authorTap:(UIButton *)sender
 {  
-    appDelegate.authorId = sender.tag;
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
-    [[self navigationController] pushViewController:profileVC animated:YES];
-    //self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];
+    [profileVC setUserId:sender.tag];
+    [[self navigationController] pushViewController:profileVC animated:YES];    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    if(profileAuthorId != 0){
-        appDelegate.authorId = profileAuthorId;
-        profileAuthorId = 0;
-    }
-    //NSLog(@"appDelegate.authorId: %d", appDelegate.authorId);
+    [super viewWillDisappear:animated];    
 }
 
 @end

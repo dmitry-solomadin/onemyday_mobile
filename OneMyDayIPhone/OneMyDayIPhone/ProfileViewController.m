@@ -43,10 +43,7 @@ AppDelegate *appDelegate;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"]
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:self action:@selector(showSettings:)];
-        if(userId == 0)self.navigationItem.rightBarButtonItem = settingsButton;
+        
     }
     return self;
 }
@@ -73,8 +70,6 @@ AppDelegate *appDelegate;
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-           
             
             if(user != nil){
                 
@@ -147,10 +142,13 @@ AppDelegate *appDelegate;
     [[self view] addSubview:scrollView];
     [self.scrollView setDelegate: self];
     
-    if(userId == 0)userId = appDelegate.currentUserId;
-     
-    NSLog(@"userId %d",userId);
-    
+    if(userId == 0){
+        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self action:@selector(showSettings:)];    
+        self.navigationItem.rightBarButtonItem = settingsButton;
+        userId = appDelegate.currentUserId;
+    }  
         
     topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     topIndicator.frame = CGRectMake(10, 45, 100, 100);
@@ -160,10 +158,6 @@ AppDelegate *appDelegate;
     [topIndicator bringSubviewToFront: scrollView];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [topIndicator startAnimating];
-    
-    //userId = [user userId];
-    
-    //NSLog(@"userId p %d",userId);
     
     [self loadUser];
     

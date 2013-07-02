@@ -158,9 +158,14 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     [alertView show];
 }
 
-- (NSString *) apiKey
+- (NSString *)apiKey
 {
     return apiKey;
+}
+
+- (UIColor *)onemydayColor
+{
+    return [UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f];
 }
 
 - (void) saveCredentials: (int) userId {

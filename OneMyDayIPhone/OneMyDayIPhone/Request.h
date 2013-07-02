@@ -14,7 +14,7 @@
 + (NSString *)operationFailedMsg;
 
 - (id)send:(NSString *)path;
-- (void)sendAsync:(NSString *)path onProgress:(void (^)(float))progress onFinish:(void (^)(NSDictionary *))finish;
+- (void)sendAsync:(NSString *)path onProgress:(void (^)(float))progress onFinish:(void (^)(NSDictionary *, int))finish;
 
 - (void) addImageToPostData:(NSString *)key andValue:(UIImage *)value;
 - (void) addStringToPostData:(NSString *)key andValue:(NSString *)value;

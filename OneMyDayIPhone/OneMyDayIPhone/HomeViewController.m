@@ -88,7 +88,7 @@ AppDelegate *appDelegate;
         //Author hidden button
         UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
         authorBtn.tag = [story authorId];
-        [authorBtn addTarget:self action:@selector(authorOfStorieTap:) forControlEvents:UIControlEventTouchUpInside];
+        [authorBtn addTarget:self action:@selector(authorOfStoryTap:) forControlEvents:UIControlEventTouchUpInside];
         [thumbStoryView addSubview:authorBtn];
         [thumbStoryView bringSubviewToFront:authorBtn];
         
@@ -193,7 +193,7 @@ AppDelegate *appDelegate;
                     //Author hidden button
                     UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
                     authorBtn.tag = [story authorId];
-                    [authorBtn addTarget:self action:@selector(authorOfStorieTap:) forControlEvents:UIControlEventTouchUpInside];
+                    [authorBtn addTarget:self action:@selector(authorOfStoryTap:) forControlEvents:UIControlEventTouchUpInside];
                     [thumbStoryView addSubview:authorBtn];
                     [thumbStoryView bringSubviewToFront:authorBtn];
                     [scrollView insertSubview: thumbStoryView atIndex: 0];
@@ -325,7 +325,7 @@ AppDelegate *appDelegate;
                     //Author hidden button
                     UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
                     authorBtn.tag = [story authorId];
-                    [authorBtn addTarget:self action:@selector(authorOfStorieTap:) forControlEvents:UIControlEventTouchUpInside];
+                    [authorBtn addTarget:self action:@selector(authorOfStoryTap:) forControlEvents:UIControlEventTouchUpInside];
                     [thumbStoryView addSubview:authorBtn];
                     [thumbStoryView bringSubviewToFront:authorBtn];
                     
@@ -348,7 +348,7 @@ AppDelegate *appDelegate;
     });
 }
 
-- (void)authorOfStorieTap:(UIButton *)sender
+- (void)authorOfStoryTap:(UIButton *)sender
 {
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
     [profileVC setUserId: sender.tag];

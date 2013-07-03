@@ -248,7 +248,7 @@ NSString *storyTitle;
 {
     NSLog(@" sender %d", sender.tag);
     NSNumber *authorId = [NSNumber numberWithInteger:sender.tag];
-    [[self controller] performSelector:@selector(authorOfStorieTap:) withObject:authorId];
+    [[self controller] performSelector:@selector(authorOfStoryTap:) withObject:authorId];
 }
 
 - (void)storyBtnTap:(UIButton *)sender

@@ -27,7 +27,8 @@
 NSMutableArray * stories;
 AppDelegate *appDelegate;
 UITextField *textField;
-CGFloat currentFeedHeight = 10.0;
+UIButton *cancelButton;
+CGFloat currentFeedHeight;
 
 #define STORY_HEIGHT_WITH_PADDING 360 // 10px padding at the top
 
@@ -49,46 +50,60 @@ CGFloat currentFeedHeight = 10.0;
 {
     [super viewDidLoad];
     
+    currentFeedHeight = 10;
+    
 	appDelegate = [[UIApplication sharedApplication] delegate];
     
     scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
     [[self view] addSubview:scrollView];
-    [self.scrollView setDelegate:self];   
-        
-    textField = [[UITextField alloc] init];
-    textField.clipsToBounds = YES;
+    [self.scrollView setDelegate:self];
+    
+    // Add top search field background rect
+    UIView *searchFieldRect = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 55)];
+    UIColor *highColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.000];
+    UIColor *lowColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.000];
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    [gradient setFrame:[searchFieldRect bounds]];
+    [gradient setColors:[NSArray arrayWithObjects:(id)[highColor CGColor], (id)[lowColor CGColor], nil]];
+    [searchFieldRect.layer insertSublayer:gradient atIndex:0];
+    searchFieldRect.layer.masksToBounds = NO;
+    searchFieldRect.layer.shadowOffset = CGSizeMake(0, 1);
+    searchFieldRect.layer.shadowRadius = 1;
+    searchFieldRect.layer.shadowOpacity = 0.5;
+    [scrollView addSubview:searchFieldRect];
+
+    // Add top search field
+    textField = [[UITextField alloc] initWithFrame:CGRectMake(10, currentFeedHeight , 300, 37)];
     textField.tag = 1;
-    textField.layer.cornerRadius = 10.0;
-    textField.layer.borderColor = [[UIColor blackColor] CGColor];
-    textField.layer.borderWidth = 2;
-    //textField.Bounds = [self textRectForBounds:textField.bounds];
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+    textField.leftView = paddingView;
+    textField.leftViewMode = UITextFieldViewModeAlways;
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    [textField setBackground:fieldBGImage];
     [textField setPlaceholder:@"use # to search by tags"];
     [textField setText:@""];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    //textField.textAlignment = UITextAlignmentLeft;
-    [textField setKeyboardAppearance:UIKeyboardAppearanceAlert];
-    [textField setTextColor:[UIColor blackColor]];
-    [textField setBackgroundColor:[UIColor whiteColor]];
-    [scrollView addSubview:textField];
-    textField.frame = CGRectMake(10, currentFeedHeight , 300, 35);
     textField.delegate = self;
-    textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
     [textField setReturnKeyType:UIReturnKeyDone];
+    [scrollView addSubview:textField];
     
-    currentFeedHeight += 50;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // Add cancel button
+    cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(320, 10, 70, 36)];
+    [cancelButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"cancel_button"]]];
+    [cancelButton addTarget:self action:@selector(cancelButtonTap:) forControlEvents:UIControlEventTouchDown];
+    [scrollView addSubview:cancelButton];
+    
+    currentFeedHeight += 55;
+    
+    NSLog(@"%f", currentFeedHeight);
 }
 
 - (void)refreshView
 {    
     UIActivityIndicatorView *topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    topIndicator.frame = CGRectMake(10, 45, 100, 100);
-    topIndicator.center = CGPointMake(160, 70);
+    topIndicator.frame = CGRectMake(10, 50, 100, 100);
+    topIndicator.center = CGPointMake(160, 75);
     topIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: topIndicator];
     [topIndicator bringSubviewToFront: scrollView];
@@ -99,7 +114,7 @@ CGFloat currentFeedHeight = 10.0;
     for (int i = 0; i < oldSubViewsCount; i++) {
         if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]])[[[scrollView subviews] objectAtIndex:i] removeFromSuperview];
     }
-    currentFeedHeight = 60;
+    currentFeedHeight = 65;
     
     // how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
@@ -120,8 +135,6 @@ CGFloat currentFeedHeight = 10.0;
             [topIndicator stopAnimating];
             
             if(newStories != NULL && [newStories count] > 0){
-                 
-                 NSMutableArray *oldStories = stories;
                  stories = newStories;                
                  
                  int storiesCount = [stories count];
@@ -135,7 +148,7 @@ CGFloat currentFeedHeight = 10.0;
                      //Author hidden button
                      UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
                      authorBtn.tag = [story authorId];
-                     [authorBtn addTarget:self action:@selector(authorOfStorieTap:) forControlEvents:UIControlEventTouchUpInside];
+                     [authorBtn addTarget:self action:@selector(authorOfStoryTap:) forControlEvents:UIControlEventTouchUpInside];
                      [thumbStoryView addSubview:authorBtn];
                      [thumbStoryView bringSubviewToFront:authorBtn];
                      [scrollView insertSubview: thumbStoryView atIndex: 0];
@@ -149,34 +162,62 @@ CGFloat currentFeedHeight = 10.0;
     });
 }
 
-/*- (void)textFieldDidBeginEditing:(UITextField *)textField
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-   
+    [self showCancel];
 }
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-   
-}*/
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *) event
 {
     UITouch *touch = [[event allTouches] anyObject];
-    if ([textField isFirstResponder] && (textField != touch.view))
-    {
+    if ([textField isFirstResponder] && (textField != touch.view)) {
         [textField resignFirstResponder];
     }
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self hideCancel];
     if(![[textField text] isEqualToString:@""])[self refreshView];
     [textField resignFirstResponder];
     return YES;
 }
 
-- (void)authorOfStorieTap:(UIButton *)sender
+- (void)cancelButtonTap:(id)sender
+{
+    [self hideCancel];
+    [textField resignFirstResponder];
+}
+
+- (void)showCancel
+{
+    [UIView animateWithDuration:0.25 delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         textField.frame = CGRectMake(textField.frame.origin.x, textField.frame.origin.y,
+                                                      textField.frame.size.width - 80, textField.frame.size.height);
+                         cancelButton.frame = CGRectMake(cancelButton.frame.origin.x - 80, cancelButton.frame.origin.y,
+                                                         cancelButton.frame.size.width, cancelButton.frame.size.height);
+                     }
+                     completion:nil
+     ];
+}
+
+- (void)hideCancel
+{
+    [UIView animateWithDuration:0.25 delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         textField.frame = CGRectMake(textField.frame.origin.x, textField.frame.origin.y,
+                                                      textField.frame.size.width + 80, textField.frame.size.height);
+                         cancelButton.frame = CGRectMake(cancelButton.frame.origin.x + 80, cancelButton.frame.origin.y,
+                                                         cancelButton.frame.size.width, cancelButton.frame.size.height);
+                     }
+                     completion:nil
+     ];
+}
+
+- (void)authorOfStoryTap:(UIButton *)sender
 {   
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
     [profileVC setUserId: sender.tag];

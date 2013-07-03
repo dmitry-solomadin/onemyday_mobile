@@ -200,6 +200,8 @@
 		18F98FF317137A1A00D8F7A3 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FF017137A1A00D8F7A3 /* HomeViewController.m */; };
 		18F98FFB1713865D00D8F7A3 /* ThumbStoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */; };
 		18F98FFC1713865D00D8F7A3 /* ThumbStoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */; };
+		18FB53AE1784489500D97658 /* cancel_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FB53AC1784489400D97658 /* cancel_button.png */; };
+		18FB53AF1784489500D97658 /* cancel_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FB53AD1784489500D97658 /* cancel_button@2x.png */; };
 		844DFA5E16CFB66F00884637 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5D16CFB66F00884637 /* UIKit.framework */; };
 		844DFA6016CFB66F00884637 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5F16CFB66F00884637 /* Foundation.framework */; };
 		844DFA6216CFB66F00884637 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA6116CFB66F00884637 /* CoreGraphics.framework */; };
@@ -509,6 +511,8 @@
 		18F98FF017137A1A00D8F7A3 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbStoryView.h; sourceTree = "<group>"; };
 		18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbStoryView.m; sourceTree = "<group>"; };
+		18FB53AC1784489400D97658 /* cancel_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cancel_button.png; path = assets/cancel_button.png; sourceTree = "<group>"; };
+		18FB53AD1784489500D97658 /* cancel_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cancel_button@2x.png"; path = "assets/cancel_button@2x.png"; sourceTree = "<group>"; };
 		844DFA5D16CFB66F00884637 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		844DFA5F16CFB66F00884637 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		844DFA6116CFB66F00884637 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -794,6 +798,8 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18FB53AC1784489400D97658 /* cancel_button.png */,
+				18FB53AD1784489500D97658 /* cancel_button@2x.png */,
 				84A973A3177B8FFE00CCB9EF /* blankPhoto.png */,
 				18064FF9175764850054338C /* heart_small@2x.png */,
 				18064FFA175764850054338C /* heart_small.png */,
@@ -1268,6 +1274,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18FB53AE1784489500D97658 /* cancel_button.png in Resources */,
+				18FB53AF1784489500D97658 /* cancel_button@2x.png in Resources */,
 				18064FFF175764850054338C /* heart_small@2x.png in Resources */,
 				18065000175764850054338C /* heart_small.png in Resources */,
 				18065001175764850054338C /* eye@2x.png in Resources */,

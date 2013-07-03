@@ -150,7 +150,7 @@ AppDelegate *appDelegate;
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }
 
-- (void)authorOfStorieTap:(NSNumber *)authorId
+- (void)authorOfStoryTap:(NSNumber *)authorId
 {   
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
     [profileVC setUserId:[authorId intValue]];

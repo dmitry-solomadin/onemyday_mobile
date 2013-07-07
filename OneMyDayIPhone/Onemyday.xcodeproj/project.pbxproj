@@ -104,6 +104,13 @@
 		185BC4191726C96E002D4FE8 /* editorbar_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4171726C96E002D4FE8 /* editorbar_button.png */; };
 		185BC4271726EB1A002D4FE8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4261726EB1A002D4FE8 /* Icon.png */; };
 		185BC4291726EB2A002D4FE8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 185BC4281726EB2A002D4FE8 /* Icon@2x.png */; };
+		186022E41788046F006A31DF /* like_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022E21788046F006A31DF /* like_button.png */; };
+		186022E51788046F006A31DF /* like_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022E31788046F006A31DF /* like_button@2x.png */; };
+		186022EA17880979006A31DF /* liked_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022E817880979006A31DF /* liked_button.png */; };
+		186022EB17880979006A31DF /* liked_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022E917880979006A31DF /* liked_button@2x.png */; };
+		186022EE17881406006A31DF /* add_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022EC17881405006A31DF /* add_button.png */; };
+		186022EF17881406006A31DF /* add_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022ED17881406006A31DF /* add_button@2x.png */; };
+		186022F2178974FA006A31DF /* UIApplication+NetworkActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */; };
 		187DBDEB1729ECF50040E97D /* editorbar_button_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */; };
 		187DBDEC1729ECF50040E97D /* editorbar_button_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */; };
 		1883AB2C172C95C40093554B /* EditorStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883AB2B172C95C40093554B /* EditorStore.m */; };
@@ -390,6 +397,14 @@
 		185BC4171726C96E002D4FE8 /* editorbar_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button.png; path = assets/editorbar_button.png; sourceTree = "<group>"; };
 		185BC4261726EB1A002D4FE8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		185BC4281726EB2A002D4FE8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../Icon@2x.png"; sourceTree = "<group>"; };
+		186022E21788046F006A31DF /* like_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = like_button.png; path = assets/like_button.png; sourceTree = "<group>"; };
+		186022E31788046F006A31DF /* like_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "like_button@2x.png"; path = "assets/like_button@2x.png"; sourceTree = "<group>"; };
+		186022E817880979006A31DF /* liked_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = liked_button.png; path = assets/liked_button.png; sourceTree = "<group>"; };
+		186022E917880979006A31DF /* liked_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "liked_button@2x.png"; path = "assets/liked_button@2x.png"; sourceTree = "<group>"; };
+		186022EC17881405006A31DF /* add_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add_button.png; path = OneMyDayIPhone/assets/add_button.png; sourceTree = "<group>"; };
+		186022ED17881406006A31DF /* add_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add_button@2x.png"; path = "OneMyDayIPhone/assets/add_button@2x.png"; sourceTree = "<group>"; };
+		186022F0178974FA006A31DF /* UIApplication+NetworkActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+NetworkActivity.h"; sourceTree = "<group>"; };
+		186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+NetworkActivity.m"; sourceTree = "<group>"; };
 		187DBDE71729E2B70040E97D /* Onemyday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onemyday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "editorbar_button_highlight@2x.png"; path = "assets/editorbar_button_highlight@2x.png"; sourceTree = "<group>"; };
 		187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button_highlight.png; path = assets/editorbar_button_highlight.png; sourceTree = "<group>"; };
@@ -798,6 +813,10 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				186022E817880979006A31DF /* liked_button.png */,
+				186022E917880979006A31DF /* liked_button@2x.png */,
+				186022E21788046F006A31DF /* like_button.png */,
+				186022E31788046F006A31DF /* like_button@2x.png */,
 				18FB53AC1784489400D97658 /* cancel_button.png */,
 				18FB53AD1784489500D97658 /* cancel_button@2x.png */,
 				84A973A3177B8FFE00CCB9EF /* blankPhoto.png */,
@@ -928,6 +947,8 @@
 		844DFA4E16CFB66F00884637 = {
 			isa = PBXGroup;
 			children = (
+				186022EC17881405006A31DF /* add_button.png */,
+				186022ED17881406006A31DF /* add_button@2x.png */,
 				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
 				18E242251716DB4E00435FBE /* Resources */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
@@ -1126,6 +1147,8 @@
 			children = (
 				84E701B016D76F2100979856 /* Request.m */,
 				84E701AF16D76F1900979856 /* Request.h */,
+				186022F0178974FA006A31DF /* UIApplication+NetworkActivity.h */,
+				186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */,
 				849E09791779E300009BC55D /* UserInfoView.m */,
 				849E09761779E2EE009BC55D /* UserInfoView.h */,
 				18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */,
@@ -1274,6 +1297,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186022EE17881406006A31DF /* add_button.png in Resources */,
+				186022EF17881406006A31DF /* add_button@2x.png in Resources */,
+				186022EA17880979006A31DF /* liked_button.png in Resources */,
+				186022EB17880979006A31DF /* liked_button@2x.png in Resources */,
+				186022E41788046F006A31DF /* like_button.png in Resources */,
+				186022E51788046F006A31DF /* like_button@2x.png in Resources */,
 				18FB53AE1784489500D97658 /* cancel_button.png in Resources */,
 				18FB53AF1784489500D97658 /* cancel_button@2x.png in Resources */,
 				18064FFF175764850054338C /* heart_small@2x.png in Resources */,
@@ -1521,6 +1550,7 @@
 				848CCFE9177C422000A734CA /* ActivityView.m in Sources */,
 				848CCFEE177C43BA00A734CA /* Activity.m in Sources */,
 				18EA1763178235570081CC47 /* PopupError.m in Sources */,
+				186022F2178974FA006A31DF /* UIApplication+NetworkActivity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

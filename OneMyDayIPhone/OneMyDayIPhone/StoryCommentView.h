@@ -18,4 +18,9 @@
 - (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first
                                    andIsLast:(bool)last;
 
+- (void)removeRoundedCorners;
+- (void)setAllRoundedCorners;
+- (void)setTopRoundedCorners;
+- (void)setBottomRoundedCorners;
+
 @end

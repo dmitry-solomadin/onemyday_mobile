@@ -18,6 +18,7 @@
 #import "ThumbStoryView.h"
 #import "ShowStoryViewController.h"
 #import "SignUpViewController.h"
+#import "UIApplication+NetworkActivity.h"
 
 @interface ProfileViewController ()
 
@@ -57,30 +58,22 @@ AppDelegate *appDelegate;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.   
-  
 }
 
 -(void)loadUser
 {
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
+        User *user = [[UserStore get] requestUserWithId: userId];
         
-        User *user = [[UserStore get] requestUserWithId: userId];         
-        
-        // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if(user != nil){
-                
-                NSLog(@"userName %@",[user name]);
-                
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+            if(user != nil) {
                 feedHeight = 5;
-                
                 CGRect frame = CGRectMake(5, feedHeight, 300, 120);
                 
                 UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
-                
                 userInfoView.controller = self;
                 
                 [scrollView addSubview:userInfoView];
@@ -88,27 +81,24 @@ AppDelegate *appDelegate;
                 feedHeight += 120;
                 
                 [self loadStories];
-            } else  [topIndicator stopAnimating];
+            } else [topIndicator stopAnimating];
         });
     });
     
 }
 
-
 -(void)loadStories
 {
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
-    dispatch_async(downloadQueue, ^{
-        
+    dispatch_async(downloadQueue, ^{        
         stories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 11 userId: [appDelegate currentUserId] authorId: userId searchFor: nil];
         
-        // do any UI stuff on the main UI thread
-        dispatch_async(dispatch_get_main_queue(), ^{            
-                       
+        dispatch_async(dispatch_get_main_queue(), ^{
             [topIndicator stopAnimating];
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             
-            if(stories != nil){
-                
+            if(stories != nil) {                
                 feedHeight += 20;
                 
                 for (int i = 0; i < [stories count]; i++) {
@@ -123,11 +113,8 @@ AppDelegate *appDelegate;
                 
                 [scrollView setContentSize:(CGSizeMake(320, feedHeight))];
             }
-            
-                    
         });
     });
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -142,7 +129,7 @@ AppDelegate *appDelegate;
     [[self view] addSubview:scrollView];
     [self.scrollView setDelegate: self];
     
-    if(userId == 0){
+    if(userId == 0) {
         UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"]
                                                                            style:UIBarButtonItemStylePlain
                                                                           target:self action:@selector(showSettings:)];    
@@ -156,7 +143,6 @@ AppDelegate *appDelegate;
     topIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: topIndicator];
     [topIndicator bringSubviewToFront: scrollView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [topIndicator startAnimating];
     
     [self loadUser];
@@ -173,14 +159,12 @@ AppDelegate *appDelegate;
     
     if(!oldStoriesLoading && pixLeft <= 500 && pixLeft >= 400 && direction > 0 && [stories count] > 9) {
         oldStoriesLoading = true;
-        
         bottomIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         bottomIndicator.frame = CGRectMake(10, 45, 100, 100);
         bottomIndicator.center = CGPointMake(160, feedHeight + 20);
         bottomIndicator.hidesWhenStopped = YES;
         [sView addSubview: bottomIndicator];
         [bottomIndicator bringSubviewToFront: sView];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         [sView setContentSize: CGSizeMake(320, feedHeight + 50)];
         [bottomIndicator startAnimating];
         
@@ -189,33 +173,22 @@ AppDelegate *appDelegate;
 }
 
 - (void)getOldStories{
-	
-	// how we stop refresh from freezing the main UI thread
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
-    dispatch_async(downloadQueue, ^{
-        
-        // do our long running process here
-        //[NSThread sleepForTimeInterval:3];
+    dispatch_async(downloadQueue, ^{        
         long storyId = 0;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
         
         NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId] authorId:userId searchFor: nil];
         
-        // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"newStories count is: %d", [newStories count]);
-            NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-            
             [bottomIndicator stopAnimating];
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             
             [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
             
-            /*if([[StoryStore get] requestErrorMsg] != nil && newStories == NULL){
-                [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
-                [[StoryStore get] setRequestErrorMsg: nil];
-                
-            } else*/ if (newStories != NULL && [newStories count] > 0) {
+            if (newStories != NULL && [newStories count] > 0) {
                 for (int i = 0; i < [newStories count]; i++) {
                     Story *story = [newStories objectAtIndex: i];
                     
@@ -246,13 +219,6 @@ AppDelegate *appDelegate;
     previousY = sView.contentOffset.y;
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)storyTap:(NSNumber *)storyId
 {
     Story *story = [[StoryStore get] findById:[storyId intValue]];
@@ -262,7 +228,6 @@ AppDelegate *appDelegate;
 
 - (void)editBtnTap:(NSNumber *)_userId
 {
-    //NSLog(@"authorId %@", _userId);
     SignUpViewController  *signUpViewController = [SignUpViewController alloc];
     signUpViewController.userId = [_userId intValue];
     [[self navigationController] pushViewController:signUpViewController animated:YES];

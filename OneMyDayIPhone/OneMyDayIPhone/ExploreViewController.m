@@ -15,20 +15,22 @@
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ProfileViewController.h"
+#import "UIApplication+NetworkActivity.h"
 
 @interface ExploreViewController ()
 
 @end
 
 @implementation ExploreViewController
+{
+    NSMutableArray * stories;
+    AppDelegate *appDelegate;
+    UITextField *textField;
+    UIButton *cancelButton;
+    CGFloat currentFeedHeight;
+}
 
 @synthesize scrollView;
-
-NSMutableArray * stories;
-AppDelegate *appDelegate;
-UITextField *textField;
-UIButton *cancelButton;
-CGFloat currentFeedHeight;
 
 #define STORY_HEIGHT_WITH_PADDING 360 // 10px padding at the top
 
@@ -107,7 +109,6 @@ CGFloat currentFeedHeight;
     topIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: topIndicator];
     [topIndicator bringSubviewToFront: scrollView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [topIndicator startAnimating];
     
     int oldSubViewsCount = [[scrollView subviews] count] - 1;
@@ -116,23 +117,15 @@ CGFloat currentFeedHeight;
     }
     currentFeedHeight = 65;
     
-    // how we stop refresh from freezing the main UI thread
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        // do our long running process here   
         
-        [NSThread sleepForTimeInterval:3];     
-        
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 100 userId: [appDelegate currentUserId] authorId:0 searchFor:[textField text]];
-        
-        // do any UI stuff on the main UI thread
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 100 userId: [appDelegate currentUserId] authorId:0 searchFor:[textField text]];        
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            NSLog(@"newStories count is: %d", [newStories count]);
-            
-            NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-            
             [topIndicator stopAnimating];
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             
             if(newStories != NULL && [newStories count] > 0){
                  stories = newStories;                
@@ -175,11 +168,11 @@ CGFloat currentFeedHeight;
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (BOOL)textFieldShouldReturn:(UITextField *)txtField
 {
     [self hideCancel];
-    if(![[textField text] isEqualToString:@""])[self refreshView];
-    [textField resignFirstResponder];
+    if(![[txtField text] isEqualToString:@""])[self refreshView];
+    [txtField resignFirstResponder];
     return YES;
 }
 
@@ -194,6 +187,7 @@ CGFloat currentFeedHeight;
     [UIView animateWithDuration:0.25 delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
+                         NSLog(@"here");
                          textField.frame = CGRectMake(textField.frame.origin.x, textField.frame.origin.y,
                                                       textField.frame.size.width - 80, textField.frame.size.height);
                          cancelButton.frame = CGRectMake(cancelButton.frame.origin.x - 80, cancelButton.frame.origin.y,

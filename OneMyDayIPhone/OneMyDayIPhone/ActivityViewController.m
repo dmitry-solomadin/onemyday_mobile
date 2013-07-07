@@ -200,7 +200,6 @@ AppDelegate *appDelegate;
         bottomIndicator.hidesWhenStopped = YES;
         [sView addSubview: bottomIndicator];
         [bottomIndicator bringSubviewToFront: sView];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         [sView setContentSize: CGSizeMake(320, currentHeight + 50)];
         [bottomIndicator startAnimating];
         

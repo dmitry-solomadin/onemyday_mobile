@@ -15,6 +15,7 @@
 #import "StoryStore.h"
 #import "StoryCommentView.h"
 #import "ProfileViewController.h"
+#import "UIApplication+NetworkActivity.h"
 
 @interface ShowStoryViewController ()
 
@@ -23,21 +24,22 @@
 @implementation ShowStoryViewController
 @synthesize story, scrollView;
 
-UIButton *likeButtonView;
-UILabel *numberOfPeopleView;
-UILabel *numberOfPeopleTextView;
-UIActivityIndicatorView *likeIndicator;
-UIActivityIndicatorView *commentsIndicator;
-UITextView *likeView;
 AppDelegate *appDelegate;
 CGFloat currentStoryHeight;
-UITextField *textField;
-NSMutableArray *comments;
-UIButton *button;
-UIActivityIndicatorView *delCommentIndicator;
-//int profileAuthorId;
 
-- (id) initWithStory:(Story *)_story
+UIView *likeView;
+UIButton *likeButtonView;
+UILabel *numberOfPeopleLikes;
+UILabel *numberOfPeopleLikesText;
+
+UIView *commentFormContainer;
+UITextField *textField;
+
+NSMutableArray *comments;
+UIActivityIndicatorView *delCommentIndicator;
+UIActivityIndicatorView *commentsIndicator;
+
+- (id)initWithStory:(Story *)_story
 {
     if (self = [super initWithNibName: nil bundle: nil]) {
         self.story = _story;
@@ -89,63 +91,51 @@ UIActivityIndicatorView *delCommentIndicator;
                 textView.frame = CGRectMake(10, currentStoryHeight, 300, textView.contentSize.height);
                 [textView sizeToFit];
                 currentStoryHeight += textView.contentSize.height;
+            } else {
+                currentStoryHeight += 10;
             }
         }
         
-        likeView = [[UITextView alloc] init];
-        
+        likeView = [[UIView alloc] initWithFrame:CGRectMake(-1, currentStoryHeight, 322, 55)];
         likeView.clipsToBounds = YES;
-        likeView.layer.cornerRadius = 10.0;
         likeView.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
         likeView.layer.borderWidth = 1;
-        [likeView setEditable:NO];
-        [likeView setFont:[UIFont systemFontOfSize:15]];
         [likeView setBackgroundColor:[UIColor whiteColor]];
-        [likeView setContentInset:UIEdgeInsetsMake(0, -8, 0, 0)];
         [scrollView addSubview:likeView];
-        likeView.frame = CGRectMake(10, currentStoryHeight, 300, 55);
         
         currentStoryHeight += 65;
                 
-        likeButtonView = [[UIButton alloc] init];
-        likeButtonView.clipsToBounds = YES;
-        likeButtonView.layer.cornerRadius = 4.0;
-        likeButtonView.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-        likeButtonView.layer.borderWidth = 1;
-
-        if (![story isLikedByUser]) {
-            [likeButtonView setTitle:@"Like" forState:UIControlStateNormal];
+        likeButtonView = [[UIButton alloc] initWithFrame:CGRectMake(11, 10, 70, 36)];
+        if ([story isLikedByUser]) {            
+            [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"liked_button"]]];
         } else {
-            [likeButtonView setTitle:@"Liked" forState:UIControlStateNormal];
+            [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"like_button"]]];
         }
-        
         [likeButtonView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [likeButtonView setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1]];     
         [likeView addSubview:likeButtonView];
-        likeButtonView.frame = CGRectMake(15, 10, 70, 35);
         
         UITapGestureRecognizer *likeButtonTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeButtonTapped:)];
         [likeButtonView addGestureRecognizer:likeButtonTap];
         
-        numberOfPeopleView = [[UILabel alloc] init];
-        numberOfPeopleView.text = [NSString stringWithFormat:@"%d", [story likesCount]];
-        [numberOfPeopleView setFont:[UIFont systemFontOfSize:14]];
-        [likeView addSubview:numberOfPeopleView];
-        numberOfPeopleView.frame = CGRectMake(93, 10, 20, 35);
+        numberOfPeopleLikes = [[UILabel alloc] init];
+        numberOfPeopleLikes.text = [NSString stringWithFormat:@"%d", [story likesCount]];
+        [numberOfPeopleLikes setFont:[UIFont systemFontOfSize:14]];
+        [likeView addSubview:numberOfPeopleLikes];
+        numberOfPeopleLikes.frame = CGRectMake(93, 10, 20, 35);
         
-        numberOfPeopleTextView = [[UILabel alloc] init];
-        numberOfPeopleTextView.text = @"people likes this story";
-        [numberOfPeopleTextView setFont:[UIFont systemFontOfSize:14]];
-        [likeView addSubview:numberOfPeopleTextView];
-        numberOfPeopleTextView.frame = CGRectMake(105, 10, 200, 35);
+        numberOfPeopleLikesText = [[UILabel alloc] init];
+        numberOfPeopleLikesText.text = @"people likes this story";
+        [numberOfPeopleLikesText setFont:[UIFont systemFontOfSize:14]];
+        [likeView addSubview:numberOfPeopleLikesText];
+        numberOfPeopleLikesText.frame = CGRectMake(105, 10, 200, 35);
         [self placeLikeTextCorrectly:[story likesCount]];
+        
+        [self drawAddCommentForm];
         
         [self getStoryComments];
         
-        [scrollView setContentSize:(CGSizeMake(10, currentStoryHeight))];
+        [scrollView setContentSize:(CGSizeMake(320, currentStoryHeight))];
         [scrollView setAutoresizesSubviews:NO];
-        
-        
     }
     return self;
 }
@@ -155,154 +145,138 @@ UIActivityIndicatorView *delCommentIndicator;
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 }
 
+/* STORY LIKES */
+
 - (void)placeLikeTextCorrectly:(int)likesCount
 {
     if (likesCount > 9) {
-        numberOfPeopleTextView.frame = CGRectMake(112, numberOfPeopleTextView.frame.origin.y,
-                                                  numberOfPeopleTextView.frame.size.width, numberOfPeopleTextView.frame.size.height);
+        numberOfPeopleLikesText.frame = CGRectMake(112, numberOfPeopleLikesText.frame.origin.y,
+                                                  numberOfPeopleLikesText.frame.size.width, numberOfPeopleLikesText.frame.size.height);
     } else {
-        numberOfPeopleTextView.frame = CGRectMake(105, numberOfPeopleTextView.frame.origin.y,
-                                                  numberOfPeopleTextView.frame.size.width, numberOfPeopleTextView.frame.size.height);
+        numberOfPeopleLikesText.frame = CGRectMake(105, numberOfPeopleLikesText.frame.origin.y,
+                                                  numberOfPeopleLikesText.frame.size.width, numberOfPeopleLikesText.frame.size.height);
     }
     
     if (likesCount == 0) {
-        numberOfPeopleTextView.hidden = true;
-        numberOfPeopleView.hidden = true;
+        numberOfPeopleLikesText.hidden = true;
+        numberOfPeopleLikes.hidden = true;
     } else {
-        numberOfPeopleTextView.hidden = false;
-        numberOfPeopleView.hidden = false;
+        numberOfPeopleLikesText.hidden = false;
+        numberOfPeopleLikes.hidden = false;
     }
 }
 
 - (void)likeButtonTapped:(UITapGestureRecognizer *)gr
-{    
-    likeIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    likeIndicator.frame = CGRectMake(10, 45, 100, 100);
-    likeIndicator.center = CGPointMake(110, 25);
-    likeIndicator.hidesWhenStopped = YES;
-    [likeView addSubview: likeIndicator];
-    [likeIndicator bringSubviewToFront: likeView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [likeIndicator startAnimating];    
+{
+    [self doLikeTap];
     
     NSString *likeOrUnlike;
     if([story isLikedByUser])likeOrUnlike = @"unlike";
     else likeOrUnlike = @"like";
     NSMutableString *path = [NSString stringWithFormat:@"/api/stories/%d/%@", [story storyId], likeOrUnlike];
-    /*NSString *post =[[NSString alloc] initWithFormat:
-                         @"api_key=%@&user_id=%@",appDelegate.apiKey, appDelegate.currentUserId];*/
     
     Request *request = [[Request alloc] init];
     
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];    
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
-    dispatch_async(downloadQueue, ^{
-        // do our long running process here      
-        
-        /*NSMutableData *postData = [NSMutableData alloc];
-        [postData appendData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];*/
-        
+    dispatch_async(downloadQueue, ^{        
         [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
         [request addStringToPostData:@"user_id" andValue: [NSString stringWithFormat:@"%d",appDelegate.currentUserId]];
-        NSDictionary *jsonData = [request send: path];
-        //[NSThread sleepForTimeInterval:3];
-        // do any UI stuff on the main UI thread
+        [request send:path];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [likeIndicator stopAnimating];
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             if([request errorMsg] != nil){
+                [self doLikeTap];
                 [appDelegate alertStatus:@"" :[request errorMsg]];
                 return;
-            } else {
-                int success = [(NSString *) [jsonData objectForKey:@"success"] intValue];
-                if(success == 1){
-                    if(![story isLikedByUser]){
-                        [likeButtonView setTitle:@"Liked" forState:UIControlStateNormal];
-                        [story setLikesCount: [story likesCount] + 1];
-                        [story setIsLikedByUser: true];
-                    } else {
-                        [likeButtonView setTitle:@"Like" forState:UIControlStateNormal];
-                        [story setLikesCount: [story likesCount] - 1];
-                        [story setIsLikedByUser: false];
-                    }
-                    [self placeLikeTextCorrectly:[story likesCount]];
-                    [self saveLikeToCache];
-                    numberOfPeopleView.text = [NSString stringWithFormat:@"%d",[story likesCount]];
-                }        
-            }      
+            }
         });
-    });    
+    });
+}
+
+- (void)doLikeTap
+{
+    if([story isLikedByUser]){
+        [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"like_button"]]];
+        [story setLikesCount: [story likesCount] - 1];
+        [story setIsLikedByUser: false];
+    } else {
+        [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"liked_button"]]];
+        [story setLikesCount: [story likesCount] + 1];
+        [story setIsLikedByUser: true];
+    }
+    [self placeLikeTextCorrectly:[story likesCount]];
+    [self performSelectorInBackground:@selector(saveLikeToCache) withObject:nil];
+    numberOfPeopleLikes.text = [NSString stringWithFormat:@"%d",[story likesCount]];
 }
 
 - (void)saveLikeToCache
 {
-    NSMutableArray *cachedStories = [[StoryStore get] getCachedStories];
-    for(int i = 0; i < [cachedStories count]; i++){
-        Story *cachedStory = [cachedStories objectAtIndex:i];
-        if([story storyId] == [cachedStory storyId]){
-            [cachedStory setIsLikedByUser:[story isLikedByUser]];
-            [cachedStory setLikesCount: [story likesCount]];
-            [cachedStories replaceObjectAtIndex:i withObject:cachedStory];
-            [[StoryStore get] saveStoriesToDisk: cachedStories];
-            break;
+    StoryStore *store = [StoryStore get];
+    @synchronized (store) {
+        NSMutableArray *cachedStories = [store getCachedStories];
+        for(int i = 0; i < [cachedStories count]; i++){
+            Story *cachedStory = [cachedStories objectAtIndex:i];
+            if([story storyId] == [cachedStory storyId]){
+                [cachedStory setIsLikedByUser:[story isLikedByUser]];
+                [cachedStory setLikesCount: [story likesCount]];
+                [cachedStories replaceObjectAtIndex:i withObject:cachedStory];
+                [[StoryStore get] saveStoriesToDisk: cachedStories];
+                break;
+            }
         }
-    }    
+    }
 }
+
+/* STORY COMMENTS */
 
 - (void)getStoryComments
 {
-    currentStoryHeight += 50;
     commentsIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    commentsIndicator.frame = CGRectMake(10, 45, 100, 100);
-    commentsIndicator.center = CGPointMake(160, currentStoryHeight - 30);
+    commentsIndicator.frame = CGRectMake(10, 45, 100, 40);
+    commentsIndicator.center = CGPointMake(160, currentStoryHeight - 40);
+
+    commentFormContainer.frame = CGRectMake(commentFormContainer.frame.origin.x, commentFormContainer.frame.origin.y + 40,
+                                            commentFormContainer.frame.size.width, commentFormContainer.frame.size.height);
+    currentStoryHeight += 40;
+    
     commentsIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: commentsIndicator];
     [commentsIndicator bringSubviewToFront: scrollView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [scrollView setContentSize: CGSizeMake(320, currentStoryHeight)];
-    //CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
-    //[self.scrollView setContentOffset:bottomOffset animated:YES];
     [commentsIndicator startAnimating];
     
     Request *request = [[Request alloc] init];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_async(downloadQueue, ^{
-        // do our long running process here        
         comments = [self getComments: request];
-        //[NSThread sleepForTimeInterval:3];
-        // do any UI stuff on the main UI thread
+        
+        [NSThread sleepForTimeInterval:1];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [commentsIndicator stopAnimating];         
-            //if([request errorMsg] != nil){
-            //    [appDelegate alertStatus:@"" :[request errorMsg]];
-                //return;
-            //} else if(comments != nil && [comments count] > 0){
-            currentStoryHeight -= 50;
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+            [commentsIndicator stopAnimating];
+            currentStoryHeight -= 40;
             
-            if(comments != nil && [comments count] > 0){
-                //currentStoryHeight += 5;
+            if (comments != nil && [comments count] > 0) {
+                currentStoryHeight -= commentFormContainer.frame.size.height + 10;
                 for (int i = 0; i < [comments count]; i++) {
                     Comment *comment = [comments objectAtIndex:i];
                     CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
                     StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
-                        andComment:comment
-                                                                                      andIsFirst:(i == 0)
-                                                                                       andIsLast:(i == [comments count] - 1)];
+                        andComment:comment andIsFirst:(i == 0) andIsLast:(i == [comments count] - 1)];
                     storyCommentView.controller = self;
                     
-                    if([appDelegate currentUserId] == [comment authorId]){
-                        UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
-                        [deleteView setText:@"X"];
-                        deleteView.tag = [comment commentId];
-                        UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
-                        [deleteView addGestureRecognizer:deleteViewTap];
-                        [deleteView setEditable:NO];
-                        [storyCommentView addSubview:deleteView];
+                    if ([appDelegate currentUserId] == [comment authorId]) {
+                        [self addDeleteButtonToView:storyCommentView commentId:[comment commentId]];
                     }
                     
                     //Author hidden button
                     UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
                     authorBtn.tag = [comment authorId];
-                    //NSLog(@"authorBtn.tag %d",authorBtn.tag);
                     [authorBtn addTarget:self action:@selector(authorTap:) forControlEvents:UIControlEventTouchUpInside];
                     [storyCommentView addSubview:authorBtn];
                     [storyCommentView bringSubviewToFront:authorBtn];
@@ -310,14 +284,17 @@ UIActivityIndicatorView *delCommentIndicator;
                     [scrollView addSubview: storyCommentView];
                     currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border
                 }
-                //currentStoryHeight += 15;
-            //}
-            } 
-            [self drawAddCommentForm];
+                commentFormContainer.frame = CGRectMake(commentFormContainer.frame.origin.x, currentStoryHeight + 11,
+                                                        commentFormContainer.frame.size.width, commentFormContainer.frame.size.height);
+                currentStoryHeight += commentFormContainer.frame.size.height + 11;
+            } else {
+                commentFormContainer.frame = CGRectMake(commentFormContainer.frame.origin.x, commentFormContainer.frame.origin.y - 40,
+                                                        commentFormContainer.frame.size.width, commentFormContainer.frame.size.height);
+            }
             
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:0.3];            
-            [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
+            [scrollView setContentSize: CGSizeMake(320, currentStoryHeight)];
             [UIView commitAnimations];
         });
     });
@@ -325,7 +302,7 @@ UIActivityIndicatorView *delCommentIndicator;
 
 - (NSMutableArray *)getComments: request
 {
-    NSMutableString *path = [NSString stringWithFormat:@"/stories/%d/comments.json/", [story storyId]];  
+    NSMutableString *path = [NSString stringWithFormat:@"/stories/%d/comments.json/", [story storyId]];
     NSDictionary *jsonData = [request send:path];
     NSMutableArray *comments;
     if(jsonData != nil){
@@ -347,65 +324,51 @@ UIActivityIndicatorView *delCommentIndicator;
     return comments;
 }
 
-/*- (NSMutableArray *)getComments1: request
-{
-    NSMutableArray *comments = [NSMutableArray array];
-    for (int i = 0; i < 3; i++) {
-        Comment *newComment = [[Comment alloc] initWithId:1 andText:@"test"
-                                                andAuthor:1 andCreatedAt:[NSDate date]
-                                                updatedAt:[NSDate date] andCommentId:1];
-        [comments addObject:newComment];
-    }
-
-    return comments;
-}*/
-
 - (void)drawAddCommentForm
 {
     currentStoryHeight += 10;
     
-    textField = [[UITextField alloc] init];
-    textField.clipsToBounds = YES;
+    commentFormContainer = [[UIView alloc] initWithFrame:CGRectMake(0, currentStoryHeight, 320, 53)];
+    UIColor *highColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.000];
+    UIColor *lowColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.000];
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    [gradient setFrame:[commentFormContainer bounds]];
+    [gradient setColors:[NSArray arrayWithObjects:(id)[highColor CGColor], (id)[lowColor CGColor], nil]];
+    [commentFormContainer.layer insertSublayer:gradient atIndex:0];
+    commentFormContainer.layer.masksToBounds = NO;
+    commentFormContainer.layer.shadowOffset = CGSizeMake(0, -1);
+    commentFormContainer.layer.shadowRadius = 1;
+    commentFormContainer.layer.shadowOpacity = 0.25;
+    [scrollView addSubview:commentFormContainer];
+    currentStoryHeight += 8;
+    
+    textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 8 , 230, 37)];
     textField.tag = 1;
-    //textField.layer.cornerRadius = 4.0;
-    textField.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-    textField.layer.borderWidth = 1;
-    //textField.Bounds = [self textRectForBounds:textField.bounds];
     [textField setPlaceholder:@"Add Comment"];
-    //[textField setText:@""];
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
+    textField.leftView = paddingView;
+    textField.leftViewMode = UITextFieldViewModeAlways;
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    //textField.textAlignment = UITextAlignmentLeft;
-    [textField setKeyboardAppearance:UIKeyboardAppearanceAlert];
     [textField setTextColor:[UIColor blackColor]];
-    [textField setBackgroundColor:[UIColor whiteColor]];
-    [scrollView addSubview:textField];
-    textField.frame = CGRectMake(10, currentStoryHeight , 230, 35);
     textField.delegate = self;
-    textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
+    UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    [textField setBackground:fieldBGImage];
+    [commentFormContainer addSubview:textField];
     
-    button = [[UIButton alloc] init];
-    button.clipsToBounds = YES;
-    //textField.layer.cornerRadius = 4.0;
-    button.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-    button.layer.borderWidth = 1;
-    
-    [button setTitle: @"Add" forState:UIControlStateNormal];
-    
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1]];
-    [scrollView addSubview:button];
-    button.frame = CGRectMake(250, currentStoryHeight, 60, 35);
+    UIButton *addCommentButton = [[UIButton alloc] initWithFrame:CGRectMake(250, 8, 60, 36)];
+    [addCommentButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"add_button"]]];
+    [commentFormContainer addSubview:addCommentButton];
     
     UITapGestureRecognizer *addCommentTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addCommentTapped:)];
     
-    [button addGestureRecognizer:addCommentTap];
+    [addCommentButton addGestureRecognizer:addCommentTap];
     
-    currentStoryHeight += 50;
+    currentStoryHeight += 45;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {    
-    [scrollView setContentSize:(CGSizeMake(10, currentStoryHeight + 170))];
+    [scrollView setContentSize:(CGSizeMake(320, currentStoryHeight + 165))];
     CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
     [self.scrollView setContentOffset:bottomOffset animated:YES];
 }
@@ -414,7 +377,7 @@ UIActivityIndicatorView *delCommentIndicator;
 {    
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.3];
-    [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
+    [scrollView setContentSize: CGSizeMake(320, currentStoryHeight)];
     [UIView commitAnimations];
 }
 
@@ -425,7 +388,6 @@ UIActivityIndicatorView *delCommentIndicator;
     {      
         [textField resignFirstResponder];
     }
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -445,124 +407,70 @@ UIActivityIndicatorView *delCommentIndicator;
     
     UIActivityIndicatorView *addCommentIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     addCommentIndicator.frame = CGRectMake(10, 45, 100, 100);
-    addCommentIndicator.center = CGPointMake(280, currentStoryHeight-30);
+    addCommentIndicator.center = CGPointMake(280, currentStoryHeight - 30);
     addCommentIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: addCommentIndicator];
     [addCommentIndicator bringSubviewToFront: scrollView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [addCommentIndicator startAnimating];
-    
    
     NSMutableString *path = [NSString stringWithFormat:@"/api/comments/create"];
-    /*NSString *post =[[NSString alloc] initWithFormat:
-                         @"api_key=%@&creator_id=%d&comment[text]=%@&story_id=%d",appDelegate.apiKey, [appDelegate currentUserId], [textField  text], [story storyId]];*/
     
     Request *request = [[Request alloc] init];
     
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        // do our long running process here
-        
-        /*NSMutableData *postData = [NSMutableData alloc];
-        [postData appendData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];*/
-        
         [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
         [request addStringToPostData:@"creator_id" andValue:[NSString stringWithFormat:@"%d",[appDelegate currentUserId]]];
-        [request addStringToPostData:@"comment[text]" andValue:[textField  text]];
+        [request addStringToPostData:@"comment[text]" andValue:[textField text]];
         [request addStringToPostData:@"story_id" andValue:[NSString stringWithFormat:@"%d",[story storyId]]];
         
         NSDictionary *jsonData = [request send:path];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [addCommentIndicator stopAnimating];
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             
-            int commentId = [(NSString *) [jsonData objectForKey:@"id"] intValue];            
+            int commentId = [(NSString *) [jsonData objectForKey:@"id"] intValue];
             int authorId = [(NSString *) [jsonData objectForKey:@"user_id"] intValue];
             int storyId = [(NSString *) [jsonData objectForKey:@"story_id"] intValue];
             NSString *text = (NSString *) [jsonData objectForKey:@"text"];
-            if(text != nil){
-                
+            NSDate *updatedAt = [StoryStore parseRFC3339Date:[jsonData objectForKey:@"updated_at"]];
+            NSDate *createdAt = [StoryStore parseRFC3339Date:[jsonData objectForKey:@"created_at"]];
+            if(text != nil) {
                 [textField setText:@""];
                 
-                currentStoryHeight -= 60;
+                // Make right rounded corners
+                float lastCommentY = 0;
+                if ([comments count] > 0) {
+                    StoryCommentView *lastCommentView = [self getLastCommentView];
+                    lastCommentY = lastCommentView.frame.origin.y + lastCommentView.frame.size.height;
+                    if ([comments count] == 1) {
+                        [lastCommentView setTopRoundedCorners];
+                    } else {
+                        [lastCommentView removeRoundedCorners];
+                    }                    
+                } else {
+                    lastCommentY = likeView.frame.origin.y + likeView.frame.size.height + 10;
+                }
                 
-                NSDate *updatedAt = [StoryStore parseRFC3339Date:[jsonData objectForKey:@"updated_at"]];
-                NSDate *createdAt = [StoryStore parseRFC3339Date:[jsonData objectForKey:@"created_at"]];
-            
+                // Add new comment
                 Comment *newComment = [[Comment alloc] initWithId:storyId andText:text
-                                                    andAuthor:authorId andCreatedAt:createdAt
-                                                    updatedAt:updatedAt andCommentId:commentId];
-            
-                CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
+                                                        andAuthor:authorId andCreatedAt:createdAt
+                                                        updatedAt:updatedAt andCommentId:commentId];
+                
+                CGRect frame = CGRectMake(10, lastCommentY - 1, 300, 300); // -1 is to remove 2px border  */
                 StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
                                                                               andComment:newComment
                                                                               andIsFirst:([comments count] == 0)
                                                                                andIsLast:(true)];
+                [comments addObject: newComment];
                 storyCommentView.controller = self;
                 
-                if([comments count] > 0){
-                    int subviewsCount = [[scrollView subviews] count] - 1;
-                 
-                    for(int i = subviewsCount; i >= 0; i--){
-                     
-                        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){
-                      
-                            StoryCommentView *lastStoryCommentView = [[scrollView subviews] objectAtIndex:i];                            
-                                
-                                UIView *commentContainer = [[lastStoryCommentView  subviews] objectAtIndex:0];
-                                
-                                CAShapeLayer *maskLayer = [CAShapeLayer layer];
-                                UIBezierPath *path;
-                                path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
-                                maskLayer.path = path.CGPath;
-                                
-                                commentContainer.layer.mask = maskLayer;
-                                commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-                                commentContainer.layer.borderWidth = 1;
-                                
-                                UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
-                                [strokeViewOld removeFromSuperview];
-                            
-                            if([comments count] == 1){
-                              
-                                CAShapeLayer *maskLayer = [CAShapeLayer layer];
-                                UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.}];
-                                maskLayer.path = path.CGPath;
-                                
-                                commentContainer.layer.mask = maskLayer;
-                                
-                                // Make a transparent, stroked layer which will dispay the stroke.
-                                CAShapeLayer *strokeLayer = [CAShapeLayer layer];
-                                strokeLayer.path = path.CGPath;
-                                strokeLayer.fillColor = [UIColor clearColor].CGColor;
-                                strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-                                strokeLayer.lineWidth = 2;
-                                
-                                // Transparent view that will contain the stroke layer
-                                UIView *strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
-                                strokeView.userInteractionEnabled = NO; // in case your container view contains controls
-                                [strokeView.layer addSublayer:strokeLayer];
-                                
-                                [commentContainer addSubview:strokeView];                                
-                            }
-                            
-                            break;
-                        }
-                    }
-                }
-                
-                [comments addObject: newComment];   
-                
                 //add cross (delete button) on comment view
-                if([appDelegate currentUserId] == [newComment authorId]){
-                    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
-                    [deleteView setText:@"X"];
-                    deleteView.tag = [newComment commentId];
-                    UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
-                    [deleteView addGestureRecognizer:deleteViewTap];
-                    [deleteView setEditable:NO];
-                    [storyCommentView addSubview:deleteView];
-                }   
+                if ([appDelegate currentUserId] == [newComment authorId]) {
+                    [self addDeleteButtonToView:storyCommentView commentId:[newComment commentId]];
+                }
                 
                 //Author hidden button
                 UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
@@ -571,27 +479,12 @@ UIActivityIndicatorView *delCommentIndicator;
                 [storyCommentView addSubview:authorBtn];
                 [storyCommentView bringSubviewToFront:authorBtn];
                 
-                //find index of last comment or detect that there is no comments
-                int lastSubview = 0;
-                int subviewsCount = [[scrollView subviews] count] - 1;                
-                for(int i = subviewsCount; i > 0; i--){
-                   // NSLog(@"i %d", i);
-                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]
-                       || [[[scrollView subviews] objectAtIndex:i] isKindOfClass:[UITextView class]]){
-                        lastSubview = i;
-                        //NSLog(@"lastSubView %d", lastSubview);
-                        break;                        
-                    }
-                }
-                
-                //insert new comment in scrollView
-                [scrollView insertSubview:storyCommentView atIndex:lastSubview + 1];
-                currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border  */
+                [scrollView addSubview:storyCommentView];
+                currentStoryHeight += storyCommentView.frame.size.height;
             
-                currentStoryHeight += 10;                       
-                textField.frame = CGRectMake(10, currentStoryHeight , 230, 35);              
-                button.frame = CGRectMake(250, currentStoryHeight, 60, 35);
-                currentStoryHeight += 50;                
+                float newLastCommentY = storyCommentView.frame.origin.y + storyCommentView.frame.size.height; 
+                commentFormContainer.frame = CGRectMake(commentFormContainer.frame.origin.x, newLastCommentY + 10,
+                                                        commentFormContainer.frame.size.width, commentFormContainer.frame.size.height);
                
                 [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
                 CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
@@ -601,19 +494,27 @@ UIActivityIndicatorView *delCommentIndicator;
     });
 }
 
+- (void)addDeleteButtonToView:(UIView *)storyCommentView commentId:(int)cid
+{
+    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
+    [deleteView setText:@"X"];
+    deleteView.tag = cid;
+    UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
+    [deleteView addGestureRecognizer:deleteViewTap];
+    [deleteView setEditable:NO];
+    [storyCommentView addSubview:deleteView];
+}
+
 - (void)deleteViewTapped:(UITapGestureRecognizer *)gr
 {
-    int commentId = gr.view.tag;  
+    int commentId = gr.view.tag;
    
-    int subviewsCount = [[scrollView subviews] count] - 1;
-    
     StoryCommentView *storyCommentView;
-    
-    for(int i = subviewsCount; i > 0; i--){
-        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){                            StoryCommentView *delStoryCommentView = [[scrollView subviews] objectAtIndex:i];
-            if(delStoryCommentView.tag == commentId){       
+    for(int i = 0; i < [[scrollView subviews] count]; i++){
+        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){
+            StoryCommentView *delStoryCommentView = [[scrollView subviews] objectAtIndex:i];
+            if (delStoryCommentView.tag == commentId) {
                 storyCommentView = delStoryCommentView;
-                subviewsCount = i;
                 break;
             }
         }
@@ -625,159 +526,104 @@ UIActivityIndicatorView *delCommentIndicator;
     delCommentIndicator.hidesWhenStopped = YES;
     [storyCommentView addSubview: delCommentIndicator];
     [delCommentIndicator bringSubviewToFront: storyCommentView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [delCommentIndicator startAnimating];    
 
     NSMutableString *path = [NSString stringWithFormat:@"/api/comments/%d/destroy",commentId];
-   /* NSString *post =[[NSString alloc] initWithFormat:
-                         @"api_key=%@",appDelegate.apiKey];*/
     
     Request *request = [[Request alloc] init];
     
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        // do our long running process here
-        
-        //NSMutableData *postData = [NSMutableData alloc];
-        //[postData appendData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
-        
         [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
         
         NSDictionary *jsonData = [request send:path];
-        //[NSThread sleepForTimeInterval:3];
-      
-        // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             [delCommentIndicator stopAnimating];            
             
-            NSString *success = (NSString *) [jsonData objectForKey:@"success"];
-            
+            NSString *success = (NSString *) [jsonData objectForKey:@"success"];            
             if(success != nil && [success boolValue]){
-                currentStoryHeight -= storyCommentView.frame.size.height;
+                //moving subviews on the place of delited one;
+                for(int i = 0; i < [[scrollView subviews] count]; i++){                
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]) {
+                        StoryCommentView *view = [[scrollView subviews] objectAtIndex:i];
+                        if (view.frame.origin.y > storyCommentView.frame.origin.y) {
+                            CGRect rect = view.frame;
+                            rect.origin = CGPointMake(view.frame.origin.x, view.frame.origin.y - storyCommentView.frame.size.height);
+                            view.frame = rect;                            
+                        }
+                    }
+                }
                 
-                [storyCommentView removeFromSuperview];
+                float commentHeight = storyCommentView.frame.size.height;
+                currentStoryHeight -= commentHeight;
                 
-                for(int i = 0; i < [comments count]; i++){
+                // remove comment
+                [storyCommentView removeFromSuperview];                
+                for (int i = 0; i < [comments count]; i++) {
                     Comment *comment = [comments objectAtIndex:i];
-                    if([comment commentId] == commentId){
+                    if ([comment commentId] == commentId) {
                         [comments removeObject:comment];
                         break;
                     }
                 }
                 
-                //moving subviews on the place of delited one; looking for comments older than this one
-                NSMutableArray *lastSubviews = [NSMutableArray array];                
-                for(int i = subviewsCount; i < [[scrollView subviews] count]; i++){
-                    UIView *view = [[scrollView subviews] objectAtIndex:i];
-                    CGRect rect = view.frame;
-                    rect.origin = CGPointMake(view.frame.origin.x, view.frame.origin.y - storyCommentView.frame.size.height);
-                    view.frame = rect;
-                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]])[lastSubviews addObject:view];
+                // get new first and last comments
+                StoryCommentView *firstCommentView = nil;
+                StoryCommentView *lastCommentView = nil;
+                for(int i = 0; i < [[scrollView subviews] count]; i++){
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]) {
+                        StoryCommentView *view = [[scrollView subviews] objectAtIndex:i];
+                        if (firstCommentView == nil || view.frame.origin.y < firstCommentView.frame.origin.y) {
+                            firstCommentView = view;
+                        }
+                        
+                        if (lastCommentView == nil || view.frame.origin.y > lastCommentView.frame.origin.y) {
+                            lastCommentView = view;
+                        }
+                    }
+                }
+                                
+                // round first and last comments
+                if(firstCommentView && lastCommentView && firstCommentView.tag == lastCommentView.tag) {
+                    [firstCommentView setAllRoundedCorners];
+                } else {
+                    if (firstCommentView) {
+                        [firstCommentView setTopRoundedCorners];
+                    }
+                    if (lastCommentView) {
+                        [lastCommentView setBottomRoundedCorners];
+                    }
                 }
                 
-                //looking for comments younger than this one
-                NSMutableArray *firstSubviews = [NSMutableArray array];
-                for(int i = subviewsCount; i > 0; i--){
-                    UIView *view = [[scrollView subviews] objectAtIndex:i];                   
-                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]])[firstSubviews addObject:view];
-                }           
+                commentFormContainer.frame = CGRectMake(commentFormContainer.frame.origin.x,
+                                                        commentFormContainer.frame.origin.y - commentHeight,
+                                                       commentFormContainer.frame.size.width, commentFormContainer.frame.size.height);
                 
-                //rounding bottom the bordres if needed
-                if([lastSubviews count] == 0 && [firstSubviews count] > 0){
-                    UIView *view = [firstSubviews objectAtIndex:0];
-                    
-                    UIView *commentContainer = [[view  subviews] objectAtIndex:0];
-                    
-                    if(![[[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1] isKindOfClass:[UITextView class]]){
-                        CAShapeLayer *maskLayer = [CAShapeLayer layer];
-                        UIBezierPath *path;
-                        path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
-                        maskLayer.path = path.CGPath;
-                        
-                        commentContainer.layer.mask = maskLayer;
-                        commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-                        commentContainer.layer.borderWidth = 1;
-                        
-                        UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
-                        [strokeViewOld removeFromSuperview];
-                    }
-                    
-                    CAShapeLayer *maskLayer1 = [CAShapeLayer layer];
-                    UIBezierPath *path1;
-                    if([firstSubviews count] == 1)path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
-                    else path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners:  UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
-                    maskLayer1.path = path1.CGPath;
-                    
-                    commentContainer.layer.mask = maskLayer1;
-                    
-                    // Make a transparent, stroked layer which will dispay the stroke.
-                    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
-                    strokeLayer.path = path1.CGPath;
-                    strokeLayer.fillColor = [UIColor clearColor].CGColor;
-                    strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-                    strokeLayer.lineWidth = 2;
-                    
-                    // Transparent view that will contain the stroke layer
-                    UIView *strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
-                    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
-                    [strokeView.layer addSublayer:strokeLayer];
-                    
-                    [commentContainer addSubview:strokeView];
-                }
-                
-                
-                //rounding top borders if neded
-                if(([firstSubviews count] == 0 || [firstSubviews count] == 1) && [lastSubviews count] > 0){
-                    UIView *view = [lastSubviews objectAtIndex:0];
-                    
-                    UIView *commentContainer = [[view  subviews] objectAtIndex:0];
-                    
-                    if(![[[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1] isKindOfClass:[UITextView class]]){
-                        
-                        CAShapeLayer *maskLayer = [CAShapeLayer layer];
-                        UIBezierPath *path;
-                        path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){0, 0}];
-                        maskLayer.path = path.CGPath;
-                        
-                        commentContainer.layer.mask = maskLayer;
-                        commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-                        commentContainer.layer.borderWidth = 1;
-                        
-                        UIView *strokeViewOld = [[commentContainer subviews] objectAtIndex:[[commentContainer subviews] count] - 1];
-                        [strokeViewOld removeFromSuperview];
-                    }
-                    
-                    CAShapeLayer *maskLayer1 = [CAShapeLayer layer];
-                    UIBezierPath *path1;
-                    if([lastSubviews count] == 1)path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
-                    else path1 = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.}];
-                    maskLayer1.path = path1.CGPath;
-                    
-                    commentContainer.layer.mask = maskLayer1;
-                    
-                    // Make a transparent, stroked layer which will dispay the stroke.
-                    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
-                    strokeLayer.path = path1.CGPath;
-                    strokeLayer.fillColor = [UIColor clearColor].CGColor;
-                    strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-                    strokeLayer.lineWidth = 2;
-                    
-                    // Transparent view that will contain the stroke layer
-                    UIView *strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
-                    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
-                    [strokeView.layer addSublayer:strokeLayer];
-                    
-                    [commentContainer addSubview:strokeView];
-                }                
-                [scrollView setContentSize: CGSizeMake(320,  currentStoryHeight)];
+                [scrollView setContentSize: CGSizeMake(320, currentStoryHeight)];
             }
         });
     });
-    
+}
+
+- (StoryCommentView *)getLastCommentView
+{
+    StoryCommentView *lastCommentView = nil;
+    for(int i = 0; i < [[scrollView subviews] count]; i++){
+        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]) {
+            StoryCommentView *view = [[scrollView subviews] objectAtIndex:i];
+            
+            if (lastCommentView == nil || view.frame.origin.y > lastCommentView.frame.origin.y) {
+                lastCommentView = view;
+            }
+        }
+    }
+    return lastCommentView;
 }
 
 - (void)authorTap:(UIButton *)sender
-{  
+{
     ProfileViewController *profileVC = [[ProfileViewController alloc] init];
     [profileVC setUserId:sender.tag];
     [[self navigationController] pushViewController:profileVC animated:YES];    

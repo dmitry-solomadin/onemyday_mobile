@@ -163,7 +163,6 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int
 }
 
 - (void)saveStoriesToDisk: (NSMutableArray *)cacheStories {
-    
     path = [path stringByExpandingTildeInPath];
     
     NSMutableDictionary *rootObject;

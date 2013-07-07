@@ -15,6 +15,7 @@
 #import "UserStore.h"
 #import "AppDelegate.h"
 #import "ProfileViewController.h"
+#import "UIApplication+NetworkActivity.h"
 
 @interface HomeViewController ()
 {
@@ -107,15 +108,8 @@ AppDelegate *appDelegate;
     topIndicator.hidesWhenStopped = YES;
     [scrollView addSubview: topIndicator];
     [topIndicator bringSubviewToFront: scrollView];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     [topIndicator startAnimating];
-    
-    /*[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:)
-                                                 name:@"refreshViewNotification" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshViewNotification"
-     object:self];*/
     
     [self refreshView:0];
 }
@@ -123,12 +117,10 @@ AppDelegate *appDelegate;
 //methodCallPointer == 0 - cal from viewDidLoad; 1 - from pull to refresh
 - (void)refreshView:(int) methodCallPointer
 {    
-    // how we stop refresh from freezing the main UI thread
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
-    dispatch_async(downloadQueue, ^{
-        // do our long running process here
-        //[NSThread sleepForTimeInterval:3];
-        long storyId = 0;       
+    dispatch_async(downloadQueue, ^{        
+        long storyId = 0;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:0] storyId];
         
@@ -136,12 +128,9 @@ AppDelegate *appDelegate;
         
         // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            NSLog(@"newStories count is: %d", [newStories count]);
-            
-            NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-            
-            [topIndicator stopAnimating];            
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+
+            [topIndicator stopAnimating];
             
             //move old stories to top after removing the wheel
             if(methodCallPointer == 0 && stories != NULL && [stories count] > 0)
@@ -253,7 +242,6 @@ AppDelegate *appDelegate;
         bottomIndicator.hidesWhenStopped = YES;
         [sView addSubview: bottomIndicator];
         [bottomIndicator bringSubviewToFront: sView];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         [sView setContentSize: CGSizeMake(320, oldFeedHeight + 50)];
         [bottomIndicator startAnimating];
         
@@ -287,34 +275,21 @@ AppDelegate *appDelegate;
 	return [NSDate date]; // should return date data source was last changed
 }
 
-- (void)getOldStories{
-	
-	// how we stop refresh from freezing the main UI thread
+- (void)getOldStories {
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        
-        // do our long running process here
-        //[NSThread sleepForTimeInterval:3];
         long storyId = 0;
         
         if(stories != NULL && [stories count] > 0) storyId = [[stories objectAtIndex:([stories count] - 1)] storyId];
         
         NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: false lastId: storyId withLimit: 10 userId: [appDelegate currentUserId] authorId:0 searchFor: nil];
         
-        // do any UI stuff on the main UI thread
         dispatch_async(dispatch_get_main_queue(), ^{            
-            NSLog(@"newStories count is: %d", [newStories count]);
-            NSLog(@"user count is: %d", [[[UserStore get] getUsers] count]);
-            
+            [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             [bottomIndicator stopAnimating];
             
-            //[[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
-                        
-            /*if([[StoryStore get] requestErrorMsg] != nil && newStories == NULL){
-                [appDelegate alertStatus:@"" :[[StoryStore get] requestErrorMsg]];
-                [[StoryStore get] setRequestErrorMsg: nil];
-                
-            } else*/if (newStories != NULL && [newStories count] > 0) {
+            if (newStories != NULL && [newStories count] > 0) {
                 for (int i = 0; i < [newStories count]; i++) {
                     Story *story = [newStories objectAtIndex: i];
                     

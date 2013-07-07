@@ -19,6 +19,7 @@
 
 @synthesize controller;
 
+UIView *strokeView;
 
 - (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first andIsLast:(bool)last
 {
@@ -114,7 +115,7 @@
             strokeLayer.lineWidth = 2;
             
             // Transparent view that will contain the stroke layer
-            UIView *strokeView = [[UIView alloc] initWithFrame:commentContainerView.bounds];
+            strokeView = [[UIView alloc] initWithFrame:commentContainerView.bounds];
             strokeView.userInteractionEnabled = NO; // in case your container view contains controls
             [strokeView.layer addSublayer:strokeLayer];
             
@@ -127,6 +128,73 @@
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, 300, textView.contentSize.height + additionalHeight);
     }
     return self;
+}
+
+- (void)removeRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    UIBezierPath *path;
+    path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight |UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){0, 0}];
+    maskLayer.path = path.CGPath;
+    
+    commentContainer.layer.mask = maskLayer;
+    commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+    commentContainer.layer.borderWidth = 1;
+    
+    if (strokeView) {
+        [strokeView removeFromSuperview];
+    }
+}
+
+- (void)setTopRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.}];
+    [self addRoundedCornersWithPath:path];
+}
+
+- (void)setAllRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
+    [self addRoundedCornersWithPath:path];
+}
+
+- (void)setBottomRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
+    [self addRoundedCornersWithPath:path];
+}
+
+- (void)addRoundedCornersWithPath:(UIBezierPath *)path
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    
+    if (strokeView) {
+        [strokeView removeFromSuperview];
+    }
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.path = path.CGPath;
+    
+    commentContainer.layer.mask = maskLayer;
+    
+    // Make a transparent, stroked layer which will dispay the stroke.
+    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+    strokeLayer.path = path.CGPath;
+    strokeLayer.fillColor = [UIColor clearColor].CGColor;
+    strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+    strokeLayer.lineWidth = 2;
+    
+    // Transparent view that will contain the stroke layer
+    strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
+    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
+    [strokeView.layer addSublayer:strokeLayer];
+    
+    [commentContainer addSubview:strokeView];
 }
 
 @end

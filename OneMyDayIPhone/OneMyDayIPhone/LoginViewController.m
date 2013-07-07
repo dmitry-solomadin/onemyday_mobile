@@ -53,9 +53,7 @@ NSString *loginErrorMsg;
 - (IBAction)loginClick:(id)sender {
     @try {
         if([[txtEmail text] isEqualToString:@""]) {
-            
-            [appDelegate alertStatus:@"" :@"Please enter Email" ];
-            
+            [appDelegate alertStatus:@"" :@"Please enter Email" ];            
         } else if([[txtPassword text] isEqualToString:@""] ) {
             
             [appDelegate alertStatus:@"" :@"Please enter Password" ];

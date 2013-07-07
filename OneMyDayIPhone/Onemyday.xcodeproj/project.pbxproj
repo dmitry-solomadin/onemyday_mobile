@@ -111,6 +111,8 @@
 		186022EE17881406006A31DF /* add_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022EC17881405006A31DF /* add_button.png */; };
 		186022EF17881406006A31DF /* add_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022ED17881406006A31DF /* add_button@2x.png */; };
 		186022F2178974FA006A31DF /* UIApplication+NetworkActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */; };
+		186022F51789D69A006A31DF /* sign_up_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022F31789D69A006A31DF /* sign_up_button.png */; };
+		186022F61789D69A006A31DF /* sign_up_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022F41789D69A006A31DF /* sign_up_button@2x.png */; };
 		187DBDEB1729ECF50040E97D /* editorbar_button_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */; };
 		187DBDEC1729ECF50040E97D /* editorbar_button_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */; };
 		1883AB2C172C95C40093554B /* EditorStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883AB2B172C95C40093554B /* EditorStore.m */; };
@@ -401,10 +403,12 @@
 		186022E31788046F006A31DF /* like_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "like_button@2x.png"; path = "assets/like_button@2x.png"; sourceTree = "<group>"; };
 		186022E817880979006A31DF /* liked_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = liked_button.png; path = assets/liked_button.png; sourceTree = "<group>"; };
 		186022E917880979006A31DF /* liked_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "liked_button@2x.png"; path = "assets/liked_button@2x.png"; sourceTree = "<group>"; };
-		186022EC17881405006A31DF /* add_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add_button.png; path = OneMyDayIPhone/assets/add_button.png; sourceTree = "<group>"; };
-		186022ED17881406006A31DF /* add_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add_button@2x.png"; path = "OneMyDayIPhone/assets/add_button@2x.png"; sourceTree = "<group>"; };
+		186022EC17881405006A31DF /* add_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add_button.png; path = assets/add_button.png; sourceTree = "<group>"; };
+		186022ED17881406006A31DF /* add_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add_button@2x.png"; path = "assets/add_button@2x.png"; sourceTree = "<group>"; };
 		186022F0178974FA006A31DF /* UIApplication+NetworkActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+NetworkActivity.h"; sourceTree = "<group>"; };
 		186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+NetworkActivity.m"; sourceTree = "<group>"; };
+		186022F31789D69A006A31DF /* sign_up_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sign_up_button.png; path = assets/sign_up_button.png; sourceTree = "<group>"; };
+		186022F41789D69A006A31DF /* sign_up_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sign_up_button@2x.png"; path = "assets/sign_up_button@2x.png"; sourceTree = "<group>"; };
 		187DBDE71729E2B70040E97D /* Onemyday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onemyday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "editorbar_button_highlight@2x.png"; path = "assets/editorbar_button_highlight@2x.png"; sourceTree = "<group>"; };
 		187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button_highlight.png; path = assets/editorbar_button_highlight.png; sourceTree = "<group>"; };
@@ -813,6 +817,10 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				186022F31789D69A006A31DF /* sign_up_button.png */,
+				186022F41789D69A006A31DF /* sign_up_button@2x.png */,
+				186022EC17881405006A31DF /* add_button.png */,
+				186022ED17881406006A31DF /* add_button@2x.png */,
 				186022E817880979006A31DF /* liked_button.png */,
 				186022E917880979006A31DF /* liked_button@2x.png */,
 				186022E21788046F006A31DF /* like_button.png */,
@@ -947,8 +955,6 @@
 		844DFA4E16CFB66F00884637 = {
 			isa = PBXGroup;
 			children = (
-				186022EC17881405006A31DF /* add_button.png */,
-				186022ED17881406006A31DF /* add_button@2x.png */,
 				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
 				18E242251716DB4E00435FBE /* Resources */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
@@ -1297,6 +1303,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186022F51789D69A006A31DF /* sign_up_button.png in Resources */,
+				186022F61789D69A006A31DF /* sign_up_button@2x.png in Resources */,
 				186022EE17881406006A31DF /* add_button.png in Resources */,
 				186022EF17881406006A31DF /* add_button@2x.png in Resources */,
 				186022EA17880979006A31DF /* liked_button.png in Resources */,

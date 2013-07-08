@@ -50,7 +50,7 @@ AppDelegate *appDelegate;
 }
 
 - (void)storyTap:(NSNumber *)storyId
-{
+{  
     Story *story = [[StoryStore get] findById:[storyId intValue]];
     ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];

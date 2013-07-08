@@ -216,7 +216,7 @@ AppDelegate *appDelegate;
             [scrollView setContentSize: CGSizeMake(320, feedHeight)];
             [UIView commitAnimations];            
             
-            [[StoryStore get] setStories:stories];
+            //[[StoryStore get] setStories:stories];
             
             oldStoriesLoading = false;
         });
@@ -231,7 +231,15 @@ AppDelegate *appDelegate;
 
 - (void)storyTap:(NSNumber *)storyId
 {
-    Story *story = [[StoryStore get] findById:[storyId intValue]];
+    Story *story;
+    int id = [storyId intValue];
+    for(int i = 0; i < [stories count]; i++){
+        Story *s = [stories objectAtIndex:i];
+        if([s storyId] == id){
+            story = s;
+            break;
+        }
+    }
     ShowStoryViewController *showStoryViewController = [[ShowStoryViewController alloc] initWithStory:story];
     [[self navigationController] pushViewController:showStoryViewController animated:YES];
 }

@@ -140,7 +140,7 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int
         }
     }
 
-    if (newStories && authorId == 0) {
+    if (newStories && authorId == 0 && text == nil) {
         NSMutableArray *oldCachedStories = [self getCachedStories];     
         
         if ([cacheStories count] > 0) {            

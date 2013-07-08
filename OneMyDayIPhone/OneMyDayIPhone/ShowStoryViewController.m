@@ -611,8 +611,8 @@ UIActivityIndicatorView *commentsIndicator;
     return lastCommentView;
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+/*- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];    
-}
+}*/
 
 @end

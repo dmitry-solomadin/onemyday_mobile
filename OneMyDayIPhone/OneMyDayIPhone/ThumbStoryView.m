@@ -15,6 +15,7 @@
 #import "TTTTimeIntervalFormatter.h"
 #import "ThumbStoryDetailsView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ProfileViewController.h"
 
 @interface ThumbStoryView ()
 {
@@ -26,10 +27,13 @@
 @implementation ThumbStoryView
 @synthesize story, controller;
 
-- (id)initWithFrame:(CGRect)frame story:(Story *)_story {
+__weak UINavigationController *navController;
+
+- (id)initWithFrame:(CGRect)frame story:(Story *)_story navController:(UINavigationController *)_navController {
     self = [super initWithFrame:frame];
     if (self) {
         [self setStory:_story];
+        navController = _navController;
         
         // Photo
         photoView = [[AsyncImageView alloc] initWithFrame: CGRectMake(5, 5, 290, 290)];
@@ -77,8 +81,15 @@
         [authorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
         [authorNameLabel setTextColor:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1]];
         [authorNameLabel sizeToFit];
-        [self addSubview:authorNameLabel];        
-                        
+        [self addSubview:authorNameLabel];
+        
+        // Author button
+        UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+        authorBtn.tag = [story authorId];
+        [authorBtn addTarget:self action:@selector(authorTap) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:authorBtn];
+        [self bringSubviewToFront:authorBtn];
+        
         // Time created
         TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
         NSString *time = [timeIntervalFormatter stringForTimeInterval:[[story createdAt] timeIntervalSinceNow]];
@@ -106,6 +117,11 @@
 {
     NSNumber *storyId = [NSNumber numberWithInteger:sender.tag];
     [[self controller] performSelector:@selector(storyTap:) withObject:storyId];
+}
+
+- (void)authorTap
+{
+    [ProfileViewController showWithUser:[story authorId] andNavController:navController];
 }
 
 @end

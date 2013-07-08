@@ -16,6 +16,10 @@
 @property bool last;
 
 - (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first
-                                   andIsLast:(bool)last;
+          andIsLast:(bool)last andNavController:(UINavigationController *)navController;
+- (void)removeRoundedCorners;
+- (void)setAllRoundedCorners;
+- (void)setTopRoundedCorners;
+- (void)setBottomRoundedCorners;
 
 @end

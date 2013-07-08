@@ -42,7 +42,6 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     
     UIImage* tabBarBackground = [UIImage imageNamed:@"tabbar_bg"];
     [[UITabBar appearance] setBackgroundImage:tabBarBackground];
-    //[[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tabbar_selected.png"]];
     [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f]];
 
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
@@ -83,8 +82,6 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     [navController  presentViewController:masterController animated:NO completion:nil];     
 }
 
-
-
 // FBSample logic
 // The native facebook application transitions back to an authenticating application when the user
 // chooses to either log in, or cancel. The url passed to this method contains the token in the
@@ -104,8 +101,6 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     else return [self.session handleOpenURL:url];
 }
 
-
-
 // FBSample logic
 // Whether it is in applicationWillTerminate, in applicationDidEnterBackground, or in some other part
 // of your application, it is important that you close an active session when it is no longer useful
@@ -120,6 +115,7 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     // close notification in order to do cleanup
     [self.session close];
 }
+
 // FBSample logic
 // It is possible for the user to switch back to your application, from the native Facebook application,
 // when the user is part-way through a login; You can check for the FBSessionStateCreatedOpenening
@@ -137,7 +133,7 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     [FBSession.activeSession handleDidBecomeActive];
 }
 
-- (bool) checkEmail
+- (bool)checkEmail
 {
     NSLog(@"currentUserId");
     NSString *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
@@ -158,14 +154,20 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     [alertView show];
 }
 
-- (NSString *) apiKey
+- (NSString *)apiKey
 {
     return apiKey;
 }
 
-- (void) saveCredentials: (int) userId {
+- (UIColor *)onemydayColor
+{
+    return [UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f];
+}
+
+- (void)saveCredentials:(int)userId {
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",userId] forKey:@"user_id"];
     //[[NSUserDefaults standardUserDefaults] setInteger: userId forKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 @end

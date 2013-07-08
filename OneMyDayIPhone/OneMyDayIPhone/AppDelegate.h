@@ -27,10 +27,11 @@
 
 @property int currentUserId;
 
-+ (UIViewController *) initMasterController;
-- (bool) checkEmail;
-- (void) alertStatus:(NSString *)msg :(NSString *) title;
-- (NSString *) apiKey;
-- (void) saveCredentials: (int) userId;
++ (UIViewController *)initMasterController;
+- (bool)checkEmail;
+- (void)alertStatus:(NSString *)msg :(NSString *) title;
+- (NSString *)apiKey;
+- (UIColor *)onemydayColor;
+- (void)saveCredentials:(int) userId;
 
 @end

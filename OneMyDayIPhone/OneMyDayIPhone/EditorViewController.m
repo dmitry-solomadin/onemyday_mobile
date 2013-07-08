@@ -17,10 +17,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AppDelegate.h"
+#import "PopupError.h"
 
 @interface EditorViewController ()
 {
     AppDelegate *appDelegate;
+    PopupError *popupError;
     UITextField *storyTitle;
     UIView *uploadProgressArea;
     UIProgressView *uploadProgressBar;
@@ -67,15 +69,19 @@
     scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cool_bg"]];
     [[self view] addSubview:scrollView];
     
+    // add popup error
+    popupError = [[PopupError alloc] initWithView:scrollView];
+    
     // add upload progress area
     uploadProgressArea = [[UIView alloc] initWithFrame:CGRectMake(0, -40, 320, 40)];
     uploadProgressBar = [[UIProgressView alloc] initWithFrame:CGRectMake(10, 20, 300, 40)];
-    [uploadProgressBar setProgressTintColor:[UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f]];
+    [uploadProgressBar setProgressTintColor:[appDelegate onemydayColor]];
     [uploadProgressArea addSubview:uploadProgressBar];
+    uploadProgressArea.hidden = YES;
     [scrollView addSubview:uploadProgressArea];
     
     // add story title
-    storyTitleArea = [[UITextField alloc] initWithFrame:CGRectMake(0, 10, 320, 52)];
+    storyTitleArea = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 320, 52)];
     
     storyTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, 300, 38)];
     [storyTitle setPlaceholder:@"Enter story title..."];
@@ -574,6 +580,23 @@
 
 - (void)publishStory:(id)sender
 {
+    if ([[storyTitle text] length] == 0) {
+        [popupError setTextAndShow:@"Please, enter story title."];
+        return;
+    }
+    
+    BOOL hasImage = false;
+    for (EditorItemView *itemView in editorItemViews) {
+        if ([itemView type] == photoItemType) {
+            hasImage = true;
+        }
+    }
+    
+    if (!hasImage) {
+        [popupError setTextAndShow:@"Your story should have at least one image."];
+        return;
+    }
+    
     Request *request = [[Request alloc] init];
 
     [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
@@ -603,19 +626,22 @@
                     [self dismissSelf:nil];
                 }
             }
-              onFinish:^(NSDictionary *response){
-                  NSLog(@"here");
+              onFinish:^(NSDictionary *response, int statusCode){
+                  NSLog(@"here %@", [response objectForKey:@"message"]);
+                  NSLog(@"here %d", statusCode);
               }];
 }
 
 - (void)showProgressBar
 {
     [self shiftProgressBar:40];
+    uploadProgressArea.hidden = NO;
 }
 
 - (void)hideProgressBar
 {
     [self shiftProgressBar:-40];
+    uploadProgressArea.hidden = YES;
 }
 
 - (void)shiftProgressBar:(int)shiftAmount

@@ -14,17 +14,22 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Request.h"
 #import "AppDelegate.h"
+#import "ProfileViewController.h"
 
 @implementation StoryCommentView
 
 @synthesize controller;
 
+UIView *strokeView;
+__weak Comment *comment;
+__weak UINavigationController *navController;
 
-- (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first andIsLast:(bool)last
+- (id)initWithFrame:(CGRect)frame andComment:(Comment *)_comment andIsFirst:(bool)first andIsLast:(bool)last andNavController:(UINavigationController *)_navController
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        comment = _comment;
+        navController = _navController;
         UIView *commentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 45)];
         [commentContainerView setBackgroundColor:[UIColor whiteColor]];
         
@@ -56,8 +61,14 @@
         [authorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
         [authorNameLabel setTextColor:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1]];
         [authorNameLabel sizeToFit];
-        [commentContainerView addSubview:authorNameLabel];        
-                
+        [commentContainerView addSubview:authorNameLabel];
+        
+        UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+        authorBtn.tag = [comment authorId];
+        [authorBtn addTarget:self action:@selector(authorTap) forControlEvents:UIControlEventTouchUpInside];
+        [commentContainerView addSubview:authorBtn];
+        [commentContainerView bringSubviewToFront:authorBtn];
+        
         // Time created
         TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
         NSString *time = [timeIntervalFormatter stringForTimeInterval:[[comment createdAt] timeIntervalSinceNow]];
@@ -68,7 +79,6 @@
         [timeAgoLabel setFont:[UIFont fontWithName:@"Helvetica" size:12]];
         [timeAgoLabel setTextColor:[UIColor grayColor]];
         [timeAgoLabel sizeToFit];
-        //NSLog(@"%f", timeAgoLabel.frame.size.width);
         timeAgoLabel.frame = CGRectMake(295 - timeAgoLabel.frame.size.width, 15,
                                         timeAgoLabel.frame.size.width, timeAgoLabel.frame.size.height);
         [commentContainerView addSubview:timeAgoLabel];
@@ -114,7 +124,7 @@
             strokeLayer.lineWidth = 2;
             
             // Transparent view that will contain the stroke layer
-            UIView *strokeView = [[UIView alloc] initWithFrame:commentContainerView.bounds];
+            strokeView = [[UIView alloc] initWithFrame:commentContainerView.bounds];
             strokeView.userInteractionEnabled = NO; // in case your container view contains controls
             [strokeView.layer addSublayer:strokeLayer];
             
@@ -127,6 +137,78 @@
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, 300, textView.contentSize.height + additionalHeight);
     }
     return self;
+}
+
+- (void)removeRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    UIBezierPath *path;
+    path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight |UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){0, 0}];
+    maskLayer.path = path.CGPath;
+    
+    commentContainer.layer.mask = maskLayer;
+    commentContainer.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+    commentContainer.layer.borderWidth = 1;
+    
+    if (strokeView) {
+        [strokeView removeFromSuperview];
+    }
+}
+
+- (void)setTopRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){10.0, 10.}];
+    [self addRoundedCornersWithPath:path];
+}
+
+- (void)setAllRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
+    [self addRoundedCornersWithPath:path];
+}
+
+- (void)setBottomRoundedCorners
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: commentContainer.bounds byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}];
+    [self addRoundedCornersWithPath:path];
+}
+
+- (void)addRoundedCornersWithPath:(UIBezierPath *)path
+{
+    UIView *commentContainer = [[self subviews] objectAtIndex:0];
+    
+    if (strokeView) {
+        [strokeView removeFromSuperview];
+    }
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.path = path.CGPath;
+    
+    commentContainer.layer.mask = maskLayer;
+    
+    // Make a transparent, stroked layer which will dispay the stroke.
+    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+    strokeLayer.path = path.CGPath;
+    strokeLayer.fillColor = [UIColor clearColor].CGColor;
+    strokeLayer.strokeColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+    strokeLayer.lineWidth = 2;
+    
+    // Transparent view that will contain the stroke layer
+    strokeView = [[UIView alloc] initWithFrame:commentContainer.bounds];
+    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
+    [strokeView.layer addSublayer:strokeLayer];
+    
+    [commentContainer addSubview:strokeView];
+}
+
+- (void)authorTap
+{
+    [ProfileViewController showWithUser:[comment authorId] andNavController:navController];
 }
 
 @end

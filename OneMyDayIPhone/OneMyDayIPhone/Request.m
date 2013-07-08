@@ -28,7 +28,7 @@ NSString *errorMsg = nil;
 NSMutableData *postData;
 NSString *boundary = @"---------------------------14737809831466499882746641449";
 NSURLResponse *response;
-void (^finish)(NSDictionary *);
+void (^finish)(NSDictionary *, int);
 void (^progress)(float);
 
 /* SEND SYNC REQUEST */
@@ -52,7 +52,7 @@ void (^progress)(float);
 
 /* SEND ASYNC REQUEST */
 
-- (void)sendAsync:(NSString *)path onProgress:(void (^)(float))_progress onFinish:(void (^)(NSDictionary *))_finish
+- (void)sendAsync:(NSString *)path onProgress:(void (^)(float))_progress onFinish:(void (^)(NSDictionary *, int))_finish
 {
     NSMutableURLRequest *request = [self prepareRequest:path];
     
@@ -72,16 +72,16 @@ void (^progress)(float);
 {
     int statusCode = [(NSHTTPURLResponse *)response statusCode];
     if (statusCode != 200) {
-        //NSLog(@"Error getting %@, HTTP status code %i", path, statusCode);
+        NSLog(@"Error getting, HTTP status code %i", statusCode);
         errorMsg = badConnectionMsg;
         if (finish) {
-            finish(nil);
+            finish(nil, statusCode);
         }
     } else {
         NSDictionary *jsonData = [self parseResponseData:data];
         
         if (finish) {
-            finish(jsonData);
+            finish(jsonData, statusCode);
         }
     }
 }

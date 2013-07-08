@@ -8,10 +8,13 @@
 
 #import "StartViewController.h"
 #import "LoginViewController.h"
-
+#import "Request.h"
 #import "DMOAuthTwitter.h"
 #import "DMTwitterCore.h"
 #import <QuartzCore/QuartzCore.h>
+#import "User.h"
+#import "UserStore.h"
+
 
 @interface StartViewController ()
 
@@ -21,7 +24,8 @@
 
 @synthesize facebookButton, twitterButton;
 
-//@synthesize appDelegate;
+AppDelegate *appDelegate;
+UITextField *emailTextField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,7 +42,7 @@
 
     [self updateView];
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
         // create a fresh session object
         appDelegate.session = [[FBSession alloc] init];
@@ -107,7 +111,14 @@
         if (appDelegate.session.state != FBSessionStateCreated) {
             // Create a new, logged out session.
             appDelegate.session = [[FBSession alloc] init];
+            /*NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                    @"user_location", // you need to have this permission
+                                    @"email", // to be approved
+                                    nil];
+            appDelegate.session = [appDelegate.session initWithPermissions:permissions];*/
         }
+   
+    
     
         //NSLog(@"appDelegate.session.isOpen: %c", appDelegate.session.isOpen);
         
@@ -118,26 +129,66 @@
             // and here we make sure to update our UX according to the new session state
             //NSLog(@"error: %@", error);
             
-            [self updateView];
-        }];
-    
-    
-    
-    /*NSArray *permissions = [[NSArray alloc] initWithObjects:
-                            @"user_location", // you need to have this permission
-                            @"user_email", // to be approved                            
-                            nil];
-  [appDelegate.session  openActiveSessionWithReadPermissions:permissions
-                                              allowLoginUI:allowLoginUI
-                                         completionHandler:^(FBSession *session,
-                                                             FBSessionState state,
-                                                             NSError *error) {
-                                             [self sessionStateChanged:session
-                                                                 state:state
-                                                                 error:error];
-                                         }];*/
-    //}
+            
+            
+            
+            NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                    @"user_location", // you need to have this permission
+                                    @"email", // to be approved
+                                    nil];
+            [FBSession openActiveSessionWithReadPermissions:permissions
+                                               allowLoginUI:true
+                                          completionHandler:^(FBSession *session,
+                                                              FBSessionState state,
+                                                              NSError *error) {
+                                              
+                                              NSLog(@"error: %@", error);
+                                              //appDelegate.session = session;
+                                              [FBSession setActiveSession: appDelegate.session];
+                                              [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                                                  if (!error) {
+                                                      
+                                                      NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
+                                                      NSLog(@"user.name %@", user.username);
+                                                      NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+                                                      NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
+                                                      
+                                                      [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:[user objectForKey:@"email"]   andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
+                                                      
+                                                  } else NSLog(@"error %@", error);
+                                              }];
+                                              
+                                              
+                                              
+                                          }];
 
+            
+            
+            
+            /*[FBSession setActiveSession: appDelegate.session];
+            [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                if (!error) {
+                    NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
+                    NSLog(@"user.name %@", user.username);
+                    NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+                    NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
+                    
+                    [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:[user objectForKey:@"email"]   andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
+                    
+                } else NSLog(@"error %@", error);
+            }];*/
+            
+            
+            
+            //[self updateView];
+    
+    
+    
+    
+    
+    
+    
+        }];
 }
 
 - (IBAction)loginTwitter:(id)sender
@@ -163,16 +214,12 @@
                                            } else {
                                                NSLog(@"Welcome %@!",screenName);
                                                
-                                               /*[btn_loginLogout setTitle:@"Twitter Logout" forState:UIControlStateNormal];
-                                               [lbl_welcome setText:[NSString stringWithFormat:@"Welcome %@!",screenName]];
-                                               [tw_userData setText:@"Loading your user info..."];*/
+                                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter your email:" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+                                               alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                                               emailTextField = [alertView textFieldAtIndex:0];
+                                               [alertView show];
                                                
-                                               // store our auth data so we can use later in other sessions
-                                               [[DMTwitter shared] saveCredentials];
                                                
-                                               [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:^(){
-                                                    [self updateView];
-                                                }];
                                                
                                                /*NSLog(@"Now getting more data...");
                                                // you can use this call in order to validate your credentials
@@ -232,7 +279,7 @@
          }];*/
         [FBSession setActiveSession: appDelegate.session];
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-            if (!error) {
+            if (!error) {                
                 NSLog(@"user.name %@", user.name);
                 NSLog(@"user.name %@", user.username);
                 NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
@@ -246,7 +293,7 @@
     else if ([DMTwitter shared].oauth_token_authorized) {
         NSLog(@"Welcome to twitter session!");
         NSLog(@"[DMTwitter shared] oauth_token_secret%@", [DMTwitter shared].oauth_token_secret);
-         NSLog(@"[DMTwitter shared] oauth_token%@", [DMTwitter shared].oauth_token);
+        NSLog(@"[DMTwitter shared] oauth_token%@", [DMTwitter shared].oauth_token);
         appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
         [self goToMasterView];
         
@@ -265,6 +312,75 @@
     UIViewController *masterController = [AppDelegate initMasterController];
     [self presentViewController:masterController animated:NO completion:nil];
     //[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)socialAuth:(NSString *)uid withProvider:(NSString *)provider andToken:(NSString *)token andSecret:(NSString *)secret AndEmail:(NSString *)email andFirstName:(NSString *)firstName andLastName:(NSString *)lastName andNickName:(NSString *)nickame
+{    
+    Request *request = [[Request alloc] init]; 
+    /*api_key — (required)
+    omniauth[uid] — uid (required)
+    omniauth[provider] — social provider: 'facebook' or 'twitter' (required)
+    omniauth[credentials][token] — oauth token (required)
+    omniauth[credentials][secret] — oauth secret (required for twitter)
+    omniauth[info][email] — User email (required)
+    omniauth[info][image] — User profile image (required)
+    omniauth[info][first_name] — User first name, will transform into name (optional)
+    omniauth[info][last_name] — User last name, will transform into name (optional)
+    omniauth[info][nickname] — Us*/
+    [request addStringToPostData:@"omniauth[info][image]" andValue: @"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0s8HhPj8boXWYuyXedcz6g9MP2TNeOqKKDvrv5Fc4YPiwkWw4iA"];
+    [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
+    [request addStringToPostData:@"omniauth[uid]" andValue: uid];
+    [request addStringToPostData:@"omniauth[provider]" andValue: provider];
+    [request addStringToPostData:@"omniauth[credentials][token]" andValue:token];
+    if(secret != nil)[request addStringToPostData:@"omniauth[credentials][secret]" andValue:secret];
+    [request addStringToPostData:@"omniauth[info][email]" andValue: email];
+    if(firstName != nil)[request addStringToPostData:@"omniauth[info][first_name]" andValue: firstName];
+    if(lastName != nil)[request addStringToPostData:@"omniauth[info][last_name]" andValue: lastName];
+    if(nickame != nil)[request addStringToPostData:@"omniauth[info][nickname]" andValue: nickame];
+    //[request addStringToPostData:@"existing_user_id" andValue:[NSString stringWithFormat:@"%d",9]];
+    
+     NSLog(@"email:%@", email);
+    
+    NSDictionary *jsonData;  
+    
+    jsonData = [request send:@"/api/sessions/social_auth.json"];
+    
+    if(jsonData != nil){
+        
+        NSLog(@"something %@", jsonData);
+        
+        //NSString *message = [jsonData objectForKey:@"message"];
+        //NSLog(@"message %@", message);
+        
+        NSString *status = [jsonData objectForKey:@"status"];
+       
+        if([status isEqualToString: @"ok"]){
+            
+            if([provider isEqualToString:@"twitter"]){
+                // store our auth data so we can use later in other sessions
+                [[DMTwitter shared] saveCredentials];
+                //appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
+            } //else appDelegate.loggedInFlag = [NSNumber numberWithInt:1]; //logged with faceboock
+            
+            User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
+            [[UserStore get] addUser:user];            
+            [appDelegate setCurrentUserId:[user userId]];
+            
+            [self updateView];
+        }
+        
+        
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == [alertView cancelButtonIndex]) {
+        NSLog(@"The cancel button was clicked for alertView");
+    } else {
+        [self socialAuth:[DMTwitter shared].user_id withProvider:@"twitter" andToken:[DMTwitter shared].oauth_token andSecret:[DMTwitter shared].oauth_token_secret AndEmail:[emailTextField text]  andFirstName:nil andLastName:nil  andNickName:[DMTwitter shared].screen_name];
+    }
+    // else do your stuff for the rest of the buttons (firstOtherButtonIndex, secondOtherButtonIndex, etc)
 }
 
 

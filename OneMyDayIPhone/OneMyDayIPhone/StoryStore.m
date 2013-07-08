@@ -108,7 +108,7 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int
         
     NSMutableArray *allStories = [NSMutableArray array];
     NSMutableArray *cacheStories = [NSMutableArray array];
-    //NSLog(@"jsonData %@", jsonData);
+    NSLog(@"jsonData %@", jsonData);
     for (int i = 0; i < [jsonData  count]; i++) {
         NSDictionary *story = [jsonData objectAtIndex:i];
         int storyId = [(NSString *) [story objectForKey:@"id"] intValue];

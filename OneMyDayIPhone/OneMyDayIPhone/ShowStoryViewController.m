@@ -267,19 +267,13 @@ UIActivityIndicatorView *commentsIndicator;
                     Comment *comment = [comments objectAtIndex:i];
                     CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
                     StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
-                        andComment:comment andIsFirst:(i == 0) andIsLast:(i == [comments count] - 1)];
+                        andComment:comment andIsFirst:(i == 0) andIsLast:(i == [comments count] - 1)
+                        andNavController:[self navigationController]];
                     storyCommentView.controller = self;
                     
                     if ([appDelegate currentUserId] == [comment authorId]) {
                         [self addDeleteButtonToView:storyCommentView commentId:[comment commentId]];
                     }
-                    
-                    //Author hidden button
-                    UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
-                    authorBtn.tag = [comment authorId];
-                    [authorBtn addTarget:self action:@selector(authorTap:) forControlEvents:UIControlEventTouchUpInside];
-                    [storyCommentView addSubview:authorBtn];
-                    [storyCommentView bringSubviewToFront:authorBtn];
                     
                     [scrollView addSubview: storyCommentView];
                     currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border
@@ -463,7 +457,8 @@ UIActivityIndicatorView *commentsIndicator;
                 StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
                                                                               andComment:newComment
                                                                               andIsFirst:([comments count] == 0)
-                                                                               andIsLast:(true)];
+                                                                               andIsLast:(true)
+                                                                        andNavController:[self navigationController]];
                 [comments addObject: newComment];
                 storyCommentView.controller = self;
                 
@@ -471,13 +466,6 @@ UIActivityIndicatorView *commentsIndicator;
                 if ([appDelegate currentUserId] == [newComment authorId]) {
                     [self addDeleteButtonToView:storyCommentView commentId:[newComment commentId]];
                 }
-                
-                //Author hidden button
-                UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
-                authorBtn.tag = appDelegate.currentUserId;
-                [authorBtn addTarget:self action:@selector(authorTap:) forControlEvents:UIControlEventTouchUpInside];
-                [storyCommentView addSubview:authorBtn];
-                [storyCommentView bringSubviewToFront:authorBtn];
                 
                 [scrollView addSubview:storyCommentView];
                 currentStoryHeight += storyCommentView.frame.size.height;
@@ -496,7 +484,8 @@ UIActivityIndicatorView *commentsIndicator;
 
 - (void)addDeleteButtonToView:(UIView *)storyCommentView commentId:(int)cid
 {
-    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(278, 3, 15, 15)];
+    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(270, 3, 30, 15)];
+    [deleteView setBackgroundColor:[UIColor clearColor]];
     [deleteView setText:@"X"];
     deleteView.tag = cid;
     UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
@@ -620,13 +609,6 @@ UIActivityIndicatorView *commentsIndicator;
         }
     }
     return lastCommentView;
-}
-
-- (void)authorTap:(UIButton *)sender
-{
-    ProfileViewController *profileVC = [[ProfileViewController alloc] init];
-    [profileVC setUserId:sender.tag];
-    [[self navigationController] pushViewController:profileVC animated:YES];    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

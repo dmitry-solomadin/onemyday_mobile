@@ -164,9 +164,10 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     return [UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f];
 }
 
-- (void) saveCredentials: (int) userId {
+- (void)saveCredentials:(int)userId {
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",userId] forKey:@"user_id"];
     //[[NSUserDefaults standardUserDefaults] setInteger: userId forKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 @end

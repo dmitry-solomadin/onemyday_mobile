@@ -40,6 +40,14 @@ CGFloat previousY;
 CGFloat feedHeight;
 AppDelegate *appDelegate;
 
++ (void)showWithUser:(int)userId andNavController:(UINavigationController *)navController
+{
+    ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+    [profileVC setUserId:userId];
+        
+    [navController pushViewController:profileVC animated:YES];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -104,7 +112,8 @@ AppDelegate *appDelegate;
                 for (int i = 0; i < [stories count]; i++) {
                     Story *story = [stories objectAtIndex:i];
                     CGRect frame = CGRectMake(10, feedHeight, 300, 300);
-                    ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+                    ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story
+                                                      navController:[self navigationController]];
                     thumbStoryView.controller = self;
                     
                     [scrollView addSubview:thumbStoryView];
@@ -193,7 +202,8 @@ AppDelegate *appDelegate;
                     Story *story = [newStories objectAtIndex: i];
                     
                     CGRect frame = CGRectMake(10, feedHeight, 300, 300);
-                    ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+                    ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story
+                                                                             navController:[self navigationController]];
                     thumbStoryView.controller = self;
                     [scrollView addSubview: thumbStoryView];
                     feedHeight += STORY_HEIGHT_WITH_PADDING;

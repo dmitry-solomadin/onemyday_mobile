@@ -136,14 +136,9 @@
                  for (int i = 0; i < storiesCount; i++) {
                      Story *story = [stories objectAtIndex: i];
                      CGRect frame = CGRectMake(10, currentFeedHeight, 300, 300);
-                     ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story];
+                     ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story
+                                                                              navController:[self navigationController]];
                      thumbStoryView.controller = self;
-                     //Author hidden button
-                     UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
-                     authorBtn.tag = [story authorId];
-                     [authorBtn addTarget:self action:@selector(authorOfStoryTap:) forControlEvents:UIControlEventTouchUpInside];
-                     [thumbStoryView addSubview:authorBtn];
-                     [thumbStoryView bringSubviewToFront:authorBtn];
                      [scrollView insertSubview: thumbStoryView atIndex: 0];
                      currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
                  }                   
@@ -209,13 +204,6 @@
                      }
                      completion:nil
      ];
-}
-
-- (void)authorOfStoryTap:(UIButton *)sender
-{   
-    ProfileViewController *profileVC = [[ProfileViewController alloc] init];
-    [profileVC setUserId: sender.tag];
-    [[self navigationController] pushViewController:profileVC animated:YES];  
 }
 
 - (void)storyTap:(NSNumber *)storyId

@@ -14,18 +14,22 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Request.h"
 #import "AppDelegate.h"
+#import "ProfileViewController.h"
 
 @implementation StoryCommentView
 
 @synthesize controller;
 
 UIView *strokeView;
+__weak Comment *comment;
+__weak UINavigationController *navController;
 
-- (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first andIsLast:(bool)last
+- (id)initWithFrame:(CGRect)frame andComment:(Comment *)_comment andIsFirst:(bool)first andIsLast:(bool)last andNavController:(UINavigationController *)_navController
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        comment = _comment;
+        navController = _navController;
         UIView *commentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 45)];
         [commentContainerView setBackgroundColor:[UIColor whiteColor]];
         
@@ -57,8 +61,14 @@ UIView *strokeView;
         [authorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
         [authorNameLabel setTextColor:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1]];
         [authorNameLabel sizeToFit];
-        [commentContainerView addSubview:authorNameLabel];        
-                
+        [commentContainerView addSubview:authorNameLabel];
+        
+        UIButton *authorBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 200, 40)];
+        authorBtn.tag = [comment authorId];
+        [authorBtn addTarget:self action:@selector(authorTap) forControlEvents:UIControlEventTouchUpInside];
+        [commentContainerView addSubview:authorBtn];
+        [commentContainerView bringSubviewToFront:authorBtn];
+        
         // Time created
         TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
         NSString *time = [timeIntervalFormatter stringForTimeInterval:[[comment createdAt] timeIntervalSinceNow]];
@@ -69,7 +79,6 @@ UIView *strokeView;
         [timeAgoLabel setFont:[UIFont fontWithName:@"Helvetica" size:12]];
         [timeAgoLabel setTextColor:[UIColor grayColor]];
         [timeAgoLabel sizeToFit];
-        //NSLog(@"%f", timeAgoLabel.frame.size.width);
         timeAgoLabel.frame = CGRectMake(295 - timeAgoLabel.frame.size.width, 15,
                                         timeAgoLabel.frame.size.width, timeAgoLabel.frame.size.height);
         [commentContainerView addSubview:timeAgoLabel];
@@ -195,6 +204,11 @@ UIView *strokeView;
     [strokeView.layer addSublayer:strokeLayer];
     
     [commentContainer addSubview:strokeView];
+}
+
+- (void)authorTap
+{
+    [ProfileViewController showWithUser:[comment authorId] andNavController:navController];
 }
 
 @end

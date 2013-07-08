@@ -10,6 +10,7 @@
 
 @interface ProfileViewController : UIViewController
 
++ (void)showWithUser:(int)userId andNavController:(UINavigationController *)navController;
 - (void)showSettings:(UIBarButtonItem *)sender;
 
 @property (nonatomic, strong) UIScrollView *scrollView;

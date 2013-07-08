@@ -32,6 +32,6 @@
 - (void)alertStatus:(NSString *)msg :(NSString *) title;
 - (NSString *)apiKey;
 - (UIColor *)onemydayColor;
-- (void)saveCredentials: (int) userId;
+- (void)saveCredentials:(int) userId;
 
 @end

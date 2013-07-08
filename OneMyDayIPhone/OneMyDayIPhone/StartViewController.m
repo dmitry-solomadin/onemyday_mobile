@@ -153,7 +153,8 @@ UITextField *emailTextField;
                                                       NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
                                                       NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
                                                       
-                                                      [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:[user objectForKey:@"email"]   andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
+                                                      NSString *email = [user objectForKey:@"email"];
+                                                      if(email != nil)[self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
                                                       
                                                   } else NSLog(@"error %@", error);
                                               }];

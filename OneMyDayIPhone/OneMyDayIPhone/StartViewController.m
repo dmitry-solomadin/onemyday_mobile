@@ -128,40 +128,54 @@ UITextField *emailTextField;
                                                          NSError *error) {
             // and here we make sure to update our UX according to the new session state
             //NSLog(@"error: %@", error);
+            if (!error) {
+            
+                [FBSession setActiveSession: appDelegate.session];
+                [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                    if (!error) {                                       
+                    
+                        NSString *email = [user objectForKey:@"email"];
+                        if(email != nil){
+                            [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
+                        } else {
+                            NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                                @"user_location", // you need to have this permission
+                                                @"email", // to be approved
+                                                nil];
+                            [FBSession openActiveSessionWithReadPermissions:permissions
+                                                           allowLoginUI:true
+                                                      completionHandler:^(FBSession *session,
+                                                                          FBSessionState state,
+                                                                          NSError *error) {
+                                                          
+                                                          NSLog(@"error: %@", error);
+                                                          //appDelegate.session = session;
+                                                          [FBSession setActiveSession: appDelegate.session];
+                                                          [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                                                              if (!error) {
+                                                                  
+                                                                  NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
+                                                                  NSLog(@"user.name %@", user.username);
+                                                                  NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+                                                                  NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
+                                                                  
+                                                                  NSString *email = [user objectForKey:@"email"];
+                                                                  if(email != nil)[self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
+                                                                  
+                                                              } else NSLog(@"error %@", error);
+                                                          }];
+                                                          
+                                                          
+                                                          
+                                                      }];
+                    }
+                    
+                } else NSLog(@"error %@", error);
+            }];
+
+           } else NSLog(@"error %@", error);  
             
             
-            
-            
-            NSArray *permissions = [[NSArray alloc] initWithObjects:
-                                    @"user_location", // you need to have this permission
-                                    @"email", // to be approved
-                                    nil];
-            [FBSession openActiveSessionWithReadPermissions:permissions
-                                               allowLoginUI:true
-                                          completionHandler:^(FBSession *session,
-                                                              FBSessionState state,
-                                                              NSError *error) {
-                                              
-                                              NSLog(@"error: %@", error);
-                                              //appDelegate.session = session;
-                                              [FBSession setActiveSession: appDelegate.session];
-                                              [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-                                                  if (!error) {
-                                                      
-                                                      NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
-                                                      NSLog(@"user.name %@", user.username);
-                                                      NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
-                                                      NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
-                                                      
-                                                      NSString *email = [user objectForKey:@"email"];
-                                                      if(email != nil)[self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
-                                                      
-                                                  } else NSLog(@"error %@", error);
-                                              }];
-                                              
-                                              
-                                              
-                                          }];
 
             
             

@@ -38,15 +38,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    noStoriesText.frame = CGRectMake(0, (([[self view] bounds].size.height + 55) / 2) - 20, 320, 20);
 }
 
 - (void)viewDidLoad
@@ -98,7 +90,7 @@
     [scrollView addSubview:cancelButton];
     
     // Add no stories text
-    noStoriesText = [[UILabel alloc] initWithFrame:CGRectMake(0, ([[self view] bounds].size.height / 2) - 55, 320, 20)];
+    noStoriesText = [[UILabel alloc] init];
     [noStoriesText setText:@"No stories found"];
     [noStoriesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];
     [noStoriesText setBackgroundColor:[UIColor clearColor]];
@@ -110,8 +102,6 @@
     [scrollView addSubview:noStoriesText];
     
     currentFeedHeight += 55;
-    
-    NSLog(@"%f", currentFeedHeight);
 }
 
 - (void)refreshView
@@ -153,9 +143,9 @@
                      ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story
                                                                               navController:[self navigationController]];
                      thumbStoryView.controller = self;
-                     [scrollView insertSubview: thumbStoryView atIndex: 0];
-                     currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
-                 }                   
+                     [scrollView insertSubview:thumbStoryView atIndex:0];
+                     currentFeedHeight += STORY_HEIGHT_WITH_PADDING;
+                 }
                
                  [scrollView setContentSize: CGSizeMake(320, currentFeedHeight)];
             } else {

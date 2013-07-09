@@ -29,7 +29,7 @@
 @synthesize scrollView;
 @synthesize userId;
 
-NSMutableArray * stories;
+NSMutableArray *stories;
 UIActivityIndicatorView *topIndicator;
 UIActivityIndicatorView *bottomIndicator;
 bool *oldStoriesLoading;
@@ -95,7 +95,7 @@ AppDelegate *appDelegate;
     
 }
 
--(void)loadStories
+- (void)loadStories
 {
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
@@ -109,7 +109,6 @@ AppDelegate *appDelegate;
             if(stories != nil) {                
                 feedHeight += 20;
                 
-                NSLog(@"%d", [stories count]);
                 for (int i = 0; i < [stories count]; i++) {
                     Story *story = [stories objectAtIndex:i];
                     CGRect frame = CGRectMake(10, feedHeight, 300, 300);
@@ -216,8 +215,6 @@ AppDelegate *appDelegate;
             [UIView setAnimationDuration:0.3];
             [scrollView setContentSize: CGSizeMake(320, feedHeight)];
             [UIView commitAnimations];            
-            
-            //[[StoryStore get] setStories:stories];
             
             oldStoriesLoading = false;
         });

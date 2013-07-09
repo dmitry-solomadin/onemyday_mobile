@@ -23,11 +23,12 @@
 
 @implementation ExploreViewController
 {
-    NSMutableArray * stories;
+    NSMutableArray *stories;
     AppDelegate *appDelegate;
     UITextField *textField;
     UIButton *cancelButton;
     CGFloat currentFeedHeight;
+    UILabel *noStoriesText;
 }
 
 @synthesize scrollView;
@@ -37,15 +38,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    noStoriesText.frame = CGRectMake(0, (([[self view] bounds].size.height + 55) / 2) - 20, 320, 20);
 }
 
 - (void)viewDidLoad
@@ -96,13 +89,24 @@
     [cancelButton addTarget:self action:@selector(cancelButtonTap:) forControlEvents:UIControlEventTouchDown];
     [scrollView addSubview:cancelButton];
     
-    currentFeedHeight += 55;
+    // Add no stories text
+    noStoriesText = [[UILabel alloc] init];
+    [noStoriesText setText:@"No stories found"];
+    [noStoriesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];
+    [noStoriesText setBackgroundColor:[UIColor clearColor]];
+    [noStoriesText setFont:[UIFont systemFontOfSize:22]];
+    [noStoriesText setShadowColor:[UIColor whiteColor]];
+    [noStoriesText setShadowOffset:CGSizeMake(0, 1)];
+    [noStoriesText setTextAlignment:NSTextAlignmentCenter];
+    noStoriesText.hidden = YES;
+    [scrollView addSubview:noStoriesText];
     
-    NSLog(@"%f", currentFeedHeight);
+    currentFeedHeight += 55;
 }
 
 - (void)refreshView
-{    
+{
+    noStoriesText.hidden = YES;
     UIActivityIndicatorView *topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     topIndicator.frame = CGRectMake(10, 50, 100, 100);
     topIndicator.center = CGPointMake(160, 75);
@@ -127,7 +131,7 @@
             [topIndicator stopAnimating];
             [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             
-            if(newStories != NULL && [newStories count] > 0){
+            if (newStories != NULL && [newStories count] > 0) {
                  stories = newStories;                
                  
                  int storiesCount = [stories count];
@@ -139,13 +143,14 @@
                      ThumbStoryView *thumbStoryView = [[ThumbStoryView alloc] initWithFrame:frame story:story
                                                                               navController:[self navigationController]];
                      thumbStoryView.controller = self;
-                     [scrollView insertSubview: thumbStoryView atIndex: 0];
-                     currentFeedHeight  += STORY_HEIGHT_WITH_PADDING;
-                 }                   
+                     [scrollView insertSubview:thumbStoryView atIndex:0];
+                     currentFeedHeight += STORY_HEIGHT_WITH_PADDING;
+                 }
                
                  [scrollView setContentSize: CGSizeMake(320, currentFeedHeight)];
-                 //[[StoryStore get] setStories:stories];
-             }        
+            } else {
+                noStoriesText.hidden = NO;
+            }
         });
     });
 }

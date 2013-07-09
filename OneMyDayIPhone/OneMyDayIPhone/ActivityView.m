@@ -29,30 +29,24 @@ NSString *authorName = @"qwe";
 NSString *message;
 NSString *storyTitle;
 
-- (id)initWithFrame:(CGRect)frame andActivity: (NSDictionary *) activity
+- (id)initWithFrame:(CGRect)frame andActivity:(NSDictionary *)activity
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        
+    if (self) {        
         //container
         UIView *activityContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 60)];
-        [activityContainerView setBackgroundColor:[UIColor whiteColor]];
-        activityContainerView.layer.cornerRadius = 10.0;
+        activityContainerView.layer.cornerRadius = 5.0;
         activityContainerView.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
         activityContainerView.layer.borderWidth = 1;
+        [activityContainerView setBackgroundColor:[UIColor whiteColor]];
         [self addSubview:activityContainerView];
         
-       
-        
         // Author name
-        UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(55, 0, 240, 55)];
-        [textView setText:@"ffdsf qwe eee"];
+        UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(55, -5, 240, 55)];
+        [textView setText:@"no text"];
         [textView setBackgroundColor:[UIColor clearColor]];
-        [textView setFont:[UIFont fontWithName:@"Helvetica" size:14]];
-        //[textView setTextColor:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1]];
-        
-        [textView setEditable:NO];
-         
+        [textView setFont:[UIFont fontWithName:@"Helvetica" size:12]];        
+        [textView setEditable:NO];         
         [activityContainerView addSubview:textView];
         
         //activity data
@@ -65,11 +59,10 @@ NSString *storyTitle;
         //message for comment
         if([trackableType isEqualToString: @"Comment"]){
             object = (NSDictionary *)[activity objectForKey:@"comment"];
-            if(object == nil)return nil;           
+            if (object == nil) return nil;
             
             storyId = [(NSString *) [object objectForKey:@"story_id"] intValue];
             authorName = (NSString *) [object objectForKey:@"author_name"];
-           
             storyTitle = (NSString *) [object objectForKey:@"story_title"];
             
             NSMutableString *text;
@@ -84,76 +77,73 @@ NSString *storyTitle;
             }
             //Activity message           
             if([reason isEqualToString:@"regular"]){            
-                message = [NSString stringWithFormat:@"%@  has added a comment to your %@ story. That's what he wrote: %@",authorName, storyTitle, text];     
+                message = [NSString stringWithFormat:@"%@ added a comment to your %@ story: %@",authorName, storyTitle, text];
             } else {
-                message = [NSString stringWithFormat:@"%@  has left a comment on a story you commented on %@ That's what he wrote: %@",authorName, storyTitle, text];              
+                message = [NSString stringWithFormat:@"%@ left a comment on a story you commented on %@: %@",authorName, storyTitle, text];              
             }
             
             //Colored string
             str = [[NSMutableAttributedString alloc] initWithString:message];
             NSRange authorRange = [message rangeOfString: authorName];
             NSRange storyRange = [message rangeOfString: storyTitle];
-            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:14] range:authorRange];
-            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:14] range:storyRange];
+            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:authorRange];
+            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:storyRange];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:authorRange];
-            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:storyRange];
-            
+            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:storyRange];            
         //message for like
         } else if([trackableType isEqualToString: @"Like"]){
             object = (NSDictionary *)[activity objectForKey:@"like"];
+            if (object == nil) return nil;
+            
             authorName = (NSString *) [object objectForKey:@"author_name"];
             storyTitle = (NSString *) [object objectForKey:@"story_title"];
-            message = [NSString stringWithFormat:@"%@ has liked your %@ story", authorName, storyTitle];
+            message = [NSString stringWithFormat:@"%@ likes your %@ story", authorName, storyTitle];
             str = [[NSMutableAttributedString alloc] initWithString:message];
             NSRange authorRange = [message rangeOfString: authorName];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:authorRange];
-            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:14] range:authorRange];
-         //message for user
+            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:authorRange];
+        //message for user
         } else if([trackableType isEqualToString: @"User"]){
             object = (NSDictionary *)[activity objectForKey:@"user"];
+            if (object == nil) return nil;
+            
             authorName = (NSString *) [object objectForKey:@"author_name"];       
             message = [NSString stringWithFormat:@"You have a new follower %@ ", authorName];
             str = [[NSMutableAttributedString alloc] initWithString:message];
             NSRange authorRange = [message rangeOfString: authorName];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:authorRange];
-            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:14] range:authorRange];
-            
+            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:authorRange];
         //message for story
         } else if([trackableType isEqualToString: @"Story"]){            
             object = (NSDictionary *)[activity objectForKey:@"story"];
+            if (object == nil) return nil;
             
             storyId = trackableId;
             authorName = (NSString *) [object objectForKey:@"author_name"];
             
             storyTitle = (NSString *) [object objectForKey:@"story_title"];
             
-            message = [NSString stringWithFormat:@"%@   has liked your %@ story",authorName, storyTitle];
+            message = [NSString stringWithFormat:@"%@ added a new %@ story", authorName, storyTitle];
             
             //Colored string
             str = [[NSMutableAttributedString alloc] initWithString:message];
             NSRange authorRange = [message rangeOfString: authorName];
             NSRange storyRange = [message rangeOfString: storyTitle];
-            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:14] range:authorRange];
-            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:14] range:storyRange];
+            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:authorRange];
+            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:storyRange];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:authorRange];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:storyRange];
             
         } else str = [[NSMutableAttributedString alloc] initWithString:@"qwe"];
-        
-        //NSLog(@"object %@", object);
-        
+                
         int authorId = [(NSString *) [object objectForKey:@"author_id"] intValue];
-    
-       
-        NSDate *createdAt = [StoryStore parseRFC3339Date:[activity objectForKey:@"created_at"]];        
-        
-       // NSLog(@"authorId  %d", authorId);
+        NSDate *createdAt = [StoryStore parseRFC3339Date:[activity objectForKey:@"created_at"]];
         
         // Author avatar
         User *author = [[UserStore get] findById: authorId];     
         AsyncImageView *avatarView = [[AsyncImageView alloc] initWithFrame: CGRectMake(5, 5, 50, 50)];
         avatarView.clipsToBounds = YES;
-        avatarView.layer.cornerRadius = 10;
+        avatarView.layer.cornerRadius = 5;
         avatarView.layer.borderColor = [[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1] CGColor];
         avatarView.layer.borderWidth = 1;
         avatarView.layer.backgroundColor = [[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1] CGColor];
@@ -195,13 +185,13 @@ NSString *storyTitle;
         if(storyTitle != nil){         
             CGRect linkStoryFrame = [self frameOfTextRange:[[textView text] rangeOfString: storyTitle] inTextView:textView];
            
-            UIButton *storyBtn = [[UIButton alloc] initWithFrame: CGRectMake(linkStoryFrame.origin.x+55, linkStoryFrame .origin.y, linkStoryFrame.size.width, linkStoryFrame.size.height)];
+            UIButton *storyBtn = [[UIButton alloc] initWithFrame: CGRectMake(linkStoryFrame.origin.x+55, linkStoryFrame.origin.y,
+                                                                             linkStoryFrame.size.width, linkStoryFrame.size.height)];
             storyBtn.tag = storyId;
             [storyBtn addTarget:self action:@selector(storyBtnTap:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:storyBtn];
             [self bringSubviewToFront:storyBtn];
         }
-       
         
         // Time created
         TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
@@ -216,16 +206,15 @@ NSString *storyTitle;
         [timeAgoLabel setFont:[UIFont fontWithName:@"Helvetica" size:12]];
         [timeAgoLabel setTextColor:[UIColor grayColor]];
         [timeAgoLabel sizeToFit];
-        //NSLog(@"%f", timeAgoLabel.frame.size.width);
         timeAgoLabel.frame = CGRectMake(290 - timeAgoLabel.frame.size.width, timeY,
                                         timeAgoLabel.frame.size.width, timeAgoLabel.frame.size.height);
         [activityContainerView addSubview:timeAgoLabel];
         
-               if(textView.contentSize.height > 55){
+        if (textView.contentSize.height > 55) {
             activityContainerView.frame = CGRectMake(activityContainerView.frame.origin.x, activityContainerView.frame.origin.y, 300, textView.contentSize.height + 10);
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, 300, textView.contentSize.height + 10 );
             [timeAgoLabel bringSubviewToFront:activityContainerView];
-        }       
+        }
     }
     return self;
 }
@@ -240,13 +229,11 @@ NSString *storyTitle;
     UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
     CGRect rect = [textView firstRectForRange:textRange];  //Error: Invalid Intializer
     
-    return [textView convertRect:rect fromView:textView.textInputView]; // Error: request for member 'textInputView' in something not a structure or union
-    //return rect;
+    return [textView convertRect:rect fromView:textView.textInputView];
 }
 
 - (void)authorBtnTap:(UIButton *)sender
 {
-    NSLog(@" sender %d", sender.tag);
     NSNumber *authorId = [NSNumber numberWithInteger:sender.tag];
     [[self controller] performSelector:@selector(authorOfStoryTap:) withObject:authorId];
 }
@@ -254,7 +241,7 @@ NSString *storyTitle;
 - (void)storyBtnTap:(UIButton *)sender
 {    
     NSNumber *storyId = [NSNumber numberWithInteger:sender.tag];
-    [[self controller] performSelector:@selector(editBtnTap:) withObject:storyId];
+    [[self controller] performSelector:@selector(storyTap:) withObject:storyId];
 }
 
 @end

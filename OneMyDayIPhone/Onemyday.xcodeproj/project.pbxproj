@@ -113,6 +113,12 @@
 		186022F2178974FA006A31DF /* UIApplication+NetworkActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */; };
 		186022F51789D69A006A31DF /* sign_up_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022F31789D69A006A31DF /* sign_up_button.png */; };
 		186022F61789D69A006A31DF /* sign_up_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022F41789D69A006A31DF /* sign_up_button@2x.png */; };
+		186022F9178B302F006A31DF /* edit_profile_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022F7178B302F006A31DF /* edit_profile_button.png */; };
+		186022FA178B302F006A31DF /* edit_profile_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 186022F8178B302F006A31DF /* edit_profile_button@2x.png */; };
+		18602302178B45C2006A31DF /* YIInnerShadowLayer.h in Sources */ = {isa = PBXBuildFile; fileRef = 186022FE178B45C1006A31DF /* YIInnerShadowLayer.h */; };
+		18602303178B45C2006A31DF /* YIInnerShadowLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 186022FF178B45C1006A31DF /* YIInnerShadowLayer.m */; };
+		18602304178B45C2006A31DF /* YIInnerShadowView.h in Sources */ = {isa = PBXBuildFile; fileRef = 18602300178B45C1006A31DF /* YIInnerShadowView.h */; };
+		18602305178B45C2006A31DF /* YIInnerShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18602301178B45C2006A31DF /* YIInnerShadowView.m */; };
 		187DBDEB1729ECF50040E97D /* editorbar_button_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */; };
 		187DBDEC1729ECF50040E97D /* editorbar_button_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */; };
 		1883AB2C172C95C40093554B /* EditorStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883AB2B172C95C40093554B /* EditorStore.m */; };
@@ -409,6 +415,12 @@
 		186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+NetworkActivity.m"; sourceTree = "<group>"; };
 		186022F31789D69A006A31DF /* sign_up_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sign_up_button.png; path = assets/sign_up_button.png; sourceTree = "<group>"; };
 		186022F41789D69A006A31DF /* sign_up_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sign_up_button@2x.png"; path = "assets/sign_up_button@2x.png"; sourceTree = "<group>"; };
+		186022F7178B302F006A31DF /* edit_profile_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = edit_profile_button.png; path = assets/edit_profile_button.png; sourceTree = "<group>"; };
+		186022F8178B302F006A31DF /* edit_profile_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "edit_profile_button@2x.png"; path = "assets/edit_profile_button@2x.png"; sourceTree = "<group>"; };
+		186022FE178B45C1006A31DF /* YIInnerShadowLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YIInnerShadowLayer.h; path = vendor/YIShadowView/YIInnerShadowLayer.h; sourceTree = "<group>"; };
+		186022FF178B45C1006A31DF /* YIInnerShadowLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YIInnerShadowLayer.m; path = vendor/YIShadowView/YIInnerShadowLayer.m; sourceTree = "<group>"; };
+		18602300178B45C1006A31DF /* YIInnerShadowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YIInnerShadowView.h; path = vendor/YIShadowView/YIInnerShadowView.h; sourceTree = "<group>"; };
+		18602301178B45C2006A31DF /* YIInnerShadowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YIInnerShadowView.m; path = vendor/YIShadowView/YIInnerShadowView.m; sourceTree = "<group>"; };
 		187DBDE71729E2B70040E97D /* Onemyday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onemyday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "editorbar_button_highlight@2x.png"; path = "assets/editorbar_button_highlight@2x.png"; sourceTree = "<group>"; };
 		187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button_highlight.png; path = assets/editorbar_button_highlight.png; sourceTree = "<group>"; };
@@ -768,6 +780,17 @@
 			path = Filters;
 			sourceTree = "<group>";
 		};
+		18602306178B45CC006A31DF /* YIShadowView */ = {
+			isa = PBXGroup;
+			children = (
+				186022FE178B45C1006A31DF /* YIInnerShadowLayer.h */,
+				186022FF178B45C1006A31DF /* YIInnerShadowLayer.m */,
+				18602300178B45C1006A31DF /* YIInnerShadowView.h */,
+				18602301178B45C2006A31DF /* YIInnerShadowView.m */,
+			);
+			name = YIShadowView;
+			sourceTree = "<group>";
+		};
 		1886808117379C27006A3E20 /* DLCImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +840,8 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				186022F7178B302F006A31DF /* edit_profile_button.png */,
+				186022F8178B302F006A31DF /* edit_profile_button@2x.png */,
 				186022F31789D69A006A31DF /* sign_up_button.png */,
 				186022F41789D69A006A31DF /* sign_up_button@2x.png */,
 				186022EC17881405006A31DF /* add_button.png */,
@@ -916,6 +941,7 @@
 		18F98FBD171378A600D8F7A3 /* vendor */ = {
 			isa = PBXGroup;
 			children = (
+				18602306178B45CC006A31DF /* YIShadowView */,
 				849C6E2317183F4B006C5766 /* DMTwitterOAuth Library */,
 				1886808117379C27006A3E20 /* DLCImagePickerController */,
 				1891F21817459170007D3B69 /* FormatterKit */,
@@ -1303,6 +1329,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186022F9178B302F006A31DF /* edit_profile_button.png in Resources */,
+				186022FA178B302F006A31DF /* edit_profile_button@2x.png in Resources */,
 				186022F51789D69A006A31DF /* sign_up_button.png in Resources */,
 				186022F61789D69A006A31DF /* sign_up_button@2x.png in Resources */,
 				186022EE17881406006A31DF /* add_button.png in Resources */,
@@ -1479,6 +1507,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18602302178B45C2006A31DF /* YIInnerShadowLayer.h in Sources */,
+				18602303178B45C2006A31DF /* YIInnerShadowLayer.m in Sources */,
+				18602304178B45C2006A31DF /* YIInnerShadowView.h in Sources */,
+				18602305178B45C2006A31DF /* YIInnerShadowView.m in Sources */,
 				1891F231174597D9007D3B69 /* TTTAddressFormatter.h in Sources */,
 				1891F232174597D9007D3B69 /* TTTAddressFormatter.m in Sources */,
 				1891F233174597D9007D3B69 /* TTTArrayFormatter.h in Sources */,

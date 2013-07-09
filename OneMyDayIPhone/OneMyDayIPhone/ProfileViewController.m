@@ -29,7 +29,7 @@
 @synthesize scrollView;
 @synthesize userId;
 
-NSMutableArray * stories;
+NSMutableArray *stories;
 UIActivityIndicatorView *topIndicator;
 UIActivityIndicatorView *bottomIndicator;
 bool *oldStoriesLoading;
@@ -79,14 +79,14 @@ AppDelegate *appDelegate;
             [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             if(user != nil) {
                 feedHeight = 5;
-                CGRect frame = CGRectMake(5, feedHeight, 300, 120);
+                CGRect frame = CGRectMake(5, feedHeight, 300, 100);
                 
                 UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
                 userInfoView.controller = self;
                 
                 [scrollView addSubview:userInfoView];
                 
-                feedHeight += 120;
+                feedHeight += 100;
                 
                 [self loadStories];
             } else [topIndicator stopAnimating];
@@ -95,7 +95,7 @@ AppDelegate *appDelegate;
     
 }
 
--(void)loadStories
+- (void)loadStories
 {
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
@@ -215,8 +215,6 @@ AppDelegate *appDelegate;
             [UIView setAnimationDuration:0.3];
             [scrollView setContentSize: CGSizeMake(320, feedHeight)];
             [UIView commitAnimations];            
-            
-            //[[StoryStore get] setStories:stories];
             
             oldStoriesLoading = false;
         });

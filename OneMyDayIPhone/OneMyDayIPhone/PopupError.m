@@ -38,7 +38,6 @@ float prevScrollY = 0;
         [view addSubview:self];
         parentView = view;
         
-        // TODO if the parentView is scrollView then attach listener that will move the error when the view is scrolled.
         if ([parentView isKindOfClass:[UIScrollView class]]) {
             ((UIScrollView *)parentView).delegate = self;
             prevScrollY = ((UIScrollView *)parentView).contentOffset.y;

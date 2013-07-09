@@ -384,9 +384,8 @@ User *user;
                     
                     User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [something objectForKey: @"user"]];
                     [[UserStore get] addUser:newUser];
-                    [appDelegate saveCredentials:[newUser userId]];
-                    appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
-                    [appDelegate setCurrentUserId: [newUser userId]];
+                    [appDelegate saveCredentials:[newUser userId] loggedInWith:3];
+                    appDelegate.loggedInFlag = 3;                   
                     
                     //[self dismissViewControllerAnimated:YES completion:nil];
                     

@@ -35,7 +35,7 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+
     UIImage *navBackgroundImage = [UIImage imageNamed:@"navbar_bg"];
     [[UINavigationBar appearance] setBackgroundImage:navBackgroundImage forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
@@ -94,10 +94,10 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 // will be boolean NO, meaning the URL was not handled by the authenticating application
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *) url sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    NSLog(@"loggedInFlag  %@!",loggedInFlag);
+    NSLog(@"loggedInFlag  %d",loggedInFlag);
     // attempt to extract a token from the url
-    if([loggedInFlag intValue]==1)return [self.session handleOpenURL:url];
-    else if([loggedInFlag intValue]==2)return [[DMTwitter shared].currentLoginController handleTokenRequestResponseURL:url];
+    if(loggedInFlag == 1)return [self.session handleOpenURL:url];
+    else if(loggedInFlag == 2)return [[DMTwitter shared].currentLoginController handleTokenRequestResponseURL:url];
     else return [self.session handleOpenURL:url];
 }
 
@@ -133,19 +133,37 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     [FBSession.activeSession handleDidBecomeActive];
 }
 
-- (bool)checkEmail
+- (bool)checkAuthorization
 {
     NSLog(@"currentUserId");
+    NSString *loggedInFlagObj= [[NSUserDefaults standardUserDefaults] objectForKey:@"loggedInFlag"];
+    NSLog(@"loggedInFlag %@",loggedInFlagObj); 
     NSString *saved_credentials = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
-    NSLog(@"saved_credentials %@",saved_credentials);
-    //int saved_credentials = [[NSUserDefaults standardUserDefaults] integerForKey:@"user_id"];
+    NSLog(@"saved_credentials %@",saved_credentials); 
     if (saved_credentials != nil){
         currentUserId = [saved_credentials intValue];
+        loggedInFlag = [loggedInFlagObj intValue];
         NSLog(@"userId %d", currentUserId);
+        NSLog(@"loggedInFlag %d", loggedInFlag);
         return true;
     }
     else return false;
 }
+
+/*- (bool)checkEmail
+{
+    NSLog(@"loggedInFlag");
+    NSString *sloggedInFlagObj = [[NSUserDefaults standardUserDefaults] objectForKey:@"loggedInFlag"];
+    NSLog(@"loggedInFlag %d",loggedInFlag);
+    //int saved_credentials = [[NSUserDefaults standardUserDefaults] integerForKey:@"user_id"];
+    if (loggedInFlag != nil && saved_credentials != nil){
+        currentUserId = [saved_credentials intValue];
+       
+        NSLog(@"userId %d", currentUserId);
+        return true;
+    }
+    else return false;
+}*/
 
 - (void)alertStatus:(NSString *)msg :(NSString *) title
 {
@@ -164,10 +182,12 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     return [UIColor colorWithRed:190.0f/255.0f green:54.0f/255.0f blue:40.0f/255.0f alpha:1.0f];
 }
 
-- (void)saveCredentials:(int)userId {
+- (void)saveCredentials:(int)userId loggedInWith:(int)loggedIn {    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",loggedIn] forKey:@"loggedInFlag"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",userId] forKey:@"user_id"];
-    //[[NSUserDefaults standardUserDefaults] setInteger: userId forKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    currentUserId = userId;
+    loggedInFlag = loggedIn;
 }
 
 @end

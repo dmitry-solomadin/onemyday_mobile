@@ -38,25 +38,27 @@
     // get the app delegate so that we can access the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    if([appDelegate.loggedInFlag intValue]==1)
+    if(appDelegate.loggedInFlag == 1)
     {
         NSLog(@"Logging out facebook");
         [appDelegate.session closeAndClearTokenInformation];
     }
     
-    else if ([appDelegate.loggedInFlag intValue]==2)
+    else if (appDelegate.loggedInFlag == 2)
     {
         NSLog(@"Logging out twitter");
         [[DMTwitter shared] logout];
     }
     
-    else if ([appDelegate.loggedInFlag intValue]==3)
+    else if (appDelegate.loggedInFlag == 3)
     {
-        NSLog(@"Logging out email");
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_id"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSLog(@"Logging out email");        
     }
-    appDelegate.loggedInFlag = [NSNumber numberWithInt:0];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loggedInFlag"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    appDelegate.loggedInFlag = 0;
+    appDelegate.currentUserId = 0;
     
     //StartViewController  *startViewController = [[StartViewController alloc] initWithNibName:@"StartViewController" bundle:nil];
     //[self presentViewController:startViewController animated:YES completion:nil];

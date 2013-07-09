@@ -92,9 +92,7 @@ NSString *loginErrorMsg;
     
     user = [self requestLogin];
     if(user != nil){
-        [appDelegate saveCredentials:[user userId]];
-        appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
-        [appDelegate setCurrentUserId:[user userId]];
+        [appDelegate saveCredentials:[user userId] loggedInWith:3];     
         [[UserStore get] addUser:user];
     }
     

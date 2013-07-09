@@ -280,44 +280,47 @@ UITextField *emailTextField;
     //NSLog(@"updateView !");
     // get the app delegate, so that we can reference the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-    if (appDelegate.session.isOpen) {
-        NSLog(@"Welcome to facebook session!");
-         
-        /*NSArray *permissions = [NSArray arrayWithObjects:@"email", nil];
-        [FBSession openActiveSessionWithReadPermissions:permissions
-                                           allowLoginUI:YES
-                                      completionHandler:
-         ^(FBSession *session,
-           FBSessionState state, NSError *error) {
+     NSLog(@"flag0 %d",appDelegate.loggedInFlag);
+    if(appDelegate.loggedInFlag == 0) [appDelegate checkAuthorization];
+    NSLog(@"flag1 %d",appDelegate.loggedInFlag);
+    if(appDelegate.loggedInFlag != 0){
+        if (appDelegate.loggedInFlag == 1 && appDelegate.session.isOpen) {
+            NSLog(@"Welcome to facebook session!");
+            
+            /*NSArray *permissions = [NSArray arrayWithObjects:@"email", nil];
+             [FBSession openActiveSessionWithReadPermissions:permissions
+             allowLoginUI:YES
+             completionHandler:
+             ^(FBSession *session,
+             FBSessionState state, NSError *error) {
              
              //[self sessionStateChanged:session state:state error:error];
-         }];*/
-        [FBSession setActiveSession: appDelegate.session];
-        [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-            if (!error) {                
-                NSLog(@"user.name %@", user.name);
-                NSLog(@"user.name %@", user.username);
-                NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
-                NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
-            } else NSLog(@"error %@", error);
-        }];
-        appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
-        [self goToMasterView];
-        
-    }
-    else if ([DMTwitter shared].oauth_token_authorized) {
-        NSLog(@"Welcome to twitter session!");
-        NSLog(@"[DMTwitter shared] oauth_token_secret%@", [DMTwitter shared].oauth_token_secret);
-        NSLog(@"[DMTwitter shared] oauth_token%@", [DMTwitter shared].oauth_token);
-        appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
-        [self goToMasterView];
-        
-    }
-    else if ([appDelegate checkEmail]) {
-        NSLog(@"Welcome to email session!");
-        appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
-        [self goToMasterView];
-        
+             }];*/
+            [FBSession setActiveSession: appDelegate.session];
+            [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                if (!error) {
+                    NSLog(@"user.name %@", user.name);
+                    NSLog(@"user.name %@", user.username);
+                    NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+                    NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
+                } else NSLog(@"error %@", error);
+            }];
+            //appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
+            [self goToMasterView];
+        }
+        else if (appDelegate.loggedInFlag == 2 && [DMTwitter shared].oauth_token_authorized) {
+            NSLog(@"Welcome to twitter session!");
+            NSLog(@"[DMTwitter shared] oauth_token_secret%@", [DMTwitter shared].oauth_token_secret);
+            NSLog(@"[DMTwitter shared] oauth_token%@", [DMTwitter shared].oauth_token);
+            //appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
+            [self goToMasterView];
+        }
+        else if (appDelegate.loggedInFlag == 3) {
+            NSLog(@"Welcome to email session!");
+            //appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
+            [self goToMasterView];
+            
+        }
     }
 
 }
@@ -371,20 +374,16 @@ UITextField *emailTextField;
        
         if([status isEqualToString: @"ok"]){
             
+            User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
+            [[UserStore get] addUser:user];            
             if([provider isEqualToString:@"twitter"]){
                 // store our auth data so we can use later in other sessions
                 [[DMTwitter shared] saveCredentials];
-                //appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
-            } //else appDelegate.loggedInFlag = [NSNumber numberWithInt:1]; //logged with faceboock
-            
-            User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
-            [[UserStore get] addUser:user];            
-            [appDelegate setCurrentUserId:[user userId]];
+                [appDelegate saveCredentials:[user userId] loggedInWith:2];
+            } else [appDelegate saveCredentials:[user userId] loggedInWith:1]; //logged with faceboock
             
             [self updateView];
-        }
-        
-        
+        }        
     }
 }
 

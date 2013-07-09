@@ -23,15 +23,15 @@
 @property (strong, nonatomic) FBSession *session;
 
 //0 - unauthorized user; 1 - authorized by facebook; 2 - twitter; 3 - email
-@property (strong, nonatomic) NSNumber *loggedInFlag;
+@property int loggedInFlag;
 
 @property int currentUserId;
 
 + (UIViewController *)initMasterController;
-- (bool)checkEmail;
+- (bool)checkAuthorization;
 - (void)alertStatus:(NSString *)msg :(NSString *) title;
 - (NSString *)apiKey;
 - (UIColor *)onemydayColor;
-- (void)saveCredentials:(int) userId;
+- (void)saveCredentials:(int)userId loggedInWith:(int)loggedIn;
 
 @end

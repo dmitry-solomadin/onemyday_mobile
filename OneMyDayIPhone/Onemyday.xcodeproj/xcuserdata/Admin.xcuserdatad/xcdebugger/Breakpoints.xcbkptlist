@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/SignUpViewController.m"
-         timestampString = "394311848.005697"
+         timestampString = "395072588.654912"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "397"
-         endingLineNumber = "397"
+         startingLineNumber = "396"
+         endingLineNumber = "396"
          landmarkName = "-join:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -138,50 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StartViewController.m"
-         timestampString = "395014576.68485"
+         timestampString = "395073563.468424"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "374"
-         endingLineNumber = "374"
-         landmarkName = "-socialAuth:withProvider:andToken:andSecret:AndEmail:andFirstName:andLastName:andNickName:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "OneMyDayIPhone/StartViewController.m"
-         timestampString = "395014576.68485"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "361"
-         endingLineNumber = "361"
-         landmarkName = "-socialAuth:withProvider:andToken:andSecret:AndEmail:andFirstName:andLastName:andNickName:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "OneMyDayIPhone/StartViewController.m"
-         timestampString = "395014576.68485"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "375"
-         endingLineNumber = "375"
-         landmarkName = "-socialAuth:withProvider:andToken:andSecret:AndEmail:andFirstName:andLastName:andNickName:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "OneMyDayIPhone/StartViewController.m"
-         timestampString = "395014576.68485"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "376"
-         endingLineNumber = "376"
+         startingLineNumber = "364"
+         endingLineNumber = "364"
          landmarkName = "-socialAuth:withProvider:andToken:andSecret:AndEmail:andFirstName:andLastName:andNickName:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -196,6 +157,19 @@
          startingLineNumber = "121"
          endingLineNumber = "121"
          landmarkName = "-loginFacebook:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "OneMyDayIPhone/AppDelegate.m"
+         timestampString = "395072980.45487"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "147"
+         endingLineNumber = "147"
+         landmarkName = "-checkAuthorization"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

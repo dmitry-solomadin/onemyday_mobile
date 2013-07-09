@@ -23,7 +23,7 @@
 
 @implementation ExploreViewController
 {
-    NSMutableArray * stories;
+    NSMutableArray *stories;
     AppDelegate *appDelegate;
     UITextField *textField;
     UIButton *cancelButton;

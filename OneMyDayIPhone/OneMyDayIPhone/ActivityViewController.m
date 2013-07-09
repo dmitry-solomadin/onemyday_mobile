@@ -75,7 +75,7 @@ AppDelegate *appDelegate;
         }        
         
         Request *request = [[Request alloc] init];
-        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d",appDelegate.currentUserId,activityId];
+        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d", appDelegate.currentUserId,activityId];
         NSArray *activities = [request send:path];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -97,10 +97,10 @@ AppDelegate *appDelegate;
                  
                     CGRect frame = CGRectMake(10, currentHeight, 300, 60);
                     ActivityView *activityView = [[ActivityView alloc] initWithFrame:frame
-                                                                                     andActivity:activity];
+                                                                         andActivity:activity];
                     activityView.controller = self;
                   
-                    if(activityView != nil){
+                    if (activityView != nil) {
                         [scrollView addSubview: activityView];
                         currentHeight += (activityView.frame.size.height + 4); // to remove 2px border
                     }                                    
@@ -273,7 +273,5 @@ AppDelegate *appDelegate;
         });
     });
 }
-
-
 
 @end

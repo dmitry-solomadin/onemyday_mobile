@@ -79,14 +79,14 @@ AppDelegate *appDelegate;
             [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             if(user != nil) {
                 feedHeight = 5;
-                CGRect frame = CGRectMake(5, feedHeight, 300, 120);
+                CGRect frame = CGRectMake(5, feedHeight, 300, 100);
                 
                 UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
                 userInfoView.controller = self;
                 
                 [scrollView addSubview:userInfoView];
                 
-                feedHeight += 120;
+                feedHeight += 100;
                 
                 [self loadStories];
             } else [topIndicator stopAnimating];
@@ -109,6 +109,7 @@ AppDelegate *appDelegate;
             if(stories != nil) {                
                 feedHeight += 20;
                 
+                NSLog(@"%d", [stories count]);
                 for (int i = 0; i < [stories count]; i++) {
                     Story *story = [stories objectAtIndex:i];
                     CGRect frame = CGRectMake(10, feedHeight, 300, 300);

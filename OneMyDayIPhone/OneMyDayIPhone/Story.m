@@ -26,11 +26,12 @@ andCommentsCount:(int)_commentsCount andLikesCount:(int)_likesCount isLikedByUse
         self.createdAt = _createdAt;
         self.viewsCount = _viewsCount;
         self.commentsCount = _commentsCount;
-        self.likesCount = _likesCount;        
-        if(_isLikedByUser == 1)isLikedByUser = true;
-        else isLikedByUser = false;
-        //NSLog(@"_isLikedByUser %d", _isLikedByUser);
-        //NSLog(@"isLikedByUser %d", isLikedByUser);
+        self.likesCount = _likesCount;
+        if (_isLikedByUser == 1) {
+            self.isLikedByUser = true;
+        } else {
+            self.isLikedByUser = false;
+        }
     }
     return self;
 }

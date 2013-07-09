@@ -168,12 +168,12 @@ UIActivityIndicatorView *commentsIndicator;
 
 - (void)likeButtonTapped:(UITapGestureRecognizer *)gr
 {
-    [self doLikeTap];
-    
     NSString *likeOrUnlike;
     if([story isLikedByUser])likeOrUnlike = @"unlike";
     else likeOrUnlike = @"like";
     NSMutableString *path = [NSString stringWithFormat:@"/api/stories/%d/%@", [story storyId], likeOrUnlike];
+    
+    [self doLikeTap];    
     
     Request *request = [[Request alloc] init];
     
@@ -200,11 +200,11 @@ UIActivityIndicatorView *commentsIndicator;
     if([story isLikedByUser]){
         [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"like_button"]]];
         [story setLikesCount: [story likesCount] - 1];
-        [story setIsLikedByUser: false];
+        [story setIsLikedByUser:false];
     } else {
         [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"liked_button"]]];
         [story setLikesCount: [story likesCount] + 1];
-        [story setIsLikedByUser: true];
+        [story setIsLikedByUser:true];
     }
     [self placeLikeTextCorrectly:[story likesCount]];
     [self performSelectorInBackground:@selector(saveLikeToCache) withObject:nil];

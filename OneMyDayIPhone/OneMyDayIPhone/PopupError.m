@@ -36,7 +36,7 @@ float prevScrollY = 0;
         [self addSubview:label];
         
         [view addSubview:self];
-        parentView = view;
+        parentView = view;        
         
         if ([parentView isKindOfClass:[UIScrollView class]]) {
             ((UIScrollView *)parentView).delegate = self;
@@ -69,9 +69,10 @@ float prevScrollY = 0;
 {
     if ([parentView isKindOfClass:[UIScrollView class]]) {
         self.frame = CGRectMake(self.frame.origin.x, -30 + [(UIScrollView *)parentView contentOffset].y,
-                                self.frame.size.width, self.frame.size.height);
-        self.hidden = NO;
-    }
+                                self.frame.size.width, self.frame.size.height);        
+    } 
+    
+    self.hidden = NO;
     
     [parentView bringSubviewToFront:self];
     

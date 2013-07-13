@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *txtEmail;
 @property (weak, nonatomic) IBOutlet UITextField *txtPassword;
 
++ (bool) validateEmail:(NSString *) email;
+
 - (IBAction)loginClick:(id)sender;
 - (IBAction)signUp:(id)sender;
 

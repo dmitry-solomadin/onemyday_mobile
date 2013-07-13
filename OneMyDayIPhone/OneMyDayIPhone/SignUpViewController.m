@@ -14,6 +14,8 @@
 #import "User.h"
 #import "AsyncImageView.h"
 #import "YIInnerShadowView.h"
+#import "PopupError.h"
+#import "LoginViewController.h"
 
 @interface SignUpViewController ()
 
@@ -31,12 +33,16 @@ UITextField *passField;
 AppDelegate *appDelegate;
 BOOL noAvatar = true;
 User *user;
+PopupError *popupError;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    // add popup error
+    popupError = [[PopupError alloc] initWithView:self.view];
     
     NSString *buttonTitle;
     NSLog(@"userId %d", userId);
@@ -218,22 +224,24 @@ User *user;
 - (void)join:(id)sender
 {
     if([[emailField text] isEqualToString:@""]) {
-        [appDelegate alertStatus:@"" :@"Please enter Email" ];        
+        [popupError setTextAndShow:@"Please enter Email"];
     } else if([[passField text] isEqualToString:@""] ) {
-        [appDelegate alertStatus:@"" :@"Please enter Password" ];
-    }  else if([[nameField text] isEqualToString:@""] ) {
-        [appDelegate alertStatus:@"" :@"Please enter your name" ];
-    } else {        
+        [popupError setTextAndShow:@"Please enter Password"];
+    } else if([[nameField text] isEqualToString:@""] ) {
+        [popupError setTextAndShow:@"Please enter your name"];
+    } else if([[passField text] length] < 6 || ![LoginViewController validateEmail:[emailField text]]) {
+        [popupError setTextAndShow:@"Wrong email or password!"];
+    } else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            NSDictionary *something = [self registerTask];
+            NSDictionary *jsonData = [self registerTask];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
-                NSString *status = (NSString *) [something objectForKey:@"status"];
-                NSString *success = (NSString *) [something objectForKey:@"success"];                
-                NSDictionary *errors = (NSDictionary *) [something objectForKey:@"errors"];                        
+                NSString *status = (NSString *) [jsonData objectForKey:@"status"];
+                NSString *success = (NSString *) [jsonData objectForKey:@"success"];                
+                NSDictionary *errors = (NSDictionary *) [jsonData objectForKey:@"errors"];                        
                 
                 if(errors != nil){
                     for(NSString *error in errors){
@@ -247,49 +255,33 @@ User *user;
                             }
                         } else if([[errors objectForKey:error] isKindOfClass:[NSString class]]){
                             msg = [errors objectForKey:error];
-                        }
-                        
-                        [appDelegate alertStatus:@"" : msg];
-                        
+                        }                       
+                       
+                        [popupError setTextAndShow:msg];                        
                         break;
                     }
                     
                 } else if(status != nil && [status isEqualToString: @"ok"]){
-                    User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [something objectForKey: @"user"]];
-                    [[UserStore get] addUser:newUser];
-                    [appDelegate saveCredentials:[newUser userId] loggedInWith:3];
-                    appDelegate.loggedInFlag = 3;                   
+                    User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
+                    [[UserStore get] addOrReplaceUser:newUser];
                     
-                    //[self dismissViewControllerAnimated:YES completion:nil];
+                    if(user == nil){                       
+                        [appDelegate saveCredentials:[newUser userId] loggedInWith:3];
+                        appDelegate.loggedInFlag = 3;
+                        
+                        UIViewController *masterController = [AppDelegate initMasterController];
+                        [self presentViewController:masterController animated:YES completion:nil];
+                                               
+                    } 
                     
-                    UIViewController *masterController = [AppDelegate initMasterController];
-                    [self presentViewController:masterController animated:YES completion:nil];
-                    
-                } else if(success != nil && success) {
-                    
-                     /*User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [something objectForKey: @"user"]];
-                    
-                     [user setAvatarUrls:[newUser avatarUrls]];
-                     [user setEmail:[newUser email]];
-                     [user setGender:[newUser gender]];
-                     [user setName:[newUser name]];
-                    
-                    NSLog(@"user %@ %@ %@ ",[user email],[user gender],  [user name]);*/
-                    
-                    /*self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:4];*/
-                    
-                     [self dismissViewControllerAnimated:YES completion:nil];
-                    
-                    //UIViewController *masterController = [AppDelegate initMasterController];
-                    //[self presentViewController:masterController animated:YES completion:nil];
-                    
-                } else {
-                    [appDelegate alertStatus:@"" :[Request operationFailedMsg]];
+                } else {                  
+                    [popupError setTextAndShow:[Request operationFailedMsg]];
                 }
                 
             });
         });
     }
 }
+
 
 @end

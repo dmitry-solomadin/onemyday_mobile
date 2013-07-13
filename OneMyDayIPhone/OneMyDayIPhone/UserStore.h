@@ -26,6 +26,7 @@
 - (User *)parseUserData:(NSDictionary *)userData;
 - (void)saveUsersToDisk;
 - (void)loadUsersFromDisk;
+- (void)addOrReplaceUser:(User *)user;
 
 
 @end

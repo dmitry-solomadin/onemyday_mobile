@@ -44,7 +44,6 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{204, 143}, {96, 36}}</string>
 						<reference key="NSSuperview" ref="417651021"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -80,7 +79,7 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">prolagaev@gmail.com</string>
+						<string key="IBUIText"/>
 						<string key="IBUIPlaceholder">Email</string>
 						<object class="NSColor" key="IBUITextColor" id="449240639">
 							<int key="NSColorSpace">3</int>
@@ -114,7 +113,7 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">2345671</string>
+						<string key="IBUIText"/>
 						<string key="IBUIPlaceholder">Password</string>
 						<reference key="IBUITextColor" ref="449240639"/>
 						<bool key="IBUIAdjustsFontSizeToFit">YES</bool>

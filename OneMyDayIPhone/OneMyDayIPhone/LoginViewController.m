@@ -14,6 +14,7 @@
 #import "User.h"
 #import "UserStore.h"
 #import "SignUpViewController.h"
+#import "PopupError.h"
 
 @interface LoginViewController ()
 
@@ -26,6 +27,7 @@
 AppDelegate *appDelegate;
 User *user;
 NSString *loginErrorMsg;
+PopupError *popupError;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,6 +48,12 @@ NSString *loginErrorMsg;
         UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
         [txtEmail setBackground:fieldBGImage];
         [txtPassword setBackground:fieldBGImage];
+        
+        [txtEmail setText:@"prolagaev@gmail.com"];
+        [txtPassword setText:@"2345671"];
+        
+        // add popup error
+        popupError = [[PopupError alloc] initWithView:self.view];
     }
     return self;
 }
@@ -53,11 +61,11 @@ NSString *loginErrorMsg;
 - (IBAction)loginClick:(id)sender {
     @try {
         if([[txtEmail text] isEqualToString:@""]) {
-            [appDelegate alertStatus:@"" :@"Please enter Email" ];            
+            [popupError setTextAndShow:@"Please enter Email"];       
         } else if([[txtPassword text] isEqualToString:@""] ) {
-            
-            [appDelegate alertStatus:@"" :@"Please enter Password" ];
-            
+            [popupError setTextAndShow:@"Please enter Password"];
+        } else if([[txtPassword text] length] < 6 || ![LoginViewController validateEmail:[txtEmail text]]) {
+            [popupError setTextAndShow:@"Wrong email or password!"];
         } else {
             
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -72,9 +80,9 @@ NSString *loginErrorMsg;
                         UIViewController *masterController = [AppDelegate initMasterController];
                         [self presentViewController:masterController animated:YES completion:nil];
                     } else if(loginErrorMsg != nil){
-                        [appDelegate alertStatus:@"" :loginErrorMsg];
+                         [popupError setTextAndShow:loginErrorMsg];                      
                     } else {
-                        [appDelegate alertStatus:@"" :[Request operationFailedMsg]];
+                        [popupError setTextAndShow:[Request operationFailedMsg]];                        
                     }
                 });
             });             
@@ -137,6 +145,17 @@ NSString *loginErrorMsg;
 - (IBAction)signUp:(id)sender {
     SignUpViewController  *signUpViewController = [SignUpViewController alloc];    
     [[self navigationController] pushViewController:signUpViewController animated:YES];
+}
+
++ (bool) validateEmail:(NSString *) email{
+    NSString *regExPattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$";
+    NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSUInteger regExMatches = [regEx numberOfMatchesInString:email options:0 range:NSMakeRange(0, [email length])];
+    NSLog(@"%i", regExMatches);
+    if (regExMatches == 0) {
+        return NO;
+    } else
+        return YES;   
 }
 
 @end

@@ -13,6 +13,7 @@
 #import "UserStore.h"
 #import "User.h"
 #import "AsyncImageView.h"
+#import "YIInnerShadowView.h"
 
 @interface SignUpViewController ()
 
@@ -23,25 +24,13 @@
 @synthesize userId;
 
 AsyncImageView *avatarView;
-UILabel *maleLabel;
-UILabel *femaleLabel;
-UILabel *notSpecifiedLabel;
 NSString *sex = @"not_specified";
 UITextField *nameField;
 UITextField *emailField;
 UITextField *passField;
 AppDelegate *appDelegate;
-UIImage *blankImage;
+BOOL noAvatar = true;
 User *user;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -59,184 +48,110 @@ User *user;
                                                                      style:UIBarButtonItemStyleBordered
                                                                     target:self action:@selector(join:)];
     
-    [joinButton setTintColor:[UIColor colorWithRed:0.9 green:0.1 blue:0.1 alpha:1.0]];
-    self.navigationItem.rightBarButtonItem = joinButton;
-    
+    [joinButton setTintColor:[UIColor colorWithRed:0.08 green:0.78 blue:0.08 alpha:0.5]];
+    self.navigationItem.rightBarButtonItem = joinButton;    
 	self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whitey"]];
     
-    
-    
-    // User avatar  
-    avatarView = [[AsyncImageView alloc]  initWithFrame: CGRectMake(20, 20, 80, 80)];
-    blankImage = [UIImage imageNamed:@"blankPhoto.png"];
-    if(user != nil) {        
+    // User avatar 
+    YIInnerShadowView *avatarShadowView = [[YIInnerShadowView alloc] initWithFrame: CGRectMake(10, 20, 80, 80)];
+    avatarShadowView.shadowRadius = 2;
+    avatarShadowView.shadowColor = [UIColor blackColor];
+    avatarShadowView.shadowMask = YIInnerShadowMaskAll;
+    avatarShadowView.cornerRadius = 5;
+    avatarView = [[AsyncImageView alloc] initWithFrame:CGRectMake(10, 20, 80, 80)];
+    avatarView.layer.cornerRadius = 5;
+    avatarView.clipsToBounds = YES;
+    [avatarView setBackgroundColor:[UIColor clearColor]];
+    avatarView.showActivityIndicator = NO;
+    if(user != nil) {
         NSURL *avatarUrl = [user extractAvatarUrlType:@"small_url"];
         if ([UserStore isAvatarEmpty:[avatarUrl absoluteString]]) {
             [avatarView setImage:[UIImage imageNamed:@"no-avatar"]];
         } else {
             [avatarView setImageURL:avatarUrl];
         }
+        noAvatar = false;
+    } else {
+        UILabel *noAvatarTop = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 80, 18)];
+        [noAvatarTop setText:@"Your"];
+        [noAvatarTop setBackgroundColor:[UIColor clearColor]];
+        [noAvatarTop setTextAlignment:NSTextAlignmentCenter];
+        [noAvatarTop setTextColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
+        [noAvatarTop setShadowColor:[UIColor whiteColor]];
+        [noAvatarTop setShadowOffset:CGSizeMake(0, 1)];
+        [noAvatarTop setFont:[UIFont boldSystemFontOfSize:15]];
+        UILabel *noAvatarBottom = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 80, 18)];
+        [noAvatarBottom setText:@"Avatar"];
+        [noAvatarBottom setBackgroundColor:[UIColor clearColor]];
+        [noAvatarBottom setTextAlignment:NSTextAlignmentCenter];
+        [noAvatarBottom setTextColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
+        [noAvatarBottom setShadowColor:[UIColor whiteColor]];
+        [noAvatarBottom setShadowOffset:CGSizeMake(0, 1)];
+        [noAvatarBottom setFont:[UIFont boldSystemFontOfSize:15]];
+        [avatarView setBackgroundColor:[UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1]];
+        [avatarView addSubview:noAvatarTop];
+        [avatarView addSubview:noAvatarBottom];
+        noAvatar = true;
     }
-    else [avatarView setImage:blankImage];
-        
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    UIBezierPath *path;
-
-    path = [UIBezierPath bezierPathWithRoundedRect: avatarView.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: (CGSize){10.0, 10.}]; 
-  
-    maskLayer.path = path.CGPath;
     
-    avatarView.layer.mask = maskLayer;
-    
-    // Make a transparent, stroked layer which will dispay the stroke.
-    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
-    strokeLayer.path = path.CGPath;
-    strokeLayer.fillColor = [UIColor clearColor].CGColor;
-    strokeLayer.strokeColor = [[UIColor blackColor] CGColor];
-    strokeLayer.lineWidth = 3;
-    [strokeLayer setLineDashPattern: [NSArray arrayWithObjects:[NSNumber numberWithInt:10],
-      [NSNumber numberWithInt:5], nil]];
-    
-    // Transparent view that will contain the stroke layer
-    UIView *strokeView = [[UIView alloc] initWithFrame:avatarView.bounds];
-    strokeView.userInteractionEnabled = NO; // in case your container view contains controls
-    [strokeView.layer addSublayer:strokeLayer];
-    
-    [avatarView addSubview:strokeView];    
-       
     [self.view addSubview:avatarView];
+    [self.view addSubview:avatarShadowView];
+    [self.view bringSubviewToFront:avatarShadowView];    
     
     //Avatar hidden button
-    UIButton *imageBtn = [[UIButton alloc] initWithFrame: CGRectMake(20, 20, 80, 80)];
+    UIButton *imageBtn = [[UIButton alloc] initWithFrame: CGRectMake(10, 20, 80, 80)];
     imageBtn.tag = 1;
     [imageBtn addTarget:self action:@selector(imageTap:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:imageBtn];
     [self.view bringSubviewToFront:imageBtn];
     
-    emailField = [[UITextField alloc] init];
-    emailField.clipsToBounds = YES;
-    emailField.tag = 1;
-    emailField.layer.borderColor = [[UIColor blackColor] CGColor];
-    emailField.layer.borderWidth = 2;
+    emailField = [[UITextField alloc] initWithFrame:CGRectMake(100, 20, 210, 35)];
     [emailField setPlaceholder:@"Email"];
+    [emailField setKeyboardType:UIKeyboardTypeEmailAddress];
+    [emailField setFont:[UIFont systemFontOfSize:15]];
+    [emailField setDelegate:self];
+    emailField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    emailField.leftViewMode = UITextFieldViewModeAlways;
+    UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    [emailField setBackground:fieldBGImage];
     if(user != nil)[emailField setText:[user email]];
     else [emailField setText:@""];
     emailField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    //textField.textAlignment = UITextAlignmentLeft;
-    [emailField setKeyboardAppearance:UIKeyboardAppearanceAlert];
-    [emailField setTextColor:[UIColor blackColor]];
-    [emailField setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:emailField];
-    emailField.frame = CGRectMake(120, 20 , 180, 35);
-    emailField.delegate = self;
-    emailField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);    
     
-    passField = [[UITextField alloc] init];
-    passField.clipsToBounds = YES;
-    passField.tag = 1;  
-    passField.layer.borderColor = [[UIColor blackColor] CGColor];
-    passField.layer.borderWidth = 2;
+    passField = [[UITextField alloc] initWithFrame:CGRectMake(100, 64, 210, 35)];
     [passField setPlaceholder:@"Password"];
+    [passField setFont:[UIFont systemFontOfSize:15]];
     [passField setText:@""];
+    passField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    passField.leftViewMode = UITextFieldViewModeAlways;
+    [passField setBackground:fieldBGImage];
     passField.secureTextEntry = YES;
-    passField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;  
-    [passField setKeyboardAppearance:UIKeyboardAppearanceAlert];
-    [passField setTextColor:[UIColor blackColor]];
-    [passField setBackgroundColor:[UIColor whiteColor]];
+    passField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [self.view addSubview:passField];
-    passField.frame = CGRectMake(120, 64 , 180, 35);
     passField.delegate = self;
-    passField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
     
-    nameField = [[UITextField alloc] init];
-    nameField.clipsToBounds = YES;
-    nameField.tag = 1;
-    //textField.layer.cornerRadius = 4.0;
-    nameField.layer.borderColor = [[UIColor blackColor] CGColor];
-    nameField.layer.borderWidth = 2;
-    //textField.Bounds = [self textRectForBounds:textField.bounds];
+    nameField = [[UITextField alloc] initWithFrame:CGRectMake(10, 110, 300, 35)];
     [nameField setPlaceholder:@"Name"];
+    [nameField setFont:[UIFont systemFontOfSize:15]];
+    nameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    nameField.leftViewMode = UITextFieldViewModeAlways;
+    [nameField setBackground:fieldBGImage];
     if(user != nil)[nameField setText:[user name]];
     else [nameField setText:@""];
     nameField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    //textField.textAlignment = UITextAlignmentLeft;
-    [nameField setKeyboardAppearance:UIKeyboardAppearanceAlert];
-    [nameField setTextColor:[UIColor blackColor]];
-    [nameField setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:nameField];
-    nameField.frame = CGRectMake(20, 110 , 280, 35);
     nameField.delegate = self;
-    nameField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
     
-    UITextView *containerView = [[UITextView alloc] init];    
-    containerView.clipsToBounds = YES;
-    containerView.layer.cornerRadius = 15.0;
-    containerView.layer.borderColor = [[UIColor blackColor] CGColor];
-    containerView.layer.borderWidth = 2;
-    [containerView setEditable:NO];
-    [containerView setFont:[UIFont systemFontOfSize:15]];
-    [containerView setBackgroundColor:[UIColor whiteColor]];
-    [containerView setContentInset:UIEdgeInsetsMake(0, -8, 0, 0)];
-    containerView.frame =  CGRectMake(20, 155 , 280, 35);
+    // gender switcher
+    NSArray *itemArray = [NSArray arrayWithObjects: @"Male", @"Female", @"Not sure", nil];
+    UISegmentedControl *genderSwitcher = [[UISegmentedControl alloc] initWithItems:itemArray];
+    genderSwitcher.frame = CGRectMake(10, 155, 300, 35);
+    genderSwitcher.segmentedControlStyle = UISegmentedControlStylePlain;
+    genderSwitcher.selectedSegmentIndex = 0;
+    [genderSwitcher addTarget:self action:@selector(genderSwitched:) forControlEvents:UIControlEventValueChanged];
     
-    maleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 35)];
-    [maleLabel setText:@"Male"];
-    [maleLabel setTextAlignment:NSTextAlignmentCenter];
-    if(user != nil && [user gender] != nil && [[user gender] isEqualToString:@"male"]){
-        [maleLabel setBackgroundColor:[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1]];
-        sex = @"male";
-    }else  [maleLabel setBackgroundColor:[UIColor whiteColor]];
-    [maleLabel setFont:[UIFont fontWithName:@"Helvetica" size:18]];
-    [maleLabel setTextColor:[UIColor blackColor]];
-    maleLabel.layer.borderColor = [[UIColor blackColor] CGColor];
-    maleLabel.layer.borderWidth = 2;    
-    [containerView addSubview:maleLabel];
-    
-    UIButton *maleLabelBtn = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 100, 35)];
-    maleLabelBtn.tag = 1;
-    [maleLabelBtn addTarget:self action:@selector(maleLabelTap:) forControlEvents:UIControlEventTouchUpInside];
-    [containerView addSubview:maleLabelBtn];
-    [containerView bringSubviewToFront:maleLabelBtn];
-    
-    femaleLabel = [[UILabel alloc] initWithFrame:CGRectMake(98, 0, 100, 35)];
-    [femaleLabel setText:@"Female"];
-    [femaleLabel setTextAlignment:NSTextAlignmentCenter];
-    if(user != nil && [user gender] != nil && [[user gender] isEqualToString:@"female"]){
-        [femaleLabel setBackgroundColor:[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1]];
-        sex = @"female";
-    }else  [femaleLabel setBackgroundColor:[UIColor whiteColor]];
-    [femaleLabel setFont:[UIFont fontWithName:@"Helvetica" size:18]];
-    [femaleLabel setTextColor:[UIColor blackColor]];
-    femaleLabel.layer.borderColor = [[UIColor blackColor] CGColor];
-    femaleLabel.layer.borderWidth = 2;    
-    [containerView addSubview:femaleLabel];
-    
-    UIButton *femaleLabelBtn = [[UIButton alloc] initWithFrame: CGRectMake(98, 0, 100, 35)];
-    femaleLabelBtn.tag = 1;
-    [femaleLabelBtn addTarget:self action:@selector(femaleLabelTap:) forControlEvents:UIControlEventTouchUpInside];
-    [containerView addSubview:femaleLabelBtn];
-    [containerView bringSubviewToFront:femaleLabelBtn];
-    
-    notSpecifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(196, 0, 100, 35)];
-    [notSpecifiedLabel setText:@"Not sure"];
-    [notSpecifiedLabel setTextAlignment:NSTextAlignmentCenter];
-    if((user != nil && [user gender] != nil && [[user gender] isEqualToString:@"not_specified"]) || user == nil || (user != nil && [user gender] == nil)){
-        [notSpecifiedLabel setBackgroundColor:[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1]];
-        sex = @"not_specified";
-    }else  [notSpecifiedLabel setBackgroundColor:[UIColor whiteColor]];
-    [notSpecifiedLabel setFont:[UIFont fontWithName:@"Helvetica" size:18]];
-    [notSpecifiedLabel setTextColor:[UIColor blackColor]];
-    notSpecifiedLabel.layer.borderColor = [[UIColor blackColor] CGColor];
-    notSpecifiedLabel.layer.borderWidth = 2;
-    [containerView addSubview:notSpecifiedLabel];
-    
-    UIButton *notSpecifiedLabelBtn = [[UIButton alloc] initWithFrame: CGRectMake(196, 0, 100, 35)];
-    notSpecifiedLabelBtn.tag = 1;
-    [notSpecifiedLabelBtn addTarget:self action:@selector(notSpecifiedLabelTap:) forControlEvents:UIControlEventTouchUpInside];
-    [containerView addSubview:notSpecifiedLabelBtn];
-    [containerView bringSubviewToFront:notSpecifiedLabelBtn];
-    
-    [self.view addSubview:containerView];
+    [self.view addSubview:genderSwitcher];
     
     [emailField becomeFirstResponder];    
 }
@@ -245,8 +160,7 @@ User *user;
 { 
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    //picker.title = @"";
-    picker.delegate = self;  
+    picker.delegate = self;
     [self presentModalViewController:picker animated:YES];
 }
 
@@ -255,32 +169,21 @@ User *user;
                   editingInfo:(NSDictionary *)editingInfo
 {
     avatarView.image = image;
+    noAvatar = false;
     [self dismissViewControllerAnimated:YES completion:nil];
-    //[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 }
 
-- (void)maleLabelTap:(UIButton *)sender
+- (void)genderSwitched:(id)sender
 {
-    [maleLabel setBackgroundColor:[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1]];
-    [femaleLabel setBackgroundColor:[UIColor whiteColor]];
-    [notSpecifiedLabel setBackgroundColor:[UIColor whiteColor]];
-    sex = @"male";
-}
-
-- (void)femaleLabelTap:(UIButton *)sender
-{
-    [femaleLabel setBackgroundColor:[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1]];
-    [maleLabel setBackgroundColor:[UIColor whiteColor]];
-    [notSpecifiedLabel setBackgroundColor:[UIColor whiteColor]];
-    sex = @"female";
-}
-
-- (void)notSpecifiedLabelTap:(UIButton *)sender
-{
-    [notSpecifiedLabel setBackgroundColor:[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1]];
-    [maleLabel setBackgroundColor:[UIColor whiteColor]];
-    [femaleLabel setBackgroundColor:[UIColor whiteColor]];
-    sex = @"not_specified";
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
+    if (selectedSegment == 0){
+        sex = @"male";
+    } else if (selectedSegment == 1) {
+        sex = @"female";
+    } else if (selectedSegment == 2) {
+        sex = @"not_specified";
+    }
 }
 
 - (NSDictionary *)registerTask
@@ -288,15 +191,12 @@ User *user;
     double startTime = [[NSDate date] timeIntervalSince1970];
     
     Request *request = [[Request alloc] init];
-    //NSString *postString =[[NSString alloc] initWithFormat:@"user[email]=%@&user[password]=%@&user[name]=%@&user[gender]=%@",[emailField text],[passField text], [nameField text], sex];
-    
     [request addStringToPostData:@"user[email]" andValue:[emailField text]];
     [request addStringToPostData:@"user[password]" andValue:[passField text]];
     [request addStringToPostData:@"user[gender]" andValue:sex];
     [request addStringToPostData:@"user[name]" andValue:[nameField text]];     
-    if(user != nil)[request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
-    //[postData appendData:[postString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
-    if(![self isBlankImage:avatarView.image])[request addImageToPostData:@"user[avatar]" andValue:avatarView.image];
+    if (user != nil) [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
+    if (!noAvatar) [request addImageToPostData:@"user[avatar]" andValue:avatarView.image];
     
     NSDictionary *something;
     NSString *requestString;
@@ -304,74 +204,48 @@ User *user;
     else requestString = [NSString stringWithFormat: @"/api/users/%d/update.json", [user userId]];
     
     something = [request send:requestString];
-    
-    if(something != nil){      
-       
-        NSLog(@"something %@", something);       
-        
+    if (something != nil) {
+        NSLog(@"something %@", something);
     }
     
     double stopTime = [[NSDate date] timeIntervalSince1970];
-    
     double time = 2000 - (stopTime - startTime);
-    
     if(time > 0) sleep(time / 1000);
     
     return something;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)join:(id)sender
 {
     if([[emailField text] isEqualToString:@""]) {
-        
-        [appDelegate alertStatus:@"" :@"Please enter Email" ];
-        
+        [appDelegate alertStatus:@"" :@"Please enter Email" ];        
     } else if([[passField text] isEqualToString:@""] ) {
-        
         [appDelegate alertStatus:@"" :@"Please enter Password" ];
-        
     }  else if([[nameField text] isEqualToString:@""] ) {
-        
         [appDelegate alertStatus:@"" :@"Please enter your name" ];
-        
-    } else {
-        
+    } else {        
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            
             NSDictionary *something = [self registerTask];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
                 NSString *status = (NSString *) [something objectForKey:@"status"];
-                
-                NSString *success = (NSString *) [something objectForKey:@"success"];
-                
+                NSString *success = (NSString *) [something objectForKey:@"success"];                
                 NSDictionary *errors = (NSDictionary *) [something objectForKey:@"errors"];                        
                 
                 if(errors != nil){
-                    
-                    for(NSString *error in errors){                 
-                        
+                    for(NSString *error in errors){
                         NSMutableString *msg = [NSMutableString string];
                         
                         if([[errors objectForKey:error] isKindOfClass:[NSArray class]]){
-                            
                             NSArray *errorMSg = [errors objectForKey:error];                            
                             
                             for(int i = 0; i < [errorMSg count]; i++){
                                 [msg appendString:[errorMSg objectAtIndex:i]];
                             }
-                        }
-                        else if([[errors objectForKey:error] isKindOfClass:[NSString class]]){
+                        } else if([[errors objectForKey:error] isKindOfClass:[NSString class]]){
                             msg = [errors objectForKey:error];
                         }
                         
@@ -381,7 +255,6 @@ User *user;
                     }
                     
                 } else if(status != nil && [status isEqualToString: @"ok"]){
-                    
                     User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [something objectForKey: @"user"]];
                     [[UserStore get] addUser:newUser];
                     [appDelegate saveCredentials:[newUser userId] loggedInWith:3];
@@ -417,13 +290,6 @@ User *user;
             });
         });
     }
-}
-
- - (BOOL)isBlankImage:(UIImage *)image
-{
-    NSData *data1 = UIImagePNGRepresentation(blankImage);
-    NSData *data2 = UIImagePNGRepresentation(image);   
-    return [data1 isEqual:data2];
 }
 
 @end

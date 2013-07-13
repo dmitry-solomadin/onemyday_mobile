@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-@interface SignUpViewController : UIViewController{
+@interface SignUpViewController : UIViewController <UITextFieldDelegate> {
     MBProgressHUD *HUD;
 }
 

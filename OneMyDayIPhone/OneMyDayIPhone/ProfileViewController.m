@@ -70,29 +70,43 @@ AppDelegate *appDelegate;
 
 -(void)loadUser
 {
+    __block User *user = [[UserStore get] findById: userId];
+    feedHeight = 5;
+    CGRect frame = CGRectMake(5, feedHeight, 300, 100);
+    
+    UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
+    userInfoView.controller = self;
+    
+    [scrollView addSubview:userInfoView];
+    
+    feedHeight += 100;
+    
     [[UIApplication sharedApplication] showNetworkActivityIndicator];
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        User *user = [[UserStore get] requestUserWithId: userId];
+        
+        user = [[UserStore get] requestUserWithId: userId];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] hideNetworkActivityIndicator];
             if(user != nil) {
-                feedHeight = 5;
-                CGRect frame = CGRectMake(5, feedHeight, 300, 100);
+                
+                for(int i = 0; i < [[scrollView subviews] count]; i++){
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[UserInfoView class]]) {
+                        [[[scrollView subviews] objectAtIndex:i] removeFromSuperview];
+                        break;
+                    }
+                }
                 
                 UserInfoView *userInfoView = [[UserInfoView alloc] initWithFrame: frame andUser:user];
                 userInfoView.controller = self;
                 
                 [scrollView addSubview:userInfoView];
                 
-                feedHeight += 100;
-                
                 [self loadStories];
             } else [topIndicator stopAnimating];
         });
-    });
-    
+    });    
 }
 
 - (void)loadStories

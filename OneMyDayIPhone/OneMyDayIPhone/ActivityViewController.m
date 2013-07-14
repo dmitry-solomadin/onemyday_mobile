@@ -29,6 +29,7 @@ bool *oldActivitiesLoading;
 CGFloat previousY;
 AppDelegate *appDelegate;
 UILabel *noActivitiesText;
+bool calledFirstTime = true;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -82,19 +83,18 @@ UILabel *noActivitiesText;
         }        
         
         Request *request = [[Request alloc] init];
-        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d", appDelegate.currentUserId,activityId];
+        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d", appDelegate.currentUserId, activityId];
         NSArray *activities = [request send:path];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ([activities count] == 0) {
+            if ([activities count] == 0 && calledFirstTime) {
                 noActivitiesText.hidden = NO;
-            }
+            }            
             
-            if (activities != nil) {
+            if (activities != nil && [activities count] > 0) {
                 int activitiesCount = [activities count];
-                
                 //if old activities are too old (last new activity id > first old activity id) remove old activities
-                if(activitiesCount == 11 && [[[activities objectAtIndex: 10]  objectForKey:@"id"] intValue] != activityId){
+                if(activitiesCount == 11 && [[[activities objectAtIndex: 10]  objectForKey:@"id"] intValue] != activityId) {
                     int oldSubViewsCount = [[scrollView subviews] count] - 1;
                     for (int i = 0; i < oldSubViewsCount; i++) {
                         [[[scrollView subviews] objectAtIndex:1] removeFromSuperview];
@@ -102,31 +102,40 @@ UILabel *noActivitiesText;
                     currentHeight = 0;
                 }
                 
+                // get old activities
+                NSMutableArray *oldActivities = [[NSMutableArray alloc] init];
+                for (int i = 0; i < [[scrollView subviews] count]; i++) {
+                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ActivityView class]]){
+                        ActivityView *activityView = [[scrollView subviews] objectAtIndex:i];
+                        [oldActivities addObject:activityView];
+                    }
+                }
+
+                
+                float addedHeight = 10;
                 for (int i = 0; i < activitiesCount; i++) {
                     NSDictionary *activity = [activities objectAtIndex:i];
                  
-                    CGRect frame = CGRectMake(10, currentHeight, 300, 60);
+                    CGRect frame = CGRectMake(10, addedHeight, 300, 60);
                     ActivityView *activityView = [[ActivityView alloc] initWithFrame:frame
                                                                          andActivity:activity];
                     activityView.controller = self;
                   
                     if (activityView != nil) {
                         [scrollView addSubview: activityView];
-                        currentHeight += (activityView.frame.size.height + 4); // to remove 2px border
-                    }                                    
+                        float newActivityHeight = (activityView.frame.size.height + 4);
+                        currentHeight += newActivityHeight; // to remove 2px border
+                        addedHeight += newActivityHeight;
+                    }
                 }
+                addedHeight -= 10;
                 
                 //move old activities to the bottom
-                if (activitiesCount != 11 || (activitiesCount == 11 && [(NSString *) [[activities objectAtIndex: 10]  objectForKey:@"id"] intValue] == activityId)) {
-                    int start = activitiesCount + 1;
-                    for (int i = start, j = 0; i < [[scrollView subviews] count]; i++) {
-                        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ActivityView class]]){
-                            ActivityView *aV = [[scrollView subviews] objectAtIndex:i];
-                            CGRect rect = aV.frame;
-                            rect.origin = CGPointMake(aV.frame.origin.x, aV.frame.origin.y + currentHeight);
-                            aV.frame = rect;                         
-                            j++;
-                        }
+                if (!calledFirstTime) {
+                    for (ActivityView *oldActivity in oldActivities) {
+                        CGRect rect = oldActivity.frame;
+                        rect.origin = CGPointMake(oldActivity.frame.origin.x, oldActivity.frame.origin.y + addedHeight);
+                        oldActivity.frame = rect;
                     }
                 }
                 
@@ -134,15 +143,11 @@ UILabel *noActivitiesText;
                 [_refreshHeaderView refreshLastUpdatedDate];                
               
                 [scrollView setContentSize: CGSizeMake(320, currentHeight)];
-            }     
+            }
+            
+            calledFirstTime = false;
         });
     });
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)storyTap:(NSNumber *)storyId
@@ -220,11 +225,8 @@ UILabel *noActivitiesText;
 }
 
 - (void)getOldActivities{
-	
-	// how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        
         int activityId = 0;
         
         int subViewsCount = [[scrollView subviews] count] - 1;
@@ -238,29 +240,17 @@ UILabel *noActivitiesText;
         }
         
         Request *request = [[Request alloc] init];
-        NSMutableString *path = [NSString stringWithFormat:@"/users/1/activities.json?limit=11&lower_than_id=%d",activityId];
-        NSArray *activities = [request send: path];
-        [NSThread sleepForTimeInterval:3];
-        // do any UI stuff on the main UI thread
+        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&lower_than_id=%d", appDelegate.currentUserId, activityId];
+        NSArray *activities = [request send:path];
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [bottomIndicator stopAnimating];
             
             [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
             
-            if(activities != nil){
-                
+            if(activities != nil) {
                 int activitiesCount = [activities count];
-                
-                //if old activities are too old (last new activity id > first old activity id) remove old activities
-                if(activitiesCount == 11 && [[[activities objectAtIndex: 10]  objectForKey:@"id"] intValue] != activityId){
-                    int oldSubViewsCount = [[scrollView subviews] count] - 1;
-                    for (int i = 0; i < oldSubViewsCount; i++) {
-                        [[[scrollView subviews] objectAtIndex:1] removeFromSuperview];
-                    }
-                    currentHeight = 0;
-                }
-                
+                                
                 for (int i = 0; i < activitiesCount; i++) {
                     NSDictionary *activity = [activities objectAtIndex:i];
                     
@@ -269,11 +259,13 @@ UILabel *noActivitiesText;
                                                                          andActivity:activity];
                     activityView.controller = self;
                     
-                    if(activityView != nil){
+                    if (activityView != nil) {
                         [scrollView addSubview: activityView];
                         currentHeight += (activityView.frame.size.height + 4); // to remove 2px border
                     }
-                }            [UIView beginAnimations:nil context:NULL];
+                }
+                
+                [UIView beginAnimations:nil context:NULL];
                 [UIView setAnimationDuration:0.3];
                 [scrollView setContentSize: CGSizeMake(320, currentHeight)];
                 [UIView commitAnimations];

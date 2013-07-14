@@ -126,9 +126,11 @@ PopupError *popupError;
     if(jsonData == nil) return nil;
     
     NSString *status = (NSString *) [jsonData objectForKey:@"status"];
-    
     if([status isEqualToString: @"no_such_user"]){
-        loginErrorMsg = @"Wrong email or password!";
+        loginErrorMsg = @"Wrong email or password";
+        return nil;
+    } else if([status isEqualToString: @"wrong_password"]){
+        loginErrorMsg = @"Wrong password";
         return nil;
     } else if([status isEqualToString: @"ok"]){
         User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];

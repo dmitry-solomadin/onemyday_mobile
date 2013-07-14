@@ -837,6 +837,29 @@
 			path = Localizations;
 			sourceTree = "<group>";
 		};
+		18B1D39B1791754200F93761 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */,
+				18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */,
+				18EC7CBB17462A0800F50A70 /* ThumbStoryDetailsView.h */,
+				18EC7CBC17462A0800F50A70 /* ThumbStoryDetailsView.m */,
+				84E701B716D76F6B00979856 /* AsyncImageView.h */,
+				84E701B516D76F5F00979856 /* AsyncImageView.m */,
+				1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */,
+				1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */,
+				18A082DE172EFAD5001E125F /* EditorItemView.h */,
+				18A082DF172EFAD5001E125F /* EditorItemView.m */,
+				849E09791779E300009BC55D /* UserInfoView.m */,
+				849E09761779E2EE009BC55D /* UserInfoView.h */,
+				848CCFE7177C422000A734CA /* ActivityView.h */,
+				848CCFE8177C422000A734CA /* ActivityView.m */,
+				84A30736175B704400381EBB /* StoryCommentView.h */,
+				84A30737175B704400381EBB /* StoryCommentView.m */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1019,6 +1042,7 @@
 			children = (
 				18F98FBD171378A600D8F7A3 /* vendor */,
 				18F98F44171370C700D8F7A3 /* controllers */,
+				18B1D39B1791754200F93761 /* views */,
 				84E701AE16D76F0000979856 /* models */,
 				84E701A616D76EB900979856 /* utils */,
 				84E701A416D76E3500979856 /* GUI */,
@@ -1181,25 +1205,9 @@
 				84E701AF16D76F1900979856 /* Request.h */,
 				186022F0178974FA006A31DF /* UIApplication+NetworkActivity.h */,
 				186022F1178974FA006A31DF /* UIApplication+NetworkActivity.m */,
-				849E09791779E300009BC55D /* UserInfoView.m */,
-				849E09761779E2EE009BC55D /* UserInfoView.h */,
-				18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */,
-				18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */,
-				18EC7CBB17462A0800F50A70 /* ThumbStoryDetailsView.h */,
-				18EC7CBC17462A0800F50A70 /* ThumbStoryDetailsView.m */,
-				84E701B716D76F6B00979856 /* AsyncImageView.h */,
-				84E701B516D76F5F00979856 /* AsyncImageView.m */,
-				1889A2C01720CD4500F3E2CD /* StoryShadowWrapView.h */,
-				1889A2C11720CD4500F3E2CD /* StoryShadowWrapView.m */,
-				18A082DE172EFAD5001E125F /* EditorItemView.h */,
-				18A082DF172EFAD5001E125F /* EditorItemView.m */,
 				18A082E1172F10C8001E125F /* ViewWithAttributes.h */,
 				18A082E2172F10C8001E125F /* ViewWithAttributes.m */,
 				184D56931738DD560088CADF /* HiResImageDelegate.h */,
-				84A30736175B704400381EBB /* StoryCommentView.h */,
-				84A30737175B704400381EBB /* StoryCommentView.m */,
-				848CCFE7177C422000A734CA /* ActivityView.h */,
-				848CCFE8177C422000A734CA /* ActivityView.m */,
 				18EA1761178235560081CC47 /* PopupError.h */,
 				18EA1762178235570081CC47 /* PopupError.m */,
 			);

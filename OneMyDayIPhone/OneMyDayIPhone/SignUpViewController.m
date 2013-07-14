@@ -48,7 +48,7 @@ PopupError *popupError;
     NSLog(@"userId %d", userId);
     if(userId != 0) user = [[UserStore get] findById: userId];    
     if(user == nil)buttonTitle = @"Join";
-    else buttonTitle = @"Edit";
+    else buttonTitle = @"Save";
     
     UIBarButtonItem *joinButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle
                                                                      style:UIBarButtonItemStyleBordered
@@ -225,12 +225,12 @@ PopupError *popupError;
 {
     if([[emailField text] isEqualToString:@""]) {
         [popupError setTextAndShow:@"Please enter Email"];
-    } else if([[passField text] isEqualToString:@""] ) {
-        [popupError setTextAndShow:@"Please enter Password"];
-    } else if([[nameField text] isEqualToString:@""] ) {
+    } else if([[nameField text] isEqualToString:@""]) {
         [popupError setTextAndShow:@"Please enter your name"];
-    } else if([[passField text] length] < 6 || ![LoginViewController validateEmail:[emailField text]]) {
-        [popupError setTextAndShow:@"Wrong email or password!"];
+    } else if(![[passField text] isEqualToString:@""] && [[passField text] length] < 6) {
+        [popupError setTextAndShow:@"Password should have more than 6 characters"];
+    } else if (![LoginViewController validateEmail:[emailField text]]) {
+        [popupError setTextAndShow:@"Please enter valid email"];
     } else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{

@@ -70,7 +70,10 @@ float prevScrollY = 0;
     if ([parentView isKindOfClass:[UIScrollView class]]) {
         self.frame = CGRectMake(self.frame.origin.x, -30 + [(UIScrollView *)parentView contentOffset].y,
                                 self.frame.size.width, self.frame.size.height);        
-    } 
+    } else {
+        self.frame = CGRectMake(self.frame.origin.x, -30,
+                                self.frame.size.width, self.frame.size.height);
+    }
     
     self.hidden = NO;
     

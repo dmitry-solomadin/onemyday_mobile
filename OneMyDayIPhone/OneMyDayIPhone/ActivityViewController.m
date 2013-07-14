@@ -28,6 +28,7 @@ UIActivityIndicatorView *bottomIndicator;
 bool *oldActivitiesLoading;
 CGFloat previousY;
 AppDelegate *appDelegate;
+UIActivityIndicatorView *topIndicator;
 
 UILabel *noActivitiesText;
 bool calledFirstTime = true;
@@ -36,7 +37,7 @@ bool calledFirstTime = true;
 - (void)viewWillAppear:(BOOL)animated
 {
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    noActivitiesText.frame = CGRectMake(10, 0, 300, 300);
+    noActivitiesText.frame = CGRectMake(0, ([[self view] bounds].size.height / 2) - 20, 320, 20);
     
 }
 
@@ -52,18 +53,12 @@ bool calledFirstTime = true;
     // Add no activities text    
     noActivitiesText = [[UILabel alloc] init];
     [noActivitiesText setText:@"No activities yet"];
-    [noActivitiesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];
-    //[noActivitiesText setContentInset:UIEdgeInsetsMake(([[self view] bounds].size.height / 2) - 20, 0, 0, 0)];
-    [noActivitiesText setBackgroundColor:[UIColor whiteColor]];
-    [noActivitiesText setFont:[UIFont systemFontOfSize:22]];
-    //[noActivitiesText setEditable:NO];
-    //[noActivitiesText setShadowColor:[UIColor whiteColor]];
-    //[noActivitiesText setShadowOffset:CGSizeMake(0, 1)];
+    [noActivitiesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];   
+    [noActivitiesText setBackgroundColor:[UIColor clearColor]];
+    [noActivitiesText setFont:[UIFont systemFontOfSize:22]];   
+    [noActivitiesText setShadowColor:[UIColor whiteColor]];
+    [noActivitiesText setShadowOffset:CGSizeMake(0, 1)];
     [noActivitiesText setTextAlignment:NSTextAlignmentCenter];
-    noActivitiesText.hidden = YES;
-    [scrollView addSubview:noActivitiesText];
-    
-    
     
     if (_refreshHeaderView == nil) {
 		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - scrollView.bounds.size.height, scrollView.frame.size.width, scrollView.bounds.size.height)];
@@ -71,13 +66,23 @@ bool calledFirstTime = true;
 		[scrollView addSubview:view];
 		_refreshHeaderView = view;
 	}
-    [scrollView setContentSize: CGSizeMake(320, 610)];
+    [scrollView setContentSize: CGSizeMake(320, 370)];
+    
+    topIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    topIndicator.frame = CGRectMake(10, 45, 100, 100);
+    topIndicator.center = CGPointMake(160, 22);
+    topIndicator.hidesWhenStopped = YES;
+    [scrollView addSubview: topIndicator];
+    [topIndicator bringSubviewToFront: scrollView];
+    
+    [topIndicator startAnimating];
     [self getAvtivities];
 }
 
 - (void)getAvtivities
 {
-    noActivitiesText.hidden = YES;    
+    [noActivitiesText removeFromSuperview];
+    
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{        
         int activityId = 0;
@@ -97,12 +102,23 @@ bool calledFirstTime = true;
         NSArray *activities = [request send:path];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ([activities count] == 0 && calledFirstTime) {
-                noActivitiesText.hidden = NO;
-            }            
+            
+            bool noOldAcivities = true;
+            
+            for (int i = 0; i < [[scrollView subviews] count]; i++) {
+                if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ActivityView class]]){
+                    noOldAcivities = false;
+                    break;
+                }
+            }
+            
+            [topIndicator stopAnimating];
             
             if (activities != nil && [activities count] > 0) {
-                int activitiesCount = [activities count];
+                int activitiesCount = [activities count];                                
+                
+                NSMutableArray *oldActivities = [[NSMutableArray alloc] init];
+                
                 //if old activities are too old (last new activity id > first old activity id) remove old activities
                 if(activitiesCount == 11 && [[[activities objectAtIndex: 10]  objectForKey:@"id"] intValue] != activityId) {
                     int oldSubViewsCount = [[scrollView subviews] count] - 1;
@@ -110,17 +126,16 @@ bool calledFirstTime = true;
                         [[[scrollView subviews] objectAtIndex:1] removeFromSuperview];
                     }
                     currentHeight = 0;
-                }
-                
-                // get old activities
-                NSMutableArray *oldActivities = [[NSMutableArray alloc] init];
-                for (int i = 0; i < [[scrollView subviews] count]; i++) {
-                    if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ActivityView class]]){
-                        ActivityView *activityView = [[scrollView subviews] objectAtIndex:i];
-                        [oldActivities addObject:activityView];
+                } else {
+                    
+                    // get old activities                    
+                    for (int i = 0; i < [[scrollView subviews] count]; i++) {                     
+                        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ActivityView class]]){
+                            ActivityView *activityView = [[scrollView subviews] objectAtIndex:i];
+                            [oldActivities addObject:activityView];
+                        }
                     }
                 }
-
                 
                 float addedHeight = 10;
                 for (int i = 0; i < activitiesCount; i++) {
@@ -141,21 +156,20 @@ bool calledFirstTime = true;
                 addedHeight -= 10;
                 
                 //move old activities to the bottom
-                if (!calledFirstTime) {
-                    for (ActivityView *oldActivity in oldActivities) {
-                        CGRect rect = oldActivity.frame;
-                        rect.origin = CGPointMake(oldActivity.frame.origin.x, oldActivity.frame.origin.y + addedHeight);
-                        oldActivity.frame = rect;
-                    }
-                }
+                for (ActivityView *oldActivity in oldActivities) {
+                    CGRect rect = oldActivity.frame;
+                    rect.origin = CGPointMake(oldActivity.frame.origin.x, oldActivity.frame.origin.y + addedHeight);
+                    oldActivity.frame = rect;
+                }            
                 
                 //update the last update date
                 [_refreshHeaderView refreshLastUpdatedDate];                
               
-                [scrollView setContentSize: CGSizeMake(320, currentHeight)];
-            }
-            
-            calledFirstTime = false;
+                if(currentHeight > 370)[scrollView setContentSize: CGSizeMake(320, currentHeight)];                
+                
+            } else if (noOldAcivities) {
+                [scrollView addSubview:noActivitiesText];               
+            }        
         });
     });
 }

@@ -262,17 +262,20 @@ PopupError *popupError;
                     }
                     
                 } else if(status != nil && [status isEqualToString: @"ok"]){
+                    
                     User *newUser = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
                     [[UserStore get] addOrReplaceUser:newUser];
                     
-                    if(user == nil){                       
+                    if(user == nil){
+                        
                         [appDelegate saveCredentials:[newUser userId] loggedInWith:3];
                         appDelegate.loggedInFlag = 3;
                         
-                        UIViewController *masterController = [AppDelegate initMasterController];
-                        [self presentViewController:masterController animated:YES completion:nil];
-                                               
-                    } 
+                        [self.navigationController popViewControllerAnimated:YES];
+                        
+                        /*UIViewController *masterController = [AppDelegate initMasterController];
+                        [self presentViewController:masterController animated:YES completion:nil];*/
+                    }
                     
                 } else {                  
                     [popupError setTextAndShow:[Request operationFailedMsg]];

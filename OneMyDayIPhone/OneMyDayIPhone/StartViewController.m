@@ -116,11 +116,7 @@ UITextField *emailTextField;
                                     @"email", // to be approved
                                     nil];
             appDelegate.session = [appDelegate.session initWithPermissions:permissions];*/
-        }
-   
-    
-    
-        //NSLog(@"appDelegate.session.isOpen: %c", appDelegate.session.isOpen);
+        }       
         
         // if the session isn't open, let's open it now and present the login UX to the user
         [appDelegate.session openWithCompletionHandler:^(FBSession *session,
@@ -173,48 +169,14 @@ UITextField *emailTextField;
                 } else NSLog(@"error %@", error);
             }];
 
-           } else NSLog(@"error %@", error);  
-            
-            
-
-            
-            
-            
-            /*[FBSession setActiveSession: appDelegate.session];
-            [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-                if (!error) {
-                    NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
-                    NSLog(@"user.name %@", user.username);
-                    NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
-                    NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
-                    
-                    [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:[user objectForKey:@"email"]   andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
-                    
-                } else NSLog(@"error %@", error);
-            }];*/
-            
-            
-            
-            //[self updateView];
-    
-    
-    
-    
-    
-    
-    
+           } else NSLog(@"error %@", error);              
+               
         }];
 }
 
 - (IBAction)loginTwitter:(id)sender
 {
-    /*if ([DMTwitter shared].oauth_token_authorized) {
-        // already logged, execute logout
-        //[[DMTwitter shared] logout];
-        //[btn_loginLogout setTitle:@"Twitter Login" forState:UIControlStateNormal];
-        //[lbl_welcome setText:@"Press \"Twitter Login!\" to start!"];
-        //tw_userData.text = @"";
-    } else {*/
+ 
         // prompt login
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
@@ -363,12 +325,7 @@ UITextField *emailTextField;
     
     jsonData = [request send:@"/api/sessions/social_auth.json"];
     
-    if(jsonData != nil){
-        
-        NSLog(@"something %@", jsonData);
-        
-        //NSString *message = [jsonData objectForKey:@"message"];
-        //NSLog(@"message %@", message);
+    if(jsonData != nil){    
         
         NSString *status = [jsonData objectForKey:@"status"];
        

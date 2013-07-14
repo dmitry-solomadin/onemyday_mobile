@@ -77,8 +77,7 @@ PopupError *popupError;
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                     if(user != nil){
-                        UIViewController *masterController = [AppDelegate initMasterController];
-                        [self presentViewController:masterController animated:YES completion:nil];
+                        [self goToMaster];
                     } else if(loginErrorMsg != nil){
                          [popupError setTextAndShow:loginErrorMsg];                      
                     } else {
@@ -92,6 +91,12 @@ PopupError *popupError;
         NSLog(@"Exception: %@", e);
         [appDelegate alertStatus:@"" :@"Login Failed!"];
     }
+}
+
+-(void)goToMaster
+{
+    UIViewController *masterController = [AppDelegate initMasterController];
+    [self presentViewController:masterController animated:YES completion:nil];
 }
 
 - (void)loginTask
@@ -139,7 +144,10 @@ PopupError *popupError;
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [txtEmail becomeFirstResponder];
+    if(appDelegate.loggedInFlag == 3){
+        [self goToMaster];
+    }
+    else [txtEmail becomeFirstResponder];
 }
 
 - (IBAction)signUp:(id)sender {

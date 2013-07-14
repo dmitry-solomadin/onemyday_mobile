@@ -28,12 +28,13 @@ UIActivityIndicatorView *bottomIndicator;
 bool *oldActivitiesLoading;
 CGFloat previousY;
 AppDelegate *appDelegate;
-UILabel *noActivitiesText;
+UITextView *noActivitiesText;
 
 - (void)viewWillAppear:(BOOL)animated
 {
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    noActivitiesText.frame = CGRectMake(0, ([[self view] bounds].size.height / 2) - 20, 320, 20);
+    noActivitiesText.frame = CGRectMake(10, 0, 300, 300);
+    
 }
 
 - (void)viewDidLoad
@@ -46,16 +47,32 @@ UILabel *noActivitiesText;
     [self.scrollView setDelegate:self];
     
     // Add no activities text    
-    noActivitiesText = [[UILabel alloc] init];
+    noActivitiesText = [[UITextView alloc] init];
     [noActivitiesText setText:@"No activities yet"];
     [noActivitiesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];
-    [noActivitiesText setBackgroundColor:[UIColor clearColor]];
+    [noActivitiesText setContentInset:UIEdgeInsetsMake(([[self view] bounds].size.height / 2) - 20, 0, 0, 0)];
+    [noActivitiesText setBackgroundColor:[UIColor whiteColor]];
     [noActivitiesText setFont:[UIFont systemFontOfSize:22]];
-    [noActivitiesText setShadowColor:[UIColor whiteColor]];
-    [noActivitiesText setShadowOffset:CGSizeMake(0, 1)];
+    [noActivitiesText setEditable:NO];
+    //[noActivitiesText setShadowColor:[UIColor whiteColor]];
+    //[noActivitiesText setShadowOffset:CGSizeMake(0, 1)];
     [noActivitiesText setTextAlignment:NSTextAlignmentCenter];
     noActivitiesText.hidden = YES;
     [scrollView addSubview:noActivitiesText];
+    
+    UITextView *ctivitiesText = [[UITextView alloc] init];
+     ctivitiesText.frame = CGRectMake(10, 310, 300, 300);
+    [ctivitiesText setText:@"No activities yet"];
+    [ctivitiesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];
+    [ctivitiesText setContentInset:UIEdgeInsetsMake(([[self view] bounds].size.height / 2) - 20, 0, 0, 0)];
+    [ctivitiesText setBackgroundColor:[UIColor whiteColor]];
+    [ctivitiesText setFont:[UIFont systemFontOfSize:22]];
+    [ctivitiesText setEditable:NO];
+    //[noActivitiesText setShadowColor:[UIColor whiteColor]];
+    //[noActivitiesText setShadowOffset:CGSizeMake(0, 1)];
+    [ctivitiesText setTextAlignment:NSTextAlignmentCenter];
+    ctivitiesText.hidden = YES;
+    [scrollView addSubview:ctivitiesText];
     
     if (_refreshHeaderView == nil) {
 		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - scrollView.bounds.size.height, scrollView.frame.size.width, scrollView.bounds.size.height)];
@@ -63,12 +80,13 @@ UILabel *noActivitiesText;
 		[scrollView addSubview:view];
 		_refreshHeaderView = view;
 	}
+    [scrollView setContentSize: CGSizeMake(320, 610)];
     [self getAvtivities];
 }
 
 - (void)getAvtivities
 {
-    noActivitiesText.hidden = YES;
+    noActivitiesText.hidden = YES;    
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{        
         int activityId = 0;
@@ -82,7 +100,7 @@ UILabel *noActivitiesText;
         }        
         
         Request *request = [[Request alloc] init];
-        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d", appDelegate.currentUserId,activityId];
+        NSMutableString *path = [NSString stringWithFormat:@"/users/%d/activities.json?limit=11&higher_than_id=%d", 1,activityId];
         NSArray *activities = [request send:path];
         
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -22,14 +22,14 @@
 
 UIView *strokeView;
 __weak Comment *comment;
-__weak UINavigationController *navController;
 
-- (id)initWithFrame:(CGRect)frame andComment:(Comment *)_comment andIsFirst:(bool)first andIsLast:(bool)last andNavController:(UINavigationController *)_navController
+- (id)initWithFrame:(CGRect)frame andComment:(Comment *)_comment andIsFirst:(bool)first andIsLast:(bool)last
+ andShowDeleteLabel:(BOOL)showDeleteLabel andController:(UIViewController *)_controller
 {
     self = [super initWithFrame:frame];
     if (self) {
         comment = _comment;
-        navController = _navController;
+        controller = _controller;
         UIView *commentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 45)];
         [commentContainerView setBackgroundColor:[UIColor whiteColor]];
         
@@ -134,6 +134,21 @@ __weak UINavigationController *navController;
             commentContainerView.layer.borderWidth = 1;
         }
         
+        // Delete label
+        if (showDeleteLabel) {
+            UILabel *deleteView = [[UILabel alloc] initWithFrame: CGRectMake(270, 3, 30, 15)];
+            [deleteView setBackgroundColor:[UIColor clearColor]];
+            [deleteView setText:@"X "];
+            [deleteView setFont:[UIFont systemFontOfSize:12]];
+            [deleteView setUserInteractionEnabled:YES];
+            deleteView.tag = [comment commentId];
+            UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:controller
+                                                                                            action:@selector(deleteViewTapped:)];
+            [deleteView addGestureRecognizer:deleteViewTap];
+            [deleteView setTextAlignment:NSTextAlignmentRight];
+            [commentContainerView addSubview:deleteView];
+        }
+        
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, 300, textView.contentSize.height + additionalHeight);
     }
     return self;
@@ -208,7 +223,7 @@ __weak UINavigationController *navController;
 
 - (void)authorTap
 {
-    [ProfileViewController showWithUser:[comment authorId] andNavController:navController];
+    [ProfileViewController showWithUser:[comment authorId] andNavController:[controller navigationController]];
 }
 
 @end

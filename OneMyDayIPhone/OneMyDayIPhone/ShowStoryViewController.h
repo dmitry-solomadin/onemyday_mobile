@@ -16,5 +16,6 @@
 @property(nonatomic, strong) UIScrollView *scrollView;
 
 - (id)initWithStory:(Story *)_story;
+- (void)deleteViewTapped:(UITapGestureRecognizer *)gr;
 
 @end

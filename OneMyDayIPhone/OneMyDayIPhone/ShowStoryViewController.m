@@ -266,15 +266,12 @@ UIActivityIndicatorView *commentsIndicator;
                 for (int i = 0; i < [comments count]; i++) {
                     Comment *comment = [comments objectAtIndex:i];
                     CGRect frame = CGRectMake(10, currentStoryHeight, 300, 300);
+                    BOOL showDeleteLabel = [appDelegate currentUserId] == [comment authorId];
                     StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
                         andComment:comment andIsFirst:(i == 0) andIsLast:(i == [comments count] - 1)
-                        andNavController:[self navigationController]];
+                        andShowDeleteLabel:showDeleteLabel andController:self];
                     storyCommentView.controller = self;
-                    
-                    if ([appDelegate currentUserId] == [comment authorId]) {
-                        [self addDeleteButtonToView:storyCommentView commentId:[comment commentId]];
-                    }
-                    
+                                        
                     [scrollView addSubview: storyCommentView];
                     currentStoryHeight += storyCommentView.frame.size.height - 1; // to remove 2px border
                 }
@@ -454,19 +451,16 @@ UIActivityIndicatorView *commentsIndicator;
                                                         updatedAt:updatedAt andCommentId:commentId];
                 
                 CGRect frame = CGRectMake(10, lastCommentY - 1, 300, 300); // -1 is to remove 2px border  */
+                BOOL showDeleteLabel = [appDelegate currentUserId] == [newComment authorId];
                 StoryCommentView *storyCommentView = [[StoryCommentView alloc] initWithFrame:frame
                                                                               andComment:newComment
                                                                               andIsFirst:([comments count] == 0)
                                                                                andIsLast:(true)
-                                                                        andNavController:[self navigationController]];
+                                                                      andShowDeleteLabel:showDeleteLabel
+                                                                           andController:self];
                 [comments addObject: newComment];
                 storyCommentView.controller = self;
-                
-                //add cross (delete button) on comment view
-                if ([appDelegate currentUserId] == [newComment authorId]) {
-                    [self addDeleteButtonToView:storyCommentView commentId:[newComment commentId]];
-                }
-                
+                                
                 [scrollView addSubview:storyCommentView];
                 currentStoryHeight += storyCommentView.frame.size.height;
             
@@ -482,22 +476,10 @@ UIActivityIndicatorView *commentsIndicator;
     });
 }
 
-- (void)addDeleteButtonToView:(UIView *)storyCommentView commentId:(int)cid
-{
-    UITextView *deleteView = [[UITextView alloc] initWithFrame: CGRectMake(270, 3, 30, 15)];
-    [deleteView setBackgroundColor:[UIColor clearColor]];
-    [deleteView setText:@"X"];
-    deleteView.tag = cid;
-    UITapGestureRecognizer *deleteViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteViewTapped:)];
-    [deleteView addGestureRecognizer:deleteViewTap];
-    [deleteView setEditable:NO];
-    [storyCommentView addSubview:deleteView];
-}
-
 - (void)deleteViewTapped:(UITapGestureRecognizer *)gr
 {
     int commentId = gr.view.tag;
-   
+    NSLog(@"here");
     StoryCommentView *storyCommentView;
     for(int i = 0; i < [[scrollView subviews] count]; i++){
         if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[StoryCommentView class]]){

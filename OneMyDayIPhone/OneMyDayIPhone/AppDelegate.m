@@ -33,7 +33,11 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
+{
+    // Let the device know we want to receive push notifications
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     UIImage *navBackgroundImage = [UIImage imageNamed:@"navbar_bg"];
@@ -164,6 +168,16 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     }
     else return false;
 }*/
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+	NSLog(@"My token is: %@", deviceToken);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
+}
 
 - (void)alertStatus:(NSString *)msg :(NSString *) title
 {

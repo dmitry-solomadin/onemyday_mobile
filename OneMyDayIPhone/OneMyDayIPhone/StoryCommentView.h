@@ -16,7 +16,7 @@
 @property bool last;
 
 - (id)initWithFrame:(CGRect)frame andComment:(Comment *)comment andIsFirst:(bool)first
-          andIsLast:(bool)last andNavController:(UINavigationController *)navController;
+          andIsLast:(bool)last andShowDeleteLabel:(BOOL)showDeleteLabel andController:(UIViewController *)_controller;
 - (void)removeRoundedCorners;
 - (void)setAllRoundedCorners;
 - (void)setTopRoundedCorners;

@@ -103,7 +103,7 @@
         
         //storiesText
         UILabel *storiesText = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, 101, 25)];
-        [storiesText setText:@"stories"];
+        [storiesText setText:NSLocalizedString(@"stories", nil)];
         [storiesText setBackgroundColor:[UIColor clearColor]];
         [storiesText setFont:[UIFont fontWithName:@"Helvetica" size:12]];
         [storiesText setTextColor:[UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1]];
@@ -134,7 +134,7 @@
         
         //folowersText
         UILabel *followersText = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, 101, 25)];
-        [followersText setText:@"followers"];
+        [followersText setText:NSLocalizedString(@"followers", nil)];
         [followersText setBackgroundColor:[UIColor clearColor]];
         [followersText setFont:[UIFont fontWithName:@"Helvetica" size:12]];
         [followersText setTextColor:[UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1]];
@@ -165,7 +165,7 @@
         
         //followText
         UILabel *followText = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, 100, 25)];
-        [followText setText:@"follow"];
+        [followText setText:NSLocalizedString(@"follow", nil)];
         [followText setBackgroundColor:[UIColor clearColor]];
         [followText setFont:[UIFont fontWithName:@"Helvetica" size:12]];
         [followText setTextColor:[UIColor colorWithRed:0.45 green:0.45 blue:0.45 alpha:1]];

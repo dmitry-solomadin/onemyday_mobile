@@ -52,13 +52,14 @@ bool calledFirstTime = true;
     
     // Add no activities text    
     noActivitiesText = [[UILabel alloc] init];
-    [noActivitiesText setText:@"No activities yet"];
+    [noActivitiesText setText:NSLocalizedString(@"No activities yet", nil)];
     [noActivitiesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];   
     [noActivitiesText setBackgroundColor:[UIColor clearColor]];
     [noActivitiesText setFont:[UIFont systemFontOfSize:22]];   
     [noActivitiesText setShadowColor:[UIColor whiteColor]];
     [noActivitiesText setShadowOffset:CGSizeMake(0, 1)];
     [noActivitiesText setTextAlignment:NSTextAlignmentCenter];
+    [noActivitiesText sizeToFit];
     
     if (_refreshHeaderView == nil) {
 		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - scrollView.bounds.size.height, scrollView.frame.size.width, scrollView.bounds.size.height)];
@@ -272,9 +273,11 @@ bool calledFirstTime = true;
             
             [[[scrollView subviews] objectAtIndex:[[scrollView subviews] count]-1] removeFromSuperview];
             
-            if(activities != nil) {
+            if(activities != nil && [activities count] > 0) {
                 int activitiesCount = [activities count];
-                                
+                
+                currentHeight += 10;
+                
                 for (int i = 0; i < activitiesCount; i++) {
                     NSDictionary *activity = [activities objectAtIndex:i];
                     

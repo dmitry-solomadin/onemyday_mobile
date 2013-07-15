@@ -47,8 +47,8 @@ PopupError *popupError;
     NSString *buttonTitle;
     NSLog(@"userId %d", userId);
     if(userId != 0) user = [[UserStore get] findById: userId];    
-    if(user == nil)buttonTitle = @"Join";
-    else buttonTitle = @"Save";
+    if(user == nil)buttonTitle = NSLocalizedString(@"Join", nil);
+    else buttonTitle = NSLocalizedString(@"Save", nil);
     
     UIBarButtonItem *joinButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle
                                                                      style:UIBarButtonItemStyleBordered
@@ -79,7 +79,7 @@ PopupError *popupError;
         noAvatar = false;
     } else {
         UILabel *noAvatarTop = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 80, 18)];
-        [noAvatarTop setText:@"Your"];
+        [noAvatarTop setText:NSLocalizedString(@"Your", nil)];
         [noAvatarTop setBackgroundColor:[UIColor clearColor]];
         [noAvatarTop setTextAlignment:NSTextAlignmentCenter];
         [noAvatarTop setTextColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
@@ -87,7 +87,7 @@ PopupError *popupError;
         [noAvatarTop setShadowOffset:CGSizeMake(0, 1)];
         [noAvatarTop setFont:[UIFont boldSystemFontOfSize:15]];
         UILabel *noAvatarBottom = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 80, 18)];
-        [noAvatarBottom setText:@"Avatar"];
+        [noAvatarBottom setText:NSLocalizedString(@"Avatar", nil)];
         [noAvatarBottom setBackgroundColor:[UIColor clearColor]];
         [noAvatarBottom setTextAlignment:NSTextAlignmentCenter];
         [noAvatarBottom setTextColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
@@ -112,7 +112,7 @@ PopupError *popupError;
     [self.view bringSubviewToFront:imageBtn];
     
     emailField = [[UITextField alloc] initWithFrame:CGRectMake(100, 20, 210, 35)];
-    [emailField setPlaceholder:@"Email"];
+    [emailField setPlaceholder:NSLocalizedString(@"Email", nil)];
     [emailField setKeyboardType:UIKeyboardTypeEmailAddress];
     [emailField setFont:[UIFont systemFontOfSize:15]];
     [emailField setDelegate:self];
@@ -126,7 +126,7 @@ PopupError *popupError;
     [self.view addSubview:emailField];
     
     passField = [[UITextField alloc] initWithFrame:CGRectMake(100, 64, 210, 35)];
-    [passField setPlaceholder:@"Password"];
+    [passField setPlaceholder:NSLocalizedString(@"Password", nil)];
     [passField setFont:[UIFont systemFontOfSize:15]];
     [passField setText:@""];
     passField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
@@ -138,7 +138,7 @@ PopupError *popupError;
     passField.delegate = self;
     
     nameField = [[UITextField alloc] initWithFrame:CGRectMake(10, 110, 300, 35)];
-    [nameField setPlaceholder:@"Name"];
+    [nameField setPlaceholder:NSLocalizedString(@"Name", nil)];
     [nameField setFont:[UIFont systemFontOfSize:15]];
     nameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     nameField.leftViewMode = UITextFieldViewModeAlways;
@@ -150,7 +150,7 @@ PopupError *popupError;
     nameField.delegate = self;
     
     // gender switcher
-    NSArray *itemArray = [NSArray arrayWithObjects: @"Male", @"Female", @"Not sure", nil];
+    NSArray *itemArray = [NSArray arrayWithObjects: NSLocalizedString(@"Male", nil), NSLocalizedString(@"Female", nil), NSLocalizedString(@"Not sure", nil), nil];
     UISegmentedControl *genderSwitcher = [[UISegmentedControl alloc] initWithItems:itemArray];
     genderSwitcher.frame = CGRectMake(10, 155, 300, 35);
     genderSwitcher.segmentedControlStyle = UISegmentedControlStylePlain;
@@ -204,33 +204,30 @@ PopupError *popupError;
     if (user != nil) [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
     if (!noAvatar) [request addImageToPostData:@"user[avatar]" andValue:avatarView.image];
     
-    NSDictionary *something;
+    NSDictionary *jsonData;
     NSString *requestString;
     if(user == nil)requestString = @"/users.json";       
     else requestString = [NSString stringWithFormat: @"/api/users/%d/update.json", [user userId]];
     
-    something = [request send:requestString];
-    if (something != nil) {
-        NSLog(@"something %@", something);
-    }
+    jsonData = [request send:requestString];
     
     double stopTime = [[NSDate date] timeIntervalSince1970];
     double time = 2000 - (stopTime - startTime);
     if(time > 0) sleep(time / 1000);
     
-    return something;
+    return jsonData;
 }
 
 - (void)join:(id)sender
 {
     if([[emailField text] isEqualToString:@""]) {
-        [popupError setTextAndShow:@"Please enter Email"];
+        [popupError setTextAndShow:NSLocalizedString(@"Please enter Email", nil)];  
     } else if([[nameField text] isEqualToString:@""]) {
-        [popupError setTextAndShow:@"Please enter your name"];
+        [popupError setTextAndShow:NSLocalizedString(@"Please enter your name", nil)];
     } else if(![[passField text] isEqualToString:@""] && [[passField text] length] < 6) {
-        [popupError setTextAndShow:@"Password should have more than 6 characters"];
+        [popupError setTextAndShow:NSLocalizedString(@"Password should have more than 6 characters", nil)];
     } else if (![LoginViewController validateEmail:[emailField text]]) {
-        [popupError setTextAndShow:@"Please enter valid email"];
+        [popupError setTextAndShow:NSLocalizedString(@"Please enter valid email", nil)];
     } else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{

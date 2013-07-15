@@ -16,6 +16,7 @@
 #import "StoryCommentView.h"
 #import "ProfileViewController.h"
 #import "UIApplication+NetworkActivity.h"
+#import "PopupError.h"
 
 @interface ShowStoryViewController ()
 
@@ -38,6 +39,8 @@ UITextField *textField;
 NSMutableArray *comments;
 UIActivityIndicatorView *delCommentIndicator;
 UIActivityIndicatorView *commentsIndicator;
+
+PopupError *popupError;
 
 - (id)initWithStory:(Story *)_story
 {
@@ -136,6 +139,9 @@ UIActivityIndicatorView *commentsIndicator;
         
         [scrollView setContentSize:(CGSizeMake(320, currentStoryHeight))];
         [scrollView setAutoresizesSubviews:NO];
+        
+        // add popup error
+        popupError = [[PopupError alloc] initWithView:self.view];
     }
     return self;
 }
@@ -392,8 +398,8 @@ UIActivityIndicatorView *commentsIndicator;
 
 - (void)addCommentTapped:(UITapGestureRecognizer *)gr
 {  
-    if([textField text] == nil || [[textField  text] isEqualToString:@""]){
-        [appDelegate alertStatus:@"" :@"Please enter comment text" ];
+    if([textField text] == nil || [[textField  text] isEqualToString:@""]){      
+        [popupError setTextAndShow:NSLocalizedString(@"Please enter comment text", nil)];
         return;
     }
    

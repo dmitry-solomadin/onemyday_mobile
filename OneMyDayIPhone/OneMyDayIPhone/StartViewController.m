@@ -89,8 +89,8 @@ UITextField *emailTextField;
 
 - (IBAction)loginOnemday:(id)sender
 {
-    LoginViewController  *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    
+    LoginViewController  *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
+ 
     [[self navigationController] pushViewController:loginViewController animated:YES];
 }
 
@@ -191,7 +191,7 @@ UITextField *emailTextField;
                                            } else {
                                                NSLog(@"Welcome %@!",screenName);
                                                
-                                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter your email:" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+                                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Enter your email:", nil) message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:@"Ok", nil];
                                                alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
                                                emailTextField = [alertView textFieldAtIndex:0];
                                                [alertView show];

@@ -61,11 +61,11 @@ PopupError *popupError;
 - (IBAction)loginClick:(id)sender {
     @try {
         if([[txtEmail text] isEqualToString:@""]) {
-            [popupError setTextAndShow:@"Please enter Email"];       
+            [popupError setTextAndShow:NSLocalizedString(@"Please enter Email", nil)];       
         } else if([[txtPassword text] isEqualToString:@""] ) {
-            [popupError setTextAndShow:@"Please enter Password"];
+            [popupError setTextAndShow:NSLocalizedString(@"Please enter Password", nil)];
         } else if([[txtPassword text] length] < 6 || ![LoginViewController validateEmail:[txtEmail text]]) {
-            [popupError setTextAndShow:@"Wrong email or password!"];
+            [popupError setTextAndShow:NSLocalizedString(@"Wrong email or password!", nil)];
         } else {
             
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -89,7 +89,7 @@ PopupError *popupError;
     }
     @catch (NSException * e) {
         NSLog(@"Exception: %@", e);
-        [appDelegate alertStatus:@"" :@"Login Failed!"];
+        [appDelegate alertStatus:@"" :@"Login Failed!"];        
     }
 }
 
@@ -127,10 +127,10 @@ PopupError *popupError;
     
     NSString *status = (NSString *) [jsonData objectForKey:@"status"];
     if([status isEqualToString: @"no_such_user"]){
-        loginErrorMsg = @"Wrong email or password";
+        loginErrorMsg = NSLocalizedString(@"Wrong email or password!", nil);
         return nil;
     } else if([status isEqualToString: @"wrong_password"]){
-        loginErrorMsg = @"Wrong password";
+        loginErrorMsg = NSLocalizedString(@"Wrong password", nil);
         return nil;
     } else if([status isEqualToString: @"ok"]){
         User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
@@ -157,7 +157,7 @@ PopupError *popupError;
     [[self navigationController] pushViewController:signUpViewController animated:YES];
 }
 
-+ (bool) validateEmail:(NSString *) email{
++ (bool) validateEmail:(NSString *) email{   
     NSString *regExPattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$";
     NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSUInteger regExMatches = [regEx numberOfMatchesInString:email options:0 range:NSMakeRange(0, [email length])];

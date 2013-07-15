@@ -1,0 +1,46 @@
+/* 
+  Localizable.strings
+  Onemyday
+
+  Created by Admin on 7/15/13.
+  Copyright (c) 2013 Admin. All rights reserved.
+*/
+
+"Please enter Email" = "Please enter Email";
+"Please enter Password" = "Please enter Password";
+"Wrong email or password!" = "Wrong email or password!";
+"Wrong password" = "Wrong password";
+"Please enter your name" = "Please enter your name";
+"Password should have more than 6 characters" = "Password should have more than 6 characters";
+"Please enter valid email" = "Please enter valid email";
+"Male" = "Male";
+"Female" = "Female";
+"Not sure" = "Not sure";
+"Name" = "Name";
+"Password" = "Password";
+"Email" = "Email";
+"Your" = "Your";
+"Avatar" = "Avatar";
+"Enter your email:" = "Enter your email:";
+"Cancel" ="Cancel";
+"No activities yet" = "No activities yet";
+"No stories found" = "No stories found";
+"Log out" = "Log out";
+"Please, enter story title." = "Please, enter story title.";
+"Your story should have at least one image." = "Your story should have at least one image.";
+"Done" = "Done";
+"%@ added a new %@ story" = "%@ added a new %@ story";
+"You have a new follower %@ " = "You have a new follower %@ ";
+"%@ likes your %@ story" ="%@ likes your %@ story";
+"%@ added a comment to your %@ story: %@" = "%@ added a comment to your %@ story: %@";
+"%@ left a comment on a story you commented on %@: %@" = "%@ left a comment on a story you commented on %@: %@";
+"Join" = "Join";
+"Save" = "Save";
+"followers" = "followers";
+"stories" = "stories";
+"follow" = "follow";
+"Home" = "Home";
+"Explore" = "Explore";
+"Activity" = "Activity";
+"Profile" = "Profile";
+"use # to search by tags" = "use # to search by tags";

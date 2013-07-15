@@ -27,11 +27,11 @@
         
         HomeViewController *hvc = [[HomeViewController alloc] init];
         UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:hvc];
-        homeNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"home.png"] tag:0];
+        homeNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Home", nil) image:[UIImage imageNamed:@"home.png"] tag:0];
         
         ExploreViewController *evc = [[ExploreViewController alloc] init];
         UINavigationController *exploreNav = [[UINavigationController alloc] initWithRootViewController:evc];
-        exploreNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Explore" image:[UIImage imageNamed:@"globe.png"] tag:0];
+        exploreNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Explore", nil) image:[UIImage imageNamed:@"globe.png"] tag:0];
         //[exploreNav.tabBarItem setEnabled:NO];
         
         UIViewController* photoVC = [[UIViewController alloc] init];
@@ -39,11 +39,11 @@
         
         ActivityViewController *avc = [[ActivityViewController alloc] init];
         UINavigationController *activityNav = [[UINavigationController alloc] initWithRootViewController:avc];
-        activityNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Activity" image:[UIImage imageNamed:@"heart.png"] tag:0];
+        activityNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Activity", nil) image:[UIImage imageNamed:@"heart.png"] tag:0];
         
         ProfileViewController *profileVC = [[ProfileViewController alloc] init];
         UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:profileVC];
-        profileNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"man.png"] tag:0];
+        profileNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Profile", nil) image:[UIImage imageNamed:@"man.png"] tag:0];
         
         NSArray* controllers = [NSArray arrayWithObjects:homeNav, exploreNav, photoVC, activityNav, profileNav, nil];
         self.viewControllers = controllers;

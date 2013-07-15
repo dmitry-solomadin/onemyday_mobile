@@ -263,8 +263,8 @@
 		84A973A0177B884200CCB9EF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A9739F177B884200CCB9EF /* SignUpViewController.m */; };
 		84A973A4177B8FFE00CCB9EF /* blankPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A973A3177B8FFE00CCB9EF /* blankPhoto.png */; };
 		84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AEC1B117213FD1005CCD58 /* onemydayLogo.png */; };
-		84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
-		84DD61DA16D019ED0049B78B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DD61D816D019ED0049B78B /* LoginViewController.xib */; };
+		84CAB96617945EBC007E5690 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84CAB96817945EBC007E5690 /* Localizable.strings */; };
+		84CAB97117947A64007E5690 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CAB96F17947A64007E5690 /* LoginViewController.xib */; };
 		84DF0A9E174022340088578A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DF0A9D174022340088578A /* MBProgressHUD.m */; };
 		84E701A216D76D5100979856 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701A116D76D5100979856 /* LoginViewController.m */; };
 		84E701B116D76F2100979856 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E701B016D76F2100979856 /* Request.m */; };
@@ -610,7 +610,13 @@
 		84A9739F177B884200CCB9EF /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		84A973A3177B8FFE00CCB9EF /* blankPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankPhoto.png; sourceTree = "<group>"; };
 		84AEC1B117213FD1005CCD58 /* onemydayLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemydayLogo.png; sourceTree = "<group>"; };
-		84DD61D816D019ED0049B78B /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		84CAB96317945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FormatterKit.strings; sourceTree = "<group>"; };
+		84CAB96417945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		84CAB96517945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		84CAB96717945EBC007E5690 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84CAB96917945EE8007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84CAB97017947A64007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/LoginViewController.xib; sourceTree = "<group>"; };
+		84CAB97217947A72007E5690 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LoginViewController.xib; sourceTree = "<group>"; };
 		84DF0A9C1740222D0088578A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		84DF0A9D174022340088578A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		84E701A016D76D5100979856 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -949,6 +955,7 @@
 				18E242181716CA5800435FBE /* ExploreViewController.m */,
 				18E2421D1716CA7800435FBE /* ActivityViewController.h */,
 				18E2421E1716CA7800435FBE /* ActivityViewController.m */,
+				84CAB96817945EBC007E5690 /* Localizable.strings */,
 				18E242201716CA8400435FBE /* ProfileViewController.h */,
 				18E242211716CA8400435FBE /* ProfileViewController.m */,
 				18E2424417173A1000435FBE /* SettingsViewController.h */,
@@ -1191,9 +1198,9 @@
 		84E701A416D76E3500979856 /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				84CAB96F17947A64007E5690 /* LoginViewController.xib */,
 				184D56051738D88A0088CADF /* DLCImagePicker.xib */,
 				84A031EC1715A5F40098B201 /* StartViewController.xib */,
-				84DD61D816D019ED0049B78B /* LoginViewController.xib */,
 			);
 			name = GUI;
 			sourceTree = "<group>";
@@ -1297,6 +1304,7 @@
 				nb,
 				nl,
 				nn,
+				ru,
 			);
 			mainGroup = 844DFA4E16CFB66F00884637;
 			productRefGroup = 844DFA4E16CFB66F00884637;
@@ -1464,7 +1472,6 @@
 				18E242281716DB8200435FBE /* home@2x.png in Resources */,
 				18E242291716DB8200435FBE /* home.png in Resources */,
 				844DFA6816CFB66F00884637 /* InfoPlist.strings in Resources */,
-				84DD61D916D019ED0049B78B /* LoginViewController.xib in Resources */,
 				84A031EE1715A5F50098B201 /* StartViewController.xib in Resources */,
 				849C6E2E17183FB0006C5766 /* DMTwitterLoginViewController.xib in Resources */,
 				84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */,
@@ -1480,6 +1487,8 @@
 				84A6079B1743823E00848AF7 /* whiteArrow.png in Resources */,
 				84A6079C1743823E00848AF7 /* whiteArrow@2x.png in Resources */,
 				84A973A4177B8FFE00CCB9EF /* blankPhoto.png in Resources */,
+				84CAB96617945EBC007E5690 /* Localizable.strings in Resources */,
+				84CAB97117947A64007E5690 /* LoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1488,7 +1497,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				844DFA9216CFB67000884637 /* InfoPlist.strings in Resources */,
-				84DD61DA16D019ED0049B78B /* LoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1652,6 +1660,7 @@
 				1891F22017459170007D3B69 /* nb */,
 				1891F22117459170007D3B69 /* nl */,
 				1891F22217459170007D3B69 /* nn */,
+				84CAB96317945E7B007E5690 /* ru */,
 			);
 			name = FormatterKit.strings;
 			sourceTree = "<group>";
@@ -1660,6 +1669,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				844DFA6716CFB66F00884637 /* en */,
+				84CAB96417945E7B007E5690 /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1668,8 +1678,27 @@
 			isa = PBXVariantGroup;
 			children = (
 				844DFA9116CFB67000884637 /* en */,
+				84CAB96517945E7B007E5690 /* ru */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		84CAB96817945EBC007E5690 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84CAB96717945EBC007E5690 /* en */,
+				84CAB96917945EE8007E5690 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		84CAB96F17947A64007E5690 /* LoginViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84CAB97017947A64007E5690 /* ru */,
+				84CAB97217947A72007E5690 /* en */,
+			);
+			name = LoginViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1701,7 +1730,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1724,7 +1753,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

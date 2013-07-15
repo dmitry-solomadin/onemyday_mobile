@@ -22,7 +22,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        UIBarButtonItem *logOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Log out"
+        UIBarButtonItem *logOutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Log out", nil)
                                                                          style:UIBarButtonItemStyleBordered
                                                                         target:self action:@selector(logOut:)];
         

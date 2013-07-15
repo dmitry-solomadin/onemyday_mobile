@@ -77,9 +77,9 @@ NSString *storyTitle;
             }
             //Activity message           
             if([reason isEqualToString:@"regular"]){            
-                message = [NSString stringWithFormat:@"%@ added a comment to your %@ story: %@",authorName, storyTitle, text];
+                message = [NSString stringWithFormat:NSLocalizedString(@"%@ added a comment to your %@ story: %@", nil),authorName, storyTitle, text];
             } else {
-                message = [NSString stringWithFormat:@"%@ left a comment on a story you commented on %@: %@",authorName, storyTitle, text];              
+                message = [NSString stringWithFormat:NSLocalizedString(@"%@ left a comment on a story you commented on %@: %@", nil),authorName, storyTitle, text];              
             }
             
             //Colored string
@@ -97,7 +97,7 @@ NSString *storyTitle;
             
             authorName = (NSString *) [object objectForKey:@"author_name"];
             storyTitle = (NSString *) [object objectForKey:@"story_title"];
-            message = [NSString stringWithFormat:@"%@ likes your %@ story", authorName, storyTitle];
+            message = [NSString stringWithFormat:NSLocalizedString(@"%@ likes your %@ story", nil), authorName, storyTitle];
             str = [[NSMutableAttributedString alloc] initWithString:message];
             NSRange authorRange = [message rangeOfString: authorName];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:authorRange];
@@ -108,7 +108,7 @@ NSString *storyTitle;
             if (object == nil) return nil;
             
             authorName = (NSString *) [object objectForKey:@"author_name"];       
-            message = [NSString stringWithFormat:@"You have a new follower %@ ", authorName];
+            message = [NSString stringWithFormat:NSLocalizedString(@"You have a new follower %@ ", nil), authorName];
             str = [[NSMutableAttributedString alloc] initWithString:message];
             NSRange authorRange = [message rangeOfString: authorName];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:authorRange];
@@ -123,7 +123,7 @@ NSString *storyTitle;
             
             storyTitle = (NSString *) [object objectForKey:@"story_title"];
             
-            message = [NSString stringWithFormat:@"%@ added a new %@ story", authorName, storyTitle];
+            message = [NSString stringWithFormat:NSLocalizedString(@"%@ added a new %@ story", nil), authorName, storyTitle];
             
             //Colored string
             str = [[NSMutableAttributedString alloc] initWithString:message];

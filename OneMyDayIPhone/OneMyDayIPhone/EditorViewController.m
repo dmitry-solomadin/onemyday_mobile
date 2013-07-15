@@ -581,7 +581,7 @@
 - (void)publishStory:(id)sender
 {
     if ([[storyTitle text] length] == 0) {
-        [popupError setTextAndShow:@"Please, enter story title."];
+        [popupError setTextAndShow:NSLocalizedString(@"Please, enter story title.", nil)];
         return;
     }
     
@@ -593,7 +593,7 @@
     }
     
     if (!hasImage) {
-        [popupError setTextAndShow:@"Your story should have at least one image."];
+        [popupError setTextAndShow:NSLocalizedString(@"Your story should have at least one image.", nil)];
         return;
     }
     

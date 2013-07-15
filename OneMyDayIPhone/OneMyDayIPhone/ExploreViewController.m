@@ -70,13 +70,13 @@
     // Add top search field
     textField = [[UITextField alloc] initWithFrame:CGRectMake(10, currentFeedHeight , 300, 37)];
     textField.tag = 1;
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     textField.leftView = paddingView;
     textField.leftViewMode = UITextFieldViewModeAlways;
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     UIImage *fieldBGImage = [[UIImage imageNamed:@"text_field"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
     [textField setBackground:fieldBGImage];
-    [textField setPlaceholder:@"use # to search by tags"];
+    [textField setPlaceholder:NSLocalizedString(@"use # to search by tags", nil)];
     [textField setText:@""];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.delegate = self;
@@ -91,7 +91,7 @@
     
     // Add no stories text
     noStoriesText = [[UILabel alloc] init];
-    [noStoriesText setText:@"No stories found"];
+    [noStoriesText setText:NSLocalizedString(@"No stories found", nil)];
     [noStoriesText setTextColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1]];
     [noStoriesText setBackgroundColor:[UIColor clearColor]];
     [noStoriesText setFont:[UIFont systemFontOfSize:22]];

@@ -24,9 +24,9 @@
     [super viewDidLoad];
     
     // add navigation
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain
                                                                     target:self action:@selector(dismissSelf:)];
-    UIBarButtonItem *publishButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *publishButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(saveText:)];
     [publishButton setTintColor:[UIColor colorWithRed:0.08 green:0.78 blue:0.08 alpha:0.5]];
     self.navigationItem.leftBarButtonItem = cancelButton;

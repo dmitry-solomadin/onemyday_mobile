@@ -1,0 +1,46 @@
+/* 
+  Localizable.strings
+  Onemyday
+
+  Created by Admin on 7/15/13.
+  Copyright (c) 2013 Admin. All rights reserved.
+*/
+
+"Please enter Email" = "Введите email";
+"Please enter Password" = "Введите пароль";
+"Wrong email or password!" = "Вы ввели неверный email или неверный пароль";
+"Wrong password" = "Вы ввели неверный пароль";
+"Please enter your name" = "Введите имя";
+"Password should have more than 6 characters" = "Пароль должен иметь более 6-ти символов";
+"Please enter valid email" = "Вы ввели неверный email";
+"Male" = "Мужчина";
+"Female" = "Женщина";
+"Not sure" = "Не знаю";
+"Name" = "Имя";
+"Password" = "Пароль";
+"Email" = "Email";
+"Your" = "Ваш";
+"Avatar" = "Аватар";
+"Enter your email:" = "Введите email:";
+"Cancel" = "Отмена";
+"No activities yet" = "Пока никакой активности";
+"No stories found" = "Ни одной истории не найдено";
+"Log out" = "Выход";
+"Please, enter story title." = "Введите заголовок истории.";
+"Your story should have at least one image." = "Ваша история должна содержать фотографию.";
+"Done" = "Готово";
+"%@ added a new %@ story" = "%@ добавил(а) новую %@ историю";
+"You have a new follower %@ " = "У Вас появился новый читатель %@ ";
+"%@ likes your %@ story" = "%@ нравится Ваша %@ история";
+"%@ added a comment to your %@ story: %@" = "%@ добавил(а) комментарий к Вашей %@ истории: %@";
+"%@ left a comment on a story you commented on %@: %@" = "%@ добавил(а) комментарий к истории которую Вы комментировали %@: %@";
+"Join" = "Войти";
+"Save" = "Сохранить";
+"followers" = "читатели";
+"stories" = "истории";
+"follow" = "читаю";
+"Home" = "Дом";
+"Explore" = "Поиск";
+"Activity" = "Активность";
+"Profile" = "Профиль";
+"use # to search by tags" = "используйте # для поиска по тегам";

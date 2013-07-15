@@ -116,8 +116,14 @@
     [topIndicator startAnimating];
     
     int oldSubViewsCount = [[scrollView subviews] count] - 1;
+    NSMutableArray *subviewsToRemove = [[NSMutableArray alloc] init];
     for (int i = 0; i < oldSubViewsCount; i++) {
-        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]])[[[scrollView subviews] objectAtIndex:i] removeFromSuperview];
+        if([[[scrollView subviews] objectAtIndex:i] isKindOfClass:[ThumbStoryView class]]) {
+            [subviewsToRemove addObject:[[scrollView subviews] objectAtIndex:i]];
+        }
+    }
+    for (UIView *subviewToRemove in subviewsToRemove) {
+        [subviewToRemove removeFromSuperview];
     }
     currentFeedHeight = 65;
     
@@ -125,7 +131,10 @@
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
         
-        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 100 userId: [appDelegate currentUserId] authorId:0 searchFor:[textField text]];        
+        NSString *searchText = [textField text];
+        NSCharacterSet *replaceHash = [NSCharacterSet characterSetWithCharactersInString:@"#"];
+        searchText = [[searchText componentsSeparatedByCharactersInSet: replaceHash] componentsJoinedByString: @"%23"];
+        NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 100 userId: [appDelegate currentUserId] authorId:0 searchFor:searchText];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [topIndicator stopAnimating];

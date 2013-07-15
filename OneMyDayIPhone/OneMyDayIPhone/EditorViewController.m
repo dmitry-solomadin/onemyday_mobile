@@ -55,11 +55,13 @@
     editorItemViews = [[NSMutableArray alloc] init];
     
     // add navigation
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain
                                                                     target:self action:@selector(dismissSelf:)];
-    UIBarButtonItem *publishButton = [[UIBarButtonItem alloc] initWithTitle:@"Publish" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *publishButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Publish", nil) style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(publishStory:)];
     [publishButton setTintColor:[UIColor colorWithRed:0.08 green:0.78 blue:0.08 alpha:0.5]];
+    //[publishButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:11],
+    //                                       UITextAttributeFont,nil] forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = cancelButton;
     self.navigationItem.rightBarButtonItem = publishButton;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"furley_bg"]];
@@ -84,7 +86,7 @@
     storyTitleArea = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 320, 52)];
     
     storyTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, 300, 38)];
-    [storyTitle setPlaceholder:@"Enter story title..."];
+    [storyTitle setPlaceholder:NSLocalizedString(@"Enter story title...", nil)];
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
     storyTitle.leftView = paddingView;
     storyTitle.leftViewMode = UITextFieldViewModeAlways;

@@ -92,6 +92,7 @@ __weak UINavigationController *navController;
         
         // Time created
         TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
+        [timeIntervalFormatter setLocale:[NSLocale currentLocale]];
         NSString *time = [timeIntervalFormatter stringForTimeInterval:[[story createdAt] timeIntervalSinceNow]];
         
         UILabel *timeAgoLabel = [[UILabel alloc] initWithFrame:CGRectMake(300, 10, 0, 35)];

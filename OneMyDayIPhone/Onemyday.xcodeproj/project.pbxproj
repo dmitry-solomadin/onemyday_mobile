@@ -119,6 +119,7 @@
 		18602303178B45C2006A31DF /* YIInnerShadowLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 186022FF178B45C1006A31DF /* YIInnerShadowLayer.m */; };
 		18602304178B45C2006A31DF /* YIInnerShadowView.h in Sources */ = {isa = PBXBuildFile; fileRef = 18602300178B45C1006A31DF /* YIInnerShadowView.h */; };
 		18602305178B45C2006A31DF /* YIInnerShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18602301178B45C2006A31DF /* YIInnerShadowView.m */; };
+		187B8E06179880C7005ABE28 /* FormatterKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 187B8E04179880C7005ABE28 /* FormatterKit.strings */; };
 		187DBDEB1729ECF50040E97D /* editorbar_button_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */; };
 		187DBDEC1729ECF50040E97D /* editorbar_button_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */; };
 		1883AB2C172C95C40093554B /* EditorStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883AB2B172C95C40093554B /* EditorStore.m */; };
@@ -421,6 +422,7 @@
 		186022FF178B45C1006A31DF /* YIInnerShadowLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YIInnerShadowLayer.m; path = vendor/YIShadowView/YIInnerShadowLayer.m; sourceTree = "<group>"; };
 		18602300178B45C1006A31DF /* YIInnerShadowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YIInnerShadowView.h; path = vendor/YIShadowView/YIInnerShadowView.h; sourceTree = "<group>"; };
 		18602301178B45C2006A31DF /* YIInnerShadowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YIInnerShadowView.m; path = vendor/YIShadowView/YIInnerShadowView.m; sourceTree = "<group>"; };
+		187B8E05179880C7005ABE28 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = OneMyDayIPhone/ru.lproj/FormatterKit.strings; sourceTree = "<group>"; };
 		187DBDE71729E2B70040E97D /* Onemyday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onemyday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		187DBDE91729ECF50040E97D /* editorbar_button_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "editorbar_button_highlight@2x.png"; path = "assets/editorbar_button_highlight@2x.png"; sourceTree = "<group>"; };
 		187DBDEA1729ECF50040E97D /* editorbar_button_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editorbar_button_highlight.png; path = assets/editorbar_button_highlight.png; sourceTree = "<group>"; };
@@ -869,6 +871,7 @@
 		18E242251716DB4E00435FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				187B8E04179880C7005ABE28 /* FormatterKit.strings */,
 				186022F7178B302F006A31DF /* edit_profile_button.png */,
 				186022F8178B302F006A31DF /* edit_profile_button@2x.png */,
 				186022F31789D69A006A31DF /* sign_up_button.png */,
@@ -1345,6 +1348,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187B8E06179880C7005ABE28 /* FormatterKit.strings in Resources */,
 				186022F9178B302F006A31DF /* edit_profile_button.png in Resources */,
 				186022FA178B302F006A31DF /* edit_profile_button@2x.png in Resources */,
 				186022F51789D69A006A31DF /* sign_up_button.png in Resources */,
@@ -1649,6 +1653,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		187B8E04179880C7005ABE28 /* FormatterKit.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				187B8E05179880C7005ABE28 /* ru */,
+			);
+			name = FormatterKit.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		1891F21A17459170007D3B69 /* FormatterKit.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

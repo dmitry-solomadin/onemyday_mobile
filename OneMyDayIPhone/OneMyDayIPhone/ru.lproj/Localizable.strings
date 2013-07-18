@@ -46,3 +46,13 @@
 "Publish" = "Написать";
 "Enter story title..." = "Введите заголовок истории...";
 "use # to search by tags" = "используйте # для поиска по тегам";
+"Add Comment" = "Добавить комментарий";
+"people likes this story" = "людям понравилась история";
+"Pull down to refresh..." = "Потяни вниз чтобы обновить...";
+"Pull down to refresh status" = "Потяни вниз чтобы обновить статус";
+"Release to refresh..." = "Отпусти чтобы обновить...";
+"Release to refresh status" = "Отпусти чтобы обновить статус";
+"Last Updated: %@" = "Последнее обновление: %@";
+"Loading..." = "Загрузка...";
+"Loading Status" = "Статус загрузки";
+"Last Updated: %@" = "Последнее обновление: %@";

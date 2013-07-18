@@ -127,7 +127,7 @@ PopupError *popupError;
         numberOfPeopleLikes.frame = CGRectMake(93, 10, 20, 35);
         
         numberOfPeopleLikesText = [[UILabel alloc] init];
-        numberOfPeopleLikesText.text = @"people likes this story";
+        numberOfPeopleLikesText.text = NSLocalizedString(@"people likes this story", nil);
         [numberOfPeopleLikesText setFont:[UIFont systemFontOfSize:14]];
         [likeView addSubview:numberOfPeopleLikesText];
         numberOfPeopleLikesText.frame = CGRectMake(105, 10, 200, 35);
@@ -341,7 +341,7 @@ PopupError *popupError;
     
     textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 8 , 230, 37)];
     textField.tag = 1;
-    [textField setPlaceholder:@"Add Comment"];
+    [textField setPlaceholder:NSLocalizedString(@"Add Comment", nil)];
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
     textField.leftView = paddingView;
     textField.leftViewMode = UITextFieldViewModeAlways;

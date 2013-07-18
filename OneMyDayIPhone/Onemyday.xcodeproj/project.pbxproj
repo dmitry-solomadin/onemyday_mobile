@@ -614,7 +614,7 @@
 		84CAB96417945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84CAB96517945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84CAB96717945EBC007E5690 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		84CAB96917945EE8007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84CAB96917945EE8007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		84CAB97017947A64007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/LoginViewController.xib; sourceTree = "<group>"; };
 		84CAB97217947A72007E5690 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LoginViewController.xib; sourceTree = "<group>"; };
 		84DF0A9C1740222D0088578A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
@@ -955,7 +955,6 @@
 				18E242181716CA5800435FBE /* ExploreViewController.m */,
 				18E2421D1716CA7800435FBE /* ActivityViewController.h */,
 				18E2421E1716CA7800435FBE /* ActivityViewController.m */,
-				84CAB96817945EBC007E5690 /* Localizable.strings */,
 				18E242201716CA8400435FBE /* ProfileViewController.h */,
 				18E242211716CA8400435FBE /* ProfileViewController.m */,
 				18E2424417173A1000435FBE /* SettingsViewController.h */,
@@ -1063,6 +1062,7 @@
 		844DFA6416CFB66F00884637 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				84CAB96817945EBC007E5690 /* Localizable.strings */,
 				185BC4281726EB2A002D4FE8 /* Icon@2x.png */,
 				185BC4261726EB1A002D4FE8 /* Icon.png */,
 				18BFB75F17249FE500930B97 /* Default-568h@2x.png */,

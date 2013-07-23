@@ -44,6 +44,7 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{204, 143}, {96, 36}}</string>
 						<reference key="NSSuperview" ref="417651021"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -778,7 +779,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">494</int>
+			<int key="maxID">497</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

@@ -28,6 +28,7 @@
 @property int currentUserId;
 
 + (UIViewController *)initMasterController;
++ (id)loadNibNamed:(NSString *)nibName ofClass:(Class)objClass;
 - (bool)checkAuthorization;
 - (void)alertStatus:(NSString *)msg :(NSString *) title;
 - (NSString *)apiKey;

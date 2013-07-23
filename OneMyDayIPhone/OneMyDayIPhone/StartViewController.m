@@ -17,6 +17,9 @@
 
 
 @interface StartViewController ()
+{
+    BOOL firstTime;
+}
 
 @end
 
@@ -26,15 +29,6 @@
 
 AppDelegate *appDelegate;
 UITextField *emailTextField;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -61,8 +55,6 @@ UITextField *emailTextField;
             
         }
     }
-    
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -73,7 +65,13 @@ UITextField *emailTextField;
     twitterButton.layer.cornerRadius = 3;
     twitterButton.clipsToBounds = YES;
     
-    [[self navigationController] setNavigationBarHidden:YES animated:NO];
+    if (firstTime == true) {
+        [[self navigationController] setNavigationBarHidden:YES animated:YES];
+    } else {
+        [[self navigationController] setNavigationBarHidden:YES animated:NO];
+    }
+    
+    firstTime = true;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -81,15 +79,10 @@ UITextField *emailTextField;
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)loginOnemday:(id)sender
 {
-    LoginViewController  *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
+    LoginViewController *loginViewController = [[LoginViewController alloc]
+                                                initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
  
     [[self navigationController] pushViewController:loginViewController animated:YES];
 }
@@ -176,46 +169,25 @@ UITextField *emailTextField;
 
 - (IBAction)loginTwitter:(id)sender
 {
- 
-        // prompt login
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
     
-        [[DMTwitter shared] newLoginSessionFrom:self.navigationController
-                                       progress:^(DMOTwitterLoginStatus currentStatus) {
-                                           NSLog(@"current status = %@",[StartViewController readableCurrentLoginStatus:currentStatus]);
-                                       } completition:^(NSString *screenName, NSString *user_id, NSError *error) {
-                                           
-                                           if (error != nil) {
-                                               NSLog(@"Twitter login failed: %@",error);
-                                           } else {
-                                               NSLog(@"Welcome %@!",screenName);
+    [[DMTwitter shared] newLoginSessionFrom:self.navigationController
+                                   progress:^(DMOTwitterLoginStatus currentStatus) {
+                                       NSLog(@"current status = %@",[StartViewController readableCurrentLoginStatus:currentStatus]);
+                                   } completition:^(NSString *screenName, NSString *user_id, NSError *error) {
+                                       if (error != nil) {
+                                           NSLog(@"Twitter login failed: %@",error);
+                                       } else {
+                                           NSLog(@"Welcome %@!",screenName);
                                                
-                                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Enter your email:", nil) message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:@"Ok", nil];
-                                               alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-                                               emailTextField = [alertView textFieldAtIndex:0];
-                                               [alertView show];
-                                               
-                                               
-                                               
-                                               /*NSLog(@"Now getting more data...");
-                                               // you can use this call in order to validate your credentials
-                                               // or get more user's info data
-                                               [[DMTwitter shared] validateTwitterCredentialsWithCompletition:^(BOOL credentialsAreValid, NSDictionary *userData) {
-                                                   if (credentialsAreValid)
-                                                       [self updateView];
-                                                   else
-                                                       
-                                               }];*/
-                                           }
-                                       }];
-   
-    
-    //}
-    
+                                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Enter your email:", nil) message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:@"Ok", nil];
+                                           alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                                           emailTextField = [alertView textFieldAtIndex:0];
+                                           [alertView show];
+                                       }
+                                   }];
 }
-
-
 
 + (NSString *) readableCurrentLoginStatus:(DMOTwitterLoginStatus) cstatus {
     switch (cstatus) {
@@ -234,12 +206,10 @@ UITextField *emailTextField;
     }
 }
 
-
 // FBSample logic
 // main helper method to update the UI to reflect the current state of the session.
 - (void)updateView
 {
-    //NSLog(@"updateView !");
     // get the app delegate, so that we can reference the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
      NSLog(@"flag0 %d",appDelegate.loggedInFlag);
@@ -297,16 +267,6 @@ UITextField *emailTextField;
 - (void)socialAuth:(NSString *)uid withProvider:(NSString *)provider andToken:(NSString *)token andSecret:(NSString *)secret AndEmail:(NSString *)email andFirstName:(NSString *)firstName andLastName:(NSString *)lastName andNickName:(NSString *)nickame
 {    
     Request *request = [[Request alloc] init]; 
-    /*api_key — (required)
-    omniauth[uid] — uid (required)
-    omniauth[provider] — social provider: 'facebook' or 'twitter' (required)
-    omniauth[credentials][token] — oauth token (required)
-    omniauth[credentials][secret] — oauth secret (required for twitter)
-    omniauth[info][email] — User email (required)
-    omniauth[info][image] — User profile image (required)
-    omniauth[info][first_name] — User first name, will transform into name (optional)
-    omniauth[info][last_name] — User last name, will transform into name (optional)
-    omniauth[info][nickname] — Us*/
     [request addStringToPostData:@"omniauth[info][image]" andValue: @"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0s8HhPj8boXWYuyXedcz6g9MP2TNeOqKKDvrv5Fc4YPiwkWw4iA"];
     [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
     [request addStringToPostData:@"omniauth[uid]" andValue: uid];

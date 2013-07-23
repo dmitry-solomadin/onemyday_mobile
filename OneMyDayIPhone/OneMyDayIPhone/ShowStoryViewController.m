@@ -17,6 +17,7 @@
 #import "ProfileViewController.h"
 #import "UIApplication+NetworkActivity.h"
 #import "PopupError.h"
+#import "StoryLikeAreaView.h"
 
 @interface ShowStoryViewController ()
 
@@ -28,10 +29,7 @@
 AppDelegate *appDelegate;
 CGFloat currentStoryHeight;
 
-UIView *likeView;
-UIButton *likeButtonView;
-UILabel *numberOfPeopleLikes;
-UILabel *numberOfPeopleLikesText;
+StoryLikeAreaView *storyLikeArea;
 
 UIView *commentFormContainer;
 UITextField *textField;
@@ -99,39 +97,23 @@ PopupError *popupError;
             }
         }
         
-        likeView = [[UIView alloc] initWithFrame:CGRectMake(-1, currentStoryHeight, 322, 55)];
-        likeView.clipsToBounds = YES;
-        likeView.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
-        likeView.layer.borderWidth = 1;
-        [likeView setBackgroundColor:[UIColor whiteColor]];
-        [scrollView addSubview:likeView];
+        storyLikeArea = [AppDelegate loadNibNamed:@"StoryLikeArea" ofClass:[StoryLikeAreaView class]];
+        [storyLikeArea setController:self];
+        storyLikeArea.frame = CGRectMake(-1, currentStoryHeight,
+                                         storyLikeArea.frame.size.width, storyLikeArea.frame.size.height);
+        storyLikeArea.clipsToBounds = YES;
+        storyLikeArea.layer.borderColor = [[UIColor colorWithRed:0.75 green:0.75 blue:0.75 alpha:1] CGColor];
+        storyLikeArea.layer.borderWidth = 1;
+        [scrollView addSubview:storyLikeArea];
         
         currentStoryHeight += 65;
-                
-        likeButtonView = [[UIButton alloc] initWithFrame:CGRectMake(11, 10, 70, 36)];
-        if ([story isLikedByUser]) {            
-            [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"liked_button"]]];
-        } else {
-            [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"like_button"]]];
+        
+        if([story isLikedByUser]){
+            [storyLikeArea.button setImage:[UIImage imageNamed:@"liked_button"] forState:UIControlStateNormal];
+         } else {
+            [storyLikeArea.button setImage:[UIImage imageNamed:@"like_button"] forState:UIControlStateNormal];
         }
-        [likeButtonView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [likeView addSubview:likeButtonView];
-        
-        UITapGestureRecognizer *likeButtonTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeButtonTapped:)];
-        [likeButtonView addGestureRecognizer:likeButtonTap];
-        
-        numberOfPeopleLikes = [[UILabel alloc] init];
-        numberOfPeopleLikes.text = [NSString stringWithFormat:@"%d", [story likesCount]];
-        [numberOfPeopleLikes setFont:[UIFont systemFontOfSize:14]];
-        [likeView addSubview:numberOfPeopleLikes];
-        numberOfPeopleLikes.frame = CGRectMake(93, 10, 20, 35);
-        
-        numberOfPeopleLikesText = [[UILabel alloc] init];
-        numberOfPeopleLikesText.text = NSLocalizedString(@"people likes this story", nil);
-        [numberOfPeopleLikesText setFont:[UIFont systemFontOfSize:14]];
-        [likeView addSubview:numberOfPeopleLikesText];
-        numberOfPeopleLikesText.frame = CGRectMake(105, 10, 200, 35);
-        [self placeLikeTextCorrectly:[story likesCount]];
+        [self setLikeTextCount:[story likesCount]];
         
         [self drawAddCommentForm];
         
@@ -153,26 +135,18 @@ PopupError *popupError;
 
 /* STORY LIKES */
 
-- (void)placeLikeTextCorrectly:(int)likesCount
+- (void)setLikeTextCount:(int)likesCount
 {
-    if (likesCount > 9) {
-        numberOfPeopleLikesText.frame = CGRectMake(112, numberOfPeopleLikesText.frame.origin.y,
-                                                  numberOfPeopleLikesText.frame.size.width, numberOfPeopleLikesText.frame.size.height);
-    } else {
-        numberOfPeopleLikesText.frame = CGRectMake(105, numberOfPeopleLikesText.frame.origin.y,
-                                                  numberOfPeopleLikesText.frame.size.width, numberOfPeopleLikesText.frame.size.height);
-    }
-    
+    storyLikeArea.text.text = [NSString stringWithFormat:@"%d %@",
+                               likesCount, NSLocalizedString(@"people likes this story", nil)];
     if (likesCount == 0) {
-        numberOfPeopleLikesText.hidden = true;
-        numberOfPeopleLikes.hidden = true;
+        storyLikeArea.text.hidden = true;
     } else {
-        numberOfPeopleLikesText.hidden = false;
-        numberOfPeopleLikes.hidden = false;
+        storyLikeArea.text.hidden = false;
     }
 }
 
-- (void)likeButtonTapped:(UITapGestureRecognizer *)gr
+- (void)likeButtonTapped
 {
     NSString *likeOrUnlike;
     if([story isLikedByUser])likeOrUnlike = @"unlike";
@@ -204,17 +178,16 @@ PopupError *popupError;
 - (void)doLikeTap
 {
     if([story isLikedByUser]){
-        [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"like_button"]]];
+        [storyLikeArea.button setImage:[UIImage imageNamed:@"like_button"] forState:UIControlStateNormal];
         [story setLikesCount: [story likesCount] - 1];
         [story setIsLikedByUser:false];
     } else {
-        [likeButtonView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"liked_button"]]];
+        [storyLikeArea.button setImage:[UIImage imageNamed:@"liked_button"] forState:UIControlStateNormal];
         [story setLikesCount: [story likesCount] + 1];
         [story setIsLikedByUser:true];
     }
-    [self placeLikeTextCorrectly:[story likesCount]];
+    [self setLikeTextCount:[story likesCount]];
     [self performSelectorInBackground:@selector(saveLikeToCache) withObject:nil];
-    numberOfPeopleLikes.text = [NSString stringWithFormat:@"%d",[story likesCount]];
 }
 
 - (void)saveLikeToCache
@@ -448,7 +421,7 @@ PopupError *popupError;
                         [lastCommentView removeRoundedCorners];
                     }                    
                 } else {
-                    lastCommentY = likeView.frame.origin.y + likeView.frame.size.height + 10;
+                    lastCommentY = storyLikeArea.frame.origin.y + storyLikeArea.frame.size.height + 10;
                 }
                 
                 // Add new comment

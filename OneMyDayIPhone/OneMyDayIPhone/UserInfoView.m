@@ -73,7 +73,7 @@
             // Edit profile button
             UIButton *editBtn = [[UIButton alloc] initWithFrame: CGRectMake(60, 25, 120, 30)];
             editBtn.tag = [user userId];
-            [editBtn setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"edit_profile_button"]]];
+            [editBtn setImage:[UIImage imageNamed:@"edit_profile_button"] forState:UIControlStateNormal];
             [editBtn addTarget:self action:@selector(editBtnTap:) forControlEvents:UIControlEventTouchUpInside];
             [containerInnerView addSubview:editBtn];
             [containerInnerView bringSubviewToFront:editBtn];

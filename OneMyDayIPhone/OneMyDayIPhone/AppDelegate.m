@@ -204,4 +204,17 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     loggedInFlag = loggedIn;
 }
 
++ (id)loadNibNamed:(NSString *)nibName ofClass:(Class)objClass {
+    if (nibName && objClass) {
+        NSArray *objects = [[NSBundle mainBundle] loadNibNamed:nibName owner:nil options:nil];
+        
+        for (id currentObject in objects ){
+            if ([currentObject isKindOfClass:objClass])
+                return currentObject;
+        }
+    }
+    
+    return nil;
+}
+
 @end

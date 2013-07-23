@@ -122,9 +122,9 @@
     }
     
     // add bottom bar
-    [self addBottomButtonWithTitle:@"Photo" frame:CGRectMake(0.1, 0.0, 108, 50) action:@selector(addPhoto:)];
-    [self addBottomButtonWithTitle:@"Library" frame:CGRectMake(107.0, 0.0, 108, 50) action:@selector(addPhotoFromLib:)];
-    [self addBottomButtonWithTitle:@"Text" frame:CGRectMake(214.0, 0.0, 107, 50) action:@selector(addText:)];
+    [self addBottomButtonWithTitle:NSLocalizedString(@"Photo", nil) frame:CGRectMake(0.1, 0.0, 108, 50) action:@selector(addPhoto:)];
+    [self addBottomButtonWithTitle:NSLocalizedString(@"Library", nil) frame:CGRectMake(107.0, 0.0, 108, 50) action:@selector(addPhotoFromLib:)];
+    [self addBottomButtonWithTitle:NSLocalizedString(@"Text", nil) frame:CGRectMake(214.0, 0.0, 107, 50) action:@selector(addText:)];
     
     // other
     [[self view] setBackgroundColor:[UIColor whiteColor]];

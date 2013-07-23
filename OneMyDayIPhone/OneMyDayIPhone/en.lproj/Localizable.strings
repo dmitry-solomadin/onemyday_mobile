@@ -27,6 +27,7 @@
 "No stories found" = "No stories found";
 "Log out" = "Log out";
 "Please, enter story title." = "Please, enter story title.";
+"Please enter comment text" = "Please enter comment text";
 "Your story should have at least one image." = "Your story should have at least one image.";
 "Done" = "Done";
 "%@ added a new %@ story" = "%@ added a new %@ story";
@@ -54,3 +55,6 @@
 "Loading..." = "Loading...";
 "Loading Status" = "Loading Status";
 "Last Updated: %@" = "Last Updated: %@";
+"Photo" = "Photo";
+"Library" = "Library";
+"Text" = "Text";

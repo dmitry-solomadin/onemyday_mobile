@@ -27,6 +27,7 @@
 "No stories found" = "Ни одной истории не найдено";
 "Log out" = "Выход";
 "Please, enter story title." = "Введите заголовок истории.";
+"Please enter comment text" = "Введите текст комментария";
 "Your story should have at least one image." = "Ваша история должна содержать фотографию.";
 "Done" = "Готово";
 "%@ added a new %@ story" = "%@ добавил(а) новую %@ историю";
@@ -56,3 +57,6 @@
 "Loading..." = "Загрузка...";
 "Loading Status" = "Статус загрузки";
 "Last Updated: %@" = "Последнее обновление: %@";
+"Photo" = "Фото";
+"Library" = "Сохр.";
+"Text" = "Текст";

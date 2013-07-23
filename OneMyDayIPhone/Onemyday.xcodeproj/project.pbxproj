@@ -209,7 +209,6 @@
 		18E2423F1717127800435FBE /* UserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2423E1717127800435FBE /* UserStore.m */; };
 		18E24242171739D700435FBE /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E24240171739D500435FBE /* gear@2x.png */; };
 		18E24243171739D700435FBE /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E24241171739D600435FBE /* gear.png */; };
-		18E2424617173A1100435FBE /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2424517173A1000435FBE /* SettingsViewController.m */; };
 		18EA1763178235570081CC47 /* PopupError.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA1762178235570081CC47 /* PopupError.m */; };
 		18EC7CBD17462A0800F50A70 /* ThumbStoryDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EC7CBC17462A0800F50A70 /* ThumbStoryDetailsView.m */; };
 		18F98FD7171378C600D8F7A3 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FBF171378C600D8F7A3 /* NSObject+SBJson.m */; };
@@ -284,6 +283,10 @@
 		84A6079C1743823E00848AF7 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A607931743823E00848AF7 /* whiteArrow@2x.png */; };
 		84A973A0177B884200CCB9EF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A9739F177B884200CCB9EF /* SignUpViewController.m */; };
 		84A973A4177B8FFE00CCB9EF /* blankPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A973A3177B8FFE00CCB9EF /* blankPhoto.png */; };
+		84AA0799179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */; };
+		84AA079A179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */; };
+		84AA079D179F2DD8004DEDD2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */; };
+		84AA079E179F2DD8004DEDD2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */; };
 		84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AEC1B117213FD1005CCD58 /* onemydayLogo.png */; };
 		84CAB96617945EBC007E5690 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84CAB96817945EBC007E5690 /* Localizable.strings */; };
 		84CAB97117947A64007E5690 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CAB96F17947A64007E5690 /* LoginViewController.xib */; };
@@ -559,7 +562,6 @@
 		18E24240171739D500435FBE /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gear@2x.png"; path = "assets/gear@2x.png"; sourceTree = "<group>"; };
 		18E24241171739D600435FBE /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = assets/gear.png; sourceTree = "<group>"; };
 		18E2424417173A1000435FBE /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		18E2424517173A1000435FBE /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		18EA1761178235560081CC47 /* PopupError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupError.h; sourceTree = "<group>"; };
 		18EA1762178235570081CC47 /* PopupError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupError.m; sourceTree = "<group>"; };
 		18EC7CBB17462A0800F50A70 /* ThumbStoryDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbStoryDetailsView.h; sourceTree = "<group>"; };
@@ -657,6 +659,9 @@
 		84A9739E177B884200CCB9EF /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		84A9739F177B884200CCB9EF /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		84A973A3177B8FFE00CCB9EF /* blankPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankPhoto.png; sourceTree = "<group>"; };
+		84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSiteViewController.m; sourceTree = "<group>"; };
+		84AA079B179F2DA9004DEDD2 /* HomeSiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSiteViewController.h; sourceTree = "<group>"; };
+		84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		84AEC1B117213FD1005CCD58 /* onemydayLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemydayLogo.png; sourceTree = "<group>"; };
 		84CAB96317945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FormatterKit.strings; sourceTree = "<group>"; };
 		84CAB96417945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1026,6 +1031,9 @@
 		18F98F44171370C700D8F7A3 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */,
+				84AA079B179F2DA9004DEDD2 /* HomeSiteViewController.h */,
+				84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */,
 				84A9739E177B884200CCB9EF /* SignUpViewController.h */,
 				84A9739F177B884200CCB9EF /* SignUpViewController.m */,
 				180D979B171F0FD90034A9C2 /* MasterViewController.h */,
@@ -1045,7 +1053,6 @@
 				18E242201716CA8400435FBE /* ProfileViewController.h */,
 				18E242211716CA8400435FBE /* ProfileViewController.m */,
 				18E2424417173A1000435FBE /* SettingsViewController.h */,
-				18E2424517173A1000435FBE /* SettingsViewController.m */,
 				180D97A2171F27200034A9C2 /* EditorViewController.h */,
 				180D97A3171F27200034A9C2 /* EditorViewController.m */,
 				18B37EB1173189AA0007D53E /* AddTextViewController.h */,
@@ -1688,7 +1695,6 @@
 				18E242221716CA8400435FBE /* ProfileViewController.m in Sources */,
 				18E2423C1716E26900435FBE /* User.m in Sources */,
 				18E2423F1717127800435FBE /* UserStore.m in Sources */,
-				18E2424617173A1100435FBE /* SettingsViewController.m in Sources */,
 				849C6E2717183F74006C5766 /* DMTwitter.m in Sources */,
 				849C6E2B17183FA9006C5766 /* DMTwitterLoginViewController.m in Sources */,
 				849C6E3317183FF2006C5766 /* DMOAuthTwitter.m in Sources */,
@@ -1717,6 +1723,8 @@
 				18EA1763178235570081CC47 /* PopupError.m in Sources */,
 				186022F2178974FA006A31DF /* UIApplication+NetworkActivity.m in Sources */,
 				181AE40F179EA1A900F3301B /* StoryLikeAreaView.m in Sources */,
+				84AA0799179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */,
+				84AA079D179F2DD8004DEDD2 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1740,6 +1748,8 @@
 				18F98FF317137A1A00D8F7A3 /* HomeViewController.m in Sources */,
 				18F98FFC1713865D00D8F7A3 /* ThumbStoryView.m in Sources */,
 				849C6E2C17183FA9006C5766 /* DMTwitterLoginViewController.m in Sources */,
+				84AA079A179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */,
+				84AA079E179F2DD8004DEDD2 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

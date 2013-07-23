@@ -9,7 +9,7 @@
 #import "SettingsViewController.h"
 #import "AppDelegate.h"
 #import "StartViewController.h"
-
+#import "HomeSiteViewController.h"
 #import "DMTwitterCore.h"
 
 @interface SettingsViewController ()
@@ -17,6 +17,8 @@
 @end
 
 @implementation SettingsViewController
+
+NSURL *onemydayUrl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -68,7 +70,69 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	
+    onemydayUrl = [NSURL URLWithString:@"http://onemyday.co"];
+    
+    UITableView *tblView = [[UITableView alloc]init];
+    tblView.frame = CGRectMake(0, 0, 320, 90); // here , you can set you tableview's frame in view.
+    tblView.delegate = self; // for delegate methods this one need to set compulsary
+    tblView.dataSource = self;// for datasource methods this one need to set compulsary
+    tblView.backgroundColor = [UIColor clearColor];
+    tblView.tag = 3; // Tag is used to make the seperation between multiple tables.
+    [self.view addSubview:tblView]; // place tableview on the main view on which you want to display it.
+}
+
+// Optional method
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
+{
+    return 2; // Default is 1 if not implemented
+}
+
+// required datasource methods
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell=[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    NSInteger section = [indexPath section];
+         
+    switch (section) {
+        case 0: // First cell in section 1
+            cell.textLabel.text = @"Version 1.0"; // You can place you content string here what you want to show in each row of the tableview         
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            break;
+            
+        case 1:
+            cell.textLabel.text = @"Onemyday.co";
+            break;
+    }
+    return cell;
+}
+
+// Required delegate methods
+- (void)tableView:(UITableView *)tableView1 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger section = [indexPath section];
+    
+    HomeSiteViewController *homeSiteViewController;
+    
+    switch (section) {    
+        case 1:           
+           
+            homeSiteViewController = [[HomeSiteViewController alloc] initWithNibName:nil bundle:nil];
+            [[self navigationController] pushViewController:homeSiteViewController animated:YES];          
+            
+            break;
+    }
+  
 }
 
 - (void)didReceiveMemoryWarning

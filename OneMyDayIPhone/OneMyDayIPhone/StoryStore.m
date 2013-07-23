@@ -91,7 +91,10 @@ lastId: (long) lastId withLimit: (int) limit userId: (int) userId authorId: (int
     [parameters addObject:@"ft=2"];
     [parameters addObject:@"page=all"];
     [parameters addObject:[NSString stringWithFormat:@"requesting_user_id=%d",userId]];
-    if(text != nil)[parameters addObject:[NSString stringWithFormat:@"q=%@",text]];
+    if(text != nil){
+        text = [text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [parameters addObject:[NSString stringWithFormat:@"q=%@",text]];
+    }
     else if (newStories) [parameters addObject:[NSString stringWithFormat:@"higher_than_id=%ld",lastId]];
     else [parameters addObject:[NSString stringWithFormat:@"lower_than_id=%ld",lastId]];
     [parameters addObject:[NSString stringWithFormat:@"limit=%d",limit]];

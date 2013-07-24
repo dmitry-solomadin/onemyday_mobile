@@ -121,6 +121,9 @@ PopupError *popupError;
     Request *request = [[Request alloc] init];
     [request addStringToPostData:@"email" andValue:[txtEmail text]];
     [request addStringToPostData:@"password" andValue:[txtPassword text]];
+    NSString *deviceToken = [[NSString alloc] initWithData:appDelegate.deviceToken
+                                              encoding:NSUTF8StringEncoding];
+    [request addStringToPostData:@"ios_device_token" andValue:deviceToken];
     
     NSDictionary *jsonData = [request send:@"auth/regular.json"];
     if(jsonData == nil) return nil;

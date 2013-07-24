@@ -11,6 +11,7 @@
 #import "StartViewController.h"
 #import "HomeSiteViewController.h"
 #import "DMTwitterCore.h"
+#import "Request.h"
 
 @interface SettingsViewController ()
 
@@ -19,16 +20,18 @@
 @implementation SettingsViewController
 
 NSURL *onemydayUrl;
+AppDelegate *appDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        appDelegate = [[UIApplication sharedApplication] delegate];
         UIBarButtonItem *logOutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Log out", nil)
                                                                          style:UIBarButtonItemStyleBordered
                                                                         target:self action:@selector(logOut:)];
         
-        [logOutButton setTintColor:[UIColor colorWithRed:0.9 green:0.1 blue:0.1 alpha:1.0]];
+        [logOutButton setTintColor:[appDelegate onemydayColor]];
         self.navigationItem.rightBarButtonItem = logOutButton;
     }
     return self;
@@ -37,33 +40,25 @@ NSURL *onemydayUrl;
 - (void)logOut:(id)sender
 {
      NSLog(@"Logging out...");
-    // get the app delegate so that we can access the session property
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    if(appDelegate.loggedInFlag == 1)
-    {
+    if(appDelegate.loggedInFlag == 1) {
         NSLog(@"Logging out facebook");
         [appDelegate.session closeAndClearTokenInformation];
-    }
-    
-    else if (appDelegate.loggedInFlag == 2)
-    {
+    } else if (appDelegate.loggedInFlag == 2) {
         NSLog(@"Logging out twitter");
         [[DMTwitter shared] logout];
-    }
-    
-    else if (appDelegate.loggedInFlag == 3)
-    {
+    } else if (appDelegate.loggedInFlag == 3) {
         NSLog(@"Logging out email");        
     }
+    
+    [self wipeDeviceTokenFromUser];
+    
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loggedInFlag"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     appDelegate.loggedInFlag = 0;
     appDelegate.currentUserId = 0;
     
-    //StartViewController  *startViewController = [[StartViewController alloc] initWithNibName:@"StartViewController" bundle:nil];
-    //[self presentViewController:startViewController animated:YES completion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -73,43 +68,40 @@ NSURL *onemydayUrl;
 	
     onemydayUrl = [NSURL URLWithString:@"http://onemyday.co"];
     
-    UITableView *tblView = [[UITableView alloc]init];
-    tblView.frame = CGRectMake(0, 0, 320, 90); // here , you can set you tableview's frame in view.
-    tblView.delegate = self; // for delegate methods this one need to set compulsary
-    tblView.dataSource = self;// for datasource methods this one need to set compulsary
+    UITableView *tblView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, [[self view] bounds].size.height)
+                                                        style:UITableViewStyleGrouped];
+    tblView.delegate = self;
+    tblView.dataSource = self;
     tblView.backgroundColor = [UIColor clearColor];
-    tblView.tag = 3; // Tag is used to make the seperation between multiple tables.
-    [self.view addSubview:tblView]; // place tableview on the main view on which you want to display it.
+    [self.view addSubview:tblView];
 }
 
-// Optional method
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
-    return 2; // Default is 1 if not implemented
-}
-
-// required datasource methods
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 2;
+    }
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell=[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil)
-    {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    NSInteger section = [indexPath section];
-         
-    switch (section) {
-        case 0: // First cell in section 1
-            cell.textLabel.text = @"Version 1.0"; // You can place you content string here what you want to show in each row of the tableview         
+    NSInteger row = [indexPath row];
+    switch (row) {
+        case 0:
+            cell.textLabel.text = @"Version 1.0";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            break;
-            
+            break;            
         case 1:
             cell.textLabel.text = @"Onemyday.co";
             break;
@@ -117,28 +109,26 @@ NSURL *onemydayUrl;
     return cell;
 }
 
-// Required delegate methods
 - (void)tableView:(UITableView *)tableView1 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger section = [indexPath section];
+    NSInteger row = [indexPath row];
     
     HomeSiteViewController *homeSiteViewController;
-    
-    switch (section) {    
-        case 1:           
-           
+    switch (row) {
+        case 1:
             homeSiteViewController = [[HomeSiteViewController alloc] initWithNibName:nil bundle:nil];
-            [[self navigationController] pushViewController:homeSiteViewController animated:YES];          
-            
+            [[self navigationController] pushViewController:homeSiteViewController animated:YES];                      
             break;
     }
-  
 }
 
-- (void)didReceiveMemoryWarning
+- (void)wipeDeviceTokenFromUser
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    Request *request = [[Request alloc] init];
+    [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
+    [request addStringToPostData:@"user[ios_device_token]" andValue:@""];    
+    [request sendAsync:@"/api/stories/create_and_publish"
+            onProgress:nil onFinish:nil];
 }
 
 @end

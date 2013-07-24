@@ -277,6 +277,9 @@ UITextField *emailTextField;
     if(firstName != nil)[request addStringToPostData:@"omniauth[info][first_name]" andValue: firstName];
     if(lastName != nil)[request addStringToPostData:@"omniauth[info][last_name]" andValue: lastName];
     if(nickame != nil)[request addStringToPostData:@"omniauth[info][nickname]" andValue: nickame];
+    NSString *deviceToken = [[NSString alloc] initWithData:appDelegate.deviceToken
+                                                  encoding:NSUTF8StringEncoding];
+    [request addStringToPostData:@"ios_device_token" andValue:deviceToken];
     //[request addStringToPostData:@"existing_user_id" andValue:[NSString stringWithFormat:@"%d",9]];
     
      NSLog(@"email:%@", email);

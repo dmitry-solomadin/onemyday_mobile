@@ -131,9 +131,7 @@
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
         
-        NSString *searchText = [textField text];
-        NSCharacterSet *replaceHash = [NSCharacterSet characterSetWithCharactersInString:@"#"];
-        searchText = [[searchText componentsSeparatedByCharactersInSet: replaceHash] componentsJoinedByString: @"%23"];
+        NSString *searchText = [textField text];        
         NSMutableArray *newStories = [[StoryStore get] requestStoriesIncludePhotos:YES includeUser:YES newStories: true lastId: 0 withLimit: 100 userId: [appDelegate currentUserId] authorId:0 searchFor:searchText];
 
         dispatch_async(dispatch_get_main_queue(), ^{

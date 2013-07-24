@@ -27,6 +27,8 @@
 
 @property int currentUserId;
 
+@property NSData *deviceToken;
+
 + (UIViewController *)initMasterController;
 + (id)loadNibNamed:(NSString *)nibName ofClass:(Class)objClass;
 - (bool)checkAuthorization;

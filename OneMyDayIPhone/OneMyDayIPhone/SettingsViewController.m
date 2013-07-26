@@ -59,6 +59,8 @@ AppDelegate *appDelegate;
     appDelegate.loggedInFlag = 0;
     appDelegate.currentUserId = 0;
     
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

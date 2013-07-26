@@ -27,7 +27,7 @@
 
 @property int currentUserId;
 
-@property NSData *deviceToken;
+@property NSString *deviceToken;
 
 + (UIViewController *)initMasterController;
 + (id)loadNibNamed:(NSString *)nibName ofClass:(Class)objClass;

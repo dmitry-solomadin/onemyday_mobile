@@ -121,21 +121,20 @@ PopupError *popupError;
     Request *request = [[Request alloc] init];
     [request addStringToPostData:@"email" andValue:[txtEmail text]];
     [request addStringToPostData:@"password" andValue:[txtPassword text]];
-    NSString *deviceToken = [[NSString alloc] initWithData:appDelegate.deviceToken
-                                              encoding:NSUTF8StringEncoding];
-    [request addStringToPostData:@"ios_device_token" andValue:deviceToken];
+    [request addStringToPostData:@"ios_device_token" andValue:appDelegate.deviceToken];
     
     NSDictionary *jsonData = [request send:@"auth/regular.json"];
     if(jsonData == nil) return nil;
     
     NSString *status = (NSString *) [jsonData objectForKey:@"status"];
-    if([status isEqualToString: @"no_such_user"]){
+    if([status isEqualToString: @"no_such_user"]) {
         loginErrorMsg = NSLocalizedString(@"Wrong email or password!", nil);
         return nil;
-    } else if([status isEqualToString: @"wrong_password"]){
+    } else if([status isEqualToString: @"wrong_password"]) {
         loginErrorMsg = NSLocalizedString(@"Wrong password", nil);
         return nil;
-    } else if([status isEqualToString: @"ok"]){
+    } else if([status isEqualToString: @"ok"]) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = [[jsonData objectForKey:@"unseen_activities_count"] intValue];
         User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
         [[UserStore get] addUser:user];
         return user;
@@ -162,7 +161,8 @@ PopupError *popupError;
 
 + (bool) validateEmail:(NSString *) email{   
     NSString *regExPattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$";
-    NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern
+                                                                      options:NSRegularExpressionCaseInsensitive error:nil];
     NSUInteger regExMatches = [regEx numberOfMatchesInString:email options:0 range:NSMakeRange(0, [email length])];
     NSLog(@"%i", regExMatches);
     if (regExMatches == 0) {

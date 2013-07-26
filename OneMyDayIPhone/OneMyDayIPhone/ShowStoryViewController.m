@@ -111,7 +111,7 @@ PopupError *popupError;
         if([story isLikedByUser]){
             [storyLikeArea.button setImage:[UIImage imageNamed:@"liked_button"] forState:UIControlStateNormal];
          } else {
-            [storyLikeArea.button setImage:[UIImage imageNamed:@"liked_button"] forState:UIControlStateNormal];
+            [storyLikeArea.button setImage:[UIImage imageNamed:@"like_button"] forState:UIControlStateNormal];
         }
         [self setLikeTextCount:[story likesCount]];
         

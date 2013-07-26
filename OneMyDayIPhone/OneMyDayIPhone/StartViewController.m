@@ -212,7 +212,7 @@ UITextField *emailTextField;
 {
     // get the app delegate, so that we can reference the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-     NSLog(@"flag0 %d",appDelegate.loggedInFlag);
+    NSLog(@"flag0 %d",appDelegate.loggedInFlag);
     if(appDelegate.loggedInFlag == 0) [appDelegate checkAuthorization];
     NSLog(@"flag1 %d",appDelegate.loggedInFlag);
     if(appDelegate.loggedInFlag != 0){
@@ -239,15 +239,13 @@ UITextField *emailTextField;
             }];
             //appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
             [self goToMasterView];
-        }
-        else if (appDelegate.loggedInFlag == 2 && [DMTwitter shared].oauth_token_authorized) {
+        } else if (appDelegate.loggedInFlag == 2 && [DMTwitter shared].oauth_token_authorized) {
             NSLog(@"Welcome to twitter session!");
             NSLog(@"[DMTwitter shared] oauth_token_secret%@", [DMTwitter shared].oauth_token_secret);
             NSLog(@"[DMTwitter shared] oauth_token%@", [DMTwitter shared].oauth_token);
             //appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
             [self goToMasterView];
-        }
-        else if (appDelegate.loggedInFlag == 3) {
+        } else if (appDelegate.loggedInFlag == 3) {
             NSLog(@"Welcome to email session!");
             //appDelegate.loggedInFlag = [NSNumber numberWithInt:3];
             [self goToMasterView];
@@ -277,24 +275,17 @@ UITextField *emailTextField;
     if(firstName != nil)[request addStringToPostData:@"omniauth[info][first_name]" andValue: firstName];
     if(lastName != nil)[request addStringToPostData:@"omniauth[info][last_name]" andValue: lastName];
     if(nickame != nil)[request addStringToPostData:@"omniauth[info][nickname]" andValue: nickame];
-    NSString *deviceToken = [[NSString alloc] initWithData:appDelegate.deviceToken
-                                                  encoding:NSUTF8StringEncoding];
-    [request addStringToPostData:@"ios_device_token" andValue:deviceToken];
+    [request addStringToPostData:@"ios_device_token" andValue:appDelegate.deviceToken];
     //[request addStringToPostData:@"existing_user_id" andValue:[NSString stringWithFormat:@"%d",9]];
+
+    NSDictionary *jsonData = [request send:@"/api/sessions/social_auth.json"];
     
-     NSLog(@"email:%@", email);
-    
-    NSDictionary *jsonData;  
-    
-    jsonData = [request send:@"/api/sessions/social_auth.json"];
-    
-    if(jsonData != nil){    
-        
+    if(jsonData != nil) {
         NSString *status = [jsonData objectForKey:@"status"];
-       
-        if([status isEqualToString: @"ok"]){
-            
-            User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
+        
+        if([status isEqualToString: @"ok"]) {
+            [UIApplication sharedApplication].applicationIconBadgeNumber = [[jsonData objectForKey:@"unseen_activities_count"] intValue];
+            User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey:@"user"]];
             [[UserStore get] addUser:user];            
             if([provider isEqualToString:@"twitter"]){
                 // store our auth data so we can use later in other sessions

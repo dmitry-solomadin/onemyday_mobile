@@ -168,9 +168,9 @@ UITextField *emailTextField;
 }
 
 - (IBAction)loginTwitter:(id)sender
-{
+{ 
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-    appDelegate.loggedInFlag = [NSNumber numberWithInt:2];
+    appDelegate.loggedInFlag = 2;
     
     [[DMTwitter shared] newLoginSessionFrom:self.navigationController
                                    progress:^(DMOTwitterLoginStatus currentStatus) {
@@ -180,13 +180,15 @@ UITextField *emailTextField;
                                            NSLog(@"Twitter login failed: %@",error);
                                        } else {
                                            NSLog(@"Welcome %@!",screenName);
-                                               
-                                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Enter your email:", nil) message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:@"Ok", nil];
-                                           alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-                                           emailTextField = [alertView textFieldAtIndex:0];
-                                           [alertView show];
+                                           NSLog(@"user_id %@!",user_id);
+                                           
+                                           NSString *email = [NSString stringWithFormat:@"twitter_%@@onemyday.co", user_id];
+                                                                                      
+                                           [self socialAuth:[DMTwitter shared].user_id withProvider:@"twitter" andToken:[DMTwitter shared].oauth_token andSecret:[DMTwitter shared].oauth_token_secret AndEmail:email  andFirstName:nil andLastName:nil  andNickName:[DMTwitter shared].screen_name];
                                        }
+                                      
                                    }];
+    
 }
 
 + (NSString *) readableCurrentLoginStatus:(DMOTwitterLoginStatus) cstatus {
@@ -212,9 +214,9 @@ UITextField *emailTextField;
 {
     // get the app delegate, so that we can reference the session property
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-     NSLog(@"flag0 %d",appDelegate.loggedInFlag);
+
     if(appDelegate.loggedInFlag == 0) [appDelegate checkAuthorization];
-    NSLog(@"flag1 %d",appDelegate.loggedInFlag);
+
     if(appDelegate.loggedInFlag != 0){
         if (appDelegate.loggedInFlag == 1 && appDelegate.session.isOpen) {
             NSLog(@"Welcome to facebook session!");
@@ -260,8 +262,8 @@ UITextField *emailTextField;
 - (void)goToMasterView
 {
     UIViewController *masterController = [AppDelegate initMasterController];
-    [self presentViewController:masterController animated:NO completion:nil];
-    //[self dismissViewControllerAnimated:YES completion:nil];
+    
+    [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentViewController:masterController animated:NO completion:nil];    
 }
 
 - (void)socialAuth:(NSString *)uid withProvider:(NSString *)provider andToken:(NSString *)token andSecret:(NSString *)secret AndEmail:(NSString *)email andFirstName:(NSString *)firstName andLastName:(NSString *)lastName andNickName:(NSString *)nickame
@@ -281,38 +283,42 @@ UITextField *emailTextField;
     
      NSLog(@"email:%@", email);
     
-    NSDictionary *jsonData;  
+    NSDictionary *jsonData;
     
-    jsonData = [request send:@"/api/sessions/social_auth.json"];
+    jsonData = [request send:@"/api/sessions/social_auth.json"];    
     
-    if(jsonData != nil){    
+    if(jsonData != nil){
         
         NSString *status = [jsonData objectForKey:@"status"];
-       
+        
         if([status isEqualToString: @"ok"]){
             
             User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey: @"user"]];
-            [[UserStore get] addUser:user];            
+            [[UserStore get] addUser:user];
             if([provider isEqualToString:@"twitter"]){
                 // store our auth data so we can use later in other sessions
                 [[DMTwitter shared] saveCredentials];
                 [appDelegate saveCredentials:[user userId] loggedInWith:2];
-            } else [appDelegate saveCredentials:[user userId] loggedInWith:1]; //logged with faceboock
-            
-            [self updateView];
-        }        
-    }
+                [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:^(){
+                  [self updateView];  
+                }];
+            } else {
+                [appDelegate saveCredentials:[user userId] loggedInWith:1]; //logged with faceboock
+                [self updateView];
+            }  
+        }
+    }    
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
+/*- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+ 
     if (buttonIndex == [alertView cancelButtonIndex]) {
         NSLog(@"The cancel button was clicked for alertView");
     } else {
         [self socialAuth:[DMTwitter shared].user_id withProvider:@"twitter" andToken:[DMTwitter shared].oauth_token andSecret:[DMTwitter shared].oauth_token_secret AndEmail:[emailTextField text]  andFirstName:nil andLastName:nil  andNickName:[DMTwitter shared].screen_name];
     }
     // else do your stuff for the rest of the buttons (firstOtherButtonIndex, secondOtherButtonIndex, etc)
-}
+}*/
 
 
 @end

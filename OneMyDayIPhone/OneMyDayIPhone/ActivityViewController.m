@@ -39,6 +39,8 @@ bool calledFirstTime = true;
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     noActivitiesText.frame = CGRectMake(0, ([[self view] bounds].size.height / 2) - 20, 320, 20);
     
+    // Set badge number to zero when user visits activity controller
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)viewDidLoad

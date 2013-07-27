@@ -23,6 +23,7 @@
 @synthesize session;
 @synthesize loggedInFlag;
 @synthesize currentUserId;
+@synthesize deviceToken;
 
 NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 
@@ -169,8 +170,14 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
     else return false;
 }*/
 
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)_deviceToken
 {
+    const unsigned *tokenBytes = [_deviceToken bytes];
+    NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    deviceToken = hexToken;
 	NSLog(@"My token is: %@", deviceToken);
 }
 
@@ -180,7 +187,7 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
 }
 
 - (void)alertStatus:(NSString *)msg :(NSString *) title
-{
+{   
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:msg
                                                        delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];

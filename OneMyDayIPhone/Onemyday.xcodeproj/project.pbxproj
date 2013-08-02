@@ -60,6 +60,9 @@
 		181AE421179EE75D00F3301B /* add_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181AE41E179EE75D00F3301B /* add_button@2x.png */; };
 		181AE426179EE76900F3301B /* add_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 181AE422179EE76900F3301B /* add_button.png */; };
 		181AE427179EE76900F3301B /* add_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 181AE424179EE76900F3301B /* add_button@2x.png */; };
+		1838AED117ABBF2D00949DE1 /* DefaultStart-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1838AED017ABBF2D00949DE1 /* DefaultStart-568h@2x.png */; };
+		1838AED617ABBF4000949DE1 /* UICustomImageView.h in Sources */ = {isa = PBXBuildFile; fileRef = 1838AED417ABBF4000949DE1 /* UICustomImageView.h */; };
+		1838AED717ABBF4000949DE1 /* UICustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1838AED517ABBF4000949DE1 /* UICustomImageView.m */; };
 		184374241742EA33005828E7 /* no-avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 184374221742EA33005828E7 /* no-avatar@2x.png */; };
 		184374251742EA33005828E7 /* no-avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 184374231742EA33005828E7 /* no-avatar.png */; };
 		184D55EB173844750088CADF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184D55EA173844750088CADF /* CoreMedia.framework */; };
@@ -387,6 +390,9 @@
 		181AE41F179EE75D00F3301B /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/add_button@2x.png"; sourceTree = "<group>"; };
 		181AE423179EE76900F3301B /* ru */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ru; path = ru.lproj/add_button.png; sourceTree = "<group>"; };
 		181AE425179EE76900F3301B /* ru */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ru; path = "ru.lproj/add_button@2x.png"; sourceTree = "<group>"; };
+		1838AED017ABBF2D00949DE1 /* DefaultStart-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DefaultStart-568h@2x.png"; path = "OneMyDayIPhone/DefaultStart-568h@2x.png"; sourceTree = "<group>"; };
+		1838AED417ABBF4000949DE1 /* UICustomImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UICustomImageView.h; path = OneMyDayIPhone/UICustomImageView.h; sourceTree = "<group>"; };
+		1838AED517ABBF4000949DE1 /* UICustomImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UICustomImageView.m; path = OneMyDayIPhone/UICustomImageView.m; sourceTree = "<group>"; };
 		184374221742EA33005828E7 /* no-avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar@2x.png"; path = "assets/no-avatar@2x.png"; sourceTree = "<group>"; };
 		184374231742EA33005828E7 /* no-avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "no-avatar.png"; path = "assets/no-avatar.png"; sourceTree = "<group>"; };
 		184D55C8173831E90088CADF /* OnemydayTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnemydayTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1104,6 +1110,9 @@
 		844DFA4E16CFB66F00884637 = {
 			isa = PBXGroup;
 			children = (
+				1838AED417ABBF4000949DE1 /* UICustomImageView.h */,
+				1838AED517ABBF4000949DE1 /* UICustomImageView.m */,
+				1838AED017ABBF2D00949DE1 /* DefaultStart-568h@2x.png */,
 				844DFA6316CFB66F00884637 /* OneMyDayIPhone */,
 				18E242251716DB4E00435FBE /* Resources */,
 				844DFA8D16CFB67000884637 /* OneMyDayIPhoneTests */,
@@ -1440,6 +1449,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1838AED117ABBF2D00949DE1 /* DefaultStart-568h@2x.png in Resources */,
 				18064FFF175764850054338C /* heart_small@2x.png in Resources */,
 				18065000175764850054338C /* heart_small.png in Resources */,
 				18065001175764850054338C /* eye@2x.png in Resources */,
@@ -1639,6 +1649,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1838AED617ABBF4000949DE1 /* UICustomImageView.h in Sources */,
+				1838AED717ABBF4000949DE1 /* UICustomImageView.m in Sources */,
 				18602302178B45C2006A31DF /* YIInnerShadowLayer.h in Sources */,
 				18602303178B45C2006A31DF /* YIInnerShadowLayer.m in Sources */,
 				18602304178B45C2006A31DF /* YIInnerShadowView.h in Sources */,
@@ -2180,6 +2192,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Dmytro Solomadin (7GAM23J8BS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2196,6 +2209,7 @@
 				HEADER_SEARCH_PATHS = "./OneMyDayIPhone/vendor/GPUImage/framework/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "DAD8BF93-E7F3-4DA1-B5C9-D1258B602355";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2210,6 +2224,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dmytro Solomadin";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2219,6 +2234,7 @@
 				HEADER_SEARCH_PATHS = "./OneMyDayIPhone/vendor/GPUImage/framework/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "A45556BD-E7BE-4474-9980-E9F35C0F785C";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -2228,6 +2244,7 @@
 		844DFA9916CFB67000884637 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Dmytro Solomadin (7GAM23J8BS)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -2237,6 +2254,7 @@
 				HEADER_SEARCH_PATHS = "./OneMyDayIPhone/vendor/GPUImage/framework/**";
 				INFOPLIST_FILE = "OneMyDayIPhone/Onemyday-Info.plist";
 				PRODUCT_NAME = Onemyday;
+				PROVISIONING_PROFILE = "DAD8BF93-E7F3-4DA1-B5C9-D1258B602355";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2245,6 +2263,7 @@
 		844DFA9A16CFB67000884637 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dmytro Solomadin";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -2254,6 +2273,7 @@
 				HEADER_SEARCH_PATHS = "./OneMyDayIPhone/vendor/GPUImage/framework/**";
 				INFOPLIST_FILE = "OneMyDayIPhone/Onemyday-Info.plist";
 				PRODUCT_NAME = Onemyday;
+				PROVISIONING_PROFILE = "A45556BD-E7BE-4474-9980-E9F35C0F785C";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

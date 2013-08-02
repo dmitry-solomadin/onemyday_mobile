@@ -25,7 +25,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>co.onemyday.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>co.onemyday.Onemyday</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

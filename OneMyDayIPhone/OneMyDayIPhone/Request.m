@@ -12,12 +12,6 @@
 #import "User.h"
 #import "UserStore.h"
 
-// TODO do we need this? Check!
-@interface NSURLRequest (DummyInterface)
-+ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString*)host;
-+ (void)setAllowsAnyHTTPSCertificate:(BOOL)allow forHost:(NSString*)host;
-@end
-
 @implementation Request
 
 NSString *mainUrl = @"http://onemyday.co/";
@@ -146,8 +140,6 @@ void (^progress)(float);
         // set the content-length
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        
-        [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[url host]];
     } else {
         [request setHTTPMethod:@"GET"];
     }

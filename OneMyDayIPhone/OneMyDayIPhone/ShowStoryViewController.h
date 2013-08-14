@@ -18,5 +18,6 @@
 - (id)initWithStory:(Story *)_story;
 - (void)deleteViewTapped:(UITapGestureRecognizer *)gr;
 - (void)likeButtonTapped;
+- (void)reportTapped;
 
 @end

@@ -46,7 +46,9 @@
 "Profile" = "Profile";
 "use # to search by tags" = "use # to search by tags";
 "Add Comment" = "Add Comment";
-"people likes this story" = "people likes this story";
+"likes" = "likes";
+"like1" = "likes";
+"like" = "like";
 "Pull down to refresh..." = "Pull down to refresh...";
 "Pull down to refresh status" = "Pull down to refresh status";
 "Release to refresh..." = "Release to refresh...";
@@ -58,3 +60,6 @@
 "Photo" = "Photo";
 "Library" = "Library";
 "Text" = "Text";
+"Are you sure you want to report this content?" = "Are you sure you want to report this content?";
+"Report" = "Report";
+"Your report has been sent" = "Your report has been sent";

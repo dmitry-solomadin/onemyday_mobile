@@ -48,7 +48,9 @@
 "Enter story title..." = "Введите заголовок истории...";
 "use # to search by tags" = "используйте # для поиска по тегам";
 "Add Comment" = "Добавить комментарий";
-"people likes this story" = "людям это понравилось";
+"likes" = "лайков";
+"like1" = "лайка";
+"like" = "лайк";
 "Pull down to refresh..." = "Потяни вниз чтобы обновить...";
 "Pull down to refresh status" = "Потяни вниз чтобы обновить статус";
 "Release to refresh..." = "Отпусти чтобы обновить...";
@@ -60,3 +62,6 @@
 "Photo" = "Фото";
 "Library" = "Сохр.";
 "Text" = "Текст";
+"Are you sure you want to report this content?" = "Вы точно хотите пожаловаться на этот контент?";
+"Report" = "Пожаловаться";
+"Your report has been sent" = "Ваша жалоба была отправлена";

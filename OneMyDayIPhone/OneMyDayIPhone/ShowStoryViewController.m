@@ -137,12 +137,55 @@ PopupError *popupError;
 
 - (void)setLikeTextCount:(int)likesCount
 {
-    storyLikeArea.text.text = [NSString stringWithFormat:@"%d %@",
-                               likesCount, NSLocalizedString(@"people likes this story", nil)];
+    if (likesCount == 1) {
+        storyLikeArea.text.text = [NSString stringWithFormat:@"%d %@",
+                                   likesCount, NSLocalizedString(@"like", nil)];
+    } else if (likesCount < 5){
+        storyLikeArea.text.text = [NSString stringWithFormat:@"%d %@",
+                                   likesCount, NSLocalizedString(@"like1", nil)];
+    } else {
+        storyLikeArea.text.text = [NSString stringWithFormat:@"%d %@",
+                                   likesCount, NSLocalizedString(@"likes", nil)];
+    }
+    
     if (likesCount == 0) {
         storyLikeArea.text.hidden = true;
     } else {
         storyLikeArea.text.hidden = false;
+    }
+}
+
+- (void)reportTapped
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to report this content?", nil)
+                                                    message:nil delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                          otherButtonTitles:NSLocalizedString(@"Report", nil), nil];
+    [alert show];    
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [popupError setTextAndShow:NSLocalizedString(@"Your report has been sent", nil)];
+        
+        NSMutableString *path = [NSString stringWithFormat:@"/api/stories/%d/update", [story storyId]];
+        Request *request = [[Request alloc] init];
+        
+        [[UIApplication sharedApplication] showNetworkActivityIndicator];
+        dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
+        dispatch_async(downloadQueue, ^{
+            [request addStringToPostData:@"api_key" andValue:appDelegate.apiKey];
+            [request addStringToPostData:@"story[reported_for]" andValue:@"regular"];
+            [request send:path];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+                if ([request errorMsg] != nil) {
+                    [appDelegate alertStatus:@"" :[request errorMsg]];
+                    return;
+                }
+            });
+        });
     }
 }
 

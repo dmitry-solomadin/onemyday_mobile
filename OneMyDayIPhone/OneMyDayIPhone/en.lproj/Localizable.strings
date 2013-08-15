@@ -52,7 +52,7 @@
 "Pull down to refresh..." = "Pull down to refresh...";
 "Pull down to refresh status" = "Pull down to refresh status";
 "Release to refresh..." = "Release to refresh...";
-"Release to refresh status" = "Release to refresh status";
+"Release to refresh status" = "Release to refresh status";  
 "Last Updated: %@" = "Last Updated: %@";
 "Loading..." = "Loading...";
 "Loading Status" = "Loading Status";
@@ -63,3 +63,5 @@
 "Are you sure you want to report this content?" = "Are you sure you want to report this content?";
 "Report" = "Report";
 "Your report has been sent" = "Your report has been sent";
+"Terms of use1" = "Terms of use";
+"By signing up you are indicating that you have read and agree to Terms of use" = "By signing up you are indicating that you have read and agree to Terms of use";

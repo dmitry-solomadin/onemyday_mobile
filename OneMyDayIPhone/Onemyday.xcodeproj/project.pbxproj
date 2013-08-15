@@ -242,6 +242,8 @@
 		18F98FF317137A1A00D8F7A3 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FF017137A1A00D8F7A3 /* HomeViewController.m */; };
 		18F98FFB1713865D00D8F7A3 /* ThumbStoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */; };
 		18F98FFC1713865D00D8F7A3 /* ThumbStoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */; };
+		18FD734817BC223B00A75B4F /* WebViewViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = 18FD734617BC223B00A75B4F /* WebViewViewController.h */; };
+		18FD734917BC223B00A75B4F /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FD734717BC223B00A75B4F /* WebViewViewController.m */; };
 		844DFA5E16CFB66F00884637 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5D16CFB66F00884637 /* UIKit.framework */; };
 		844DFA6016CFB66F00884637 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA5F16CFB66F00884637 /* Foundation.framework */; };
 		844DFA6216CFB66F00884637 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844DFA6116CFB66F00884637 /* CoreGraphics.framework */; };
@@ -286,8 +288,6 @@
 		84A6079C1743823E00848AF7 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A607931743823E00848AF7 /* whiteArrow@2x.png */; };
 		84A973A0177B884200CCB9EF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A9739F177B884200CCB9EF /* SignUpViewController.m */; };
 		84A973A4177B8FFE00CCB9EF /* blankPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A973A3177B8FFE00CCB9EF /* blankPhoto.png */; };
-		84AA0799179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */; };
-		84AA079A179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */; };
 		84AA079D179F2DD8004DEDD2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */; };
 		84AA079E179F2DD8004DEDD2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */; };
 		84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AEC1B117213FD1005CCD58 /* onemydayLogo.png */; };
@@ -601,6 +601,8 @@
 		18F98FF017137A1A00D8F7A3 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		18F98FF91713865D00D8F7A3 /* ThumbStoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbStoryView.h; sourceTree = "<group>"; };
 		18F98FFA1713865D00D8F7A3 /* ThumbStoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbStoryView.m; sourceTree = "<group>"; };
+		18FD734617BC223B00A75B4F /* WebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewViewController.h; sourceTree = "<group>"; };
+		18FD734717BC223B00A75B4F /* WebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewViewController.m; sourceTree = "<group>"; };
 		844DFA5D16CFB66F00884637 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		844DFA5F16CFB66F00884637 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		844DFA6116CFB66F00884637 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -665,8 +667,6 @@
 		84A9739E177B884200CCB9EF /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		84A9739F177B884200CCB9EF /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		84A973A3177B8FFE00CCB9EF /* blankPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankPhoto.png; sourceTree = "<group>"; };
-		84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSiteViewController.m; sourceTree = "<group>"; };
-		84AA079B179F2DA9004DEDD2 /* HomeSiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSiteViewController.h; sourceTree = "<group>"; };
 		84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		84AEC1B117213FD1005CCD58 /* onemydayLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemydayLogo.png; sourceTree = "<group>"; };
 		84CAB96317945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FormatterKit.strings; sourceTree = "<group>"; };
@@ -1037,9 +1037,6 @@
 		18F98F44171370C700D8F7A3 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */,
-				84AA079B179F2DA9004DEDD2 /* HomeSiteViewController.h */,
-				84AA0798179F2D97004DEDD2 /* HomeSiteViewController.m */,
 				84A9739E177B884200CCB9EF /* SignUpViewController.h */,
 				84A9739F177B884200CCB9EF /* SignUpViewController.m */,
 				180D979B171F0FD90034A9C2 /* MasterViewController.h */,
@@ -1059,6 +1056,9 @@
 				18E242201716CA8400435FBE /* ProfileViewController.h */,
 				18E242211716CA8400435FBE /* ProfileViewController.m */,
 				18E2424417173A1000435FBE /* SettingsViewController.h */,
+				84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */,
+				18FD734617BC223B00A75B4F /* WebViewViewController.h */,
+				18FD734717BC223B00A75B4F /* WebViewViewController.m */,
 				180D97A2171F27200034A9C2 /* EditorViewController.h */,
 				180D97A3171F27200034A9C2 /* EditorViewController.m */,
 				18B37EB1173189AA0007D53E /* AddTextViewController.h */,
@@ -1649,6 +1649,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18FD734817BC223B00A75B4F /* WebViewViewController.h in Sources */,
+				18FD734917BC223B00A75B4F /* WebViewViewController.m in Sources */,
 				1838AED617ABBF4000949DE1 /* UICustomImageView.h in Sources */,
 				1838AED717ABBF4000949DE1 /* UICustomImageView.m in Sources */,
 				18602302178B45C2006A31DF /* YIInnerShadowLayer.h in Sources */,
@@ -1735,7 +1737,6 @@
 				18EA1763178235570081CC47 /* PopupError.m in Sources */,
 				186022F2178974FA006A31DF /* UIApplication+NetworkActivity.m in Sources */,
 				181AE40F179EA1A900F3301B /* StoryLikeAreaView.m in Sources */,
-				84AA0799179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */,
 				84AA079D179F2DD8004DEDD2 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1760,7 +1761,6 @@
 				18F98FF317137A1A00D8F7A3 /* HomeViewController.m in Sources */,
 				18F98FFC1713865D00D8F7A3 /* ThumbStoryView.m in Sources */,
 				849C6E2C17183FA9006C5766 /* DMTwitterLoginViewController.m in Sources */,
-				84AA079A179F2D97004DEDD2 /* HomeSiteViewController.m in Sources */,
 				84AA079E179F2DD8004DEDD2 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

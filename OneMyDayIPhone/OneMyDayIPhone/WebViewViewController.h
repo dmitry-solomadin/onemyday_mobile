@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeSiteViewController : UIViewController
+@interface WebViewViewController : UIViewController
+
+- (void)setUrl:(NSString *)url;
 
 @end

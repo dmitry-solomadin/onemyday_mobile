@@ -19,7 +19,7 @@
 
 @interface HomeViewController ()
 {
-    NSMutableArray * stories;
+    NSMutableArray *stories;
     UIActivityIndicatorView *topIndicator;
     UIActivityIndicatorView *bottomIndicator;
     bool *oldStoriesLoading;

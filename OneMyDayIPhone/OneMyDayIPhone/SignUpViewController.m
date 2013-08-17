@@ -16,6 +16,7 @@
 #import "YIInnerShadowView.h"
 #import "PopupError.h"
 #import "LoginViewController.h"
+#import "WebViewViewController.h"
 
 @interface SignUpViewController ()
 
@@ -41,8 +42,11 @@ PopupError *popupError;
     
     appDelegate = [[UIApplication sharedApplication] delegate];
     
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame: CGRectMake(0, 0, 320, 320)];
+    [[self view] addSubview:scrollView];
+    
     // add popup error
-    popupError = [[PopupError alloc] initWithView:self.view];
+    popupError = [[PopupError alloc] initWithView:scrollView];
     
     NSString *buttonTitle;
     NSLog(@"userId %d", userId);
@@ -56,7 +60,7 @@ PopupError *popupError;
     
     [joinButton setTintColor:[UIColor colorWithRed:0.08 green:0.78 blue:0.08 alpha:0.5]];
     self.navigationItem.rightBarButtonItem = joinButton;    
-	self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whitey"]];
+    scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"whitey"]];
     
     // User avatar 
     YIInnerShadowView *avatarShadowView = [[YIInnerShadowView alloc] initWithFrame: CGRectMake(10, 20, 80, 80)];
@@ -100,16 +104,16 @@ PopupError *popupError;
         noAvatar = true;
     }
     
-    [self.view addSubview:avatarView];
-    [self.view addSubview:avatarShadowView];
-    [self.view bringSubviewToFront:avatarShadowView];    
+    [scrollView addSubview:avatarView];
+    [scrollView addSubview:avatarShadowView];
+    [scrollView bringSubviewToFront:avatarShadowView];
     
     //Avatar hidden button
     UIButton *imageBtn = [[UIButton alloc] initWithFrame: CGRectMake(10, 20, 80, 80)];
     imageBtn.tag = 1;
     [imageBtn addTarget:self action:@selector(imageTap:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:imageBtn];
-    [self.view bringSubviewToFront:imageBtn];
+    [scrollView addSubview:imageBtn];
+    [scrollView bringSubviewToFront:imageBtn];
     
     emailField = [[UITextField alloc] initWithFrame:CGRectMake(100, 20, 210, 35)];
     [emailField setPlaceholder:NSLocalizedString(@"Email", nil)];
@@ -123,7 +127,7 @@ PopupError *popupError;
     if(user != nil)[emailField setText:[user email]];
     else [emailField setText:@""];
     emailField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [self.view addSubview:emailField];
+    [scrollView addSubview:emailField];
     
     passField = [[UITextField alloc] initWithFrame:CGRectMake(100, 64, 210, 35)];
     [passField setPlaceholder:NSLocalizedString(@"Password", nil)];
@@ -134,7 +138,7 @@ PopupError *popupError;
     [passField setBackground:fieldBGImage];
     passField.secureTextEntry = YES;
     passField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [self.view addSubview:passField];
+    [scrollView addSubview:passField];
     passField.delegate = self;
     
     nameField = [[UITextField alloc] initWithFrame:CGRectMake(10, 110, 300, 35)];
@@ -146,7 +150,7 @@ PopupError *popupError;
     if(user != nil)[nameField setText:[user name]];
     else [nameField setText:@""];
     nameField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [self.view addSubview:nameField];
+    [scrollView addSubview:nameField];
     nameField.delegate = self;
     
     // gender switcher
@@ -155,11 +159,41 @@ PopupError *popupError;
     genderSwitcher.frame = CGRectMake(10, 155, 300, 35);
     genderSwitcher.segmentedControlStyle = UISegmentedControlStylePlain;
     genderSwitcher.selectedSegmentIndex = 0;
-    [genderSwitcher addTarget:self action:@selector(genderSwitched:) forControlEvents:UIControlEventValueChanged];
+    [genderSwitcher addTarget:self action:@selector(genderSwitched:) forControlEvents:UIControlEventValueChanged];    
+    [scrollView addSubview:genderSwitcher];
     
-    [self.view addSubview:genderSwitcher];
+    // agree to terms text
+    UITextView *termsTextLabel = [[UITextView alloc] initWithFrame:CGRectMake(10, 185, 300, 40)];
+    [termsTextLabel setBackgroundColor:[UIColor clearColor]];
+    termsTextLabel.contentInset = UIEdgeInsetsMake(0, -8, 0, 0);
+    [termsTextLabel setScrollEnabled:NO];
+    [termsTextLabel setEditable:NO];
+    [termsTextLabel setTextColor:[UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1]];
+    NSString *termsText = NSLocalizedString(@"By signing up you are indicating that you have read and agree to Terms of use", nil);
+    NSMutableAttributedString *termsTextAttr = [[NSMutableAttributedString alloc] initWithString:termsText];
+    NSRange termsRange = [termsText rangeOfString:NSLocalizedString(@"Terms of use1", nil)];
+    [termsTextAttr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.4 green:0.4 blue:0.55 alpha:1] range:termsRange];
+    termsTextLabel.attributedText = termsTextAttr;
+    termsTextLabel.layer.shadowColor = [[UIColor whiteColor] CGColor];
+    termsTextLabel.layer.shadowOffset = CGSizeMake(0, 1.0f);
+    termsTextLabel.layer.shadowOpacity = 1.0f;
+    termsTextLabel.layer.shadowRadius = 1.0f;
+    [scrollView addSubview:termsTextLabel];
     
-    [emailField becomeFirstResponder];    
+    UIButton *termsButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 185, 300, 40)];
+    [termsButton addTarget:self action:@selector(termsPressed:) forControlEvents:UIControlEventTouchDown];    
+    [scrollView addSubview:termsButton];
+    
+    [scrollView setContentSize:CGSizeMake(320, 350)];
+    
+    [emailField becomeFirstResponder];
+}
+
+- (void)termsPressed:(id)sender
+{
+    WebViewViewController *webViewViewController = [[WebViewViewController alloc] initWithNibName:nil bundle:nil];
+    [webViewViewController setUrl:@"http://onemyday.co/terms"];
+    [[self navigationController] pushViewController:webViewViewController animated:YES];
 }
 
 - (void)imageTap:(UIButton *)sender

@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *text;
 @property (weak, nonatomic) IBOutlet UIButton *button;
 - (IBAction)likeButtonTapped:(id)sender;
+- (IBAction)reportTapped:(id)sender;
 @property (weak, nonatomic) ShowStoryViewController *controller;
 
 @end

@@ -79,13 +79,13 @@ NSString *storyTitle;
             if([reason isEqualToString:@"regular"]){            
                 message = [NSString stringWithFormat:NSLocalizedString(@"%@ added a comment to your %@ story: %@", nil),authorName, storyTitle, text];
             } else {
-                message = [NSString stringWithFormat:NSLocalizedString(@"%@ left a comment on a story you commented on %@: %@", nil),authorName, storyTitle, text];              
+                message = [NSString stringWithFormat:NSLocalizedString(@"%@ left a comment on a story you commented on %@: %@", nil), authorName, storyTitle, text];              
             }
             
             //Colored string
             str = [[NSMutableAttributedString alloc] initWithString:message];
-            NSRange authorRange = [message rangeOfString: authorName];
-            NSRange storyRange = [message rangeOfString: storyTitle];
+            NSRange authorRange = [message rangeOfString:authorName];
+            NSRange storyRange = [message rangeOfString:storyTitle];
             [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:authorRange];
             [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:12] range:storyRange];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:63/255.f green:114/255.f blue:155/255.f alpha:1] range:authorRange];

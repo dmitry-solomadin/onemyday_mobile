@@ -14,4 +14,8 @@
 - (IBAction)likeButtonTapped:(id)sender {
     [controller likeButtonTapped];
 }
+
+- (IBAction)reportTapped:(id)sender {
+    [controller reportTapped];
+}
 @end

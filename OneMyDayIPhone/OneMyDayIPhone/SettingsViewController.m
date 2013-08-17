@@ -9,7 +9,7 @@
 #import "SettingsViewController.h"
 #import "AppDelegate.h"
 #import "StartViewController.h"
-#import "HomeSiteViewController.h"
+#import "WebViewViewController.h"
 #import "DMTwitterCore.h"
 #import "Request.h"
 
@@ -19,7 +19,6 @@
 
 @implementation SettingsViewController
 
-NSURL *onemydayUrl;
 AppDelegate *appDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -69,8 +68,6 @@ AppDelegate *appDelegate;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    onemydayUrl = [NSURL URLWithString:@"http://onemyday.co"];
     
     UITableView *tblView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, [[self view] bounds].size.height)
                                                         style:UITableViewStyleGrouped];
@@ -88,7 +85,7 @@ AppDelegate *appDelegate;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 2;
+        return 3;
     }
     return 1;
 }
@@ -109,6 +106,9 @@ AppDelegate *appDelegate;
         case 1:
             cell.textLabel.text = @"Onemyday.co";
             break;
+        case 2:
+            cell.textLabel.text = @"Terms of Service";
+            break;
     }
     return cell;
 }
@@ -117,11 +117,17 @@ AppDelegate *appDelegate;
 {
     NSInteger row = [indexPath row];
     
-    HomeSiteViewController *homeSiteViewController;
+    WebViewViewController *webViewViewController;
     switch (row) {
         case 1:
-            homeSiteViewController = [[HomeSiteViewController alloc] initWithNibName:nil bundle:nil];
-            [[self navigationController] pushViewController:homeSiteViewController animated:YES];                      
+            webViewViewController = [[WebViewViewController alloc] initWithNibName:nil bundle:nil];
+            [webViewViewController setUrl:@"http://onemyday.co"];
+            [[self navigationController] pushViewController:webViewViewController animated:YES];                      
+            break;
+        case 2:
+            webViewViewController = [[WebViewViewController alloc] initWithNibName:nil bundle:nil];
+            [webViewViewController setUrl:@"http://onemyday.co/terms"];
+            [[self navigationController] pushViewController:webViewViewController animated:YES];
             break;
     }
 }

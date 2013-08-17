@@ -29,6 +29,7 @@
 
 AppDelegate *appDelegate;
 UITextField *emailTextField;
+NSArray *permissions;
 
 - (void)viewDidLoad
 {
@@ -39,7 +40,10 @@ UITextField *emailTextField;
     appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
         // create a fresh session object
-        appDelegate.session = [[FBSession alloc] init];
+       permissions = [[NSArray alloc] initWithObjects:                                
+                                @"email", // to be approved
+                                nil];
+        appDelegate.session = [[FBSession alloc] initWithPermissions:permissions];        
         
         // if we don't have a cached token, a call to open here would cause UX for login to
         // occur; we don't want that to happen unless the user clicks the login button, and so
@@ -94,81 +98,50 @@ UITextField *emailTextField;
 {    
     NSLog(@"loginFacebook");
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-    appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
-    
+    //AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    appDelegate.loggedInFlag = 1;
+    appDelegate.session = [[FBSession alloc] initWithPermissions:permissions];   
     // this button's job is to flip-flop the session from open to closed
-    //if (!appDelegate.session.isOpen) {
-        
-   
-        if (appDelegate.session.state != FBSessionStateCreated) {
-            // Create a new, logged out session.
-            appDelegate.session = [[FBSession alloc] init];
-            /*NSArray *permissions = [[NSArray alloc] initWithObjects:
-                                    @"user_location", // you need to have this permission
-                                    @"email", // to be approved
-                                    nil];
-            appDelegate.session = [appDelegate.session initWithPermissions:permissions];*/
-        }       
+    if (!appDelegate.session.isOpen) {
         
         // if the session isn't open, let's open it now and present the login UX to the user
         [appDelegate.session openWithCompletionHandler:^(FBSession *session,
                                                          FBSessionState status,
                                                          NSError *error) {
-            // and here we make sure to update our UX according to the new session state
-            //NSLog(@"error: %@", error);
+            // and here we make sure to update our UX according to the new session state          
             if (!error) {
-            
-                [FBSession setActiveSession: appDelegate.session];
-                [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-                    if (!error) {                                       
+                
+                 NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
+                
+                if([appDelegate.session accessTokenData] != nil){
                     
-                        NSString *email = [user objectForKey:@"email"];
-                        if(email != nil){
+                    [FBSession setActiveSession: appDelegate.session];
+                    
+                    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                        if (!error) {
+                            
+                            NSString *email = [user objectForKey:@"email"];
+                            
+                            NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
+                            NSLog(@"username %@", user.username);
+                            NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+                            
+                            //if(email != nil){
                             [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
-                        } else {
-                            NSArray *permissions = [[NSArray alloc] initWithObjects:
-                                                @"user_location", // you need to have this permission
-                                                @"email", // to be approved
-                                                nil];
-                            [FBSession openActiveSessionWithReadPermissions:permissions
-                                                           allowLoginUI:true
-                                                      completionHandler:^(FBSession *session,
-                                                                          FBSessionState state,
-                                                                          NSError *error) {
-                                                          
-                                                          NSLog(@"error: %@", error);
-                                                          //appDelegate.session = session;
-                                                          [FBSession setActiveSession: appDelegate.session];
-                                                          [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-                                                              if (!error) {
-                                                                  
-                                                                  NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
-                                                                  NSLog(@"user.name %@", user.username);
-                                                                  NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
-                                                                  NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
-                                                                  
-                                                                  NSString *email = [user objectForKey:@"email"];
-                                                                  if(email != nil)[self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
-                                                                  
-                                                              } else NSLog(@"error %@", error);
-                                                          }];
-                                                          
-                                                          
-                                                          
-                                                      }];
-                    }
-                    
-                } else NSLog(@"error %@", error);
-            }];
-
-           } else NSLog(@"error %@", error);              
-               
-        }];
+                            return;
+                            
+                        } else NSLog(@"error 1 %@", error);
+                    }];
+                } 
+                
+            } else NSLog(@"error 2%@", error);
+            
+        }];     
+    }
 }
 
 - (IBAction)loginTwitter:(id)sender
-{ 
+{
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     appDelegate.loggedInFlag = 2;
     
@@ -213,24 +186,15 @@ UITextField *emailTextField;
 - (void)updateView
 {
     // get the app delegate, so that we can reference the session property
-    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 
     if(appDelegate.loggedInFlag == 0) [appDelegate checkAuthorization];
 
     if(appDelegate.loggedInFlag != 0){
         if (appDelegate.loggedInFlag == 1 && appDelegate.session.isOpen) {
-            NSLog(@"Welcome to facebook session!");
-            
-            /*NSArray *permissions = [NSArray arrayWithObjects:@"email", nil];
-             [FBSession openActiveSessionWithReadPermissions:permissions
-             allowLoginUI:YES
-             completionHandler:
-             ^(FBSession *session,
-             FBSessionState state, NSError *error) {
-             
-             //[self sessionStateChanged:session state:state error:error];
-             }];*/
-            [FBSession setActiveSession: appDelegate.session];
+            NSLog(@"Welcome to facebook session!");            
+         
+            /*[FBSession setActiveSession: appDelegate.session];
             [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
                 if (!error) {
                     NSLog(@"user.name %@", user.name);
@@ -238,7 +202,7 @@ UITextField *emailTextField;
                     NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
                     NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
                 } else NSLog(@"error %@", error);
-            }];
+            }];*/
             //appDelegate.loggedInFlag = [NSNumber numberWithInt:1];
             [self goToMasterView];
         } else if (appDelegate.loggedInFlag == 2 && [DMTwitter shared].oauth_token_authorized) {

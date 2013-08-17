@@ -267,7 +267,6 @@
 		849C6E47171840DA006C5766 /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E46171840DA006C5766 /* hmac.c */; };
 		849C6E4A171840E9006C5766 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 849C6E49171840E9006C5766 /* sha1.c */; };
 		849E097A1779E300009BC55D /* UserInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E09791779E300009BC55D /* UserInfoView.m */; };
-		84A031D217158EFD0098B201 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031D117158EFD0098B201 /* FacebookSDK.framework */; };
 		84A031E3171599A50098B201 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E2171599A50098B201 /* AdSupport.framework */; };
 		84A031E5171599AB0098B201 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E4171599AB0098B201 /* Accounts.framework */; };
 		84A031E7171599BB0098B201 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A031E6171599BB0098B201 /* Social.framework */; };
@@ -291,6 +290,7 @@
 		84AA079D179F2DD8004DEDD2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */; };
 		84AA079E179F2DD8004DEDD2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */; };
 		84AEC1B217213FD1005CCD58 /* onemydayLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AEC1B117213FD1005CCD58 /* onemydayLogo.png */; };
+		84B7C65817BEC70200371471 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B7C65717BEC70200371471 /* FacebookSDK.framework */; };
 		84CAB96617945EBC007E5690 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84CAB96817945EBC007E5690 /* Localizable.strings */; };
 		84CAB97117947A64007E5690 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CAB96F17947A64007E5690 /* LoginViewController.xib */; };
 		84DF0A9E174022340088578A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DF0A9D174022340088578A /* MBProgressHUD.m */; };
@@ -641,7 +641,6 @@
 		849C6E4B171840F1006C5766 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
 		849E09761779E2EE009BC55D /* UserInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoView.h; sourceTree = "<group>"; };
 		849E09791779E300009BC55D /* UserInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoView.m; sourceTree = "<group>"; };
-		84A031D117158EFD0098B201 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		84A031E2171599A50098B201 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		84A031E4171599AB0098B201 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		84A031E6171599BB0098B201 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -669,6 +668,7 @@
 		84AA079B179F2DA9004DEDD2 /* HomeSiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSiteViewController.h; sourceTree = "<group>"; };
 		84AA079C179F2DD8004DEDD2 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		84AEC1B117213FD1005CCD58 /* onemydayLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onemydayLogo.png; sourceTree = "<group>"; };
+		84B7C65717BEC70200371471 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		84CAB96317945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FormatterKit.strings; sourceTree = "<group>"; };
 		84CAB96417945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84CAB96517945E7B007E5690 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -707,7 +707,7 @@
 				844DFA5E16CFB66F00884637 /* UIKit.framework in Frameworks */,
 				844DFA6016CFB66F00884637 /* Foundation.framework in Frameworks */,
 				844DFA6216CFB66F00884637 /* CoreGraphics.framework in Frameworks */,
-				84A031D217158EFD0098B201 /* FacebookSDK.framework in Frameworks */,
+				84B7C65817BEC70200371471 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1125,6 +1125,7 @@
 		844DFA5C16CFB66F00884637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84B7C65717BEC70200371471 /* FacebookSDK.framework */,
 				84A607861743823E00848AF7 /* EGOTableViewPullRefresh */,
 				184D55F5173845380088CADF /* GPUImage.xcodeproj */,
 				84A031E817159B000098B201 /* libsqlite3.dylib */,
@@ -1137,7 +1138,6 @@
 				84A031E6171599BB0098B201 /* Social.framework */,
 				84A031E4171599AB0098B201 /* Accounts.framework */,
 				84A031E2171599A50098B201 /* AdSupport.framework */,
-				84A031D117158EFD0098B201 /* FacebookSDK.framework */,
 				844DFA5D16CFB66F00884637 /* UIKit.framework */,
 				844DFA5F16CFB66F00884637 /* Foundation.framework */,
 				844DFA6116CFB66F00884637 /* CoreGraphics.framework */,

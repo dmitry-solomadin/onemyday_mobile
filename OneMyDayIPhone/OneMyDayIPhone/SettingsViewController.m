@@ -43,7 +43,9 @@ AppDelegate *appDelegate;
     
     if(appDelegate.loggedInFlag == 1) {
         NSLog(@"Logging out facebook");
-        [appDelegate.session closeAndClearTokenInformation];
+       
+        [appDelegate.session closeAndClearTokenInformation];  
+        
     } else if (appDelegate.loggedInFlag == 2) {
         NSLog(@"Logging out twitter");
         [[DMTwitter shared] logout];

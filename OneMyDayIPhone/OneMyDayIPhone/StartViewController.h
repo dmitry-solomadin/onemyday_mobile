@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
-@interface StartViewController : UIViewController
+@interface StartViewController : UIViewController{
+    MBProgressHUD *HUD;
+}
 
 - (IBAction)loginOnemday:(id)sender;
 

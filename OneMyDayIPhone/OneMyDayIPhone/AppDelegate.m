@@ -101,9 +101,9 @@ NSString *apiKey = @"75c5e6875c4e6931943b88fe5941470b";
          annotation:(id)annotation {
     NSLog(@"loggedInFlag  %d",loggedInFlag);
     // attempt to extract a token from the url
-    if(loggedInFlag == 1)return [self.session handleOpenURL:url];
+    if(loggedInFlag == 1)return [[FBSession activeSession] handleOpenURL:url];
     else if(loggedInFlag == 2)return [[DMTwitter shared].currentLoginController handleTokenRequestResponseURL:url];
-    else return [self.session handleOpenURL:url];
+    else return [[FBSession activeSession] handleOpenURL:url];
 }
 
 // FBSample logic

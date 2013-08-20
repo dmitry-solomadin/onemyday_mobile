@@ -14,6 +14,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "User.h"
 #import "UserStore.h"
+#import <Accounts/Accounts.h> 
 
 
 @interface StartViewController ()
@@ -89,55 +90,95 @@ NSArray *permissions;
                                                 initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
  
     [[self navigationController] pushViewController:loginViewController animated:YES];
-}
+} 
+
 
 
 // FBSample logic
 // handler for button click, logs sessions in or out
 - (IBAction)loginFacebook:(id)sender
 {    
-    NSLog(@"loginFacebook");
-    
-    //AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    NSLog(@"loginFacebook");    
+  
     appDelegate.loggedInFlag = 1;
-    appDelegate.session = [[FBSession alloc] initWithPermissions:permissions];   
-    // this button's job is to flip-flop the session from open to closed
-    if (!appDelegate.session.isOpen) {
+    
+    [self fbRenewCredentials];
+}
+
+-(void)openFBSession{
+    
+    [FBSession openActiveSessionWithReadPermissions:permissions
+                                       allowLoginUI:YES
+                                  completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                                      if (!error) {
+                                          
+                                          switch (status) {
+                                                  
+                                              case FBSessionStateOpen:
+                                              {
+                                                  appDelegate.session = session;
+                                                  
+                                                  [self prepareFBAthorizationRequest];
+                                              
+                                                  break;
+                                              }
+                                              case FBSessionStateClosed:
+                                                  //need to handle
+                                                  NSLog(@"status  1 %d", status);
+                                                  break;
+                                              case FBSessionStateClosedLoginFailed:
+                                                  //need to handle
+                                                   NSLog(@"status  2 %d", status);
+                                                  break;
+                                              default:
+                                                  break;
+                                          }
+                                          
+                                      } else NSLog(@"error 2 %@", error);
+                                      
+                                  }];
+}
+
+-(void)fbRenewCredentials
+{
+    [FBSession renewSystemCredentials:^(ACAccountCredentialRenewResult result,
+                                         NSError *error)
+      {
+          [self openFBSession]; 
+          /*if (result == ACAccountCredentialRenewResultFailed ||
+              result == ACAccountCredentialRenewResultRejected)
+          {
+              NSLog(NSLocalizedString(@"You may need to re-enter your Facebook password in the iPhone Settings App.\n", nil));
+          }
+          else
+          {
+              // attempt opening a session again  (after they have updated their account
+              // settings I end up here)
+              
+              [self openFBSession];  // Performs openActiveSessionWithReadPermissions,
+              // but this time around the token issued should be good.
+          }*/
+      }];
+}
+
+-(void) prepareFBAthorizationRequest{
+    
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
         
-        // if the session isn't open, let's open it now and present the login UX to the user
-        [appDelegate.session openWithCompletionHandler:^(FBSession *session,
-                                                         FBSessionState status,
-                                                         NSError *error) {
-            // and here we make sure to update our UX according to the new session state          
-            if (!error) {
-                
-                 NSLog(@"[appDelegate.session accessTokenData]; %@", [appDelegate.session accessTokenData]);
-                
-                if([appDelegate.session accessTokenData] != nil){
-                    
-                    [FBSession setActiveSession: appDelegate.session];
-                    
-                    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-                        if (!error) {
-                            
-                            NSString *email = [user objectForKey:@"email"];
-                            
-                            NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
-                            NSLog(@"username %@", user.username);
-                            NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
-                            
-                            //if(email != nil){
-                            [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
-                            return;
-                            
-                        } else NSLog(@"error 1 %@", error);
-                    }];
-                } 
-                
-            } else NSLog(@"error 2%@", error);
+        if (!error) {
             
-        }];     
-    }
+            NSString *email = [user objectForKey:@"email"];
+            
+            NSLog(@"!!!!!!!!!!!!!!user.name %@", user.name);
+            NSLog(@"username %@", user.username);
+            NSLog(@"[user objectForKey:%@", [user objectForKey:@"email"]);
+            
+            [self socialAuth:user.id withProvider:@"facebook" andToken:[NSString stringWithFormat:@"%@",[appDelegate.session accessTokenData]] andSecret:nil AndEmail:email  andFirstName:user.first_name andLastName:user.last_name andNickName:nil];
+            
+            
+        } else NSLog(@"error 1 %@", error);
+        
+    }];
 }
 
 - (IBAction)loginTwitter:(id)sender

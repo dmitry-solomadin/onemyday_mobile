@@ -102,7 +102,8 @@ NSArray *permissions;
   
     appDelegate.loggedInFlag = 1;
     
-    [self fbRenewCredentials];
+    [self fbRenewCredentials];       
+    
 }
 
 -(void)openFBSession{
@@ -124,11 +125,11 @@ NSArray *permissions;
                                               }
                                               case FBSessionStateClosed:
                                                   //need to handle
-                                                  NSLog(@"status  1 %d", status);
+                                                  NSLog(@"status  FBSessionStateClosed");
                                                   break;
                                               case FBSessionStateClosedLoginFailed:
                                                   //need to handle
-                                                   NSLog(@"status  2 %d", status);
+                                                   NSLog(@"status FBSessionStateClosedLoginFailed");
                                                   break;
                                               default:
                                                   break;
@@ -162,9 +163,9 @@ NSArray *permissions;
 }
 
 -(void) prepareFBAthorizationRequest{
-    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if (!error) {
             
             NSString *email = [user objectForKey:@"email"];
@@ -270,43 +271,61 @@ NSArray *permissions;
 }
 
 - (void)socialAuth:(NSString *)uid withProvider:(NSString *)provider andToken:(NSString *)token andSecret:(NSString *)secret AndEmail:(NSString *)email andFirstName:(NSString *)firstName andLastName:(NSString *)lastName andNickName:(NSString *)nickame
-{    
-    Request *request = [[Request alloc] init]; 
-    [request addStringToPostData:@"omniauth[info][image]" andValue: @"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0s8HhPj8boXWYuyXedcz6g9MP2TNeOqKKDvrv5Fc4YPiwkWw4iA"];
-    [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
-    [request addStringToPostData:@"omniauth[uid]" andValue: uid];
-    [request addStringToPostData:@"omniauth[provider]" andValue: provider];
-    [request addStringToPostData:@"omniauth[credentials][token]" andValue:token];
-    if(secret != nil)[request addStringToPostData:@"omniauth[credentials][secret]" andValue:secret];
-    [request addStringToPostData:@"omniauth[info][email]" andValue: email];
-    if(firstName != nil)[request addStringToPostData:@"omniauth[info][first_name]" andValue: firstName];
-    if(lastName != nil)[request addStringToPostData:@"omniauth[info][last_name]" andValue: lastName];
-    if(nickame != nil)[request addStringToPostData:@"omniauth[info][nickname]" andValue: nickame];
-    [request addStringToPostData:@"ios_device_token" andValue:appDelegate.deviceToken];
-    //[request addStringToPostData:@"existing_user_id" andValue:[NSString stringWithFormat:@"%d",9]];
-
-    NSDictionary *jsonData = [request send:@"/api/sessions/social_auth.json"];
-    
-    if(jsonData != nil) {
-        NSString *status = [jsonData objectForKey:@"status"];
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        if([status isEqualToString: @"ok"]) {
-            [UIApplication sharedApplication].applicationIconBadgeNumber = [[jsonData objectForKey:@"unseen_activities_count"] intValue];
-            User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey:@"user"]];
-            [[UserStore get] addUser:user];            
-            if([provider isEqualToString:@"twitter"]){
-                // store our auth data so we can use later in other sessions
-                [[DMTwitter shared] saveCredentials];
-                [appDelegate saveCredentials:[user userId] loggedInWith:2];
-                [[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:^(){
-                  [self updateView];  
-                }];
-            } else {
-                [appDelegate saveCredentials:[user userId] loggedInWith:1]; //logged with faceboock
-                [self updateView];
-            }  
-        }
-    }    
+        double startTime = [[NSDate date] timeIntervalSince1970];    
+        
+        Request *request = [[Request alloc] init];
+        [request addStringToPostData:@"omniauth[info][image]" andValue: @"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0s8HhPj8boXWYuyXedcz6g9MP2TNeOqKKDvrv5Fc4YPiwkWw4iA"];
+        [request addStringToPostData:@"api_key" andValue: appDelegate.apiKey];
+        [request addStringToPostData:@"omniauth[uid]" andValue: uid];
+        [request addStringToPostData:@"omniauth[provider]" andValue: provider];
+        [request addStringToPostData:@"omniauth[credentials][token]" andValue:token];
+        if(secret != nil)[request addStringToPostData:@"omniauth[credentials][secret]" andValue:secret];
+        [request addStringToPostData:@"omniauth[info][email]" andValue: email];
+        if(firstName != nil)[request addStringToPostData:@"omniauth[info][first_name]" andValue: firstName];
+        if(lastName != nil)[request addStringToPostData:@"omniauth[info][last_name]" andValue: lastName];
+        if(nickame != nil)[request addStringToPostData:@"omniauth[info][nickname]" andValue: nickame];
+        [request addStringToPostData:@"ios_device_token" andValue:appDelegate.deviceToken];
+        //[request addStringToPostData:@"existing_user_id" andValue:[NSString stringWithFormat:@"%d",9]];
+        
+        NSDictionary *jsonData = [request send:@"/api/sessions/social_auth.json"];
+        
+        double stopTime = [[NSDate date] timeIntervalSince1970];
+        
+        double time = 2000 - (stopTime - startTime);
+        
+        if(time > 0) sleep(time / 1000);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
+            if(jsonData != nil) {
+                NSString *status = [jsonData objectForKey:@"status"];
+                
+                if([status isEqualToString: @"ok"]) {
+                    [UIApplication sharedApplication].applicationIconBadgeNumber = [[jsonData objectForKey:@"unseen_activities_count"] intValue];
+                    User *user = [[UserStore get] parseUserData: (NSDictionary*) [jsonData objectForKey:@"user"]];
+                    [[UserStore get] addUser:user];
+                    if([provider isEqualToString:@"twitter"]){
+                        // store our auth data so we can use later in other sessions
+                        [[DMTwitter shared] saveCredentials];
+                        [appDelegate saveCredentials:[user userId] loggedInWith:2];
+                        /*[[self.navigationController presentedViewController] dismissViewControllerAnimated:YES completion:^(){
+                            [self updateView];
+                        }];*/
+                        [self updateView];
+                    } else {
+                        [appDelegate saveCredentials:[user userId] loggedInWith:1]; //logged with faceboock
+                        [self updateView];
+                    }  
+                }
+            }
+        });
+    });
 }
 
 /*- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

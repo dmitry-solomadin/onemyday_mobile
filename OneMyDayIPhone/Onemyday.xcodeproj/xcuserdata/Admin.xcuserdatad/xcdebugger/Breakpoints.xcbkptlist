@@ -136,11 +136,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "OneMyDayIPhone/StartViewController.m"
-         timestampString = "398725578.161127"
+         timestampString = "398729819.947782"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "340"
-         endingLineNumber = "340">
+         startingLineNumber = "359"
+         endingLineNumber = "359">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
